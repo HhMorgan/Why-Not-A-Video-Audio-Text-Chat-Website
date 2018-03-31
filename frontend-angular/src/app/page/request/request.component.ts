@@ -17,7 +17,7 @@ export class RequestComponent implements OnInit {
 
   ngOnInit() {
     this.apiService.getRequests().subscribe((response: APIData)=>{
-      console.log(response.data);
+      console.log(response);
       this.requests = response.data;
     });
   }

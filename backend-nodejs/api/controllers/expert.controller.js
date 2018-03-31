@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
   Request = mongoose.model('Request'),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  moment = require('moment');
 
 
   module.exports.getRequestsCount = function(req, res, next) {
@@ -24,7 +25,7 @@ var mongoose = require('mongoose'),
         }
         res.status(200).json({
           err: null,
-          msg:' Pending requests count retrieved successfully.',
+          msg:' Pending requests count retrieved successfully.'+requests.length,
           data: requests
         });
       });
@@ -33,17 +34,14 @@ var mongoose = require('mongoose'),
   };
 
   module.exports.viewRequests = function(req, res, next) {
-    Request.find({
-      status: "pending",
-      //expert: email
-    }).exec(function(err, requests) {
+    Request.find({}).exec(function(err, request) {
       if (err) {
         return next(err);
       }
       res.status(200).json({
         err: null,
         msg:' Pending requests retrieved successfully.',
-        data: requests
+        data: request
       });
     });
   };

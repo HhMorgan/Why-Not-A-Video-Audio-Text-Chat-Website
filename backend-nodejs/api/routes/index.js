@@ -46,7 +46,7 @@ var isNotAuthenticated = function(req, res, next) {
 router.post('/auth/register', isNotAuthenticated, authCtrl.register);
 router.post('/auth/login', isNotAuthenticated, authCtrl.login);
 //-----------------------------Expert Routes-------------------------
-router.get('/expert/viewRequest', isNotAuthenticated,expert.viewRequests);
+router.get('/expert/viewRequest',expert.viewRequests);
 
 
 module.exports = router;
