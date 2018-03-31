@@ -1,3 +1,18 @@
 <p>
   Session Page works!
 </p>
+
+<hr>
+  <div>
+    <h2> RtcMediaRecorder</h2>
+    <rtc-media-recorder [constrains] = "constrains" (startRecording) = "announceStart($event)" 
+    (fetchRecording) = "handleVideoStream($event)">
+    </rtc-media-recorder>
+  </div>
+<hr>
+  <div>
+    <!-- <rtc-media-recorder [constrains]="constrains" [showVideoPlayer]="false" 
+    (startRecording)="announceStart($event)" (fetchRecording)="handleVideoStream($event)">
+    </rtc-media-recorder> -->
+  </div>
+<hr>

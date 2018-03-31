@@ -9,6 +9,7 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   routes = require('./api/routes'),
   config = require('./api/config'),
+  http = require('http'),
   app = express();
 
 // Set the secret of the app that will be used in authentication
@@ -72,5 +73,9 @@ app.use(function(req, res) {
     data: null
   });
 });
-
 module.exports = app;
+/*
+
+*/
+app.server = http.createServer(app);
+var io = require('socket.io').listen(app.server);
