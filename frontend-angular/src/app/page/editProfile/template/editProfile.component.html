@@ -1,0 +1,25 @@
+
+  <div>
+
+    <h1> Edit My Profile</h1>
+
+
+<p> Edit Profile Page works! </p>
+
+<form>
+  <p>  Edit email:    </p>
+  <input type="text" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}"/>
+  <button (click)= "clickEmail($event)"> Edit Email</button>
+
+  <p>  Edit Password:    </p>
+  <input type="text" [(ngModel)]="password" placeholder="password" [ngModelOptions]="{standalone: true}"/>
+  <input type="text" [(ngModel)]="confirmPass" placeholder="password" [ngModelOptions]="{standalone: true}"/>
+  <button (click)= "clickPassword($event)"> Change Password</button>
+
+  <p>  Edit Description:    </p>
+  <input type="text" [(ngModel)]="description" placeholder="description" [ngModelOptions]="{standalone: true}"/>
+  <button (click)= "clickDescription($event)"> Edit Desciption</button>
+ 
+</form>
+
+</div>
