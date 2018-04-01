@@ -47,15 +47,7 @@ var mongoose = require('mongoose'),
     });
   };
   module.exports.addSpeciality = function(req, res, next) {
-    var valid = Validations.isString(req.body.speciality);
-    if(!req.body.speciality){
-      return res.status(422).json({
-        err: null,
-        msg:
-          'NO SPECIALITY',
-        data: null
-      });
-    }
+    var valid = req.body.speciality&&Validations.isString(req.body.speciality);
     if(!valid){
       return res.status(422).json({
         err: null,
@@ -63,14 +55,12 @@ var mongoose = require('mongoose'),
           'The speciality entered is not a string/is not valid.',
         data: null
       });
-    }
-    //QUESTION??: should i trim and lower case or not..3shan el tag htfr2 lma yeegy y-search
-    User.findOneAndUpdate({email:{$eq: req.body.email}},//decodedToken.user._id,
-     //{ set: { speciality: req.body.speciality }}
+    } //need to check on role first before adding the speciality
+    User.findOneAndUpdate({email:{$eq: req.body.email}},//decodedToken.user._id
      {
        $push: 
     { speciality: req.body.speciality } 
-     }
+     },{new:true} //to pass the updated user
      ,function (err, updateduser) {
       if (err){
         return next(err);

@@ -21,6 +21,10 @@ var userSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  speciality:{
+    type: Array,
+    "default":[]
+  },
   updatedAt: Date
 });
 
