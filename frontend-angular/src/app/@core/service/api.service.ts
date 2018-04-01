@@ -18,4 +18,7 @@ export class APIService {
   getRequests(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'expert/viewRequest').catch(this.errorHandler);
   }
+  addSpeciality(email,speciality): Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'expert/addSpeciality',email,speciality).catch(this.errorHandler);
+  }
 }

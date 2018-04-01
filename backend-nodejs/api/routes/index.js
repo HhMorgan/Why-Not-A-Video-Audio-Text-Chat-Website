@@ -47,6 +47,6 @@ router.post('/auth/register', isNotAuthenticated, authCtrl.register);
 router.post('/auth/login', isNotAuthenticated, authCtrl.login);
 //-----------------------------Expert Routes-------------------------
 router.get('/expert/viewRequest',expert.viewRequests);
-
+router.post('/expert/addSpeciality',expert.addSpeciality); 
 
 module.exports = router;

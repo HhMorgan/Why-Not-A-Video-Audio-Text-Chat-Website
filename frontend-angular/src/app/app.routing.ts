@@ -2,7 +2,7 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { PageModule } from './page/page.module';
 import { SessionComponent } from './page/session/session.component';
 import { RequestComponent } from './page/request/request.component';
-
+import { ExpertComponent } from './page/expert/expert.component';
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
