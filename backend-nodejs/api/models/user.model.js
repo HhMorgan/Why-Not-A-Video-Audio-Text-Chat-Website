@@ -17,6 +17,11 @@ var userSchema = mongoose.Schema({
     required: false,
     default: 'user'
   },
+  description: {
+    type: String,
+    required: false,
+    // default: 'empty'
+  },
   createdAt: {
     type: Date,
     default: Date.now
