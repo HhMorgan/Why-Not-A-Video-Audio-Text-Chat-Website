@@ -6,19 +6,20 @@ import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angu
   styleUrls: ['./template/rtc-media-recorder.component.css']
 })
 export class RtcMediaCaptureComponent implements OnInit {
-  @ViewChild('recVideo') recVideo: any;
   
+  @Input() isRemote;
+  @Input() mediaSource;
   @Input() constrains;
-  @Input() fileName = 'my_recording';
   @Input() showVideoPlayer = true;
 
   @Output() startRecording = new EventEmitter();
   @Output() downloadRecording = new EventEmitter();
-  @Output() fetchRecording = new EventEmitter();
+  @Output() handleMediaStream = new EventEmitter();
+
+  @ViewChild('recVideo') recVideo: any;
 
   format = 'video/webm';
   _navigator = <any> navigator;
-  localStream;
   video;
   mediaRecorder;
   recordedBlobs = null;
@@ -27,71 +28,74 @@ export class RtcMediaCaptureComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log('creating MediaRecorder for mimeType: ' + this.format);
     if (this.recVideo) {
       this.video = this.recVideo.nativeElement;
+      console.log(this.recVideo);
+      if(!this.isRemote)
+        this.recVideo.nativeElement.muted = true;
+      this.recVideo.nativeElement.controls = false;
     }
 
-    this._navigator.getUserMedia = ( this._navigator.getUserMedia || this._navigator.webkitGetUserMedia
-    || this._navigator.mozGetUserMedia || this._navigator.msGetUserMedia );
+    this._navigator.getUserMedia = ( this._navigator.getUserMedia || this._navigator.webkitGetUserMedia || this._navigator.mozGetUserMedia 
+      || this._navigator.msGetUserMedia );
   }
 
   private _initStream(constrains, navigator) {
-    return navigator.mediaDevices.getUserMedia(constrains)
-      .then((stream) => {
-        this.localStream = stream;
-        return stream;
-      })
-      .catch(err => err);
+    return navigator.mediaDevices.getUserMedia(constrains).then((stream) => {  
+      this.handleMediaStream.emit(stream);
+      return stream;
+    }).catch(err => err);
   }
-  
+
   private _stopStream() {
-    const tracks = this.localStream.getTracks();
+    const tracks = this.mediaSource.getTracks();
     tracks.forEach((track) => {
       track.stop();
     });
   }
 
   public start() {
-    console.log('start recording');
+    // console.log('start recording');
     this.recordedBlobs = [];
-    this._initStream(this.constrains, this._navigator)
-      .then((stream) => {
+    if(this.isRemote) 
+      if(this.mediaSource != null){
+        this.video.srcObject = this.mediaSource;
+        this.mediaRecorder = new window['MediaRecorder'](this.mediaSource, {mimeType: this.format});
+      } else
+        console.log('failed to create media') 
+    else {
+      this._initStream(this.constrains, this._navigator).then((stream) => {
         if (!window['MediaRecorder'].isTypeSupported(this.format)) {
           console.log(this.format + ' is not Supported');
           return;
         }
         try {
-          this.mediaRecorder = new window['MediaRecorder'](this.localStream, {mimeType: this.format});
           if (this.video) {
-            this.video.srcObject = stream;
-          }
+              this.video.srcObject = stream;
+              this.mediaSource = this.video.srcObject;
+            }
+            this.mediaRecorder = new window['MediaRecorder'](this.mediaSource, {mimeType: this.format});
           this.startRecording.emit(stream);
         } catch (e) {
           console.error('Exception while creating MediaRecorder: ' + e);
           return;
         }
-        console.log('Created MediaRecorder', this.mediaRecorder, 'with options', this.format);
+        // console.log('Created MediaRecorder', this.mediaRecorder, 'with options', this.format);
         this.hideStopBtn = false;
-        this.mediaRecorder.ondataavailable =
-          (event) => {
-            if (event.data && event.data.size > 0) {
-              this.recordedBlobs.push(event.data);
-            }};
+        this.mediaRecorder.ondataavailable = (event) => {
+          if (event.data && event.data.size > 0) {
+            this.recordedBlobs.push(event.data);
+          }};
         this.mediaRecorder.start(10); // collect 10ms of data
-      });
+        });
+      }
   }
 
   public stop() {
     console.log('stop recording');
     this.hideStopBtn = true;
-
     this._stopStream();
     this.mediaRecorder.stop();
-    this.fetchRecording.emit(this.recordedBlobs);
-    if (this.video) {
-      this.video.controls = true;
-    }
   }
 
   public play() {
@@ -99,25 +103,7 @@ export class RtcMediaCaptureComponent implements OnInit {
       return;
     }
     console.log('Play recorded stream');
-    const superBuffer = new Blob(this.recordedBlobs, {type: this.format});
-    this.video.src = window.URL.createObjectURL(superBuffer);
-  }
-
-  public download() {
-    console.log('Download Recorded Stream');
-    const timestamp = new Date().getUTCMilliseconds();
-    const blob = new Blob(this.recordedBlobs, {type: this.format});
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = url;
-    a.download = timestamp + '__' + this.fileName + '.webm';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-      this.downloadRecording.emit();
-    }, 100);
+    const superBuffer = new Blob(this.recordedBlobs);
+    this.video.srcObject = superBuffer;
   }
 }

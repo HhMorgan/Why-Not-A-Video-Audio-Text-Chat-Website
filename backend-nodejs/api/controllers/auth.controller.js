@@ -25,8 +25,8 @@ module.exports.register = function(req, res, next) {
     });
   }
   // Check that the password is 8+ characters
-  /*var password = req.body.password.trim();
-  if (password.length < 8) {
+  var password = req.body.password.trim();
+  /*if (password.length < 8) {
     return res.status(422).json({
       err: null,
       msg: 'Password must be of length 8 characters or more.',

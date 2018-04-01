@@ -4,7 +4,6 @@
     <div *ngIf="hideStopBtn">
       <button (click)="start()"> Start recording </button>
       <button *ngIf="showVideoPlayer && recordedBlobs" (click)="play()"> Play </button>
-      <button *ngIf="recordedBlobs" (click)="download()"> Download </button>
     </div>
     <button *ngIf="!hideStopBtn" (click)="stop()"> Stop </button>
   </div>
