@@ -130,7 +130,7 @@ module.exports.updateDescription = function(req, res, next) {
   if (err) {
     return next(err);
   }
-  console.log(updatedUser)
+  //console.log(updatedUser)
   res.status(201).json({
     err: null,
     msg: 'Description updated successfully.',

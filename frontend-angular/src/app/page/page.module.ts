@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SessionComponent } from './session/session.component';
+import { ProfileComponent } from './profile/profile.component'
 import { PagesRoutingModule } from './page.routing'
 @NgModule({
   imports: [
     CommonModule,
     PagesRoutingModule
   ],
-  declarations: [SessionComponent]
+  declarations: [SessionComponent,ProfileComponent]
 })
 export class PageModule { }
