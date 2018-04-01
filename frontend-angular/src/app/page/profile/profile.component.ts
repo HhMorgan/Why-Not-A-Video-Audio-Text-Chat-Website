@@ -5,11 +5,11 @@ import { Observable } from 'rxjs/Observable';
 
 
 @Component({
-  selector: 'app-editProfile',
-  templateUrl: './template/editProfile.component.html',
-  styleUrls: ['./template/editProfile.component.css']
+  selector: 'app-user-profile',
+  templateUrl: './template/profile.component.html',
+  styleUrls: ['./template/profile.component.css']
 })
-export class EditProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit {
   private email;
   // private password;
   // private confirm_password;

@@ -8,7 +8,6 @@ User = mongoose.model('User');
 
 
 module.exports.updateEmail = function(req, res, next) {
-  console.log(req.body);
   if (!Validations.matchesRegex(req.body.email, EMAIL_REGEX)) {
     return res.status(422).json({
       err: null,
@@ -130,7 +129,6 @@ module.exports.updateDescription = function(req, res, next) {
   if (err) {
     return next(err);
   }
-  //console.log(updatedUser)
   res.status(201).json({
     err: null,
     msg: 'Description updated successfully.',
