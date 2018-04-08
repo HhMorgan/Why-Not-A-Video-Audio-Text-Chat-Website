@@ -27,6 +27,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SessionComponent } from './session/session.component';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   imports: [
@@ -50,6 +51,7 @@ import { HomeComponent } from './home/home.component';
     SessionComponent,
     LoginComponent,
     HomeComponent,
+    ProfileComponent
   ],
   entryComponents: [NgbdModalContent]
 })
