@@ -5,6 +5,8 @@ Validations = require('../utils/Validations'),
 Encryption = require('../utils/encryption'),
 EMAIL_REGEX = require('../config').EMAIL_REGEX,
 User = mongoose.model('User');
+moment = require('moment');
+var Binary = require('mongodb').Binary;
 
 
 module.exports.updateEmail = function(req, res, next) {
@@ -137,5 +139,41 @@ module.exports.updateDescription = function(req, res, next) {
 });
  
 }
+
+module.exports.uploadimage = function(req, res) {
+  // User.img.data = fs.readFileSync(req.files.userPhoto.path)
+  // User.img.contentType = 'image/png';
+  // User.save();
+//mo2ktn lol
+  User.findByIdAndUpdate('5ac2107b3a8e6955b45b4bed',{
+    $set: {
+      img: req.file.buffer
+    }
+},{ new: true }).exec (function(err, updatedUser) {
+    if (err) {
+       return next(err);
+     }
+     console.log(updatedUser)
+     res.status(201).json({
+       err: null,
+       msg: 'image got updated.',
+       data: updatedUser.img
+     });
+   });
+
+  /* if (null == null){
+    return res.status(201).json({
+      err: null,
+      msg: 'done.',
+      data: req.file.originalname
+    });
+  } else {
+    res.status(201).json({
+      err: null,
+      msg: 'err',
+      data: User
+    });
+  } */
+};
 
 

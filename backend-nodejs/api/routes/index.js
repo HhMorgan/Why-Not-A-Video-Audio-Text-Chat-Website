@@ -44,9 +44,10 @@ var isNotAuthenticated = function(req, res, next) {
 
 //-----------------------------Authentication Routes-------------------------
 router.post('/auth/register', isNotAuthenticated, authCtrl.register);
-router.post('/auth/login', isNotAuthenticated, authCtrl.login);
+router.post('/auth/login',  authCtrl.login); //edited
 router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
 router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
+router.post('/photo' ,userCtrl.uploadimage);
 
 module.exports = router;
