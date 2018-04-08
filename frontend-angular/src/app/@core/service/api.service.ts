@@ -33,6 +33,12 @@ export class APIService {
     return this.http.post<APIData>(this.apiUrl + 'photo', formData).catch(this.errorHandler);
   }
 
+  getimage(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'getphoto').catch(this.errorHandler);
+  }
+
+
+
   public static getToken() : string {
     return localStorage.getItem('token');
   }
