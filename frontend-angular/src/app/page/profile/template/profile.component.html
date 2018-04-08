@@ -11,6 +11,13 @@
                 <div class="name">
                     <h4 class="title">Jane Faker<br /></h4>
                     <h6 class="description">Music Producer</h6>
+                    <div class="form-group">
+                        <label for="file">Choose File lol</label>
+                        <input type="file"
+                               id="file"
+                               (change)="handleFileInput($event.target.files)">
+                      </div>
+
                 </div>
             </div>
             <div class="row">

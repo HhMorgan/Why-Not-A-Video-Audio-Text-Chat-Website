@@ -16,3 +16,7 @@ export interface Profile {
     password,
     confirmPassword;
 }
+
+export interface FileData {
+    file: File
+  }
