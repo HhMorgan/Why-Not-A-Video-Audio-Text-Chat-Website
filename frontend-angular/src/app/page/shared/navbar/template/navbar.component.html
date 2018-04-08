@@ -55,6 +55,21 @@
             <li class="nav-item" *ngIf="!isHome()">
                 <a [routerLink]="['/page/signup']" *ngIf="!isDocumentation()" class="nav-link"><i class="nc-icon nc-layout-11"></i>SIGNUP</a>
             </li>
+            <li class="nav-item" *ngIf="!isHome()">
+            <div ngbDropdown class="d-inline-block dropdown">
+                <a class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle > <img src="../assets/img/ring.png"></a>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
+                   <a class="dropdown-header">Notifications</a>
+                   <a class="dropdown-item">Ahmed wants to contact you</a>
+                   <a class="dropdown-item">you have got a new email</a>
+                   <a class="dropdown-item">you have an appointment at 8:00 AM </a>
+                   <div class="dropdown-divider"></div>
+                   <a class="dropdown-item">Separated link</a>
+                   <div class="dropdown-divider"></div>
+                   <a class="dropdown-item">Another separated link</a>
+                </div>
+            </div>
+            </li>
             
                 
                 <li class="nav-item" *ngIf="isDocumentation()">
