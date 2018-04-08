@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-basicelements',
-  templateUrl: './basicelements.component.html',
-  styleUrls: ['./basicelements.component.scss']
+  templateUrl: './template/basicelements.component.html',
+  styleUrls: ['./template/basicelements.component.scss']
 })
 export class BasicelementsComponent implements OnInit {
     simpleSlider = 40;

@@ -2,8 +2,8 @@ import { Input, Component } from '@angular/core';
 
 @Component({
     selector: 'app-notification',
-    templateUrl: './notification.component.html',
-    styleUrls: ['./notification.component.scss']
+    templateUrl: './template/notification.component.html',
+    styleUrls: ['./template/notification.component.scss']
 })
 
 export class NotificationComponent {

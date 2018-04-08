@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
 import { PageComponent } from './page.component';
+import { HomeComponent } from './home/home.component';
 import { SessionComponent } from './session/session.component';
 import { LoginComponent } from './auth/login/login.component'
-import { RouterModule, Routes } from '@angular/router';
-import{HomeComponent} from './home/home.component';
-import { DesignTemplateComponent } from './designTemplate/designTemplate.component';
+import { TemplateComponent } from './template/template.component';
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
   { path: 'login' , component:LoginComponent},
   { path: 'home' , component:HomeComponent},
-  {path:'design', component:DesignTemplateComponent},
+  { path: 'template' , component:TemplateComponent},
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 
