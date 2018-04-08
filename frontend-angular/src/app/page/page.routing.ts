@@ -5,11 +5,13 @@ import { LoginComponent } from './auth/login/login.component'
 import { RouterModule, Routes } from '@angular/router';
 import{HomeComponent} from './home/home.component';
 import { DesignTemplateComponent } from './designTemplate/designTemplate.component';
+import { ProfileComponent } from './profile/profile.component';
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
   { path: 'login' , component:LoginComponent},
   { path: 'home' , component:HomeComponent},
   {path:'design', component:DesignTemplateComponent},
+  {path:'profile',component:ProfileComponent}
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 

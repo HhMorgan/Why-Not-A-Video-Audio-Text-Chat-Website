@@ -27,6 +27,7 @@ import { NotificationComponent } from './components/notification/notification.co
 import { NgbdModalComponent } from './components/modal/modal.component';
 import { NgbdModalContent } from './components/modal/modal.component';
 import { DesignTemplateComponent } from './designTemplate/designTemplate.component';
+import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -39,6 +40,7 @@ import { DesignTemplateComponent } from './designTemplate/designTemplate.compone
   declarations: [SessionComponent,
     LoginComponent,
     HomeComponent,
+    ProfileComponent,
     DesignTemplateComponent,
     ComponentsComponent,
     BasicelementsComponent,
