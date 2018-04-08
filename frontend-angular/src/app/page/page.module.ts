@@ -28,6 +28,7 @@ import { SessionComponent } from './session/session.component';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { ProfileComponent } from './profile/profile.component';
     CommonModule,
     NouisliderModule,
     PagesRoutingModule,
+    AngularFontAwesomeModule,
     JWBootstrapSwitchModule,
   ],
   declarations: [

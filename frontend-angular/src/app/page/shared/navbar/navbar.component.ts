@@ -3,8 +3,8 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 
 @Component({
     selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.scss']
+    templateUrl: './template/navbar.component.html',
+    styleUrls: ['./template/navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
     private toggleButton: any;
