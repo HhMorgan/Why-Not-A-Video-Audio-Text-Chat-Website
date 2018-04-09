@@ -2,7 +2,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { APIData , Profile , User} from '../service/models/api.data.structure';
+import { APIData , Profile , User,FileData} from '../service/models/api.data.structure';
 
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
 
@@ -26,6 +26,18 @@ export class APIService {
     return this.http.post<Profile>(this.apiUrl + 'auth/updateEmail', profile)
     .catch(this.errorHandler);
   }
+
+  postFile(fileData: FileData): Observable<APIData> {
+    const formData: FormData = new FormData();
+    formData.append('file', fileData.file, fileData.file.name);
+    return this.http.post<APIData>(this.apiUrl + 'photo', formData).catch(this.errorHandler);
+  }
+
+  getimage(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'getphoto').catch(this.errorHandler);
+  }
+
+
 
   public static getToken() : string {
     return localStorage.getItem('token');

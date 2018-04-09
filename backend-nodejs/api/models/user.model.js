@@ -26,6 +26,8 @@ var userSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  img: 
+  { data: Buffer },
   updatedAt: Date
 });
 

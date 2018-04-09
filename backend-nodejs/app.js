@@ -10,6 +10,8 @@ var express = require('express'),
   routes = require('./api/routes'),
   config = require('./api/config'),
   app = express();
+  var fs = require('fs');
+  var multer = require('multer');
 
 // Set the secret of the app that will be used in authentication
 app.set('secret', config.SECRET);
@@ -25,6 +27,7 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'DELETE']
   })
 );
+app.use(multer({storage: multer.memoryStorage() /*, limits: { fileSize: 500000000 }*/ }).single('file'));
 
 // Middleware to protect the server against common known security vulnerabilities
 app.use(helmet());

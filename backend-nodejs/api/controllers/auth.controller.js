@@ -141,7 +141,7 @@ module.exports.login = function(req, res, next) {
           expiresIn: '12h'
         }
       );
-      // Send the JWT to the frontend
+     console.log(token);
       res.status(200).json({ err: null, msg: 'Welcome', data: token });
     });
   });
