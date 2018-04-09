@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../@core/service/api.service';
 import { APIData  , User ,FileData } from '../../@core/service/models/api.data.structure'
+import {Buffer} from 'buffer';
 
 @Component({
     selector: 'app-profile',
