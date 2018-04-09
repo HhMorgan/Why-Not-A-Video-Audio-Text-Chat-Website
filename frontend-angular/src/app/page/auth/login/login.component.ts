@@ -8,7 +8,6 @@ import { APIService } from '../../../@core/service/api.service';
   styleUrls: ['./template/login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   private email;
   private password;
   private loginMessage;
