@@ -6,8 +6,6 @@ Encryption = require('../utils/encryption'),
 EMAIL_REGEX = require('../config').EMAIL_REGEX,
 User = mongoose.model('User');
 moment = require('moment');
-var Binary = require('mongodb').Binary;
-
 
 module.exports.updateEmail = function(req, res, next) {
   if (!Validations.matchesRegex(req.body.email, EMAIL_REGEX)) {
@@ -58,39 +56,6 @@ module.exports.updateEmail = function(req, res, next) {
   });
 });
 }
-
-
-module.exports.getimage = function(req, res) {
-  // User.img.data = fs.readFileSync(req.files.userPhoto.path)
-  // User.img.contentType = 'image/png';
-  // User.save();
-//mo2ktn lol
-  User.findById('5ac2107b3a8e6955b45b4bed').exec (function(err, User) {
-    if (err) {
-       return next(err);
-     }
-     console.log(User)
-     res.status(201).json({
-       err: null,
-       msg: 'i.',
-       data: User.img
-     });
-   });
-
-  /* if (null == null){
-    return res.status(201).json({
-      err: null,
-      msg: 'done.',
-      data: req.file.originalname
-    });
-  } else {
-    res.status(201).json({
-      err: null,
-      msg: 'err',
-      data: User
-    });
-  } */
-};
 
 module.exports.updatePassword = function(req, res, next) {
 
@@ -148,8 +113,6 @@ module.exports.updatePassword = function(req, res, next) {
 
 }
 
-
-
 module.exports.updateDescription = function(req, res, next) {
  if (!(Validations.isString(req.body.description))){
   return res.status(422).json({
@@ -173,11 +136,22 @@ module.exports.updateDescription = function(req, res, next) {
  
 }
 
+module.exports.getimage = function(req, res) {
+  //mo2ktn lol
+    User.findById('5ac2107b3a8e6955b45b4bed').exec (function(err, User) {
+      if (err) {
+         return next(err);
+       }
+       console.log(User)
+       res.status(201).json({
+         err: null,
+         msg: 'i.',
+         data: User.img
+       });
+     });
+  };
+
 module.exports.uploadimage = function(req, res) {
-  // User.img.data = fs.readFileSync(req.files.userPhoto.path)
-  // User.img.contentType = 'image/png';
-  // User.save();
-//mo2ktn lol
   User.findByIdAndUpdate('5ac2107b3a8e6955b45b4bed',{
     $set: {
       img: req.file.buffer

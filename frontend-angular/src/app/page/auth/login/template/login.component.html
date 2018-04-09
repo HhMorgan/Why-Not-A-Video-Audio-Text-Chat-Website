@@ -9,9 +9,9 @@
                             
                             <form class="login-form">
                                 <label>Email</label>
-                                <input type="text" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}"/>
+                                <input type="text" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}" autocomplete="username"/>
                                 <label>Password</label>
-                                <input type="password" class="form-control" [(ngModel)]="password" placeholder="password" [ngModelOptions]="{standalone: true}"/>
+                                <input type="password" class="form-control" [(ngModel)]="password" placeholder="password" [ngModelOptions]="{standalone: true}" autocomplete = "current-password"/>
                                 <button (click)="loginClick($event)" class="btn btn-success btn-block">Login</button>
                               </form>
                             <div class="forgot">
