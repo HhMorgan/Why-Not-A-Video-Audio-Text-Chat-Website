@@ -8,8 +8,8 @@ Please NPM Install Again For New Changes
 
 ## The Existing Front End Pages
 
-home : The main page of the site
-login : The login page
-session : The video/audio call and chat page
-profile : The user profile page
-template : The front end seed elements that are available for use
+home : The main page of the site<br>
+login : The login page<br>
+session : The video/audio call and chat page<br>
+profile : The user profile page<br>
+template : The front end seed elements that are available for use<br>
