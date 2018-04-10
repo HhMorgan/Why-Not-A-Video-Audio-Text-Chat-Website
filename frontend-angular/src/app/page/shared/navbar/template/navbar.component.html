@@ -49,13 +49,19 @@
                     
                    
                 </li>
-                <li class="nav-item" >
-                <a [routerLink]="['/page/login']" *ngIf="!isDocumentation()" class="nav-link"><i  class="nc-icon nc-circle-10"></i>Login</a>
+                <li class="nav-item"  >
+                <a  id="login" [routerLink]="['/page/login']" class="nav-link" ><i  class="nc-icon nc-circle-10"></i>Login</a>
             </li>
-            <li class="nav-item" *ngIf="!isHome()">
-                <a [routerLink]="['/page/signup']" *ngIf="!isDocumentation()" class="nav-link"><i class="nc-icon nc-paper"></i>Signup</a>
+            <li class="nav-item" >
+                <a (click)="logout()" id="logout" href="#" class="nav-link"><i  class="nc-icon nc-circle-10"></i>Logout</a>
             </li>
-            <li class="nav-item" *ngIf="!isHome()">
+            <li class="nav-item" id="signup" >
+                <a [routerLink]="['/page/signup']"  class="nav-link"><i class="nc-icon nc-paper"></i>Signup</a>
+            </li>
+            <li class="nav-item" id="profile">
+                <button [routerLink]="['/page/profile']" type="button" class="btn btn-info btn-just-icon"><img  id ="profileimgnavbar"class="img-rounded" src="" width="24px" height="24px"></button>
+        </li>
+            <li class="nav-item" >
             <div ngbDropdown class="d-inline-block dropdown">
                 <a class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle > <img src="../assets/img/ring.png"></a>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">

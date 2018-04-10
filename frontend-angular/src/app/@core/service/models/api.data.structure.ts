@@ -8,8 +8,8 @@ export interface User {
     email:any,
     password:any,
     role:any,
-    username:any
-
+    username:any,
+    img:any,
 }
 
 export interface Profile {

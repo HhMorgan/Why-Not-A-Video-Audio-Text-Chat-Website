@@ -1,5 +1,9 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { APIService } from '../../../@core/service/api.service';
+import { APIData,User  } from '../../../@core/service/models/api.data.structure'
+import {Buffer} from 'buffer';
+import { Routes,Router } from '@angular/router';
 
 @Component({
     selector: 'app-navbar',
@@ -10,14 +14,16 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
 
-    constructor(public location: Location, private element : ElementRef) {
+    constructor(public location: Location, private element : ElementRef,private apiServ:APIService,private router: Router) {
         this.sidebarVisible = false;
     }
 
     ngOnInit() {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
-    }
+        this.isloggedin();
+       
+        }
     sidebarOpen() {
         const toggleButton = this.toggleButton;
         const html = document.getElementsByTagName('html')[0];
@@ -57,6 +63,17 @@ export class NavbarComponent implements OnInit {
             return false;
         }
     }
+    getimage(){
+        this.apiServ.getimage().subscribe((apires : APIData) =>{
+        
+           var bikeImage = document.getElementById("profileimgnavbar") as HTMLImageElement
+           var reader = new FileReader();
+           console.log(apires.data);
+           var base64OfPhoto = Buffer.from(apires.data.buffer.data).toString('base64');
+           bikeImage.src ="data:image/png;base64,"+ base64OfPhoto;
+          });
+          
+        }
     isLogin() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
 
@@ -76,4 +93,40 @@ export class NavbarComponent implements OnInit {
             return false;
         }
     }
+    isloggedin(){
+        var isAuth = !(localStorage.getItem('token')=="null")
+        if (isAuth){
+            
+          
+     document.getElementById("login").style.display="none";
+     document.getElementById("logout").style.display="block";
+        document.getElementById("signup").style.display="none";
+        this.getimage();
+      
+        }
+        else{
+            document.getElementById("login").style.display="block";
+            document.getElementById("logout").style.display="none";
+            document.getElementById("dropdownBasic1").style.display="none";
+            document.getElementById("profile").style.display="none";
+        }
+     
+    }
+    logout(){
+       
+            localStorage.setItem('token',"null");
+            console.log(localStorage.getItem('token'));
+          location.reload();
+    }
+
+    isAuth(){
+        var isAuth = !(localStorage.getItem('token')=="null")
+        if (isAuth){
+            return true
+        }
+        else return false
+
+    }
+
+    
 }

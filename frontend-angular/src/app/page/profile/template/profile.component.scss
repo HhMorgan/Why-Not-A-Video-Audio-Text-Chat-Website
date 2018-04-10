@@ -4,3 +4,27 @@
     padding: 6px 12px;
     cursor: pointer;
 }
+
+.mydiv {
+    position: absolute;
+    z-index: 9;
+    background-color: #f1f1f1;
+    text-align: center;
+    border: 1px solid #d3d3d3;
+    
+}
+
+
+#t {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+
+
+#mydivheader {
+
+    cursor: move;
+   
+}

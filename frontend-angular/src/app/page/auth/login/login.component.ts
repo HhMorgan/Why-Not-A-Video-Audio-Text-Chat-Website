@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { APIData, User } from '../../../@core/service/models/api.data.structure';
 import { APIService } from '../../../@core/service/api.service';
+import { Routes,Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
   private password;
   private loginMessage;
 
-  constructor(private _apiService:APIService) { }
+  constructor(private _apiService:APIService,private router: Router) { }
 
   ngOnInit() {
   }
@@ -26,6 +27,10 @@ export class LoginComponent implements OnInit {
         this.loginMessage = apiresponse.msg;
         if( apiresponse.msg.includes('Welcome') ){ 
           localStorage.setItem('token', apiresponse.data);
+          console.log(apiresponse.data);
+         this.router.navigate(['home']); 
+          location.reload();
+          
         } else {
           this.loginMessage = apiresponse.msg;
         }
