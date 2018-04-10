@@ -27,8 +27,31 @@ export class DashboardComponent implements OnInit {
         $('body').on("click", "nav ul li a", function(){
           var title = $(this).data('title');
           $('.title').children('h2').html(title);
-      
         });
+        $("main .card-dashboard div").hide();
+
+        $("#Profile").click(function(){
+          $("main .card-dashboard div").hide();
+             $("#element1").toggle();
+        });
+    
+        $("#Edit").click(function(){
+          $("main .card-dashboard div").hide();
+             $("#element2").toggle();
+        });
+    
+        $("#Add").click(function(){
+          $("main .card-dashboard div").hide();
+             $("#element3").toggle();
+        });
+        $("#Remove").click(function(){
+          $("main .card-dashboard div").hide();
+          $("#element4").toggle();
+      });
+     $("#Announce").click(function(){
+      $("main .card-dashboard div").hide();
+        $("#element5").toggle();
+      });
       });
       
   }
