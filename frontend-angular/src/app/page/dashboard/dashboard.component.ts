@@ -5,7 +5,7 @@ import * as $ from 'jquery';
 @Component({
   selector: 'app-session',
   templateUrl: './template/dashboard.component.html',
-  styleUrls: ['./template/dashboard.component.css']
+  styleUrls: ['./template/dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   
