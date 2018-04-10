@@ -8,8 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class SessionComponent implements OnInit {
 
   constructor() { }
-
+  
   ngOnInit() {
+    
   }
+  onNavigate(){
+    window.open("https://www.google.com", "_blank");
+}
+
 
 }

@@ -9,7 +9,7 @@ import{AppRoutingModule}from './app.routing';
 @Component({
   selector: 'app-root',
   template: `
-  <app-navbar *ngIf="document.location.href!='http://localhost:4200/#/page/dashboard'"></app-navbar>
+  <app-navbar ></app-navbar>
 <router-outlet></router-outlet>
 <app-footer *ngIf="removeFooter()&& document.location.href!='http://localhost:4200/#/page/dashboard'"></app-footer>
   `,

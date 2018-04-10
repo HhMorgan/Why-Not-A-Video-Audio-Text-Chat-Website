@@ -25,6 +25,7 @@
     "angular-font-awesome": "^3.1.2",
     "bootstrap": "^4.0.0",
     "bootstrap.min.js": "^3.3.5",
+    "browser-window": "^0.4.0",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "i": "^0.3.6",
