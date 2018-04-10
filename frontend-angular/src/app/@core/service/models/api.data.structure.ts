@@ -7,7 +7,9 @@ export interface APIData {
 export interface User {
     email:any,
     password:any,
-    role:any
+    role:any,
+    username:any
+
 }
 
 export interface Profile {

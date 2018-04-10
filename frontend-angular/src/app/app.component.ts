@@ -5,22 +5,26 @@ import 'rxjs/add/operator/filter';
 import { DOCUMENT } from '@angular/platform-browser';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { NavbarComponent } from './page/shared/navbar/navbar.component';
-
+import{AppRoutingModule}from './app.routing';
 @Component({
   selector: 'app-root',
   template: `
-  <app-navbar></app-navbar>
+  <app-navbar *ngIf="document.location.href!='http://localhost:4200/#/page/dashboard'"></app-navbar>
 <router-outlet></router-outlet>
-<app-footer *ngIf="removeFooter()"></app-footer>
+<app-footer *ngIf="removeFooter()&& document.location.href!='http://localhost:4200/#/page/dashboard'"></app-footer>
   `,
 })
 export class AppComponent {
   title = 'app';
+  
   private _router: Subscription;
   @ViewChild(NavbarComponent) navbar: NavbarComponent;
-
+    
   constructor( private renderer : Renderer, private router: Router, @Inject(DOCUMENT,) private document: any, private element : ElementRef, public location: Location) {}
+  
+  
   ngOnInit() {
+    console.log(document.location.href);
       var navbar : HTMLElement = this.element.nativeElement.children[0].children[0];
       this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
           if (window.outerWidth > 991) {
