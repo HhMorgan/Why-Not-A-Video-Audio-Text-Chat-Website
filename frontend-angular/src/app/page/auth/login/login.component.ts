@@ -27,10 +27,9 @@ export class LoginComponent implements OnInit {
         this.loginMessage = apiresponse.msg;
         if( apiresponse.msg.includes('Welcome') ){ 
           localStorage.setItem('token', apiresponse.data);
-          console.log(apiresponse.data);
          this.router.navigate(['home']); 
           location.reload();
-          
+          console.log(apiresponse.data);
         } else {
           this.loginMessage = apiresponse.msg;
         }
