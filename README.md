@@ -13,4 +13,5 @@ login : The login page<br>
 signup : The signup page<br>
 session : The video/audio call and chat page<br>
 profile : The user profile page<br>
+dashboard : The admin dashboard<br>
 template : The front end seed elements that are available for use<br>
