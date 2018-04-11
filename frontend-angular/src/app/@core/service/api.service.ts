@@ -42,7 +42,6 @@ export class APIService {
     return this.http.post<APIData>(this.apiUrl + 'auth/changeUserStatus', user).catch(this.errorHandler);
   };
 
-
   public static getToken() : string {
     return localStorage.getItem('token');
   }

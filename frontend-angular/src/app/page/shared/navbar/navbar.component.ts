@@ -1,5 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { User, APIData } from '../../../@core/service/models/api.data.structure';
+import { APIService } from '../../../@core/service/api.service';
 
 @Component({
     selector: 'app-navbar',

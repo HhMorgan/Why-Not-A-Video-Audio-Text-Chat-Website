@@ -83,6 +83,7 @@ module.exports.getimage = function(req, res) {
   // User.save();
 //mo2ktn lol
   User.findById('5ac2107b3a8e6955b45b4bed').exec (function(err, User) {
+    
     if (err) {
        return next(err);
      }
@@ -92,6 +93,7 @@ module.exports.getimage = function(req, res) {
        msg: 'i.',
        data: User.img
      });
+
    });
 
   /* if (null == null){
