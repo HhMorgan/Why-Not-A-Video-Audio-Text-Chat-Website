@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {
         this.getimage();
    
-        //this.dragElement(document.getElementById(("name")));
+        this.dragElement(document.getElementById(("name")));
     }
 
     fileToUpload: File = null;

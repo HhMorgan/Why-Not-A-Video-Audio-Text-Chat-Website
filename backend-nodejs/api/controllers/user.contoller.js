@@ -12,7 +12,7 @@ var fs = require('fs');
 module.exports.changeUserStatus = function(req, res, next) {
      delete req.body.email;
      console.log(req.body);
-     User.findByIdAndUpdate("5ac1f416224b0305d4e8a7dc",{
+     User.findByIdAndUpdate(req.decodedToken.user._id,{
        $set: req.body
    },{ new: true }).exec (function(err, updatedUser) {
        if (err) {
