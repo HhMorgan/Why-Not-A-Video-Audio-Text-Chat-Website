@@ -12,6 +12,27 @@
     vertical-align: top;
     
 }
+.chatWindow{
+    overflow-y: scroll;
+    height: 25em;
+}
+#chatWindowScroll::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#chatWindowScroll::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #8a8a8a;
+}
+
+#chatWindowScroll::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+	border: 1px solid #555555;
+}
 
 .LeftBox{
     position: absolute;

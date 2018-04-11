@@ -1,0 +1,70 @@
+<div class="page-header fullpage" data-parallax="true" style="background-image: url('../assets/img/daniel-olahh.jpg');">
+  <div class="filter"></div>
+  <div class="mainBox">
+  <div class="container">
+      <div class="container">
+          <div class="row">
+
+
+
+              <div class="col-md-3 ">
+
+                <div class="LeftBox">
+                  <div  *ngFor="let user of userArray" class="card card-profile card-plain">
+                    <div class="card-avatar imgSize">
+                      <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="{{user.username}}">
+          
+                          <a href="#avatar"><img src="{{user.img}}" alt="..."></a>          
+                          
+                        </button>
+                    </div>
+                  </div>
+                  <!--  -->
+                 <!-- <div class="card card-profile card-plain">
+                      <div class="card-avatar imgSize">
+                        <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="{{username2}}">
+            
+                            <a href="#avatar"><img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="..."></a>          
+                        </button>
+                      </div>
+                    </div>
+                    //
+                    <div class="card card-profile card-plain">
+                        <div class="card-avatar imgSize">
+                          <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="{{username3}}">
+              
+                              <a href="#avatar"><img src="../assets/img/faces/joe-gardner-2.jpg" alt="..."></a>          
+                          </button>
+                        </div>
+                      </div>
+                     //
+                      <div class="card card-profile card-plain">
+                          <div class="card-avatar imgSize">
+                            <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="{{username4}}">
+                
+                                <a href="#avatar"><img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="..."></a>          
+                            </button>
+                          </div>
+                        </div>
+                        //
+                        <div class="card card-profile card-plain">
+                            <div class="card-avatar imgSize">
+                              <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="{{username5}}">
+                  
+                                  <a href="#avatar"><img src="../assets/img/faces/erik-lucatero-2.jpg" alt="..."></a>          
+                              </button>
+                            </div>
+                          </div>-->
+                         
+                      </div>
+                     
+    
+                    </div>
+              </div>        
+
+      </div>
+      
+  </div>
+  </div>
+</div>
+

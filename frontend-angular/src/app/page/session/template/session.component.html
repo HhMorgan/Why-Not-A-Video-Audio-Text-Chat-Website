@@ -4,63 +4,21 @@
   <div class="container">
       <div class="container">
           <div class="row">
-
-
-
-              <div class="col-md-3 ">
+<!-- -->
+            <div class="col-md-3 ">
                 <div class="LeftBox">
-                  <div class="card card-profile card-plain">
-                    <div class="card-avatar imgSize">
-                      <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="First">
-          
-                          <a href="#avatar"><img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="..."></a>          
-                          
-                        </button>
-                    </div>
+                        <div  *ngFor="let user of userArray" class="card card-profile card-plain">
+                                <div class="card-avatar imgSize">
+                                  <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="{{user.username}}" (click)='userChatChange(user.username)'>
+                      
+                                      <a ><img src="{{user.img}}" alt="..."></a>          
+                                      
+                                    </button>
+                                </div>
+                            </div>                         
+                      </div>
                   </div>
-                  <!--  -->
-                  <div class="card card-profile card-plain">
-                      <div class="card-avatar imgSize">
-                        <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="Second">
-            
-                            <a href="#avatar"><img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="..."></a>          
-                        </button>
-                      </div>
-                    </div>
-                    <!--  -->
-                    <div class="card card-profile card-plain">
-                        <div class="card-avatar imgSize">
-                          <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="Third">
-              
-                              <a href="#avatar"><img src="../assets/img/faces/joe-gardner-2.jpg" alt="..."></a>          
-                          </button>
-                        </div>
-                      </div>
-                      <!--  -->
-                      <div class="card card-profile card-plain">
-                          <div class="card-avatar imgSize">
-                            <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="Fourth">
-                
-                                <a href="#avatar"><img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="..."></a>          
-                            </button>
-                          </div>
-                        </div>
-                        <!--  -->
-                        <div class="card card-profile card-plain">
-                            <div class="card-avatar imgSize">
-                              <button id="close-image" type="button" class="btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="Fifth">
-                  
-                                  <a href="#avatar"><img src="../assets/img/faces/erik-lucatero-2.jpg" alt="..."></a>          
-                              </button>
-                            </div>
-                          </div>
-                         
-                      </div>
-                     
-    
-    
-                  </div>
-               
+<!-- -->               
               <div class="col-md-5">
                 <div class="middleBox">
                   <div class="motto text-center">
@@ -68,7 +26,7 @@
                       <h3>Join Conference</h3>
                       <br />
                       <a href="../page/profile"  
-                      onclick="window.open('../page/profile', 
+                      onclick="window.open('#/page/video', 
                                            'newwindow', 
                                            'width=700,height=800'); 
                                 return false;" class="btn btn-outline-neutral btn-round"><i class="fa fa-camera"></i>Start Video Call</a>
@@ -76,15 +34,16 @@
                   </div>
                   </div>
               </div>
-       
+<!-- -->       
               <div class="col-md-4">
                   <div id="MessageArea">
                       <div class="motto">
                            
                                   <div id="headerChat">
-                                  <h4 >Reciever</h4>
+                                  <h4 >{{reciever}}</h4>
                                   </div>
-                                  <form >
+                                  <form>
+                                      <div class="chatWindow" id="chatWindowScroll">
                                       <div id="chatMessage" class="container">
                                           <img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;">
                                           <p>Hello. How are you today?</p>
@@ -107,8 +66,8 @@
                                             <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
                                             
                                           </div>
-                                        
-                                      <textarea rows="4" placeholder="Start chatting here..."></textarea>
+                                        </div>
+                                      <textarea rows="3" placeholder="Start chatting here..."></textarea>
                                       <div class="row">
                                           
                                       </div>
@@ -119,7 +78,7 @@
                   </div>
               </div>
           
-
+<!-- -->
           </div>
       </div>
       

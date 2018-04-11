@@ -11,7 +11,7 @@ import{AppRoutingModule}from './app.routing';
   template: `
   <app-navbar ></app-navbar>
 <router-outlet></router-outlet>
-<app-footer *ngIf="removeFooter()&& document.location.href!='http://localhost:4200/#/page/dashboard'"></app-footer>
+<app-footer *ngIf="removeFooter()&& document.location.href!='http://localhost:4200/#/page/dashboard' && document.location.href!='http://localhost:4200/#/page/video'"></app-footer>
   `,
 })
 export class AppComponent {
