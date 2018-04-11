@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { NgModule, Component, OnInit, Inject, Renderer, ElementRef, ViewChild} from '@angular/core';
-
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 /* Our Components
 ---------------------------------------------------*/
 import { PagesRoutingModule } from './page.routing';
@@ -28,7 +28,12 @@ import { SessionComponent } from './session/session.component';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { SignupComponent } from './auth/signup/signup.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { VideoViewComponent } from './videoView/videoView.component';
+
+
+
 
 @NgModule({
   imports: [
@@ -53,7 +58,11 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     SessionComponent,
     LoginComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    SignupComponent,
+    DashboardComponent,
+    VideoViewComponent,
+ 
   ],
   entryComponents: [NgbdModalContent]
 })

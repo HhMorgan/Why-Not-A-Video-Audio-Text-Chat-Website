@@ -1,0 +1,35 @@
+<div class="wrapper">
+    <div class="page-header" style="background-image: url('../assets/img/login-image.jpg');">
+        <div class="filter"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                        <div class="card card-register">
+                            <h3 class="title">CREATE AN ACCOUNT</h3>
+                            
+                            <form class="register-form">
+                                <label>Email</label>
+                                <input type="text" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}"/>
+                                <label>Username</label>
+                                <input type="text" class="form-control" [(ngModel)]="username" placeholder="username" [ngModelOptions]="{standalone: true}"/>
+                                <label>Password</label>
+                                <input type="password" class="form-control" [(ngModel)]="password" placeholder="password" [ngModelOptions]="{standalone: true}"/>
+                                <label>Password Confirmation</label>
+                                <input type="password" class="form-control" [(ngModel)]="passwordConfirmation" placeholder="password" [ngModelOptions]="{standalone: true}"/>
+                                
+                                <button (click)="signupClick($event)" class="btn btn-success btn-block">Signup</button>
+                              </form>
+                            <div class="forgot">
+                                <a href="#" class="btn btn-link btn-info">Already Have Account?</a>
+                                
+                            </div>
+                            <div style="text-align:center">{{signupMessage}}</div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+    </div>
+</div>
+      
