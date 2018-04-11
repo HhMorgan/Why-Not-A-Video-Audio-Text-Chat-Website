@@ -5,13 +5,13 @@ import 'rxjs/add/operator/filter';
 import { DOCUMENT } from '@angular/platform-browser';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { NavbarComponent } from './page/shared/navbar/navbar.component';
-import{AppRoutingModule}from './app.routing';
+import{ AppRoutingModule }from './app.routing';
 @Component({
   selector: 'app-root',
   template: `
   <app-navbar ></app-navbar>
-<router-outlet></router-outlet>
-<app-footer *ngIf="removeFooter()&& document.location.href!='http://localhost:4200/#/page/dashboard' && document.location.href!='http://localhost:4200/#/page/video'"></app-footer>
+    <router-outlet></router-outlet>
+    <app-footer *ngIf="removeFooter()"></app-footer>
   `,
 })
 export class AppComponent {
@@ -19,7 +19,7 @@ export class AppComponent {
   
   private _router: Subscription;
   @ViewChild(NavbarComponent) navbar: NavbarComponent;
-    
+  
   constructor( private renderer : Renderer, private router: Router, @Inject(DOCUMENT,) private document: any, private element : ElementRef, public location: Location) {}
   
   
@@ -60,8 +60,9 @@ export class AppComponent {
   }
   removeFooter() {
       var titlee = this.location.prepareExternalUrl(this.location.path());
-      titlee = titlee.slice( 1 );
-      if(titlee === 'signup' || titlee === 'nucleoicons'){
+      titlee = titlee.slice( 7 );
+      if(titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'video'
+        || titlee === 'login' ) {
           return false;
       }
       else {
