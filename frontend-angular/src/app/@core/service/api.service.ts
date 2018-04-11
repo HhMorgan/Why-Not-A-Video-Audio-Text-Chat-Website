@@ -37,7 +37,10 @@ export class APIService {
     return this.http.get<APIData>(this.apiUrl + 'getphoto').catch(this.errorHandler);
   }
 
-
+  changeUserStatus(user: User): Observable<APIData>
+  {
+    return this.http.post<APIData>(this.apiUrl + 'auth/changeUserStatus', user).catch(this.errorHandler);
+  };
 
   public static getToken() : string {
     return localStorage.getItem('token');

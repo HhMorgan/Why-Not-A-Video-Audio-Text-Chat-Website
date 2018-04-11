@@ -32,7 +32,7 @@ a {
   text-decoration: none;
 }
 .bckg {
-  background-color: rgb(19, 35, 47);
+  background-color: rgba(19, 35, 47, 0.8);
   box-shadow: -4px 0px 10px rgba(14, 14, 14, 0.48) inset;
   width: 200px;
   height: 100%;
@@ -60,24 +60,13 @@ h2 {
   font-weight: normal;
   padding-left: 40px;
   line-height: 60px;
-  text-shadow: 1px 1px 2px #fff;
+  text-shadow: 1px 1px 2px rgb(255, 255, 255);
   position: relative;
   flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
 }
-h2:before {
-  content: '';
-  width: 36px;
-  height: 36px;
-  position: absolute;
-  left: -19px;
-  top: 12px;
-  background-color: #34363A;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
+
 h3 {
   font-size: 17px;
   margin: 0;
@@ -94,13 +83,13 @@ header {
   z-index: 99;
 }
 header nav ul li {
-  border-bottom: 1px solid #42454D;
+  border-bottom: 1px solid rgb(66, 69, 77);
   padding-left: 48px;
   transition: all 0.6s;
   border-top: 1px solid #2E3036;
 }
 header nav ul li:hover {
-  background-color: #454952;
+  background-color: rgb(69, 73, 82);
   transition: all 0.6s;
   border-bottom: 1px solid #797979;
 }
@@ -142,16 +131,7 @@ main {
   -webkit-flex: 1;
   -ms-flex: 1;
 }
-.title {
-  background-color: #fff;
-  border-bottom: 1px solid #C0C1C0;
-  height: 60px;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-}
+
 .title a {
   color: #AAA;
   width: auto;
@@ -209,4 +189,50 @@ a:hover {
   margin-left: 10px;
   padding: 0 15px;
   border-left: 1px solid #ccc;
+}
+#mainPart p{
+  color: black;
+}
+.positionChange{
+  position: absolute;
+  width: 100%;
+  bottom: 10%;
+}
+.positionChangeCenter{
+  position: absolute;
+  width: 100%;
+  bottom: 1em
+}
+.card-dashboard {
+  background-color: rgba(19, 35, 47, 0.8);
+  box-shadow: -4px 0px 10px rgba(14, 14, 14, 0.48) inset;
+  border-radius: 8px;
+  color: #fff;
+  width: 100%;
+  min-height: 200px;
+
+
+  .social-line{
+      .btn{
+          margin-top: 0;
+      }
+  }
+}
+#mainPart p{
+  color: #fff;
+}
+
+.title {
+  background-color: rgba(9, 17, 24, 0.8);
+  box-shadow: -4px 0px 10px rgba(14, 14, 14, 0.48) inset;
+ 
+  color: #fff;
+  width: 100%;
+
+
+  .social-line{
+      .btn{
+          margin-top: 0;
+      }
+  }
 }

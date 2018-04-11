@@ -10,6 +10,7 @@ export interface User {
     role:any,
     username:any,
     img:Blob,
+    onlineStatus: Boolean;
 }
 
 export interface Profile {
