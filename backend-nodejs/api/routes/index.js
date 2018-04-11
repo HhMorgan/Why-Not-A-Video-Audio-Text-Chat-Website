@@ -3,6 +3,7 @@ var express = require('express'),
   jwt = require('jsonwebtoken'),
   authCtrl = require('../controllers/auth.controller');
   userCtrl = require('../controllers/user.contoller');
+  expert = require('../controllers/expert.controller');
 
 
 var isAuthenticated = function(req, res, next) {
@@ -50,5 +51,11 @@ router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
 router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
 router.post('/photo' ,userCtrl.uploadimage);
 router.get('/getphoto' ,userCtrl.getimage);
-
+//-----------------------------Expert Routes-------------------------
+router.post('/expert/chooseSlot',expert.chooseSlot);
+router.get('/expert/viewSlotRequest', isAuthenticated,expert.viewSLotRequests);
+router.patch('/expert/editSlotRequest/:requestId', isAuthenticated,expert.editSlotRequest);
+router.post('/auth/updateRating',userCtrl.updateRating);
+router.delete('/expert/editSlotRequest/:TagsId',isAuthenticated,expert.removetag);
+router.post('/expert/addSpeciality',expert.addSpeciality); 
 module.exports = router;

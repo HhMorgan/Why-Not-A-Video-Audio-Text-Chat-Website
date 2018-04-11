@@ -22,6 +22,7 @@ var userSchema = mongoose.Schema({
     required: false,
     // default: 'empty'
   },
+  tags:[TagsSchema],
   createdAt: {
     type: Date,
     default: Date.now
