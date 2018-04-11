@@ -48,7 +48,8 @@ router.post('/auth/login',  authCtrl.login); //edited
 router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
 router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
-router.post('/photo' ,userCtrl.uploadimage);
-router.get('/getphoto' ,userCtrl.getimage);
+
+router.post('/photo' ,isAuthenticated,userCtrl.uploadimage);
+router.get('/getphoto' ,isAuthenticated,userCtrl.getimage);
 
 module.exports = router;

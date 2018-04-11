@@ -7,6 +7,7 @@ EMAIL_REGEX = require('../config').EMAIL_REGEX,
 User = mongoose.model('User');
 moment = require('moment');
 var Binary = require('mongodb').Binary;
+var fs = require('fs');
 
 
 module.exports.updateEmail = function(req, res, next) {
@@ -61,37 +62,38 @@ module.exports.updateEmail = function(req, res, next) {
 
 
 module.exports.getimage = function(req, res) {
-  // User.img.data = fs.readFileSync(req.files.userPhoto.path)
-  // User.img.contentType = 'image/png';
-  // User.save();
-//mo2ktn lol
-  User.findById('5ac2107b3a8e6955b45b4bed').exec (function(err, User) {
-    
+  User.findById(req.decodedToken.user._id).exec (function(err, User) {
     if (err) {
        return next(err);
      }
-     console.log(User)
      res.status(201).json({
        err: null,
        msg: 'i.',
        data: User.img
      });
-
+     //res.end();
    });
+};
 
-  /* if (null == null){
-    return res.status(201).json({
-      err: null,
-      msg: 'done.',
-      data: req.file.originalname
-    });
-  } else {
-    res.status(201).json({
-      err: null,
-      msg: 'err',
-      data: User
-    });
-  } */
+module.exports.uploadimage = function(req, res) {
+  User.findByIdAndUpdate(req.decodedToken.user._id,{
+    $set: {
+      img: fs.readFileSync(req.file.path)
+
+    }
+},{ new: true }).exec (function(err, updatedUser) {
+    if (err) {
+       return next(err);
+     }
+     res.status(201).json({
+       err: null,
+       msg: 'image got updated.',
+       data: fs.readFileSync(req.file.path)
+     });
+     //res.end();
+   });
+   //console.log(data);
+console.log(req.file.name);
 };
 
 module.exports.updatePassword = function(req, res, next) {
@@ -175,40 +177,6 @@ module.exports.updateDescription = function(req, res, next) {
  
 }
 
-module.exports.uploadimage = function(req, res) {
-  // User.img.data = fs.readFileSync(req.files.userPhoto.path)
-  // User.img.contentType = 'image/png';
-  // User.save();
-//mo2ktn lol
-  User.findByIdAndUpdate('5ac2107b3a8e6955b45b4bed',{
-    $set: {
-      img: req.file.buffer
-    }
-},{ new: true }).exec (function(err, updatedUser) {
-    if (err) {
-       return next(err);
-     }
-     console.log(updatedUser)
-     res.status(201).json({
-       err: null,
-       msg: 'image got updated.',
-       data: updatedUser.img
-     });
-   });
 
-  /* if (null == null){
-    return res.status(201).json({
-      err: null,
-      msg: 'done.',
-      data: req.file.originalname
-    });
-  } else {
-    res.status(201).json({
-      err: null,
-      msg: 'err',
-      data: User
-    });
-  } */
-};
 
 

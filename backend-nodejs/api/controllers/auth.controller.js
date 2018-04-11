@@ -131,6 +131,7 @@ module.exports.login = function(req, res, next) {
           .json({ err: null, msg: 'Password is incorrect.', data: null });
       }
       // Create a JWT and put in it the user object from the database
+      console.log(user);
       var token = jwt.sign(
         {
           // user.toObject transorms the document to a json object without the password as we can't leak sensitive info to the frontend
@@ -141,7 +142,7 @@ module.exports.login = function(req, res, next) {
           expiresIn: '12h'
         }
       );
-     console.log(token);
+      console.log(user);
       res.status(200).json({ err: null, msg: 'Welcome', data: token });
     });
   });
