@@ -8,8 +8,9 @@ var express = require('express'),
   compression = require('compression'),
   bodyParser = require('body-parser'),
   routes = require('./api/routes'),
-  config = require('./api/config'),
+  config = require('./api/config/appconfig'),
   http = require('http'),
+  https = require('https'),
   app = express();
 
 // Set the secret of the app that will be used in authentication
@@ -51,31 +52,47 @@ app.use(
 */
 app.use('/api', routes);
 
+
 // Middleware to handle any (500 Internal server error) that may occur while doing database related functions
-app.use(function(err, req, res, next) {
-  if (err.statusCode === 404) return next();
-  res.status(500).json({
-    // Never leak the stack trace of the err if running in production mode
-    err: process.env.NODE_ENV === 'production' ? null : err,
-    msg: '500 Internal Server Error',
-    data: null
-  });
-});
+// app.use(function(err, req, res, next) {
+//   if (err.statusCode === 404) return next();
+//   res.status(500).json({
+//     // Never leak the stack trace of the err if running in production mode
+//     err: process.env.NODE_ENV === 'production' ? null : err,
+//     msg: '500 Internal Server Error',
+//     data: null
+//   });
+// });
 
-/* 
-  Middleware to handle any (404 Not Found) error that may occur if the request didn't find
-  a matching route on our server, or the requested data could not be found in the database
-*/
-app.use(function(req, res) {
-  res.status(404).json({
-    err: null,
-    msg: '404 Not Found',
-    data: null
-  });
-});
-module.exports = app;
-/*
+// /* 
+//   Middleware to handle any (404 Not Found) error that may occur if the request didn't find
+//   a matching route on our server, or the requested data could not be found in the database
+// */
+// app.use(function(req, res) {
+//   res.status(404).json({
+//     err: null,
+//     msg: '404 Not Found',
+//     data: null
+//   });
+// });
 
-*/
 app.server = http.createServer(app);
-var io = require('socket.io').listen(app.server);
+var io = require('socket.io')(app.server);
+app.io = io;
+console.log(io);
+io.on('connection', (socket) => {
+
+  console.log('user connected');
+
+  socket.on('disconnect', function() {
+      console.log('user disconnected');
+  });
+
+  socket.on('add-message', (message) => {
+      io.emit('message', { type: 'new-message', text: message });
+  });
+});
+
+module.exports = app;
+
+

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SessionComponent } from './session/session.component';
+import { SessionVideoComponent } from './sessionVideoVoice/session.component';
 import { PagesRoutingModule } from './page.routing'
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
 @NgModule({
@@ -9,6 +9,6 @@ import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capt
     PagesRoutingModule,
     RtcMediaCaptureModule
   ],
-  declarations: [SessionComponent]
+  declarations: [SessionVideoComponent]
 })
 export class PageModule { }

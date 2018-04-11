@@ -1,7 +1,8 @@
 var express = require('express'),
   router = express.Router(),
   jwt = require('jsonwebtoken'),
-  authCtrl = require('../controllers/auth.controller');
+  authCtrl = require('../controllers/auth.controller'),
+  sessionCtrl = require('../controllers/session.controller');
 
 var isAuthenticated = function(req, res, next) {
   // Check that the request has the JWT in the authorization header
@@ -43,4 +44,10 @@ var isNotAuthenticated = function(req, res, next) {
 //-----------------------------Authentication Routes-------------------------
 router.post('/auth/register', isNotAuthenticated, authCtrl.register);
 router.post('/auth/login', isNotAuthenticated, authCtrl.login);
+router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
+router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);
+router.post('/session/updateCandidate' , isNotAuthenticated, sessionCtrl.updateCandidate);
+router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sessionCtrl.getCandidatesRTCDes);
+router.get('/session/test',isNotAuthenticated,sessionCtrl.testSession);
+
 module.exports = router;

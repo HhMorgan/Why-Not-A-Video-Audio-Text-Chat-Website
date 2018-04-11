@@ -16,6 +16,9 @@
     "jsonwebtoken": "^8.2.1",
     "moment": "^2.22.0",
     "mongoose": "^5.0.13",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "socket.io": "^2.1.0",
+    "websocket": "^1.0.25",
+    "ws": "^5.1.1"
   }
 }

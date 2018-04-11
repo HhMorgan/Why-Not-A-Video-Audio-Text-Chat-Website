@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   Validations = require('../utils/validations'),
   Encryption = require('../utils/encryption'),
-  EMAIL_REGEX = require('../config').EMAIL_REGEX,
+  EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
   User = mongoose.model('User');
 
 module.exports.register = function(req, res, next) {

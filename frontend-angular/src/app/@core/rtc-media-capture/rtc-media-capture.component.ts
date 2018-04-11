@@ -30,7 +30,6 @@ export class RtcMediaCaptureComponent implements OnInit {
   ngOnInit() {
     if (this.recVideo) {
       this.video = this.recVideo.nativeElement;
-      console.log(this.recVideo);
       if(!this.isRemote)
         this.recVideo.nativeElement.muted = true;
       this.recVideo.nativeElement.controls = false;
@@ -56,13 +55,16 @@ export class RtcMediaCaptureComponent implements OnInit {
 
   public start() {
     // console.log('start recording');
+    console.log(this.mediaSource)
     this.recordedBlobs = [];
     if(this.isRemote) 
       if(this.mediaSource != null){
         this.video.srcObject = this.mediaSource;
         this.mediaRecorder = new window['MediaRecorder'](this.mediaSource, {mimeType: this.format});
-      } else
-        console.log('failed to create media') 
+      } else {
+        console.log('failed to create media')
+      }
+        
     else {
       this._initStream(this.constrains, this._navigator).then((stream) => {
         if (!window['MediaRecorder'].isTypeSupported(this.format)) {
