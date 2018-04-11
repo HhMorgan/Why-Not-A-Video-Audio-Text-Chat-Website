@@ -8,6 +8,23 @@ User = mongoose.model('User');
 moment = require('moment');
 var Binary = require('mongodb').Binary;
 
+module.exports.changeUserStatus = function(req, res, next) {
+     delete req.body.email;
+     console.log(req.body);
+     User.findByIdAndUpdate("5ac1f416224b0305d4e8a7dc",{
+       $set: req.body
+   },{ new: true }).exec (function(err, updatedUser) {
+       if (err) {
+          return next(err);
+        }
+        console.log(updatedUser)
+        res.status(201).json({
+          err: null,
+          msg: 'Online Status Successfully Toggled.',
+          data: updatedUser
+        });
+      });
+   };
 
 module.exports.updateEmail = function(req, res, next) {
   if (!Validations.matchesRegex(req.body.email, EMAIL_REGEX)) {

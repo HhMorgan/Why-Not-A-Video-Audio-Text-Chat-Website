@@ -9,8 +9,23 @@ import { APIData  , User  } from '../../@core/service/models/api.data.structure'
 })
 
 export class ProfileComponent implements OnInit {
+    private user =<User>{};
 
-    constructor() { }
+    constructor(private apiServ:APIService) { }
+
+    changeUserStatus()
+        {
+          if(this.user.onlineStatus){
+            this.user.onlineStatus = false;
+          } else
+            this.user.onlineStatus = true;
+      
+          this.user.email = 't@h.com'
+          this.apiServ.changeUserStatus(this.user).subscribe((apiresponse:APIData)=>
+          {
+            console.log(apiresponse);
+          })
+        }
 
     ngOnInit() {}
 
