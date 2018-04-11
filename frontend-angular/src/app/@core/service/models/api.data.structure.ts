@@ -9,7 +9,7 @@ export interface User {
     password:any,
     role:any,
     username:any,
-    img:any,
+    img:Blob,
 }
 
 export interface Profile {

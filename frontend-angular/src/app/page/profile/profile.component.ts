@@ -40,7 +40,7 @@ this.apiServ.getimage().subscribe((apires : APIData) =>{
    var bikeImage = document.getElementById("profileimg") as HTMLImageElement
    var reader = new FileReader();
    console.log(apires.data);
-   var base64OfPhoto = Buffer.from(apires.data.buffer.data).toString('base64');
+   var base64OfPhoto = Buffer.from((new Buffer(apires.data))).toString('base64');
    bikeImage.src ="data:image/png;base64,"+ base64OfPhoto;
   });
   

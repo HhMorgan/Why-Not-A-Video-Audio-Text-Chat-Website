@@ -69,8 +69,10 @@ export class NavbarComponent implements OnInit {
            var bikeImage = document.getElementById("profileimgnavbar") as HTMLImageElement
            var reader = new FileReader();
            console.log(apires.data);
-           var base64OfPhoto = Buffer.from(apires.data.buffer.data).toString('base64');
+           console.log("testy");
+           var base64OfPhoto = Buffer.from(new Buffer(apires.data)).toString('base64');
            bikeImage.src ="data:image/png;base64,"+ base64OfPhoto;
+          //bikeImage.src=apires.data;
           });
           
         }
@@ -94,7 +96,8 @@ export class NavbarComponent implements OnInit {
         }
     }
     isloggedin(){
-        var isAuth = !(localStorage.getItem('token')=="null")
+        var isAuth = !(localStorage.getItem('token')==null)
+        console.log(localStorage.getItem('token')==null);
         if (isAuth){
             
           
@@ -114,7 +117,7 @@ export class NavbarComponent implements OnInit {
     }
     logout(){
        
-            localStorage.setItem('token',"null");
+            localStorage.clear();
             console.log(localStorage.getItem('token'));
           location.reload();
     }
