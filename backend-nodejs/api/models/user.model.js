@@ -28,6 +28,8 @@ var userSchema = mongoose.Schema({
   },
   img: 
   { type: Buffer },
+  onlineStatus: 
+  { type: Boolean },
   updatedAt: Date
 });
 

@@ -37,6 +37,10 @@ export class APIService {
     return this.http.get<APIData>(this.apiUrl + 'getphoto').catch(this.errorHandler);
   }
 
+  loadStatus(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'loadStatus').catch(this.errorHandler);
+  }
+
   changeUserStatus(user: User): Observable<APIData>
   {
     return this.http.post<APIData>(this.apiUrl + 'auth/changeUserStatus', user).catch(this.errorHandler);

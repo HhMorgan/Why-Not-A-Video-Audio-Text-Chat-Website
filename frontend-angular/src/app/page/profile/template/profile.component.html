@@ -6,7 +6,14 @@
         <div class="container">
             <div class="owner">
                 <div class="avatar">
-                    <img id="profileimg" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                    <label for="file">
+                        l                       
+                                               <input class="custom-file-upload" type="file"
+                                               id="file" style="display:none;" 
+                                             (change)="handleFileInput($event.target.files)">
+                                            <a > <img id ="profileimg" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture"></a>
+                                            </label>
+                        
                 </div>
                 <div class="name" id="name">                       
                        <div id="mydivheader" > <button class="btn btn-outline-default btn-round" (click)="myFunction()"><i class="fa fa-cog"></i> move</button></div>
@@ -23,15 +30,11 @@
             </div>
             <br/>
             <div class="row">
-                <div class="col-md-6 ml-auto mr-auto text-center"  >
-                            <section class="model-13">
-                                <div class="positionCenter">
-                                <div class="checkbox">
-                                  <input type="checkbox" (click)="changeUserStatus()"/>
-                                  <label></label>
-                                </div>
-                            </div>
-                              </section>
+                <div class="col-md-6 ml-auto mr-auto text-center">
+                            <div class="toggle-btn active">
+                                <input id='cb-value' type="checkbox" (click)="changeUserStatus()" checked class="cb-value" />
+                                <span class="round-btn"></span>
+                              </div>
                               </div>
                             </div>
             <div class="nav-tabs-navigation">

@@ -92,6 +92,20 @@ module.exports.getimage = function(req, res) {
    });
 };
 
+module.exports.loadStatus = function(req, res) {
+  User.findById(req.decodedToken.user._id).exec (function(err, User) {
+    if (err) {
+       return next(err);
+     }
+     res.status(201).json({
+       err: null,
+       msg: 'i.',
+       data: User.onlineStatus
+     });
+     //res.end();
+   });
+};
+
 module.exports.uploadimage = function(req, res) {
   User.findByIdAndUpdate(req.decodedToken.user._id,{
     $set: {

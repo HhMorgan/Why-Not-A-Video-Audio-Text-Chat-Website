@@ -14,21 +14,47 @@ export class ProfileComponent implements OnInit {
 
     constructor(private apiServ:APIService) { };
 
-    changeUserStatus()
-    {
-      if(this.user.onlineStatus){
-        this.user.onlineStatus = false;
-      } else
-        this.user.onlineStatus = true;
-  
-      this.user.email = 't@h.com'
+
+
+    changeUserStatus(){
+
+      var elem = document.querySelector('.toggle-btn');
+      var inputValue = (<HTMLInputElement>document.getElementById("cb-value")).checked;
+      if(inputValue && !this.user.onlineStatus){
+        elem.classList.add('active');
+        this.user.onlineStatus=true;
+      }
+      else{
+        elem.classList.remove('active');
+        this.user.onlineStatus=false;
+      }
+
       this.apiServ.changeUserStatus(this.user).subscribe((apiresponse:APIData)=>
       {
         console.log(apiresponse);
       })
     }
 
+    loadStatus()
+    {
+      var elem = document.querySelector('.toggle-btn');
+
+      this.apiServ.loadStatus().subscribe((apiresponse:APIData)=>
+      {
+        if(apiresponse.data)
+      {
+        elem.classList.add('active');
+      }
+      else
+      {
+        elem.classList.remove('active');
+      }
+      })
+
+    }
+
     ngOnInit() {
+        this.loadStatus();
         this.getimage();
    
         this.dragElement(document.getElementById(("name")));
@@ -60,8 +86,6 @@ this.apiServ.getimage().subscribe((apires : APIData) =>{
   });
   
 }
-
-
 
 
 
