@@ -54,7 +54,7 @@ var mongoose = require('mongoose'),
       return res.status(422).json({
         err: null,
         msg:
-          'The speciality entered is not a string/is not valid.',
+        'Speciality:'+req.body.speciality+'/The speciality entered is not a string/is not valid.',
         data: null
       });
     } 
@@ -91,7 +91,8 @@ var mongoose = require('mongoose'),
         return res.status(404).json({ 
           err: null, 
           msg: 
-          'Speciality could not be added', 
+          'Speciality could not be added;'+
+          'either it already exists or u are not an expert or a user', 
           data: null });
       }
       res.status(200).json({
@@ -103,3 +104,30 @@ var mongoose = require('mongoose'),
     });
 
   };
+ 
+
+
+
+
+  module.exports.chooseSlot = function(req,res,next){
+    console.log(req.body);
+    if(req.body==null){
+      return res.status(422).json({
+        err: null,
+        msg: 'date is required',
+        data: null
+    });
+  }else{
+    req.body.expert = "boudi";
+    Slot.create(req.body,function(err,chosenSlot){
+      res.status(201).json({
+        err: null,
+        msg: 'Slot chosen',
+        data: chosenSlot
+      });
+    });
+    
+  }
+}
+  
+  

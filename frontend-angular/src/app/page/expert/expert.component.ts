@@ -11,9 +11,9 @@ import { Observable } from 'rxjs/Observable';
  // providers:[APIService]
 })
 export class ExpertComponent implements OnInit {
-  speciality:'';
-
-  email:'';
+  //speciality='accounting';
+ private speciality;
+  email='habiba@gmail.com';
   requests: any;
   constructor(private apiService:APIService ) { }
 
@@ -27,12 +27,12 @@ export class ExpertComponent implements OnInit {
   //redirected to requests page
  }
   addSpeciality(){
-    console.log("reached");
+    console.log(this.email);
   //this.apiService.addSpeciality().subscribe((apiresponse: APIData)=>{
    if(this.speciality!=null){ //email to be removed and token added
-    this.apiService.addSpeciality({email:this.email},{speciality:this.speciality}).subscribe((apiresponse: APIData)=>{
+    this.apiService.addSpeciality(this.email,this.speciality).subscribe((apiresponse: APIData)=>{
       console.log(apiresponse);
   });
-  }
+ }
 }
 }

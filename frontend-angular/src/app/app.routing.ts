@@ -3,6 +3,8 @@ import { PageModule } from './page/page.module';
 import { SessionComponent } from './page/session/session.component';
 import { RequestComponent } from './page/request/request.component';
 import { ExpertComponent } from './page/expert/expert.component';
+import { SessionVideoComponent } from './page/sessionVideoVoice/session.component';
+
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
@@ -20,4 +22,5 @@ const config: ExtraOptions = {
   exports: [RouterModule],
 })
 export class AppRoutingModule {
+
 }

@@ -7,6 +7,11 @@ var userSchema = mongoose.Schema({
     trim: true,
     lowercase: true
   },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   password: {
     type: String,
     required: true,
@@ -16,6 +21,11 @@ var userSchema = mongoose.Schema({
     type: String,
     required: false,
     default: 'user'
+  },
+  description: {
+    type: String,
+    required: false,
+    // default: 'empty'
   },
   createdAt: {
     type: Date,
@@ -31,8 +41,10 @@ var userSchema = mongoose.Schema({
   //       ref:'Tags'
   //     }
   //   })],
+  img: 
+  { data: Buffer },
   updatedAt: Date
-});
+},{collection: 'Users'});
 
 // Override the transform function of the schema to delete the password before it returns the object
 if (!userSchema.options.toObject) {

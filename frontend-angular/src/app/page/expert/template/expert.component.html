@@ -11,7 +11,9 @@
 <div class="container">
     <h2><a>Expert page-to be edited</a></h2>            
     <button (click)="addSpeciality()">speciality</button>
-    <textarea [(ngModel)]="speciality"></textarea>>
+    <input type="text" [(ngModel)]="speciality" placeholder="speciality" 
+    [ngModelOptions]="{standalone: true}"/>
+    
     
     <button (click)="toRequests()">requests</button>
 </div>

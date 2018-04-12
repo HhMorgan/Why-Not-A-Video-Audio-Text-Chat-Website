@@ -1,7 +1,10 @@
 var express = require('express'),
   router = express.Router(),
   jwt = require('jsonwebtoken'),
-  authCtrl = require('../controllers/auth.controller'),
+
+  authCtrl = require('../controllers/auth.controller');
+  userCtrl = require('../controllers/user.contoller');
+  sessionCtrl = require('../controllers/session.controller');
   expert = require('../controllers/expert.controller');
 
 
@@ -42,11 +45,27 @@ var isNotAuthenticated = function(req, res, next) {
   next();
 };
 
+router.get('/getphoto' ,userCtrl.getimage);
+router.post('/photo' ,userCtrl.uploadimage);
+
 //-----------------------------Authentication Routes-------------------------
-router.post('/auth/register', isNotAuthenticated, authCtrl.register);
-router.post('/auth/login', isNotAuthenticated, authCtrl.login);
+
+router.post('/auth/login', isNotAuthenticated , authCtrl.login);
+router.post('/auth/signup',isNotAuthenticated,authCtrl.signup);
+//---------------------------------------------------------------------------
+
+router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
+router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
+router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
+
 //-----------------------------Expert Routes-------------------------
+router.post('/expert/chooseSlot',expert.chooseSlot);
 router.get('/expert/viewRequest',expert.viewRequests);
 router.post('/expert/addSpeciality',expert.addSpeciality); 
+//-------------------------------------------------------------------
 
+router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
+router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);
+router.post('/session/updateCandidate' , isNotAuthenticated, sessionCtrl.updateCandidate);
+router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sessionCtrl.getCandidatesRTCDes);
 module.exports = router;

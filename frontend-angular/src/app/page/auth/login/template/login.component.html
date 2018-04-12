@@ -1,0 +1,30 @@
+<div class="wrapper">
+    <div class="page-header" style="background-image: url('../assets/img/login-image.jpg');">
+        <div class="filter"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                        <div class="card card-register">
+                            <h3 class="title">Welcome Back</h3>
+                            
+                            <form class="login-form">
+                                <label>Email</label>
+                                <input type="text" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}" autocomplete="username"/>
+                                <label>Password</label>
+                                <input type="password" class="form-control" [(ngModel)]="password" placeholder="password" [ngModelOptions]="{standalone: true}" autocomplete = "current-password"/>
+                                <button (click)="loginClick($event)" class="btn btn-success btn-block">Login</button>
+                              </form>
+                            <div class="forgot">
+                                <a href="#" class="btn btn-link btn-info">Forgot password?</a>
+                                
+                            </div>
+                            <div style="text-align:center">{{loginMessage}}</div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+    </div>
+</div>
+      

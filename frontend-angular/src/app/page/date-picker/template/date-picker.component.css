@@ -1,0 +1,33 @@
+.card {
+
+    position : 
+    relative;
+    
+    align-self: 
+    center;
+    
+    width :75em;
+    
+    height : 
+    18em;
+    
+    background-color: 
+    #8b9fa8;
+    
+    border: 
+    1px solid 
+    black;
+    
+    opacity: 
+    0.8;
+    
+    filter: 
+    alpha(opacity=60);
+
+    
+    
+    }
+ .card :hover   {
+    background-position: 0px;
+
+ }

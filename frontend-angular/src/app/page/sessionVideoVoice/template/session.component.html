@@ -1,0 +1,24 @@
+<p>
+  Session Page works!
+</p>
+
+<hr>
+<h1>{{ userid }}</h1>
+  <div class="media-display">
+    <h2> RtcMedia Local </h2>
+    <rtc-media-recorder [constrains] = "constrains" (startRecording) = "announceStart($event)" 
+    (handleMediaStream) = "handle_Media_Stream($event)" [mediaSource] = "mediaSource_local" 
+    [isRemote] = "isRemote_Local"></rtc-media-recorder>
+    <h2> RtcMedia Remote </h2>
+    <rtc-media-recorder [constrains] = "constrains" (startRecording) = "announceStart($event)" 
+    (handleMediaStream) = "handle_Media_Stream($event)" [mediaSource] = "mediaSource_remote_list[0]" 
+    [isRemote] = "isRemote_Remote"></rtc-media-recorder>
+  </div>
+  <button (click)="switchUser($event)">Switch user</button>
+  <button (click)="joinClick($event)">Join</button>
+  <button (click)="getRemoteDes($event)">getRemoteDes</button>
+  <button (click)="testConnection($event)">call</button>
+  <button (click)="socketjoin($event)">socketjoin</button>
+  <button (click)="socketSend($event)">socketsend</button>
+
+<hr>
