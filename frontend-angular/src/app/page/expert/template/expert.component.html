@@ -10,10 +10,10 @@
 
 <div class="container">
     <h2><a>Expert page-to be edited</a></h2>            
-    <button onclick="addSpeciality()">speciality</button>
-    <textarea></textarea>
+    <button (click)="addSpeciality()">speciality</button>
+    <textarea [(ngModel)]="speciality"></textarea>>
     
-    <button onclick="toRequests()">requests</button>
+    <button (click)="toRequests()">requests</button>
 </div>
 
 </body>

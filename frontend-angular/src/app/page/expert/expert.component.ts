@@ -27,6 +27,7 @@ export class ExpertComponent implements OnInit {
   //redirected to requests page
  }
   addSpeciality(){
+    console.log("reached");
   //this.apiService.addSpeciality().subscribe((apiresponse: APIData)=>{
    if(this.speciality!=null){ //email to be removed and token added
     this.apiService.addSpeciality({email:this.email},{speciality:this.speciality}).subscribe((apiresponse: APIData)=>{

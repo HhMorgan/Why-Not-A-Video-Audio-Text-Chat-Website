@@ -25,6 +25,12 @@ var userSchema = mongoose.Schema({
     type: Array,
     "default":[]
   },
+  // speciality:[new mongoose.Schema(
+  //   {id: 
+  //     {type: mongoose.Schema.Types.ObjectId ,
+  //       ref:'Tags'
+  //     }
+  //   })],
   updatedAt: Date
 });
 
