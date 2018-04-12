@@ -14,10 +14,10 @@ import { VideoViewComponent } from './videoView/videoView.component';
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
   { path: 'login' , component:LoginComponent},
-  { path:'signup',component: SignupComponent},
-  { path:'dashboard',component:DashboardComponent},
+  { path: 'signup' , component: SignupComponent},
+  { path: 'dashboard', component:DashboardComponent},
   { path: 'home' , component:HomeComponent},
-  { path: 'video', component:VideoViewComponent},
+  { path: 'video' , component:VideoViewComponent},
   { path: 'profile' , component:ProfileComponent},
   { path: 'template' , component:TemplateComponent},
   { path: '', pathMatch: 'full', redirectTo: 'home' },

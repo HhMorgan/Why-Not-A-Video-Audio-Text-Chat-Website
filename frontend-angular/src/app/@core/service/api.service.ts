@@ -3,9 +3,9 @@ import 'rxjs/add/observable/throw';
 import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
-import { APIData , Profile , User , FileData } from '../service/models/api.data.structure';
-
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
+import { APIData , Session , CandicateSession , Profile , User , FileData } from '../service/models/api.data.structure';
+
 
 @Injectable()
 export class APIService {
@@ -40,4 +40,18 @@ export class APIService {
     return localStorage.getItem('token');
   }
 
+  addCandidate( sessionData : CandicateSession ): Observable<APIData> {
+    return this.http.post<APIData>( this.apiUrl + 'session/updateCandidate', sessionData)
+    .catch(this.errorHandler);
+  }
+
+  updateSessionCandidates( sessionData : CandicateSession ): Observable<APIData> {
+    return this.http.post<APIData>( this.apiUrl + 'session/updateCandidate', sessionData)
+    .catch(this.errorHandler);
+  }
+
+  getSessionCandidatesRTCDes( session : Session ) {
+    return this.http.post<APIData>( this.apiUrl + 'session/getCandidatesRTCDes/' + session.sessionId , session)
+    .catch(this.errorHandler);
+  }
 }

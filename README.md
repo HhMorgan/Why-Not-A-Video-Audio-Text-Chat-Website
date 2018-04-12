@@ -14,5 +14,5 @@ signup : The signup page<br>
 session : The video/audio call and chat page<br>
 profile : The user profile page<br>
 dashboard : The admin dashboard<br>
-vide : The Video Chat page, it shouldn't be accessed through any means other than the session page<br>
+video : The Video Chat page, it shouldn't be accessed through any means other than the session page<br>
 template : The front end seed elements that are available for use<br>

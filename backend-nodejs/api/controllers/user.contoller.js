@@ -3,7 +3,7 @@ moment = require('moment'),
 jwt = require('jsonwebtoken'),
 Validations = require('../utils/Validations'),
 Encryption = require('../utils/encryption'),
-EMAIL_REGEX = require('../config').EMAIL_REGEX,
+EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
 User = mongoose.model('User');
 moment = require('moment');
 

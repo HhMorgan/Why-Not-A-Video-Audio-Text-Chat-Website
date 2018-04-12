@@ -31,10 +31,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoViewComponent } from './videoView/videoView.component';
-
-
-
-
+import { SessionVideoComponent } from './sessionVideoVoice/session.component';
+import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
 @NgModule({
   imports: [
     NgbModule,
@@ -42,6 +40,7 @@ import { VideoViewComponent } from './videoView/videoView.component';
     CommonModule,
     NouisliderModule,
     PagesRoutingModule,
+    RtcMediaCaptureModule,
     AngularFontAwesomeModule,
     JWBootstrapSwitchModule,
   ],
@@ -62,7 +61,7 @@ import { VideoViewComponent } from './videoView/videoView.component';
     SignupComponent,
     DashboardComponent,
     VideoViewComponent,
- 
+    SessionVideoComponent
   ],
   entryComponents: [NgbdModalContent]
 })

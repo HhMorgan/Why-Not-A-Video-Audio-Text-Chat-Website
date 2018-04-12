@@ -1,9 +1,10 @@
 var express = require('express'),
   router = express.Router(),
   jwt = require('jsonwebtoken'),
+
   authCtrl = require('../controllers/auth.controller');
   userCtrl = require('../controllers/user.contoller');
-
+  sessionCtrl = require('../controllers/session.controller');
 
 var isAuthenticated = function(req, res, next) {
   // Check that the request has the JWT in the authorization header
@@ -43,12 +44,17 @@ var isNotAuthenticated = function(req, res, next) {
 };
 
 //-----------------------------Authentication Routes-------------------------
+router.get('/getphoto' ,userCtrl.getimage);
+router.post('/photo' ,userCtrl.uploadimage);
 router.post('/auth/register', isNotAuthenticated, authCtrl.register);
-router.post('/auth/login',  authCtrl.login); //edited
+router.post('/auth/login', isNotAuthenticated , authCtrl.login);
 router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
 router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
-router.post('/photo' ,userCtrl.uploadimage);
-router.get('/getphoto' ,userCtrl.getimage);
 
+
+router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
+router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);
+router.post('/session/updateCandidate' , isNotAuthenticated, sessionCtrl.updateCandidate);
+router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sessionCtrl.getCandidatesRTCDes);
 module.exports = router;

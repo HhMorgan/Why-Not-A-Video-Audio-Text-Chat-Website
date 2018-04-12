@@ -1,6 +1,6 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { PageModule } from './page/page.module';
-import { SessionComponent } from './page/session/session.component';
+import { SessionVideoComponent } from './page/sessionVideoVoice/session.component';
 
 import { NgModule } from '@angular/core';
 
