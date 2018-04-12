@@ -20,8 +20,6 @@ export class ProfileComponent implements OnInit {
         this.user.onlineStatus = false;
       } else
         this.user.onlineStatus = true;
-  
-      this.user.email = 't@h.com'
       this.apiServ.changeUserStatus(this.user).subscribe((apiresponse:APIData)=>
       {
         console.log(apiresponse);
