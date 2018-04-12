@@ -3,31 +3,43 @@ import { RouterModule, Routes, Router } from '@angular/router';
 
 import { PageComponent } from './page.component';
 
-import { RequestComponent } from './request/request.component';
 import { ExpertComponent } from './expert/expert.component';
 import { HomeComponent } from './home/home.component';
 import { SessionComponent } from './session/session.component';
+import { SlotRequestComponent } from './slotRequest/slotRequest.component';
+
+
 import { LoginComponent } from './auth/login/login.component'
+import { AdminComponent } from './AdminPage/Admin.component'
 import { TemplateComponent } from './template/template.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoViewComponent } from './videoView/videoView.component';
-import { RatingComponent } from './rating/rating.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
+import { RatingComponent } from './rating/rating.component';
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
   { path: 'login' , component:LoginComponent},
   { path: 'signup' , component: SignupComponent},
   { path: 'dashboard', component:DashboardComponent},
+  { path: 'admin', component: AdminComponent },
   { path: 'home' , component:HomeComponent},
   { path: 'video' , component:VideoViewComponent},
-   {path: 'rating', component:RatingComponent},
   { path: 'profile' , component:ProfileComponent},
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
   { path: 'expert', component: ExpertComponent },
+  //{ path: 'session', component: SessionComponent },
+//  { path: 'editProfile', component: ProfileComponent },
+  { path: 'slotRequest', component: SlotRequestComponent },
+  { path: 'rating', component: RatingComponent },
+
+// { path: 'date-picker', component: DatePickerComponent },
+
+//{ path: '', pathMatch: 'full', redirectTo: 'login' },
+
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 

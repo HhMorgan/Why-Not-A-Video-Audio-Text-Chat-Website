@@ -41,10 +41,25 @@ var userSchema = mongoose.Schema({
   //       ref:'Tags'
   //     }
   //   })],
+  
+
+  updatedAt: Date,
+
+  rating: {
+  type : Number,
+  default:5},
+  
+  numberofsessions: {
+    type : Number,
+    default:0
+    
+  },
   img: 
   { data: Buffer },
   updatedAt: Date
 },{collection: 'Users'});
+ 
+
 
 // Override the transform function of the schema to delete the password before it returns the object
 if (!userSchema.options.toObject) {

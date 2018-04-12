@@ -30,9 +30,13 @@ export class LoginComponent implements OnInit {
         }
       },(error: APIData)=>{
         this.loginMessage = error.msg;
+// merge conflict altho insignificant 
+//        console.log(apiresponse.msg);
       })
   } else
     this.loginMessage = 'Username or Password Can not Be Empty ';
   }
+  
+  
 
 }

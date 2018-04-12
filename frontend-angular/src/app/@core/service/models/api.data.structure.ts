@@ -3,25 +3,37 @@ export interface APIData {
     msg: String,
     data;
   }
-export interface Request{
-    user: String;
-    createdAt: String;
-  }
+export interface Tags {
+  _id:String;
+  name: String;
+  status: String;
+  blocked: Boolean;
+}
 
 export interface User {
-    email : any,
-    password : any,
-    role : any,
-    username : any
+    username : any,
+    email:any,
+    password:any,
+    role:any,
+    rating:any,
+    numberofsessions:any
 }
 
 export interface Profile {
     email ,
-    description ,
-    password ,
+    description,
+    password,
+    rating,
     confirmPassword;
 }
 
+export interface Request{
+  _id:String;
+  user: String;
+  createdAt: String;
+  status: String;
+  viewed: boolean;
+}
 export interface FileData {
     file: File
 }
@@ -36,7 +48,6 @@ export interface CandicateSession extends Session {
 }
 
 export interface SlotData{
-    expertName:String;
     slotDate1: String;
     slotTime1: String;
     slotDate2: String;

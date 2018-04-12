@@ -184,3 +184,23 @@ module.exports.uploadimage = function(req, res) {
 };
 
 
+module.exports.updateRating = function(req, res, next) {
+    console.log("hi")
+     console.log(req.body);
+     console.log(req.email);
+     console.log(req.decodedToken);
+    console.log("hi1");
+   
+   
+    User.findByIdAndUpdate( '5ac16eeb4d1c4c67871d7a12',{$set: req.body},{ new: true }).exec (function(err, updatedUser) {
+     console.log("hi2");
+     
+     res.status(201).json({
+       err: null,
+       msg: 'Rating updated successfully.',
+       data: updatedUser
+     });
+   });
+    
+   }
+   

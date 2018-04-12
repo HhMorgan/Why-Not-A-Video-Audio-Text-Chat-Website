@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-pages',
   template: `
-  <p>App Pages works!</p>
+  <ng2-smart-table [settings]="settings"></ng2-smart-table>
   `,
 })
 export class PageComponent {

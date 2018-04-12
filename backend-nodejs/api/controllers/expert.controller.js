@@ -1,3 +1,7 @@
+/* The  controller that handles all the functionality that an expert can do.
+An expert can view the his/her pending slot requests created by another user --> "viewSlotRequests".
+An expert can accept/reject a slot request --> "editSlotRequest".
+*/
 var mongoose = require('mongoose'),
   Request = mongoose.model('Request'),
   User = mongoose.model('User'),
@@ -6,7 +10,10 @@ var mongoose = require('mongoose'),
   moment = require('moment');
 
 
-  module.exports.getRequestsCount = function(req, res, next) {
+
+
+  module.exports.viewSLotRequests = function(req, res, next) {
+    // Finds authenticated user info 
     User.findById(req.decodedToken.user._id).exec(function(err, user) {
       if (err) {
         return next(err);
@@ -16,18 +23,22 @@ var mongoose = require('mongoose'),
           .status(404)
           .json({ err: null, msg: 'User not found.', data: null });
       }
+      // Retrieves email of the logged in expert 
       var email = user.email;
-      
+      /* Requests is found by matching recipient to the expert's email, status should be
+         pending and type is slotRequest.
+       */
       Request.find({
         status: "pending",
-        expert: email
+        recipient: email,
+        type: "slotRequest"
       }).exec(function(err, requests) {
         if (err) {
           return next(err);
         }
         res.status(200).json({
           err: null,
-          msg:' Pending requests count retrieved successfully.'+requests.length,
+          msg:' Pending requests count retrieved successfully.',
           data: requests
         });
       });
@@ -35,18 +46,6 @@ var mongoose = require('mongoose'),
     
   };
 
-  module.exports.viewRequests = function(req, res, next) {
-    Request.find({}).exec(function(err, request) {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).json({
-        err: null,
-        msg:' Pending requests retrieved successfully.',
-        data: request
-      });
-    });
-  };
   //This function is responsible for adding a speciality for the expert,only if it exists in the tag table
   module.exports.addSpeciality = function(req, res, next) {
     var valid = req.body.speciality&&Validations.isString(req.body.speciality);
@@ -107,8 +106,45 @@ var mongoose = require('mongoose'),
  
 
 
-
-
+  
+ 
+ module.exports.editSlotRequest =function(req, res, next) {
+   // checks first that requestId is valid
+    if (!Validations.isObjectId(req.params.requestId)) {
+      return res.status(422).json({
+        err: null,
+        msg: 'requestId parameter must be a valid ObjectId.',
+        data: null
+      });
+    }
+    delete req.body.createdAt;
+    //finds and updates the request
+    Request.findByIdAndUpdate(
+      req.params.requestId,
+      {
+        $set: req.body
+      },
+      { new: true }
+    ).exec(function(err, updatedRequest) {
+      if (err) {
+        return next(err);
+      }
+      if (!updatedRequest) {
+        return res.status(404).json({
+          err: null,
+          msg: 'Request not found.', 
+          data: null 
+        });
+      }
+      res.status(200).json({
+        err: null,
+        msg: 'Request was updated successfully.',
+        data: updatedRequest
+      });
+    });
+  };
+  
+  
   module.exports.chooseSlot = function(req,res,next){
     console.log(req.body);
     if(req.body==null){
