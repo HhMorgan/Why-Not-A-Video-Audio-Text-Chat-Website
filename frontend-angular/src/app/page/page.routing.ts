@@ -5,7 +5,7 @@ import { PageComponent } from './page.component';
 import { HomeComponent } from './home/home.component';
 import { SessionComponent } from './session/session.component';
 import { SlotRequestComponent } from './slotRequest/slotRequest.component';
-import { ratingComponent } from './rating/rating.component';
+
 
 import { LoginComponent } from './auth/login/login.component'
 import { AdminComponent } from './AdminPage/Admin.component'
@@ -15,6 +15,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoViewComponent } from './videoView/videoView.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
+import { RatingComponent } from './rating/rating.component';
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
@@ -30,7 +31,7 @@ const routes: Routes = [
   //{ path: 'session', component: SessionComponent },
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
-  { path: 'rating', component: ratingComponent },
+  { path: 'rating', component: RatingComponent },
 
 // { path: 'date-picker', component: DatePickerComponent },
 

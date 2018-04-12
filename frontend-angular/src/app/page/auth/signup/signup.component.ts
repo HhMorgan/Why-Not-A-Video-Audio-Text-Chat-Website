@@ -25,11 +25,16 @@ export class SignupComponent implements OnInit {
     //    user.username=this.username;
     user.email = this.email;
     user.password = this.password;
+    user.username=this.username;
+    console.log("hello there 0");
     if(this.email != null && this.password != null&& this.passwordConfirmation!=null && this.username!=null){
       if(this.password==this.passwordConfirmation){
+        console.log("hello there 1");
         this._apiService.signup(user).subscribe((apiresponse: APIData)=>{
           this.signupMessage = apiresponse.msg;
+          console.log("hello there 2");
           if( apiresponse.msg.includes('Welcome') ){
+            console.log("hello there 3");
             localStorage.setItem('token', apiresponse.data);
           }
         },(error: APIData)=>{

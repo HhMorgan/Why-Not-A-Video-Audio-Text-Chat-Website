@@ -42,7 +42,6 @@
     "nouislider": "^11.1.0",
     "npm": "^5.8.0",
     "popper.js": "^1.14.3",
-    "amazing-time-picker": "^1.5.3",
     "angular-mat-datepicker": "0.0.2",
     "angular-smart-table": "^2.1.11",
     "rxjs": "^5.5.6",

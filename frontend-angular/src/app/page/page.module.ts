@@ -25,7 +25,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SessionComponent } from './session/session.component';
 import { AdminComponent } from './AdminPage/Admin.component';
-import { ratingComponent } from './rating/rating.component';
+
 import { SlotRequestModule } from './slotRequest/slotRequest.module';
 import { SlotRequestComponent } from './slotRequest/slotRequest.component';
 //import {MatDatepickerModule} from '@angular/material';
@@ -44,6 +44,7 @@ import { VideoViewComponent } from './videoView/videoView.component';
 import { SessionVideoComponent } from './sessionVideoVoice/session.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
 import { DatePickerComponent } from './date-picker/date-picker.component';
+import { RatingComponent } from './rating/rating.component';
 
 
 
@@ -83,7 +84,7 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
     VideoViewComponent,
     SessionVideoComponent,
     SlotRequestComponent, 
-    ratingComponent,
+    RatingComponent,
     DatePickerComponent
   ],
   entryComponents: [NgbdModalContent]
