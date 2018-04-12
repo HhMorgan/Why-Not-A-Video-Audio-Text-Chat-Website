@@ -4,14 +4,17 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , Session , CandicateSession , Profile , User , FileData } from '../service/models/api.data.structure';
-
+import { APIData , SlotData , Session , CandicateSession , Profile , User , FileData } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
   private apiUrl = 'http://localhost:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login','auth/signup'];
   constructor(private http: HttpClient) {}
+
+  public static getToken() : string {
+    return localStorage.getItem('token');
+  }
 
   errorHandler(apiResponse: HttpErrorResponse) {
     return Observable.throw(apiResponse.error);
@@ -39,8 +42,10 @@ export class APIService {
     return this.http.get<APIData>(this.apiUrl + 'getphoto').catch(this.errorHandler);
   }
 
-  public static getToken() : string {
-    return localStorage.getItem('token');
+  chooseSlot(slotData:SlotData): Observable<APIData>{
+    console.log(slotData);
+   return this.http.post<APIData>(this.apiUrl + 'expert/chooseSlot' , slotData).catch(this.errorHandler);
+ 
   }
 
   addCandidate( sessionData : CandicateSession ): Observable<APIData> {

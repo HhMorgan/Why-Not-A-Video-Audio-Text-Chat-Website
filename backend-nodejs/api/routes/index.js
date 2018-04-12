@@ -5,6 +5,8 @@ var express = require('express'),
   authCtrl = require('../controllers/auth.controller');
   userCtrl = require('../controllers/user.contoller');
   sessionCtrl = require('../controllers/session.controller');
+  expert = require('../controllers/expert.controller');
+
 
 var isAuthenticated = function(req, res, next) {
   // Check that the request has the JWT in the authorization header
@@ -43,16 +45,21 @@ var isNotAuthenticated = function(req, res, next) {
   next();
 };
 
-//-----------------------------Authentication Routes-------------------------
 router.get('/getphoto' ,userCtrl.getimage);
 router.post('/photo' ,userCtrl.uploadimage);
 
+//-----------------------------Authentication Routes-------------------------
 router.post('/auth/login', isNotAuthenticated , authCtrl.login);
 router.post('/auth/signup',isNotAuthenticated,authCtrl.signup);
+//---------------------------------------------------------------------------
+
 router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
 router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
 
+//-----------------------------Expert Routes-------------------------
+router.post('/expert/chooseSlot',expert.chooseSlot);
+//-------------------------------------------------------------------
 
 router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
 router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);

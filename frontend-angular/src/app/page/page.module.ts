@@ -14,7 +14,7 @@ import { TypographyComponent } from './components/typography/typography.componen
 import { NucleoiconsComponent } from './components/nucleoicons/nucleoicons.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { BasicelementsComponent } from './components/basicelements/basicelements.component';
-
+import { AmazingTimePickerModule } from 'amazing-time-picker'; // this line you need
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
@@ -34,7 +34,7 @@ import { VideoViewComponent } from './videoView/videoView.component';
 import { SessionVideoComponent } from './sessionVideoVoice/session.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
 import { RatingComponent } from './rating/rating.component';
-
+import { DatePickerComponent } from './date-picker/date-picker.component';
 
 
 
@@ -49,6 +49,7 @@ import { RatingComponent } from './rating/rating.component';
     RtcMediaCaptureModule,
     AngularFontAwesomeModule,
     JWBootstrapSwitchModule,
+    AmazingTimePickerModule
   ],
   declarations: [
     BasicelementsComponent,
@@ -69,6 +70,8 @@ import { RatingComponent } from './rating/rating.component';
     VideoViewComponent,
     SessionVideoComponent,
     RatingComponent,
+    DatePickerComponent,
+ 
   ],
   entryComponents: [NgbdModalContent]
 })

@@ -79,7 +79,7 @@ module.exports.signup = function(req, res, next) {
   if (!valid) {
     return res.status(422).json({
       err: null,
-      msg: 'user (String) , email (String) , and password (String) are required fields.',
+      msg: 'username (String) , email (String) , and password (String) are required fields.',
       data: null
     });
   }
@@ -89,7 +89,6 @@ module.exports.signup = function(req, res, next) {
     if (user == null){
       var password = req.body.password.trim();
       Encryption.hashPassword(password, function(err, hash) {
-        // If an err occurred, call the next middleware in the app.js which is the error handler
         if (err) {
           return next(err);
         }
