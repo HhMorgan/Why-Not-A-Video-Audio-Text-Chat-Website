@@ -56,4 +56,14 @@ export interface SlotData{
     slotTime3: String;
 }
     
+export interface RequestData{
+  
+    sender: String;  
+    recipient: String;
+    status: String;
+    createdAt: String;
+    viewed:Boolean;
+    type: String;
+    
+  }
   

@@ -14,7 +14,7 @@ import { TypographyComponent } from './components/typography/typography.componen
 import { NucleoiconsComponent } from './components/nucleoicons/nucleoicons.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { BasicelementsComponent } from './components/basicelements/basicelements.component';
-import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
+
 import { AmazingTimePickerModule } from 'amazing-time-picker'; // this line you need
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -26,6 +26,9 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SessionComponent } from './session/session.component';
 import { AdminComponent } from './AdminPage/Admin.component';
+
+import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
+import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
 
 import { SlotRequestModule } from './slotRequest/slotRequest.module';
 import { SlotRequestComponent } from './slotRequest/slotRequest.component';
@@ -87,7 +90,8 @@ import { RatingComponent } from './rating/rating.component';
     SlotRequestComponent, 
     RatingComponent,
     DatePickerComponent,
-    viewScheduleComponent
+    viewScheduleComponent,
+    upgradeToExpertComponent
   ],
   entryComponents: [NgbdModalContent]
 })

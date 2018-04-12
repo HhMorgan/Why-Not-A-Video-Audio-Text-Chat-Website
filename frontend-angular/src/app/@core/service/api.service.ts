@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData,Tags , Session ,Request, CandicateSession , Profile , User , FileData } from '../service/models/api.data.structure';
+import { APIData , SlotData,Tags , Session ,Request, CandicateSession , Profile , User , FileData,RequestData } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
@@ -114,6 +114,10 @@ update_Rating(user:User):Observable<APIData>{
     return this.http.get<APIData>(this.apiUrl + 'getExpertSchedule/5ac202a3205bd50e64b47ea9').catch(this.errorHandler);
   }
 
+
+  upgradeToExpert(requestData: RequestData): Observable <APIData>{
+    return this.http.post<Request>(this.apiUrl+ 'user/upgradeToExpert', requestData).catch(this.errorHandler);
+  }
 
 
 }

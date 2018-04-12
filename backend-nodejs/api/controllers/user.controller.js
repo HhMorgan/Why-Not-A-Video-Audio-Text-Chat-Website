@@ -261,4 +261,50 @@ res.status(200).json({
   };
 
 
+  module.exports.upgradeToExpert = function(req, res, next){
+  
+    var valid = req.body.type && Validations.isString(req.body.type) && 
+                req.body.sender && Validations.isString(req.body.sender) &&
+                req.body.recipient && Validations.isString(req.body.recipient) 
+      if (!valid) {
+                  return res.status(422).json({
+                    err: null,
+                    msg:
+                      'The sender, the recipent and the type of the request are required string fields.',
+                    data: null
+                  });
+                }
+      User.findById(req.decodedToken.user._id).exec(function(err, user) {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res
+            .status(404)
+            .json({ err: null, msg: 'User not found.', data: null });
+        }
+
+        delete req.body.createdAt;
+        delete req.body.status;
+        delete req.body.viewed;
+       
+        Request.create(req.body, function(err, request) {
+          if (err) {
+            return next(err);
+          }
+          res.status(201).json({
+            err: null,
+            msg: 'Your request to being an expert has been sent to the admin.',
+            data: request
+          });
+        });
+        
+  
+    });
+  
+  
+
+  }; 
+
+
    
