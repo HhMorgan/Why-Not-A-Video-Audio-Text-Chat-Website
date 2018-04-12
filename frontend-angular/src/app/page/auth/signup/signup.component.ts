@@ -21,7 +21,8 @@ export class SignupComponent implements OnInit {
 
   signupClick(){
     const user = <User>{};
-    user.username=this.username;
+// conflict as username isn't defined in the new schema
+    //    user.username=this.username;
     user.email = this.email;
     user.password = this.password;
     if(this.email != null && this.password != null&& this.passwordConfirmation!=null && this.username!=null){

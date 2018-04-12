@@ -12,14 +12,14 @@ type:String
   },
   slotDate2: {
     type :String,
-    required: false
+    required: true
   },
   slotTime2: {
       type: String
   },
   slotDate3: {
     type :String,
-    required: false
+    required: true
   },
   slotTime3: {
       type: String

@@ -22,9 +22,19 @@ import { NgModule, Component, OnInit, Inject, Renderer, ElementRef, ViewChild} f
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 /* Our Components
 ---------------------------------------------------*/
-import { PagesRoutingModule } from './page.routing';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SessionComponent } from './session/session.component';
+import { AdminComponent } from './AdminPage/Admin.component';
+import { ratingComponent } from './rating/rating.component';
+import { SlotRequestModule } from './slotRequest/slotRequest.module';
+import { SlotRequestComponent } from './slotRequest/slotRequest.component';
+//import {MatDatepickerModule} from '@angular/material';
+//import {MatFormFieldModule} from '@angular/material';
+//import {MatInputModule} from '@angular/material';
+//import { AmazingTimePickerModule } from 'amazing-time-picker'; // this line you need
+
+import { PagesRoutingModule } from './page.routing'
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { LoginComponent } from './auth/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -33,7 +43,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoViewComponent } from './videoView/videoView.component';
 import { SessionVideoComponent } from './sessionVideoVoice/session.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
-import { RatingComponent } from './rating/rating.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 
 
@@ -44,6 +53,8 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
     NgbModule,
     FormsModule,
     CommonModule,
+    Ng2SmartTableModule ,
+    PagesRoutingModule,
     NouisliderModule,
     PagesRoutingModule,
     RtcMediaCaptureModule,
@@ -52,6 +63,8 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
     AmazingTimePickerModule
   ],
   declarations: [
+    
+    AdminComponent,
     BasicelementsComponent,
     ComponentsComponent,
     NavigationComponent,
@@ -69,9 +82,9 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
     DashboardComponent,
     VideoViewComponent,
     SessionVideoComponent,
-    RatingComponent,
-    DatePickerComponent,
- 
+    SlotRequestComponent, 
+    ratingComponent,
+    DatePickerComponent
   ],
   entryComponents: [NgbdModalContent]
 })
