@@ -98,7 +98,7 @@ router.post('/auth/updateRating',userCtrl.updateRating);
 
 router.get('/getExpertSchedule/:userId', userCtrl.getExpertSchedule);
 
-router.post('/user/upgradeToexpert', isAuthenticated, userCtrl.upgradeToExpert);
+router.post('/user/upgradeToexpert',  userCtrl.upgradeToExpert);
 
 module.exports = router;
 
