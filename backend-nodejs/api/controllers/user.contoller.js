@@ -83,7 +83,7 @@ module.exports.getimage = function(req, res) {
     if (err) {
        return next(err);
      }
-     res.status(201).json({
+     return res.status(201).json({
        err: null,
        msg: 'i.',
        data: User.img

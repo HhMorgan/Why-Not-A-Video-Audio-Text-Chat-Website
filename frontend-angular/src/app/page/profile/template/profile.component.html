@@ -6,7 +6,12 @@
         <div class="container">
             <div class="owner">
                 <div class="avatar">
-                    <img id="profileimg" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                    <label for="file">                       
+                        <input class="custom-file-upload" type="file"
+                        id="file" style="display:none;" 
+                      (change)="handleFileInput($event.target.files)">
+                     <a > <img id ="profileimg" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture"></a>
+                    </label>
                 </div>
                 <div class="name" id="name">                       
                        <div id="mydivheader" > <button class="btn btn-outline-default btn-round" (click)="myFunction()"><i class="fa fa-cog"></i> move</button></div>

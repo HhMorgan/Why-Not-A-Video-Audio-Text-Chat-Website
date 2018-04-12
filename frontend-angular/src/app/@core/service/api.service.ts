@@ -9,7 +9,7 @@ import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/h
 @Injectable()
 export class APIService {
   private apiUrl = 'http://localhost:3000/api/';
-  public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login','auth/register'];
+  public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login','auth/register'/*,'getphoto'*/];
   constructor(private http: HttpClient) {}
 
   errorHandler(error: HttpErrorResponse) {
