@@ -1,0 +1,65 @@
+.button{
+    display: inline-block;
+    position: relative;
+    vertical-align: bottom;
+  }
+  .title{
+    font-size: 25px;
+    text-align: center;
+    float           : right;
+    position        : relative;
+    
+  }
+  .card {
+    position  : relative;
+    align-self: center;
+    width          :25em;
+    height         : 21em;
+    background-color: #8b9fa8;
+    border: 1px solid rgb(0, 0, 0);
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+  }
+  .starRating:not(old){
+    position        : relative;
+    display        : inline-block;
+    width          : 16em;
+    height         : 1.5em;
+    overflow       : hidden;
+    vertical-align : bottom;
+   padding-left: 8.5em;
+  }
+  .starRating:not(old) > input{
+    position     : relative;
+    margin-right : -100%;
+    opacity      : 0;
+   
+  }
+  .starRating:not(old) > label{
+   
+    display         : block;
+    float           : right;
+    position        : relative;
+    background      : url('https://upload.wikimedia.org/wikipedia/commons/1/18/Five-pointed_star.svg');
+    background-size : contain;
+   
+  }
+  .starRating:not(old) > label:before{
+    content         : '';
+    display         : block;
+    width           : 1.5em;
+    height          : 1.5em;
+    background      : url('https://upload.wikimedia.org/wikipedia/commons/0/09/Emblem-star.svg');
+    background-size : contain;
+    opacity         : 0;
+    transition      : opacity 0.2s linear;
+   
+  }
+  .starRating:not(old) > label:hover:before,
+  .starRating:not(old) > label:hover ~ label:before,
+  .starRating:not(:hover) > :checked ~ label:before{
+    opacity : 1;
+   
+  } 
+  
+  
