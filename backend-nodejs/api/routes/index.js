@@ -10,6 +10,7 @@
  
 var isAuthenticated = function(req, res, next) {
   // Check that the request has the JWT in the authorization header
+  console.log(req);
   var token = req.headers['authorization'];
   if (!token) {
     return res.status(401).json({
@@ -45,8 +46,6 @@ var isNotAuthenticated = function(req, res, next) {
   next();
 };
 
-router.get('/getphoto' ,userCtrl.getimage);
-router.post('/photo' ,userCtrl.uploadimage);
 
 //-----------------------------Authentication Routes-------------------------
 // another conflict and i don't know which to choose so i commented it
@@ -89,10 +88,14 @@ router.patch('/expert/editSlotRequest/:requestId', isAuthenticated,expert.editSl
 
 
 //router.get('/user/getUserData',user.getUserData);
-router.post('/auth/updateRating',userCtrl.updateRating);
+//router.post('/auth/updateRating',userCtrl.updateRating);
 //router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
 //router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
 //router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
+router.post('/photo',isAuthenticated ,userCtrl.uploadimage);
+router.get('/getphoto', isAuthenticated,userCtrl.getimage);
+router.get('/loadStatus', isAuthenticated,userCtrl.loadStatus);
+router.post('/auth/changeUserStatus',isAuthenticated, userCtrl.changeUserStatus);
 
 module.exports = router;
 

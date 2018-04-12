@@ -6,6 +6,26 @@ Encryption = require('../utils/encryption'),
 EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
 User = mongoose.model('User');
 moment = require('moment');
+var Binary = require('mongodb').Binary;
+var fs = require('fs');
+
+module.exports.changeUserStatus = function(req, res, next) {
+     delete req.body.email;
+     console.log(req.body);
+     User.findByIdAndUpdate(req.decodedToken.user._id,{
+       $set: req.body
+   },{ new: true }).exec (function(err, updatedUser) {
+       if (err) {
+          return next(err);
+        }
+        console.log(updatedUser)
+        res.status(201).json({
+          err: null,
+          msg: 'Online Status Successfully Toggled.',
+          data: updatedUser
+        });
+      });
+   };
 
 module.exports.updateEmail = function(req, res, next) {
   if (!Validations.matchesRegex(req.body.email, EMAIL_REGEX)) {
@@ -56,6 +76,56 @@ module.exports.updateEmail = function(req, res, next) {
   });
 });
 }
+
+
+module.exports.getimage = function(req, res) {
+  User.findById(req.decodedToken.user._id).exec (function(err, User) {
+    if (err) {
+       return next(err);
+     }
+      res.status(201).json({
+       err: null,
+       msg: 'i.',
+       data: User.img
+     });
+     //res.end();
+   });
+};
+
+module.exports.loadStatus = function(req, res) {
+  User.findById(req.decodedToken.user._id).exec (function(err, User) {
+    if (err) {
+       return next(err);
+     }
+     res.status(201).json({
+       err: null,
+       msg: 'i.',
+       data: User.onlineStatus
+     });
+     //res.end();
+   });
+};
+
+module.exports.uploadimage = function(req, res) {
+  User.findByIdAndUpdate(req.decodedToken.user._id,{
+    $set: {
+      img: fs.readFileSync(req.file.path)
+
+    }
+},{ new: true }).exec (function(err, updatedUser) {
+    if (err) {
+       return next(err);
+     }
+     res.status(201).json({
+       err: null,
+       msg: 'image got updated.',
+       data: fs.readFileSync(req.file.path)
+     });
+     //res.end();
+   });
+   console.log(req.file.path);
+console.log(req.file.name);
+};
 
 module.exports.updatePassword = function(req, res, next) {
 
@@ -136,52 +206,10 @@ module.exports.updateDescription = function(req, res, next) {
  
 }
 
-module.exports.getimage = function(req, res) {
-  //mo2ktn lol
-    User.findById('5ac2107b3a8e6955b45b4bed').exec (function(err, User) {
-      if (err) {
-         return next(err);
-       }
-       console.log(User)
-       res.status(201).json({
-         err: null,
-         msg: 'i.',
-         data: User.img
-       });
-     });
-  };
 
-module.exports.uploadimage = function(req, res) {
-  User.findByIdAndUpdate('5ac2107b3a8e6955b45b4bed',{
-    $set: {
-      img: req.file.buffer
-    }
-},{ new: true }).exec (function(err, updatedUser) {
-    if (err) {
-       return next(err);
-     }
-     console.log(updatedUser)
-     res.status(201).json({
-       err: null,
-       msg: 'image got updated.',
-       data: updatedUser.img
-     });
-   });
 
-  /* if (null == null){
-    return res.status(201).json({
-      err: null,
-      msg: 'done.',
-      data: req.file.originalname
-    });
-  } else {
-    res.status(201).json({
-      err: null,
-      msg: 'err',
-      data: User
-    });
-  } */
-};
+
+
 
 
 module.exports.updateRating = function(req, res, next) {
@@ -192,7 +220,7 @@ module.exports.updateRating = function(req, res, next) {
     console.log("hi1");
    
    
-    User.findByIdAndUpdate( '5ac16eeb4d1c4c67871d7a12',{$set: req.body},{ new: true }).exec (function(err, updatedUser) {
+    User.findByIdAndUpdate(req.decodedToken.user._id,{$set: req.body},{ new: true }).exec (function(err, updatedUser) {
      console.log("hi2");
      
      res.status(201).json({
@@ -203,4 +231,5 @@ module.exports.updateRating = function(req, res, next) {
    });
     
    }
+
    

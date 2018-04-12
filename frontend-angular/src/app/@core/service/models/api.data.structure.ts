@@ -16,7 +16,9 @@ export interface User {
     password:any,
     role:any,
     rating:any,
-    numberofsessions:any
+    numberofsessions:any,
+    img:Blob,
+    onlineStatus: Boolean;
 }
 
 export interface Profile {
