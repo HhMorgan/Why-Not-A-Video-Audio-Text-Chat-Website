@@ -33,6 +33,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoViewComponent } from './videoView/videoView.component';
 import { SessionVideoComponent } from './sessionVideoVoice/session.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
+import { RatingComponent } from './rating/rating.component';
+
+
+
+
+
 @NgModule({
   imports: [
     NgbModule,
@@ -61,7 +67,8 @@ import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capt
     SignupComponent,
     DashboardComponent,
     VideoViewComponent,
-    SessionVideoComponent
+    SessionVideoComponent,
+    RatingComponent,
   ],
   entryComponents: [NgbdModalContent]
 })
