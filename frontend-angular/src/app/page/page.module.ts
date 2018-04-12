@@ -91,7 +91,7 @@ import { RatingComponent } from './rating/rating.component';
     RatingComponent,
     DatePickerComponent,
     viewScheduleComponent,
-    //upgradeToExpertComponent
+    upgradeToExpert,
   ],
   entryComponents: [NgbdModalContent]
 })
