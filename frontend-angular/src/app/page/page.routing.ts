@@ -10,6 +10,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoViewComponent } from './videoView/videoView.component';
+import { DatePickerComponent } from './date-picker/date-picker.component';
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path:'video', component:VideoViewComponent},
   { path: 'profile' , component:ProfileComponent},
   { path: 'template' , component:TemplateComponent},
+  { path: 'date-picker' , component:DatePickerComponent},
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 

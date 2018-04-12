@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { APIData , Profile , User,FileData} from '../service/models/api.data.structure';
 
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
+import {SlotData} from './models/api.data.structure';
 
 @Injectable()
 export class APIService {
@@ -36,7 +37,11 @@ export class APIService {
   getimage(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'getphoto').catch(this.errorHandler);
   }
-
+  chooseSlot(slotData:SlotData): Observable<APIData>{
+    console.log(slotData);
+   return this.http.post<SlotData>(this.apiUrl + 'expert/chooseSlot',slotData).catch(this.errorHandler);
+ 
+  }
 
 
   public static getToken() : string {

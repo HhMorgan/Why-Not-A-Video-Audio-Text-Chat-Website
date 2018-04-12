@@ -22,3 +22,14 @@ export interface Profile {
 export interface FileData {
     file: File
   }
+  export interface SlotData{
+    expertName:String;
+    slotDate1: String;
+    slotTime1: String;
+    slotDate2: String;
+    slotTime2: String;
+    slotDate3: String;
+    slotTime3: String;
+  }
+    
+  

@@ -14,7 +14,7 @@ import { TypographyComponent } from './components/typography/typography.componen
 import { NucleoiconsComponent } from './components/nucleoicons/nucleoicons.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { BasicelementsComponent } from './components/basicelements/basicelements.component';
-
+import { AmazingTimePickerModule } from 'amazing-time-picker'; // this line you need
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
@@ -31,6 +31,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoViewComponent } from './videoView/videoView.component';
+import { DatePickerComponent } from './date-picker/date-picker.component';
 
 
 
@@ -44,6 +45,7 @@ import { VideoViewComponent } from './videoView/videoView.component';
     PagesRoutingModule,
     AngularFontAwesomeModule,
     JWBootstrapSwitchModule,
+    AmazingTimePickerModule
   ],
   declarations: [
     BasicelementsComponent,
@@ -62,6 +64,7 @@ import { VideoViewComponent } from './videoView/videoView.component';
     SignupComponent,
     DashboardComponent,
     VideoViewComponent,
+    DatePickerComponent,
  
   ],
   entryComponents: [NgbdModalContent]
