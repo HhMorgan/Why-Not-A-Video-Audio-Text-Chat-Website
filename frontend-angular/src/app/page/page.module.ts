@@ -31,6 +31,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { RatingComponent } from './rating/rating.component';
 
 
 
@@ -61,8 +62,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     HomeComponent,
     ProfileComponent,
     SignupComponent,
-    DashboardComponent
- 
+    DashboardComponent,
+    RatingComponent,
   ],
   entryComponents: [NgbdModalContent]
 })
