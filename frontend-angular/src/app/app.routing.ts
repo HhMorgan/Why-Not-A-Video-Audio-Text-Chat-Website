@@ -2,7 +2,7 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { PageModule } from './page/page.module';
 import { SessionVideoComponent } from './page/sessionVideoVoice/session.component';
 import { SessionComponent } from './page/session/session.component';
-import { ratingComponent } from './page/rating/rating.component';
+import { RatingComponent } from './page/rating/rating.component';
 import { LoginComponent } from './page/auth/login/login.component'
 import { SlotRequestComponent } from './page/slotRequest/slotRequest.component';
 
