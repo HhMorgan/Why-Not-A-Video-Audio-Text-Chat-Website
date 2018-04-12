@@ -28,9 +28,8 @@ var userSchema = mongoose.Schema({
   },
   img: 
   { type: Buffer },
-  onlineStatus: 
-  { type: Boolean },
-  updatedAt: Date
+  updatedAt: Date,
+  onlineStatus:{type:Boolean}
 });
 
 // Override the transform function of the schema to delete the password before it returns the object

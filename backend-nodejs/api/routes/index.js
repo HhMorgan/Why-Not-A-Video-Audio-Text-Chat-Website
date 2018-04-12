@@ -7,6 +7,7 @@ var express = require('express'),
 
 var isAuthenticated = function(req, res, next) {
   // Check that the request has the JWT in the authorization header
+  console.log(req);
   var token = req.headers['authorization'];
   if (!token) {
     return res.status(401).json({

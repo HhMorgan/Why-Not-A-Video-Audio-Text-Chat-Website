@@ -83,6 +83,8 @@ this.apiServ.getimage().subscribe((apires : APIData) =>{
    console.log(apires.data);
    var base64OfPhoto = Buffer.from((new Buffer(apires.data))).toString('base64');
    bikeImage.src ="data:image/png;base64,"+ base64OfPhoto;
+  },(err) =>{
+    console.log(err);
   });
   
 }
