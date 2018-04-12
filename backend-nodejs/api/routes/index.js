@@ -48,6 +48,7 @@ router.get('/getphoto' ,userCtrl.getimage);
 router.post('/photo' ,userCtrl.uploadimage);
 router.post('/auth/register', isNotAuthenticated, authCtrl.register);
 router.post('/auth/login', isNotAuthenticated , authCtrl.login);
+router.post('/auth/signup',isNotAuthenticated,authCtrl.signup);
 router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
 router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);

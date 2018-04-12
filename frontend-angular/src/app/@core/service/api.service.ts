@@ -10,7 +10,7 @@ import { APIData , Session , CandicateSession , Profile , User , FileData } from
 @Injectable()
 export class APIService {
   private apiUrl = 'http://localhost:3000/api/';
-  public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login','auth/register'];
+  public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login','auth/signup'];
   constructor(private http: HttpClient) {}
 
   errorHandler(apiResponse: HttpErrorResponse) {
@@ -19,6 +19,9 @@ export class APIService {
 
   login(user:User):Observable<APIData>{
     return this.http.post<APIData>(this.apiUrl + 'auth/login', user).catch(this.errorHandler);
+  }
+  signup(user:User):Observable<APIData>{
+    return this.http.post<APIData>(this.apiUrl + 'auth/signup', user).catch(this.errorHandler);
   }
 
   update_Email(profile:Profile):Observable<APIData>{
