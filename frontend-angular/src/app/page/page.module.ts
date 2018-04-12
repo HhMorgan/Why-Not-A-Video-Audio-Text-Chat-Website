@@ -28,7 +28,7 @@ import { SessionComponent } from './session/session.component';
 import { AdminComponent } from './AdminPage/Admin.component';
 
 import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
-import { upgradeToExpert } from './upgradeToExpert/upgradeToExpert.component';
+import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
 
 import { SlotRequestModule } from './slotRequest/slotRequest.module';
 import { SlotRequestComponent } from './slotRequest/slotRequest.component';
@@ -91,7 +91,7 @@ import { RatingComponent } from './rating/rating.component';
     RatingComponent,
     DatePickerComponent,
     viewScheduleComponent,
-    upgradeToExpert,
+    upgradeToExpertComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

@@ -12,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class viewScheduleComponent implements OnInit {
 
+
   requests: any;
   constructor(private apiService:APIService ) { }
 
@@ -21,6 +22,6 @@ export class viewScheduleComponent implements OnInit {
       this.requests = response.data;
     });
   }
- 
+
   
 }

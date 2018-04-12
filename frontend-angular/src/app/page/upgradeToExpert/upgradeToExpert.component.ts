@@ -10,14 +10,13 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./template/upgradeToExpert.component.css'],
  // providers:[APIService]
 })
-export class upgradeToExpert implements OnInit {
+export class upgradeToExpertComponent implements OnInit {
 
   private requestStatus;
   requests: any;
   constructor(private apiService:APIService ) { }
 
-  ngOnInit() {
-   }
+  ngOnInit() {}
 
 
 

@@ -17,7 +17,7 @@ import { VideoViewComponent } from './videoView/videoView.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
 import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
-import { upgradeToExpert } from './upgradeToExpert/upgradeToExpert.component';
+import {  upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
   { path: 'viewSchedule', component: viewScheduleComponent },
-  { path: 'upgradeToExpert', component: upgradeToExpert },
+  { path: 'upgradeToExpert', component: upgradeToExpertComponent },
   //{ path: 'session', component: SessionComponent },
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
