@@ -203,4 +203,62 @@ module.exports.updateRating = function(req, res, next) {
    });
     
    }
+
+
+   
+  module.exports.getExpertSchedule = function(req, res, next) {
+   /* if (!Validations.isObjectId(req.params.userId)) {
+      return res.status(422).json({
+        err: null,
+        msg: 'user parameter must be a valid ObjectId.',
+        data: null
+      });
+    }  */
+      User.findById('5acfbca64530cc18b838c8a9').exec(function(err, user) {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res
+            .status(404)
+            .json({ err: null, msg: 'User not found.', data: null });
+        }
+    
+        var schedule = user.schedule;
+        if (!schedule) {
+          return res
+            .status(404)
+            .json({ err: null, msg: 'Schedule not found.', data: null });
+        }
+    
+  
+        res.status(200).json({
+          err: null,
+          msg: 'Schedule retrieved successfully.',
+          data: schedule
+        });
+      });
+    
+  
+      
+// dummy data for testing to display a schedule 
+
+/*
+const schedule = ["Monday: 12pm - 1pm",
+"Tuesday: 2pm - 3pm",
+,
+"Friday: 9am - 10am",
+"Sunday: 10pm - 11pm"];
+
+
+res.status(200).json({
+  err: null,
+  msg: 'Schedule retrieved successfully.',
+  data: schedule
+});
+
+*/
+  };
+
+
    

@@ -35,6 +35,11 @@ var userSchema = mongoose.Schema({
 
   updatedAt: Date,
 
+  schedule: {
+    type: [String],
+    required: true,
+  },
+
   rating: {
   type : Number,
   default:5},

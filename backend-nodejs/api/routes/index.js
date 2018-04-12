@@ -77,8 +77,6 @@ router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandida
 router.post('/session/updateCandidate' , isNotAuthenticated, sessionCtrl.updateCandidate);
 router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sessionCtrl.getCandidatesRTCDes);
 
-
-
 //router.get('/user/getUserData', user.getUserData);
 
 
@@ -93,6 +91,12 @@ router.post('/auth/updateRating',userCtrl.updateRating);
 //router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
 //router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
 //router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
+
+//-----------------------------User Routes-------------------------
+
+//router.get('/getExpertSchedule/:userId', isAuthenticated, userCtrl.getExpertSchedule);
+
+router.get('/getExpertSchedule/:userId', userCtrl.getExpertSchedule);
 
 module.exports = router;
 

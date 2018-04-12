@@ -108,4 +108,12 @@ update_Rating(user:User):Observable<APIData>{
     return this.http.post<APIData>( this.apiUrl + 'session/getCandidatesRTCDes/' + session.sessionId , session)
     .catch(this.errorHandler);
   }
+
+
+  viewSchedule(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'getExpertSchedule/5ac202a3205bd50e64b47ea9').catch(this.errorHandler);
+  }
+
+
+
 }
