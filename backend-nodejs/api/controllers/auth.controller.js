@@ -17,8 +17,7 @@ module.exports.login = function(req, res, next) {
   if (!valid) {
     return res.status(422).json({
       err: null,
-      msg:
-        'email(String and of valid email format) and password(String) are required fields.',
+      msg: 'email(String and of valid email format) and password(String) are required fields.',
       data: null
     });
   }

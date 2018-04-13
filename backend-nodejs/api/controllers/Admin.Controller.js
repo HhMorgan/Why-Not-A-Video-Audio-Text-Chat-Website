@@ -1,9 +1,7 @@
 var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   Validations = require('../utils/validations'),
-  Encryption = require('../utils/encryption'),
-  EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
-  Tags = mongoose.model('Tags');
+  Tags = mongoose.model('Tag');
  
   module.exports.AddTag = function(req, res, next) {
     var valid =

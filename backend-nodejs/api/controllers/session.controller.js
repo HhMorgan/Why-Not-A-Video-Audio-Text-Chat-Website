@@ -1,7 +1,6 @@
 var mongoose = require('mongoose'),
 jwt = require('jsonwebtoken'),
 Validations = require('../utils/validations'),
-Encryption = require('../utils/encryption'),
 User = mongoose.model('User'),
 Session = mongoose.model('Session');
 

@@ -1,16 +1,14 @@
  var express = require('express'),
   router = express.Router(),
   jwt = require('jsonwebtoken'),
-
-  authCtrl = require('../controllers/auth.controller');
-  userCtrl = require('../controllers/user.controller');
-  sessionCtrl = require('../controllers/session.controller');
-  expert = require('../controllers/expert.controller');
+  authCtrl = require('../controllers/auth.controller'),
+  userCtrl = require('../controllers/user.controller'),
+  sessionCtrl = require('../controllers/session.controller'),
+  expert = require('../controllers/expert.controller'),
   AdminController = require('../controllers/Admin.Controller');
  
 var isAuthenticated = function(req, res, next) {
   // Check that the request has the JWT in the authorization header
-  console.log(req);
   var token = req.headers['authorization'];
   if (!token) {
     return res.status(401).json({
@@ -46,31 +44,25 @@ var isNotAuthenticated = function(req, res, next) {
   next();
 };
 
-
-//-----------------------------Authentication Routes-------------------------
-// another conflict and i don't know which to choose so i commented it
-//router.post('/auth/login', isNotAuthenticated , authCtrl.login);
-router.post('/auth/signup',isNotAuthenticated,authCtrl.signup);
-//---------------------------------------------------------------------------
-
 // all the methods below are all routers where we specify a route for api.service to 
 // call and what method in the backend to go with the specefied route 
 //-----------------------------Authentication Routes-------------------------
-router.post('/auth/login',  authCtrl.login);
+router.post('/auth/login' , isNotAuthenticated , authCtrl.login);
+router.post('/auth/signup' , isNotAuthenticated , authCtrl.signup);
 //----------------------------Admin Routes ----------------------------------
 router.post('/Tags/AddTag', AdminController.AddTag);
 router.get('/Tags/getTags' , AdminController.getTags);
 router.patch('/Tag/editTags/:tagId', AdminController.editTag);
 router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
-//----------------------------auth Routes -----------------------------------
-router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
-router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
-router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
+//----------------------------User Routes -----------------------------------
+router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
+router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);
+router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescription);
 
-//-----------------------------Expert Routes-------------------------
+//-----------------------------User Role Expert Routes-------------------------
 router.post('/expert/chooseSlot',expert.chooseSlot);
-router.get('/expert/viewSlotRequest', isAuthenticated,expert.viewSLotRequests);
-router.patch('/expert/editSlotRequest/:requestId', isAuthenticated,expert.editSlotRequest);
+router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests);
+router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
 router.post('/expert/addSpeciality',expert.addSpeciality); 
 //-------------------------------------------------------------------
 
@@ -79,18 +71,6 @@ router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandida
 router.post('/session/updateCandidate' , isNotAuthenticated, sessionCtrl.updateCandidate);
 router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sessionCtrl.getCandidatesRTCDes);
 
-
-
-//router.get('/user/getUserData', user.getUserData);
-
-
-
-
-//router.get('/user/getUserData',user.getUserData);
-//router.post('/auth/updateRating',userCtrl.updateRating);
-//router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
-//router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
-//router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
 router.post('/photo',isAuthenticated ,userCtrl.uploadimage);
 router.get('/getphoto', isAuthenticated,userCtrl.getimage);
 router.get('/loadStatus', isAuthenticated,userCtrl.loadStatus);

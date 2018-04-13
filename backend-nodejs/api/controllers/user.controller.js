@@ -107,24 +107,22 @@ module.exports.loadStatus = function(req, res) {
 };
 
 module.exports.uploadimage = function(req, res) {
+ console.log(req.file);
   User.findByIdAndUpdate(req.decodedToken.user._id,{
     $set: {
-      img: fs.readFileSync(req.file.path)
-
+      img: req.file.buffer
     }
 },{ new: true }).exec (function(err, updatedUser) {
     if (err) {
        return next(err);
      }
-     res.status(201).json({
+     return res.status(201).json({
        err: null,
        msg: 'image got updated.',
-       data: fs.readFileSync(req.file.path)
+       data: updatedUser.img
      });
-     //res.end();
    });
-   console.log(req.file.path);
-console.log(req.file.name);
+  
 };
 
 module.exports.updatePassword = function(req, res, next) {
@@ -180,7 +178,6 @@ module.exports.updatePassword = function(req, res, next) {
     });
   });
   
-
 }
 
 module.exports.updateDescription = function(req, res, next) {
@@ -202,15 +199,8 @@ module.exports.updateDescription = function(req, res, next) {
     msg: 'Description updated successfully.',
     data: updatedUser
   });
-});
- 
+}); 
 }
-
-
-
-
-
-
 
 module.exports.updateRating = function(req, res, next) {
     console.log("hi")
@@ -222,7 +212,7 @@ module.exports.updateRating = function(req, res, next) {
    
     User.findByIdAndUpdate(req.decodedToken.user._id,{$set: req.body},{ new: true }).exec (function(err, updatedUser) {
      console.log("hi2");
-     
+     delete updatedUser.img;
      res.status(201).json({
        err: null,
        msg: 'Rating updated successfully.',

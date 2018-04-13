@@ -2,11 +2,11 @@ var mongoose = require('mongoose'),
   config = require('../config/appconfig'),
   dbUrl = config.MONGO_URI;
   
+  require('../models/Tags.model');
   require('../models/user.model');
   require('../models/Tags.model');
   require('../models/request.model');
   require('../models/session.model');
-  require('../models/Tags.model');
   require('../models/request.model');
   require('../models/slot.model');
 

@@ -13,9 +13,6 @@ export class ProfileComponent implements OnInit {
     private user =<User>{};
 
     constructor(private apiServ:APIService) { };
-
-
-
     changeUserStatus(){
 
       var elem = document.querySelector('.toggle-btn');
@@ -56,7 +53,6 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {
         this.loadStatus();
         this.getimage();
-   
         this.dragElement(document.getElementById(("name")));
     }
 
@@ -74,26 +70,25 @@ export class ProfileComponent implements OnInit {
         console.log(error);
       });
       this.getimage();
-}
-getimage(){
-this.apiServ.getimage().subscribe((apires : APIData) =>{
-
-   var bikeImage = document.getElementById("profileimg") as HTMLImageElement
-   var reader = new FileReader();
-   console.log(apires);
-   console.log(apires.data);
-   console.log("testy");
-   var base64OfPhoto = Buffer.from((new Buffer(apires.data.buffer))).toString('base64');
-   bikeImage.src ="data:image/png;base64,"+ base64OfPhoto;
-  },(err) =>{
-    console.log(err);
-  });
+  }
   
-}
+  getimage(){
+    this.apiServ.getimage().subscribe((apires : APIData) =>{
+      var profileimg = document.getElementById("profileimg") as HTMLImageElement
+      var reader : FileReader = new FileReader();
+      reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer.data)] , {type: 'image/png'}))
+      reader.addEventListener("load", function () {
+        console.log(reader.result)
+        profileimg.src = reader.result;
+      }, false);
+      },(err) =>{
+      console.log(err);
+    });
+  }
 
-
-
-   myFunction() {
+  
+  
+  myFunction() {
      if (this.editable==true){
        console.log('work');
        var root = document.getElementById("name"); // '0' to assign the first (and only `HTML` tag)

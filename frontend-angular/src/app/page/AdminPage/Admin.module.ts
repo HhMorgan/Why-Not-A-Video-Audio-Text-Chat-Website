@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AdminComponent } from './Admin.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-
 @NgModule({
   imports: [
     Ng2SmartTableModule,
@@ -12,9 +11,5 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
   AdminComponent,
   ],
 })
-
-
-
-
 
 export class AdminModule { }
