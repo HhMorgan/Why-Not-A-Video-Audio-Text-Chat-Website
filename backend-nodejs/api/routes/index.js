@@ -82,7 +82,7 @@ router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
 
 router.get('/getExpertSchedule/:userId', userCtrl.getExpertSchedule);
 
-router.post('/user/upgradeToexpert',  userCtrl.upgradeToExpert);
+router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert);
 
 module.exports = router;
 

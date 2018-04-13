@@ -4,7 +4,8 @@ jwt = require('jsonwebtoken'),
 Validations = require('../utils/Validations'),
 Encryption = require('../utils/encryption'),
 EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
-User = mongoose.model('User');
+User = mongoose.model('User'),
+Request = mongoose.model('Request'),
 moment = require('moment');
 var Binary = require('mongodb').Binary;
 var fs = require('fs');
@@ -279,9 +280,8 @@ res.status(200).json({
 
 
   module.exports.upgradeToExpert = function(req, res, next){
-  
     var valid = req.body.type && Validations.isString(req.body.type) && 
-                req.body.sender && Validations.isString(req.body.sender) &&
+                // req.body.sender && Validations.isString(req.body.sender) &&
                 req.body.recipient && Validations.isString(req.body.recipient) 
       if (!valid) {
                   return res.status(422).json({
@@ -300,10 +300,10 @@ res.status(200).json({
             .status(404)
             .json({ err: null, msg: 'User not found.', data: null });
         }
-
-        delete req.body.createdAt;
-        delete req.body.status;
-        delete req.body.viewed;
+      req.body.sender = req.decodedToken.user.username;
+      delete req.body.createdAt;
+      delete req.body.status;
+      delete req.body.viewed;
        
       Request.create(req.body, function(err, request) {
         if (err) {
