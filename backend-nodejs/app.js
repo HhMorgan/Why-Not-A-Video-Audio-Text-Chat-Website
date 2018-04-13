@@ -29,7 +29,6 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'DELETE']
   })
 );
-app.use(multer({storage: multer.memoryStorage() /*, limits: { fileSize: 500000000 }*/ }).single('file'));
 
 // Middleware to protect the server against common known security vulnerabilities
 app.use(helmet());
@@ -42,12 +41,18 @@ app.use(compression());
   "application/x-www-form-urlencoded" as json and make it available as a key on the req 
   object as req.body
 */
-app.use(bodyParser.json());
+
+app.use(bodyParser.json(
+  {limit: '5mb'}
+));
+
 app.use(
   bodyParser.urlencoded({
-    extended: false
+    extended: true
   })
 );
+
+app.use(multer({storage: multer.memoryStorage() /*, limits: { fileSize: 500000000 }*/ }).single('file'));
 
 /*
   Middleware to match the request with one of our defined routes to do a certain function,

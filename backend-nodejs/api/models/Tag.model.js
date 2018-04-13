@@ -7,18 +7,19 @@ var TagsSchema = mongoose.Schema({
     unique: true,
     trim: true
   },
+  
   status: {
     type: String,
     trim: true,
     default: 'Pending'
   },
+  
   blocked: {
     type:  Boolean,
     default: false
   },
-},{
-    collection: 'Tags'
-}
+
+}, { collection: 'Tags' }
 );
 
-module.exports = mongoose.model('Tags', TagsSchema);
+module.exports = mongoose.model('Tag', TagsSchema);

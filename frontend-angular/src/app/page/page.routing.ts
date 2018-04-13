@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 
 import { PageComponent } from './page.component';
+
+import { ExpertComponent } from './expert/expert.component';
 import { HomeComponent } from './home/home.component';
 import { SessionComponent } from './session/session.component';
 import { SlotRequestComponent } from './slotRequest/slotRequest.component';
@@ -32,15 +34,10 @@ const routes: Routes = [
   { path: 'date-picker' , component:DatePickerComponent},
   { path: 'viewSchedule', component: viewScheduleComponent },
   { path: 'upgradeToExpert', component: upgradeToExpertComponent },
-  //{ path: 'session', component: SessionComponent },
+  { path: 'expert', component: ExpertComponent },
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
-
-// { path: 'date-picker', component: DatePickerComponent },
-
-//{ path: '', pathMatch: 'full', redirectTo: 'login' },
-
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 

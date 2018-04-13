@@ -17,8 +17,7 @@ module.exports.login = function(req, res, next) {
   if (!valid) {
     return res.status(422).json({
       err: null,
-      msg:
-        'email(String and of valid email format) and password(String) are required fields.',
+      msg: 'email(String and of valid email format) and password(String) are required fields.',
       data: null
     });
   }
@@ -52,6 +51,7 @@ module.exports.login = function(req, res, next) {
           .json({ err: null, msg: 'Password is incorrect.', data: null });
       }
       // Create a JWT and put in it the user object from the database
+      console.log(user);
       var token = jwt.sign(
         {
           // user.toObject transorms the document to a json object without the password as we can't leak sensitive info to the frontend
@@ -62,6 +62,7 @@ module.exports.login = function(req, res, next) {
           expiresIn: '12h'
         }
       );
+      console.log(user);
       res.status(200).json({ err: null, msg: 'Welcome', data: token });
     });
   });

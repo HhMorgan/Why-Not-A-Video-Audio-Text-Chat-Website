@@ -32,11 +32,8 @@ import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.comp
 
 import { SlotRequestModule } from './slotRequest/slotRequest.module';
 import { SlotRequestComponent } from './slotRequest/slotRequest.component';
-//import {MatDatepickerModule} from '@angular/material';
-//import {MatFormFieldModule} from '@angular/material';
-//import {MatInputModule} from '@angular/material';
-//import { AmazingTimePickerModule } from 'amazing-time-picker'; // this line you need
-
+import { ExpertComponent } from './expert/expert.component';
+import { ExpertModule } from './expert/expert.module';
 import { PagesRoutingModule } from './page.routing'
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { LoginComponent } from './auth/login/login.component';
@@ -92,9 +89,10 @@ import { RatingComponent } from './rating/rating.component';
     DatePickerComponent,
     viewScheduleComponent,
     upgradeToExpertComponent,
+    ExpertComponent,
   ],
   entryComponents: [NgbdModalContent]
 })
 export class PageModule { 
-  
+
 }

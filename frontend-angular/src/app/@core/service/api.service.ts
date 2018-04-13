@@ -18,32 +18,31 @@ export class APIService {
 
   errorHandler(apiResponse: HttpErrorResponse) {
     return Observable.throw(apiResponse.error);
-  // another merge conflict so i chose 1 and commented the other  
-  // errorHandler(error: HttpErrorResponse) {
-  //   console.log(error.message);
-  //   return Observable.throw(error.message || "Server Error");
   }
+
  // all the methods here are used to link between the frontend and the backend by
  // using the url of the local host + url of the method that is created in the index
   getTags(): Observable<APIData> {
      return this.http.get<APIData>(this.apiUrl + 'Tags/getTags').catch(this.errorHandler);
-   }
+  }
 
   
-  signup(user:User):Observable<APIData>{
+  signup(user:User):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'auth/signup', user).catch(this.errorHandler);
   }
 
   
-    AddTag(Tags:Tags): Observable<APIData>{
-    return this.http.post<Tags>('http://localhost:3000/api/'+ 'Tags/AddTag', Tags).catch(this.errorHandler);
+  AddTag(Tags:Tags): Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'Tags/AddTag', Tags).catch(this.errorHandler);
   }
-  editTag(Tags:Tags):Observable<APIData>{
-    return this.http.patch<Tags>(this.apiUrl + '/Tag/editTags/'+Tags._id,Tags)
+
+  editTag(Tags:Tags):Observable<APIData> {
+    return this.http.patch<APIData>(this.apiUrl + '/Tag/editTags/'+Tags._id,Tags)
     .catch(this.errorHandler);
   }
-  deleteTags(Tags:Tags):Observable<APIData>{
-    return this.http.delete<Tags>('http://localhost:3000/api/'+ '/Tags/deleteTags/'+Tags._id)
+
+  deleteTags(Tags:Tags):Observable<APIData> {
+    return this.http.delete<APIData>(this.apiUrl + '/Tags/deleteTags/'+Tags._id)
     .catch(this.errorHandler);
   }
 
@@ -51,32 +50,26 @@ export class APIService {
     return this.http.get<APIData>(this.apiUrl + 'expert/viewSLotRequest').catch(this.errorHandler);
 
   }
- 
- 
- editSlotRequest(request: Request): Observable<APIData> {
-  return this.http.patch<APIData>(this.apiUrl+'expert/editSlotRequest/'+request._id,request).catch(this.errorHandler);
- }
+  
+  editSlotRequest(request: Request): Observable<APIData> {
+    return this.http.patch<APIData>(this.apiUrl + 'expert/editSlotRequest/'+request._id,request).catch(this.errorHandler);
+  }
 
-  /*getUserData(): Observable<APIData> {
-   return this.http.get<APIData>(this.apiUrl + 'user/getUserData').catch(this.errorHandler);
-}*/
+  getUserData(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'user/getUserData').catch(this.errorHandler);
+  }
+  
+  login(user:User):Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'auth/login', user).catch(this.errorHandler);
+  }
+  
+  update_Email(profile:Profile):Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'auth/updateEmail', profile).catch(this.errorHandler);
+  }
 
-login(user:User):Observable<APIData>{
-  return this.http.post<User>(this.apiUrl + 'auth/login', user)
-  .catch(this.errorHandler);
-}
-
-update_Email(profile:Profile):Observable<APIData>{
-  console.log(profile.email)
-  return this.http.post<Profile>(this.apiUrl + 'auth/updateEmail', profile)
-  .catch(this.errorHandler);
-}
-
-update_Rating(user:User):Observable<APIData>{
-  console.log('cbxjklvbfd');
-  return this.http.post<User>(this.apiUrl + 'auth/updateRating', user)
-  .catch(this.errorHandler);
-}
+  update_Rating(user:User):Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'user/updateRating', user).catch(this.errorHandler);
+  }
 
   postFile(fileData: FileData): Observable<APIData> {
     const formData: FormData = new FormData();
@@ -99,6 +92,14 @@ update_Rating(user:User):Observable<APIData>{
     .catch(this.errorHandler);
   }
 
+  loadStatus(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'loadStatus').catch(this.errorHandler);
+  }
+
+  changeUserStatus(user: User): Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'auth/changeUserStatus', user).catch(this.errorHandler);
+  };
+
   updateSessionCandidates( sessionData : CandicateSession ): Observable<APIData> {
     return this.http.post<APIData>( this.apiUrl + 'session/updateCandidate', sessionData)
     .catch(this.errorHandler);
@@ -109,15 +110,16 @@ update_Rating(user:User):Observable<APIData>{
     .catch(this.errorHandler);
   }
 
-
   viewSchedule(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'getExpertSchedule/5ac202a3205bd50e64b47ea9').catch(this.errorHandler);
   }
 
-
-  upgradeToExpert(requestData: RequestData): Observable <APIData>{
-    return this.http.post<Request>(this.apiUrl+ 'user/upgradeToExpert', requestData).catch(this.errorHandler);
+  upgradeToExpert(requestData: RequestData): Observable <APIData> {
+    return this.http.post<APIData>(this.apiUrl+ 'user/upgradeToExpert', requestData).catch(this.errorHandler);
   }
 
-
+  addSpeciality(speciality): Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'expert/addSpeciality',{speciality:speciality})
+    .catch(this.errorHandler);
+  }
 }

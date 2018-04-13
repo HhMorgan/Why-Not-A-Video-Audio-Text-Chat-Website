@@ -2,7 +2,8 @@ export interface APIData {
     err,
     msg: String,
     data;
-  }
+}
+
 export interface Tags {
   _id:String;
   name: String;
@@ -16,7 +17,9 @@ export interface User {
     password:any,
     role:any,
     rating:any,
-    numberofsessions:any
+    numberofsessions:any,
+    img:Blob,
+    onlineStatus: Boolean;
 }
 
 export interface Profile {
@@ -34,6 +37,7 @@ export interface Request{
   status: String;
   viewed: boolean;
 }
+
 export interface FileData {
     file: File
 }
@@ -57,13 +61,11 @@ export interface SlotData{
 }
     
 export interface RequestData{
-  
     sender: String;  
     recipient: String;
     status: String;
     createdAt: String;
     viewed:Boolean;
-    type: String;
-    
+    type: String;   
   }
   
