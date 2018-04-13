@@ -5,7 +5,7 @@ Validations = require('../utils/Validations'),
 Encryption = require('../utils/encryption'),
 EMAIL_REGEX = require('../config').EMAIL_REGEX,
 User = mongoose.model('User');
-Tag = mongoose.model('Tags'),
+Tag = mongoose.model('Tag'),
 
 moment = require('moment');
 var Binary = require('mongodb').Binary;

@@ -2,10 +2,11 @@ var mongoose = require('mongoose'),
   config = require('../config'),
   dbUrl = config.MONGO_URI;
   
+  require('../models/Tag.model');
   require('../models/user.model');
   require('../models/request.model');
   require('../models/slot.model');
-  require('../models/Tags.model');
+  
 
 
 // CAPTURE APP TERMINATION / RESTART EVENTS

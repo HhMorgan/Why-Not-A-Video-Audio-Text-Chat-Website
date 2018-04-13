@@ -37,7 +37,14 @@ export class APIService {
     return this.http.get<APIData>(this.apiUrl + 'getphoto').catch(this.errorHandler);
   }
 
-
+  addSpeciality(speciality): Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'expert/addSpeciality',{speciality:speciality})
+    .catch(this.errorHandler);
+  }
+  editSpeciality(speciality): Observable<APIData> {
+    return this.http.delete<APIData>(this.apiUrl + 'expert/editSpeciality',speciality)
+    .catch(this.errorHandler);
+  }
 
   public static getToken() : string {
     return localStorage.getItem('token');
