@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../@core/service/api.service';
-import { APIData  , User ,FileData } from '../../@core/service/models/api.data.structure'
+import { APIData  , User ,FileData , OfferedSlots} from '../../@core/service/models/api.data.structure'
 import {Buffer} from 'buffer';
 
 @Component({
@@ -49,8 +49,14 @@ export class ProfileComponent implements OnInit {
       })
 
     }
-
+    requests: any; //Omar
     ngOnInit() {
+
+      this.apiServ.getOfferedSlots().subscribe((response: APIData)=>{ //Omar
+        console.log(response);                                         //Omar
+        this.requests = response.data;                                 //Omar
+      });
+
         this.loadStatus();
         this.getimage();
         this.dragElement(document.getElementById(("name")));

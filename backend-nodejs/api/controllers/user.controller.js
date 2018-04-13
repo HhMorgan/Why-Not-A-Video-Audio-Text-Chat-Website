@@ -6,9 +6,11 @@ Encryption = require('../utils/encryption'),
 EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
 User = mongoose.model('User'),
 Request = mongoose.model('Request'),
+OfferedSlot = mongoose.model('OfferedSlot'),
 moment = require('moment');
 var Binary = require('mongodb').Binary;
 var fs = require('fs');
+
 
 module.exports.changeUserStatus = function(req, res, next) {
      delete req.body.email;
@@ -319,4 +321,44 @@ res.status(200).json({
 }; 
 
 
-   
+module.exports.getOfferedSlots = function(req, res, next) {
+  OfferedSlot.find({user_email : req.decodedToken.user.email}).exec(function(err, OfferedSlotsTable) {
+    if (err) {
+      return next(err);
+    }
+    if (!OfferedSlotsTable) {
+      return res
+        .status(404)
+        .json({ err: null, msg: 'You are still not offered any slots', data: null });
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'Here are your offered appointments',
+      data: OfferedSlotsTable
+    });
+  });
+};
+
+
+
+module.exports.reserveSlot = function(req, res, next) {
+
+
+OfferedSlot.findOneAndUpdate(   
+  { $and: [ { user_email: req.decodedToken.user.email }, { expert_email: req.body.expert_email } ] }, {$set:{status:req.body.status}},function(err, updatedTable)
+ {
+  if (err) {
+    return next(err);       
+  }
+  if (!updatedTable) {
+    return res
+      .status(404)
+      .json({ err: null, msg: 'Record not found.', data: null });
+  }
+  res.status(200).json({
+    err: null,
+    msg: 'Successfully reserved/declined slot.',
+    data: updatedTable
+  });
+});
+};

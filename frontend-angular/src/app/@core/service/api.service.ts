@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData,Tags , Session ,Request, CandicateSession , Profile , User , FileData,RequestData } from '../service/models/api.data.structure';
+import { APIData , SlotData,Tags , Session ,Request, CandicateSession , Profile , User , FileData,RequestData,OfferedSlots } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
@@ -122,4 +122,13 @@ export class APIService {
     return this.http.post<APIData>(this.apiUrl + 'expert/addSpeciality',{speciality:speciality})
     .catch(this.errorHandler);
   }
+
+  getOfferedSlots(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'user/getOfferedSlots').catch(this.errorHandler);
+  }
+  reserve(offeredSlots:OfferedSlots): Observable<APIData> {
+    return this.http.post<OfferedSlots>(this.apiUrl + 'user/reserveSlot',offeredSlots).catch(this.errorHandler);
+  }
+
+
 }

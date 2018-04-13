@@ -69,3 +69,9 @@ export interface RequestData{
     type: String;   
   }
   
+  export interface OfferedSlots{
+    user_email: String;  
+    expert_email: String;
+    slots: [String];
+    status: String;
+  }

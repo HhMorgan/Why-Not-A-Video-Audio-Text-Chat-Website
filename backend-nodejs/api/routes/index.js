@@ -84,6 +84,13 @@ router.get('/getExpertSchedule/:userId', userCtrl.getExpertSchedule);
 
 router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert);
 
+//to get offered slots:
+router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
+//to choose slot
+router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
+
+
+
 module.exports = router;
 
 
