@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
   Request = mongoose.model('Request'),
   User = mongoose.model('User'),
   Tag = mongoose.model('Tag'),
+  Slot = mongoose.model('ReservedSlot'),
   Validations = require('../utils/validations'),
   moment = require('moment');
 
@@ -159,5 +160,46 @@ module.exports.addSpeciality = function(req, res, next) {
     
   }
 }
-  
-  
+
+
+module.exports.editSpeciality= function(req, res, next) {
+  Tag.findOne({
+    name : { $eq : req.body.speciality } , 
+    status : { $eq : 'Accepted' } , 
+    blocked : { $eq : false}
+  },function(err,tag){
+    if (err){
+      return next(err);
+    }
+    if (!tag) {
+      return res.status(404).json({ 
+         err: null, 
+         msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
+         data: null 
+        });
+    }
+    User.findOneAndUpdate({ 
+      _id : { $eq : req.decodedToken.user._id} , role :{$eq: 'expert'},
+      speciality: { $eq: tag._id }
+    },{ $pull: { speciality: tag._id } }, { new : true } , function (err, updateduser) {
+        if (err) {
+          return next(err);
+        }
+        if (!updateduser) {
+          return res.status(404).json({ 
+            err: null , 
+            msg: 'Speciality could not be removed u are not an expert or a user', 
+            data: null 
+          });
+        }
+    return res.status(201).json({
+      err: null,
+      msg: 'Speciality removed',
+      data: updateduser.speciality
+    });
+  });
+
+
+    });
+    
+      }

@@ -21,6 +21,12 @@ export interface User {
     img:Blob,
     onlineStatus: Boolean;
 }
+export interface Tags {
+    _id:String;
+    name: String;
+    status: String;
+    blocked: Boolean;
+  }
 
 export interface Profile {
     email ,

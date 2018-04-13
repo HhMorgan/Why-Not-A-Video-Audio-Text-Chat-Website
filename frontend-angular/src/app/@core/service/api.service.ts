@@ -100,6 +100,11 @@ export class APIService {
     return this.http.post<APIData>(this.apiUrl + 'auth/changeUserStatus', user).catch(this.errorHandler);
   };
 
+  editSpeciality(speciality): Observable<APIData> {
+    return this.http.delete<APIData>(this.apiUrl + 'expert/editSpeciality',speciality)
+    .catch(this.errorHandler);
+  }
+
   updateSessionCandidates( sessionData : CandicateSession ): Observable<APIData> {
     return this.http.post<APIData>( this.apiUrl + 'session/updateCandidate', sessionData)
     .catch(this.errorHandler);
