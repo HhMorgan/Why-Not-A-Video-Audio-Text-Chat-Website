@@ -1,14 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
-
-import { PageComponent } from './page.component';
-
 import { ExpertComponent } from './expert/expert.component';
 import { HomeComponent } from './home/home.component';
 import { SessionComponent } from './session/session.component';
 import { SlotRequestComponent } from './slotRequest/slotRequest.component';
-
-
 import { LoginComponent } from './auth/login/login.component'
 import { AdminComponent } from './AdminPage/Admin.component'
 import { TemplateComponent } from './template/template.component';
@@ -19,7 +14,7 @@ import { VideoViewComponent } from './videoView/videoView.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
 import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
-import {  upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
+import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },

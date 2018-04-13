@@ -64,21 +64,23 @@ export class ProfileComponent implements OnInit {
     this.fileToUpload = files.item(0);
     let fy:FileData ={file:files.item(0)};
     this.apiServ.postFile(fy).subscribe(data => {
-
       // do something, if upload success
+      this.getimage();
       }, error => {
         console.log(error);
       });
-      this.getimage();
+      
   }
   
   getimage(){
     this.apiServ.getimage().subscribe((apires : APIData) =>{
       var profileimg = document.getElementById("profileimg") as HTMLImageElement
+      var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
       var reader : FileReader = new FileReader();
       reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer.data)] , {type: 'image/png'}))
       reader.addEventListener("load", function () {
         profileimg.src = reader.result;
+        navbarimg.src = reader.result;
       }, false);
       },(err) =>{
       console.log(err);

@@ -5,7 +5,7 @@ import 'rxjs/add/operator/filter';
 import { DOCUMENT } from '@angular/platform-browser';
 import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import { NavbarComponent } from './page/shared/navbar/navbar.component';
-import{ AppRoutingModule }from './app.routing';
+import { AppRoutingModule } from './app.routing';
 @Component({
   selector: 'app-root',
   template: `
@@ -21,7 +21,6 @@ export class AppComponent {
   @ViewChild(NavbarComponent) navbar: NavbarComponent;
   
   constructor( private renderer : Renderer, private router: Router, @Inject(DOCUMENT,) private document: any, private element : ElementRef, public location: Location) {}
-  
   
   ngOnInit() {
     console.log(document.location.href);

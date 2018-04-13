@@ -23,9 +23,7 @@ module.exports.login = function(req, res, next) {
   }
 
   // Find the user with this email from the database
-  User.findOne({
-    email: req.body.email.trim().toLowerCase()
-  }).exec(function(err, user) {
+  User.findOne( { email: req.body.email.trim().toLowerCase() } , { _id : 1 , username : 1 , email : 1 , password : 1 } ).exec(function(err, user) {
     if (err) {
       return next(err);
     }
@@ -52,17 +50,17 @@ module.exports.login = function(req, res, next) {
       }
       // Create a JWT and put in it the user object from the database
       console.log(user);
+
       var token = jwt.sign(
         {
           // user.toObject transorms the document to a json object without the password as we can't leak sensitive info to the frontend
-          user: user.toObject()
+          user: user
         },
         req.app.get('secret'),
         {
           expiresIn: '12h'
         }
       );
-      console.log(user);
       res.status(200).json({ err: null, msg: 'Welcome', data: token });
     });
   });
