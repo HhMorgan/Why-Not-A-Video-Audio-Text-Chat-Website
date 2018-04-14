@@ -49,6 +49,8 @@ export class ProfileComponent implements OnInit {
       })
 
     }
+    private slot; //Omar
+    private expert;
     requests: any; //Omar
     ngOnInit() {
 
@@ -61,6 +63,33 @@ export class ProfileComponent implements OnInit {
         this.getimage();
         this.dragElement(document.getElementById(("name")));
     }
+
+    chooseSlot(){ 
+            
+            const offered = <OfferedSlots>{};
+            
+            offered.expert_email = this.expert;
+            offered.status = this.slot;
+            
+            if(this.expert != null && this.slot!=null ){
+            
+            this.apiServ.reserve(offered).subscribe((apiresponse: APIData)=>{
+            
+            //this.tagMessage = apiresponse.msg;
+            
+            console.log(apiresponse.msg);
+            
+            },(error: APIData)=>{
+            
+            
+            console.log(error.msg);
+            
+            })
+            
+            } else
+            console.log('hii');;
+            console.log();
+           } 
 
     fileToUpload: File = null;
     editable: boolean = true; // intially just for testing
