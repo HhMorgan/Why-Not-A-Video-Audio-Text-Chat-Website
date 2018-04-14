@@ -3,6 +3,8 @@ import { ProfileComponent } from '../profile/profile.component';
 import { APIService } from '../../@core/service/api.service';
 import { APIData, User } from '../../@core/service/models/api.data.structure';
 import { SessionService } from '../../@core/service/session.service';
+declare var jquery:any;
+import * as $ from 'jquery';
 @Component({
   selector: 'app-session',
   templateUrl: './template/session.component.html',
@@ -15,13 +17,15 @@ export class SessionComponent implements OnInit {
   value='';
   private chatArea;
   searchValue:string = '';
+  messageRecieved:string='';
+  htmlVariable: string = '<p>Hello. hoooo How are you today?</p>';
   
   private chatMessage;
  
   constructor(private _apiService:APIService,private sessionService : SessionService) { }
   
   ngOnInit() {
-    
+   
   }
   userChatChange(val : any){
     this.reciever=val;
@@ -68,6 +72,7 @@ public socketjoin(){
       this.socketSend();
     var js = JSON.parse(test);
     console.log(js);
+    this.messageRecieved=js.message;
     flag = false;
   });
   // JSON.stringify(

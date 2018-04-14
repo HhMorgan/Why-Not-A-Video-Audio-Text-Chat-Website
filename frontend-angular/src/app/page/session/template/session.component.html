@@ -44,18 +44,17 @@
                                   </div>
                                   <form>
                                       <div class="chatWindow" id="chatWindowScroll">
-                                      <div id="chatMessage" class="container">
-                                          <img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;">
-                                          <p>Hello. How are you today?</p>
-                                          
-                                        </div>
+                                      <!--<div id="chatMessage" class="container"><img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;"><p>Hello. How are you today?</p></div>
                                         
                                         <div id="chatMessage" class="container darker">
                                           <img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="Avatar" class="right" style="width:100%;">
                                           <p>Hey! I'm fine. Thanks for asking!</p>
                                           
+                                        </div>-->
+                                        <div  id="chatMessage" class="container" >
+                                            <img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;">
+                                            <div [innerHtml]="htmlVariable"></div>
                                         </div>
-                                        
                                         <div id="chatMessage" class="container">
                                           <img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;">
                                           <p>Sweet! So, what do you wanna do today?</p>
