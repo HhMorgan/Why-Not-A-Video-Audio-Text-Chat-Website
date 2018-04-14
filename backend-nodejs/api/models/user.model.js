@@ -33,6 +33,10 @@ var userSchema = mongoose.Schema( {
     required: false,
     // default: 'empty'
   },
+  
+  createdTags: {
+    type: [String]
+  },
 
   createdAt: {
     type: Date,

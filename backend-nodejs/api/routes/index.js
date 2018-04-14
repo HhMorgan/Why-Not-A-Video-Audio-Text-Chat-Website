@@ -88,4 +88,6 @@ router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
 //to choose slot
 router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
 
+router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
+
 module.exports = router;

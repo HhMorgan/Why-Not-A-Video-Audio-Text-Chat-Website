@@ -323,3 +323,16 @@ module.exports.reserveSlot = function(req, res, next) {
     });
   });
 };
+
+module.exports.viewSuggestedExperts = function(req, res, next) {
+  User.find({"createdTags": req.params.tagName, "role" : "expert"}).exec(function(err, User) {
+  if (err) {
+    return next(err);
+  }   
+  res.status(200).json({
+    err: null,
+    msg: 'Experts retrieved successfully.',
+    data: User
+  });
+});
+};
