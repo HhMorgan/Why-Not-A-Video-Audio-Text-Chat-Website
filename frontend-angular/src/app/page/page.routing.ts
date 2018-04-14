@@ -15,6 +15,7 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
 import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
 import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
+import { ExpertsListComponent } from './expertsList/expertsList.component';
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'expertsList', component: ExpertsListComponent },
 ];
 
 @NgModule({
