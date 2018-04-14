@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var fs = require('fs');
-var userSchema = mongoose.Schema({
+var userSchema = mongoose.Schema( {
 
   username: {
     type: String,
@@ -65,14 +65,12 @@ var userSchema = mongoose.Schema({
 
   img: { 
     data: Buffer , 
-    default : fs.readFileSync('./images/default-Profile-Pic.png')
-  },
+    contentType: String ,
+  } ,
   
   updatedAt: Date
 
-}
-,{ collection: 'Users' }
-);
+},{ collection: 'Users' } );
 // Override the transform function of the schema to delete the password before it returns the object
 if (!userSchema.options.toObject) {
   userSchema.options.toObject = {};

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+  fs = require('fs'),
   jwt = require('jsonwebtoken'),
   Validations = require('../utils/validations'),
   Encryption = require('../utils/encryption'),
@@ -49,8 +50,6 @@ module.exports.login = function(req, res, next) {
           .json({ err: null, msg: 'Password is incorrect.', data: null });
       }
       // Create a JWT and put in it the user object from the database
-      console.log(user);
-
       var token = jwt.sign(
         {
           // user.toObject transorms the document to a json object without the password as we can't leak sensitive info to the frontend
@@ -92,17 +91,28 @@ module.exports.signup = function(req, res, next) {
           return next(err);
         }
         req.body.password = hash;
+        /*---------------------------------------------------*/ // Temp For Now
+        req.body.img = {};
+        req.body.img.contentType = 'image/png';
+        req.body.img.data = fs.readFileSync('./images/default-Profile-Pic.png');
+        /*---------------------------------------------------*/ 
+        console.log(req.body.img);
         User.create(req.body, function(err, newUser) {
           if (err) {
             return next(err);
           }
-          res.status(201).json({
+          return res.status(201).json({
             err: null,
             msg: 'Registration successful, you can now login to your account.',
-            data: newUser.toObject()
+            data: newUser
           });
         });
       });
-}
+    } else
+      return res.status(209).json({
+        err: null,
+        msg: 'Registration Failed',
+        data: null
+      })
   })
 };

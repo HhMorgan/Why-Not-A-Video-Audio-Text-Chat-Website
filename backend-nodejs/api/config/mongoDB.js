@@ -4,7 +4,6 @@ var mongoose = require('mongoose'),
   
   require('../models/Tag.model');
   require('../models/user.model');
-  require('../models/Tag.model');
   require('../models/request.model');
   require('../models/session.model');
   require('../models/request.model');

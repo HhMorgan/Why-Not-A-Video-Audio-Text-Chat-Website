@@ -63,19 +63,18 @@ export class NavbarComponent implements OnInit {
             return false;
         }
     }
+    
     getimage(){
         this.apiServ.getimage().subscribe((apires : APIData) =>{
-        
-           var bikeImage = document.getElementById("profileimgnavbar") as HTMLImageElement
+           var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
            var reader = new FileReader();
-           console.log(apires.data);
-           console.log("testy");
-           var base64OfPhoto = Buffer.from(new Buffer(apires.data.buffer)).toString('base64');
-           bikeImage.src ="data:image/png;base64,"+ base64OfPhoto;
-          //bikeImage.src=apires.data;
-          });
-          
-        }
+           reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer)] , {type: apires.data.contentType}))
+           reader.addEventListener("load", function () {
+             navbarimg.src = reader.result;
+           }, false);
+        });      
+    }
+
     isLogin() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
 

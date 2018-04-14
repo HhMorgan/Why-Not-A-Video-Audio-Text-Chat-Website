@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData,Tags , Session ,Request, CandicateSession , Profile , User , FileData,RequestData,OfferedSlots } from '../service/models/api.data.structure';
+import { APIData , SlotData , Tags , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
@@ -48,7 +48,6 @@ export class APIService {
 
   getSlotRequests(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'expert/viewSLotRequest').catch(this.errorHandler);
-
   }
   
   editSlotRequest(request: Request): Observable<APIData> {

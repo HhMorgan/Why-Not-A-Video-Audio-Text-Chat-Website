@@ -10,7 +10,7 @@ Schema consists of:
    type ------->  type of request {slot request,upgrade request}.
 */ 
 var mongoose = require('mongoose');
-var requestSchema = mongoose.Schema({
+var requestSchema = mongoose.Schema( {
   sender: {                                 
     type: String,
     required: true,
@@ -37,8 +37,6 @@ var requestSchema = mongoose.Schema({
     required :true
   }
   
-},{collection: 'Requests'}
-);
-
+},{ collection: 'Requests' } );
 
 mongoose.model('Request', requestSchema);

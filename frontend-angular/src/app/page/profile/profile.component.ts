@@ -83,7 +83,7 @@ export class ProfileComponent implements OnInit {
       var profileimg = document.getElementById("profileimg") as HTMLImageElement
       var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
       var reader : FileReader = new FileReader();
-      reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer.data)] , {type: 'image/png'}))
+      reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer)] , {type: apires.data.contentType}))
       reader.addEventListener("load", function () {
         profileimg.src = reader.result;
         navbarimg.src = reader.result;
