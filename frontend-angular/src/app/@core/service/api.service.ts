@@ -26,6 +26,9 @@ export class APIService {
      return this.http.get<APIData>(this.apiUrl + 'Tags/getTags').catch(this.errorHandler);
   }
 
+  getUsers(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'getUsers').catch(this.errorHandler);
+ }
   
   signup(user:User):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'auth/signup', user).catch(this.errorHandler);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminRatingComponent } from '../components/admin-rating/admin-rating.component';
 declare var jquery:any;
 import * as $ from 'jquery';
 

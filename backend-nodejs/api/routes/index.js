@@ -54,6 +54,7 @@ router.post('/Tags/AddTag', AdminController.AddTag);
 router.get('/Tags/getTags' , AdminController.getTags);
 router.patch('/Tag/editTags/:tagId', AdminController.editTag);
 router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
+router.get('/getUsers',isAuthenticated, AdminController.getUsers); // nvm ana dump shghalh 5las 
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);

@@ -46,7 +46,7 @@ import { SessionVideoComponent } from './sessionVideoVoice/session.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
-
+import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
 
 
 
@@ -91,6 +91,7 @@ import { RatingComponent } from './rating/rating.component';
     viewScheduleComponent,
     upgradeToExpertComponent,
     ExpertComponent,
+    AdminRatingComponent
   ],
   entryComponents: [NgbdModalContent]
 })
