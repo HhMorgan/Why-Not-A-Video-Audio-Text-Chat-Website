@@ -54,6 +54,9 @@ router.post('/Tags/AddTag', AdminController.AddTag);
 router.get('/Tags/getTags' , AdminController.getTags);
 router.patch('/Tag/editTags/:tagId', AdminController.editTag);
 router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
+router.patch('/User/blockUser/:userId', AdminController.blockUser);
+router.patch('/User/downgradeExpert/:userId', AdminController.downgradeExpertToUser);
+router.get('/User/getUsers',AdminController.getUsers);
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);

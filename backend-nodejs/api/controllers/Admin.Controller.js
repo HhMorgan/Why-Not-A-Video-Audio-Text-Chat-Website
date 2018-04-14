@@ -123,3 +123,84 @@ module.exports.deleteTags = function(req, res, next) {
   });
 };
 
+module.exports.blockUser = function(req, res, next) {
+  console.log(req);
+  console.log(res);
+  console.log(next);
+  if (!Validations.isObjectId(req.params.userId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'userId parameter must be a valid ObjectId.',
+      data: null
+    });
+  }
+  
+  Users.findByIdAndUpdate(
+    req.params.userId,
+    {
+      $set: {blocked: true}
+    },
+    { new: true }
+  ).exec(function(err, blockeduser) {
+    if (err) {
+      return next(err);
+    }
+    if (!blockeduser) {
+      return res
+        .status(404)
+        .json({ err: null, msg: 'User not found.', data: null });
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'User was blocked successfully.',
+      data: blockeduser
+    });
+  });
+};
+
+module.exports.downgradeExpertToUser = function(req, res, next) {
+  if (!Validations.isObjectId(req.params.userId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'userId parameter must be a valid ObjectId.',
+      data: null
+    });
+  }
+  
+  Users.findByIdAndUpdate(
+    req.params.userId,
+    {
+      $set: {role: 'regular'}
+    },
+    { new: true }
+  ).exec(function(err, blockeduser) {
+    if (err) {
+      return next(err);
+    }
+    if (!blockeduser) {
+      return res
+        .status(404)
+        .json({ err: null, msg: 'User not found.', data: null });
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'User was downgraded successfully.',
+      data: blockeduser
+    });
+  });
+};
+
+module.exports.getUsers = function(req, res, next) {
+  Users.find({}).exec(function(err, user) {
+    if (err) {
+      
+      return next(err);
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'Users retrieved successfully.',
+      data: user
+    });
+  });
+};
+

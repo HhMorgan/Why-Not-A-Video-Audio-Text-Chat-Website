@@ -134,5 +134,19 @@ export class APIService {
     return this.http.post<OfferedSlots>(this.apiUrl + 'user/reserveSlot',offeredSlots).catch(this.errorHandler);
   }
 
+  getUsers(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'User/getUsers').catch(this.errorHandler);
+  }
+
+
+  blockUser(Users:User):Observable<APIData>{
+    return this.http.patch<APIData>(this.apiUrl + '/User/blockUser/'+Users._id,Users)
+    .catch(this.errorHandler);
+  }
+  downgradeExpert(Users:User):Observable<APIData>{
+    return this.http.patch<APIData>(this.apiUrl + '/User/downgradeExpert/'+Users._id,Users)
+    .catch(this.errorHandler);
+  }
+
 
 }
