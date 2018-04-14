@@ -67,7 +67,9 @@
                                             
                                           </div>
                                         </div>
-                                      <textarea rows="3" placeholder="Start chatting here..."></textarea>
+                                      <textarea rows="3" [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}" #msgInput (keydown.enter)="onEnter(msgInput.value);" (blur)="update(msgInput.value);" placeholder="Start chatting here..."></textarea>
+                                      <button (click)="switchUser()">switch</button>
+                                      <button (click)="socketjoin()">join</button>
                                       <div class="row">
                                           
                                       </div>

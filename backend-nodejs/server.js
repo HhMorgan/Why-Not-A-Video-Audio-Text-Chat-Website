@@ -8,9 +8,9 @@ const options = {
       cert: fs.readFileSync(config.CERT_Path)
     };
 const bodyParser = require('body-parser');
-const https = require('https').Server(options,app);
+const http = require('http').Server(app);
 var cors = require('cors');
-const io = require('socket.io')(https);
+const io = require('socket.io')(http);
 
 app.use(
       cors({
@@ -64,7 +64,26 @@ io.on('connection', function(connection) {
             } 
 				
             break; 
+            case "message": 
+            console.log("message : ", data.message); 
+            var conn = users[data.name];
+            //if anyone is logged in with this username then refuse 
+            if(users[data.name]) { 
+
+               sendTo(conn, { 
+                  type: "message",
+                  message : data.message
+               }); 
+            } else { 
+               //save user connection on the server 
+               //var conn = users[data.name];
+               sendTo(connection, { 
+                  type: "message", 
+                  message: "the user has disconnected" 
+               }); 
+            } 
 				
+            break; 
          case "offer": 
             //for ex. UserA wants to call UserB 
             console.log("Sending offer to: ", data.name); 
@@ -168,6 +187,6 @@ function sendTo(connection, message) {
 
 // var server = http.createServer(app);
 
-https.listen(5000, () => {
+http.listen(5000, () => {
       console.log('Server started on port 5000');
   });
