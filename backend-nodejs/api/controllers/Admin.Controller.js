@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   Validations = require('../utils/validations'),
   Tags = mongoose.model('Tag');
+  User = mongoose.model('User');
  
   module.exports.AddTag = function(req, res, next) {
     var valid =
@@ -119,6 +120,83 @@ module.exports.deleteTags = function(req, res, next) {
       err: null,
       msg: 'Tag was deleted successfully.',
       data: deletedTags
+    });
+  });
+};
+
+module.exports.blockUser = function(req, res, next) {
+  if (!Validations.isObjectId(req.params.userId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'userId parameter must be a valid ObjectId.',
+      data: null
+    });
+  }
+  
+  User.findByIdAndUpdate(
+    req.params.userId,
+    {
+      $set: {blocked: true}
+    },
+    { new: true }
+  ).exec(function(err, blockeduser) {
+    if (err) {
+      return next(err);
+    }
+    if (!blockeduser) {
+      return res
+        .status(404)
+        .json({ err: null, msg: 'User not found.', data: null });
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'User was blocked successfully.',
+      data: blockeduser
+    });
+  });
+};
+
+module.exports.downgradeExpertToUser = function(req, res, next) {
+  if (!Validations.isObjectId(req.params.userId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'userId parameter must be a valid ObjectId.',
+      data: null
+    });
+  }
+  
+  User.findByIdAndUpdate(
+    req.params.userId,
+    {
+      $set: {role: 'regular'}
+    },
+    { new: true }
+  ).exec(function(err, blockeduser) {
+    if (err) {
+      return next(err);
+    }
+    if (!blockeduser) {
+      return res
+        .status(404)
+        .json({ err: null, msg: 'User not found.', data: null });
+    }
+    res.status(200).json({
+      err: null ,
+      msg: 'User was downgraded successfully.',
+      data: { _id : blockeduser._id , username : blockeduser.username , role : blockeduser.role }
+    });
+  });
+};
+
+module.exports.getUsers = function(req, res, next) {
+  User.find({} , { _id : 1 , username : 1 , email : 1  , role : 1 , blocked : 1 } ).exec(function(err, user) {
+    if (err) {
+      return next(err);
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'Users retrieved successfully.',
+      data: user
     });
   });
 };

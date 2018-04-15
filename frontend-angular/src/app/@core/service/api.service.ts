@@ -135,7 +135,20 @@ export class APIService {
   }
 
   viewSuggestedExperts(tag:Tags):Observable<APIData>{
-    return this.http.get<Tags>(this.apiUrl + 'user/viewSuggestedExperts/'+ tag.name)
+    return this.http.get<Tags>(this.apiUrl + 'user/viewSuggestedExperts/'+ tag.name).catch(this.errorHandler);
+  }
+
+  getUsers(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'User/getUsers').catch(this.errorHandler);
+  }
+
+
+  blockUser(Users:User):Observable<APIData>{
+    return this.http.patch<APIData>(this.apiUrl + '/User/blockUser/'+Users._id,Users)
+    .catch(this.errorHandler);
+  }
+  downgradeExpert(Users:User):Observable<APIData>{
+    return this.http.patch<APIData>(this.apiUrl + '/User/downgradeExpert/'+Users._id,Users)
     .catch(this.errorHandler);
   }
 

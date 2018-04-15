@@ -67,6 +67,12 @@ var userSchema = mongoose.Schema( {
     default: true
   },
 
+  blocked: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
   img: { 
     data: Buffer , 
     contentType: String ,

@@ -47,9 +47,7 @@ import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capt
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
 import { ExpertsListComponent } from './expertsList/expertsList.component';
-
-
-
+import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 
 
 @NgModule({
@@ -69,6 +67,7 @@ import { ExpertsListComponent } from './expertsList/expertsList.component';
   declarations: [
     
     AdminComponent,
+    AdminPageUserComponent,
     BasicelementsComponent,
     ComponentsComponent,
     NavigationComponent,

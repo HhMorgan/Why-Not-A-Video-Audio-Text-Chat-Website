@@ -12,6 +12,7 @@ export interface Tags {
 }
 
 export interface User {
+    _id:String;
     username : any,
     email:any,
     password:any,
@@ -20,6 +21,8 @@ export interface User {
     numberofsessions:any,
     img:Blob,
     onlineStatus: Boolean;
+    blocked: Boolean;
+
 }
 export interface Tags {
     _id:String;
