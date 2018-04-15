@@ -12,7 +12,24 @@ export class HomeComponent implements OnInit {
         middle: false,
         right: false
     };
-    constructor() { }
 
+    private Announcement="Annoucement";
+    private i=0;
+    private slideIndex = 1;
+    constructor(){}  
     ngOnInit() {}
+  Next(){
+    this.Announcement="";
+    this.i= this.i+1;
+    this.Announcement=this.Announcement+this.i;
+
+  }
+Before(){
+  this.Announcement="";
+  if(this.i>0){
+    this.i= this.i-1;
+    this.Announcement=this.Announcement+this.i;
+  }
+
+  }
 }

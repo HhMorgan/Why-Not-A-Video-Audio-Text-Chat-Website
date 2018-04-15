@@ -17,6 +17,7 @@ import { VideoViewComponent } from './videoView/videoView.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
 
+
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
   { path: 'login' , component:LoginComponent},
@@ -32,6 +33,7 @@ const routes: Routes = [
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
+ 
 
 // { path: 'date-picker', component: DatePickerComponent },
 

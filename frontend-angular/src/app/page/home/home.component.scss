@@ -1,1 +1,107 @@
 html, body {margin: 0; height: 100%; overflow: hidden}
+div.slide-left {
+    width:100%;
+    overflow:hidden;
+  }
+  div.slide-left p {
+    animation: slide-left 10s;
+  }
+  .card {
+      position  : relative;
+      align-self: center;
+      width          :60em;
+      height         : 25em;
+      margin-top:180px;
+    
+      background-color: #8b9fa8;
+      border: 1px solid rgb(0, 0, 0);
+      opacity: 0.6;
+      filter: alpha(opacity=60);
+    }
+  
+    .title{
+        color: #c2cbcf;
+        font-family: "Bookman Old Style";
+    }
+    
+  
+  html
+  {
+  border:0px;
+  padding:0px;
+  margin:0px;
+  }
+  h1{
+      font-size: 55px;
+      color: rgb(41, 98, 202);
+      margin-top:-260px;
+      font-family: monospace;
+      
+  
+  }
+  button{
+      
+          color:  rgb(3, 28, 75);
+          font-size: 25px;
+          font-family: "Bookman Old Style"
+      
+      }
+  h3{
+      font-size: 75px;
+          color: rgb(252, 234, 76);
+          margin-top:1000px;
+          font-family: monospace;
+      }
+    h4{
+        color:  rgb(3, 28, 75);
+        font-family: "Bookman Old Style"
+    }
+  @keyframes slide-left {
+    from {
+      margin-left: 100%;
+      width: 300%; 
+    }
+    
+  
+    to {
+      margin-left: 0%;
+      width: 100%;
+    }
+  }
+  
+  a {
+      text-decoration: none;
+      display: inline-block;
+      padding:13px 20px;
+     
+  }
+  
+  a:hover {
+      background-color: rgb(200, 220, 223);
+      color: black;
+  }
+  
+  .previous {
+      background-color:  #8b9fa8;
+      color: black;
+      transition: .5s ease;
+      margin-left: 0%;
+      align-items:"right";
+      align-self:"right";
+      align-content: "right";
+      text-align:"right";
+      margin-right:  -250px;
+  }
+  
+  .next {
+      background-color: #8b9fa8;
+      color: white;
+      margin-left:  -250px;
+  }
+  
+  .round {
+      border-radius: 50%;
+     
+  }
+  
+  

@@ -85,7 +85,8 @@ import { RatingComponent } from './rating/rating.component';
     SessionVideoComponent,
     SlotRequestComponent, 
     RatingComponent,
-    DatePickerComponent
+    DatePickerComponent,
+
   ],
   entryComponents: [NgbdModalContent]
 })
