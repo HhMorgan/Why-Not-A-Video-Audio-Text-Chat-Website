@@ -8,8 +8,8 @@ import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-t
 
  @Component({
   selector: 'app-AdminPage-User',
-  templateUrl: './Admin.component.html',
-  styleUrls: ['./Admin.component.css']
+  templateUrl: './AdminPageUser.component.html',
+  styleUrls: ['./AdminPageUser.component.css']
 })
 
 export class AdminPageUserComponent implements OnInit {
@@ -73,7 +73,7 @@ refresh(): void {
   });
 }
 
-onCustom(event):void{
+public onCustom(event):void{
   
   if(event.action == 'block'){
     this.OnBlock(event)

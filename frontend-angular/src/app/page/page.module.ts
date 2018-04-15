@@ -46,9 +46,7 @@ import { SessionVideoComponent } from './sessionVideoVoice/session.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
-
-
-
+import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 
 
 @NgModule({
@@ -68,6 +66,7 @@ import { RatingComponent } from './rating/rating.component';
   declarations: [
     
     AdminComponent,
+    AdminPageUserComponent,
     BasicelementsComponent,
     ComponentsComponent,
     NavigationComponent,

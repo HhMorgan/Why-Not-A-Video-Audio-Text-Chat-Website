@@ -24,7 +24,7 @@ module.exports.login = function(req, res, next) {
   }
 
   // Find the user with this email from the database
-  User.findOne( { email: req.body.email.trim().toLowerCase() } , { _id : 1 , username : 1 , email : 1 , password : 1 } ).exec(function(err, user) {
+  User.findOne( { email: req.body.email.trim().toLowerCase() ,  } , { _id : 1 , username : 1 , email : 1 , password : 1 , blocked : 1 } ).exec(function(err, user) {
     if (err) {
       return next(err);
     }
@@ -48,8 +48,12 @@ module.exports.login = function(req, res, next) {
         return res
           .status(401)
           .json({ err: null, msg: 'Password is incorrect.', data: null });
-      }
+      } 
+      if(user.blocked)
+        return  res.status(401).json({ err: null, msg: 'Blocked', data: null });
       // Create a JWT and put in it the user object from the database
+
+      delete user.blocked;
       var token = jwt.sign(
         {
           // user.toObject transorms the document to a json object without the password as we can't leak sensitive info to the frontend

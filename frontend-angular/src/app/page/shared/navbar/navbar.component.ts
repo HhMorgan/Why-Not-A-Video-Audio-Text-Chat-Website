@@ -1,8 +1,8 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { APIService } from '../../../@core/service/api.service';
-import { APIData,User  } from '../../../@core/service/models/api.data.structure'
-import {Buffer} from 'buffer';
+import { APIData , User  } from '../../../@core/service/models/api.data.structure'
+import { Buffer } from 'buffer';
 import { Routes,Router } from '@angular/router';
 
 @Component({
@@ -63,7 +63,7 @@ export class NavbarComponent implements OnInit {
             return false;
         }
     }
-    
+
     getimage(){
         this.apiServ.getimage().subscribe((apires : APIData) =>{
            var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement

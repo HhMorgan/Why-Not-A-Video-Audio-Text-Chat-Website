@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   Validations = require('../utils/validations'),
   Tags = mongoose.model('Tag');
+  User = mongoose.model('User');
  
   module.exports.AddTag = function(req, res, next) {
     var valid =
@@ -124,9 +125,6 @@ module.exports.deleteTags = function(req, res, next) {
 };
 
 module.exports.blockUser = function(req, res, next) {
-  console.log(req);
-  console.log(res);
-  console.log(next);
   if (!Validations.isObjectId(req.params.userId)) {
     return res.status(422).json({
       err: null,
@@ -135,7 +133,7 @@ module.exports.blockUser = function(req, res, next) {
     });
   }
   
-  Users.findByIdAndUpdate(
+  User.findByIdAndUpdate(
     req.params.userId,
     {
       $set: {blocked: true}
@@ -167,7 +165,7 @@ module.exports.downgradeExpertToUser = function(req, res, next) {
     });
   }
   
-  Users.findByIdAndUpdate(
+  User.findByIdAndUpdate(
     req.params.userId,
     {
       $set: {role: 'regular'}
@@ -183,17 +181,16 @@ module.exports.downgradeExpertToUser = function(req, res, next) {
         .json({ err: null, msg: 'User not found.', data: null });
     }
     res.status(200).json({
-      err: null,
+      err: null ,
       msg: 'User was downgraded successfully.',
-      data: blockeduser
+      data: { _id : blockeduser._id , username : blockeduser.username , role : blockeduser.role }
     });
   });
 };
 
 module.exports.getUsers = function(req, res, next) {
-  Users.find({}).exec(function(err, user) {
+  User.find({} , { _id : 1 , username : 1 , email : 1  , role : 1 , blocked : 1 } ).exec(function(err, user) {
     if (err) {
-      
       return next(err);
     }
     res.status(200).json({
