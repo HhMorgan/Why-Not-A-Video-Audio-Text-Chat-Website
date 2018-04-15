@@ -31,11 +31,11 @@ const routes: Routes = [
   { path: 'viewSchedule', component: viewScheduleComponent },
   { path: 'upgradeToExpert', component: upgradeToExpertComponent },
   { path: 'expert', component: ExpertComponent },
+  { path: 'expertsList', component: ExpertsListComponent },
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'expertsList', component: ExpertsListComponent },
 ];
 
 @NgModule({
