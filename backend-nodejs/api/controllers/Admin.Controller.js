@@ -3,19 +3,19 @@ var mongoose = require('mongoose'),
   Validations = require('../utils/validations'),
   Tags = mongoose.model('Tag');
   User = mongoose.model('User');
- 
+
   module.exports.AddTag = function(req, res, next) {
     var valid =
       req.body.name &&
       Validations.isString(req.body.name);
-// check if the tag name is given    
+// check if the tag name is given
       if (!valid) {
       return res.status(422).json({
         err: null,
         msg: 'name (String) is a required fields.',
         data: null
       });
-    }  
+    }
 // Security Check
 //delete req.body.createdAt;
 //delete req.body.updatedAt;
@@ -33,7 +33,7 @@ Tags.create(req.body, function(err, Tags) {
 };
 
 module.exports.editTag = function(req, res, next) {
-// below we chck if the Id given by the edit tag method exists 
+// below we chck if the Id given by the edit tag method exists
   if (!Validations.isObjectId(req.params.tagId)) {
     return res.status(422).json({
       err: null,
@@ -43,7 +43,7 @@ module.exports.editTag = function(req, res, next) {
   }
   var valid =
     req.body.name &&
-    Validations.isString(req.body.name) 
+    Validations.isString(req.body.name)
 //then we check if the tag name is given as an input
     if (!valid) {
     return res.status(422).json({
@@ -132,7 +132,7 @@ module.exports.blockUser = function(req, res, next) {
       data: null
     });
   }
-  
+
   User.findByIdAndUpdate(
     req.params.userId,
     {
@@ -164,7 +164,7 @@ module.exports.downgradeExpertToUser = function(req, res, next) {
       data: null
     });
   }
-  
+
   User.findByIdAndUpdate(
     req.params.userId,
     {
@@ -201,3 +201,15 @@ module.exports.getUsers = function(req, res, next) {
   });
 };
 
+module.exports.getRequestsFromUsersToBeExpert = function(req, res, next) {
+  Request.find({} , {_id : 1 ,sender : 1, recipient : 1, status : "regular to expert" , type : "expert" }).exec(function(err,request) {
+    if (err){
+      return next(err);
+    }
+    res.status(200).json({
+      err: null;
+      msg: 'requests retrieved successfully'
+      data: request
+    });
+  });
+};
