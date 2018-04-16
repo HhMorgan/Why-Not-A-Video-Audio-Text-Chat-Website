@@ -22,14 +22,32 @@ export class AdminPageUserComponent implements OnInit {
     this.refresh();
   }
   settings = {
+    edit: {
+      editButtonContent: '<i  class="fa fa-edit"></i>',
+      saveButtonContent: '<i class="fa fa-check"></i>',
+      cancelButtonContent: '<i class="fa fa-ban"></i>',
+    },
+    delete: {
+      deleteButtonContent: '<i class="fa fa-trash"></i>',
+    },
+    add: {
+      addButtonContent: '<i class="fa fa-plus"></i>',
+      createButtonContent: '<i class="fa fa-check"></i>',
+      cancelButtonContent: '<i class="fa fa-close"></i>',
+    },
+    pager:{
+      display: true ,
+      perPage: 5
+    },
     actions:{
 
       custom: [{
         name:'block', 
-        title: "Block  "
+        title: `<i class="fa fa-lock"></i>` ,
+        
       } ,
        {name:'downgrade', 
-       title: "Downgrade"}]
+       title: `<i class="fa fa-chevron-circle-down"></i>`}]
       
       },
     columns: {

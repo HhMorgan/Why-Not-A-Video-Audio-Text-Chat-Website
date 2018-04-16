@@ -49,6 +49,8 @@ import { RatingComponent } from './rating/rating.component';
 import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 import { TagSearchComponent } from './tagSearch/tagSearch.component';
+import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
+
 
 
 
@@ -96,6 +98,7 @@ import { TagSearchComponent } from './tagSearch/tagSearch.component';
     ExpertsListComponent,
     TagSearchComponent,
     AdminPageUserComponent,
+    AdminViewUsersComponent,
   ],
   entryComponents: [NgbdModalContent]
 })
