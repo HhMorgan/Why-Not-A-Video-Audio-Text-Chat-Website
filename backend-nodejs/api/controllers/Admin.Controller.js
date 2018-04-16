@@ -202,7 +202,7 @@ module.exports.getUsers = function(req, res, next) {
 };
 
 module.exports.getRequestsFromUsersToBeExpert = function(req, res, next) {
-  Request.find({} , {_id : 1 ,sender : 1, recipient : 1, status : "regular to expert" , type : "expert" }).exec(function(err,request) {
+  Request.find({type : 'user to expert' , recipient : 'Admin'} , {recipient : 1, status : 1 , type : 1 }).exec(function(err,request) {
     if (err){
       return next(err);
     }
