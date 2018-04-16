@@ -26,7 +26,6 @@ const routes: Routes = [
   { path: 'signup' , component: SignupComponent},
   { path: 'dashboard', component:DashboardComponent},
   { path: 'admin', component: AdminComponent },
-  { path: 'admin-User', component: AdminPageUserComponent },
   { path: 'home' , component:HomeComponent},
   { path: 'video' , component:VideoViewComponent},
   { path: 'profile' , component:ProfileComponent},

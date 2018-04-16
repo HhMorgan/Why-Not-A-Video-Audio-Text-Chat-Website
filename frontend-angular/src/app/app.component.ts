@@ -38,9 +38,11 @@ export class AppComponent {
           const number = window.scrollY;
           if (number > 150 || window.pageYOffset > 150) {
               // add logic
+              if(this.removeHeader())
               navbar.classList.remove('navbar-transparent');
           } else {
               // remove logic
+              if(this.removeHeader())
               navbar.classList.add('navbar-transparent');
           }
       });
@@ -53,6 +55,7 @@ export class AppComponent {
       }
       if (version) {
           var body = document.getElementsByTagName('body')[0];
+          if(this.removeHeader())
           body.classList.add('ie-background');
 
       }
@@ -61,12 +64,9 @@ export class AppComponent {
   removeHeader() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
     titlee = titlee.slice( 7 );
-    if(titlee === 'dashboard' ) {
-        return false;
-    }
-    else {
+    
         return true;
-    }
+    
 }
   removeFooter() {
       var titlee = this.location.prepareExternalUrl(this.location.path());
