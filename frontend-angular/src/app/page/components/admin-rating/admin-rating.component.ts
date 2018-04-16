@@ -14,13 +14,13 @@ import { Observable } from 'rxjs/Observable';
 export class AdminRatingComponent implements OnInit {
 
   settings = {
-
+    actions : false,
     columns: {    
       username: {
         title: 'Username',
         type: 'string',
         editable: false,
-      },
+      },  
       email: {
         title: 'Email',
         type:'string',

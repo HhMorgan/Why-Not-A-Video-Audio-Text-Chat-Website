@@ -83,6 +83,9 @@ export class APIService {
     return this.http.get<APIData>(this.apiUrl + 'getphoto').catch(this.errorHandler);
   }
 
+  getusername(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'getusername').catch(this.errorHandler);
+  }
   chooseSlot(slotData:SlotData): Observable<APIData>{
     console.log(slotData);
    return this.http.post<APIData>(this.apiUrl + 'expert/chooseSlot' , slotData).catch(this.errorHandler);

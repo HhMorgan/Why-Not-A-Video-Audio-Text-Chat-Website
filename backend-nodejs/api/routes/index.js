@@ -74,6 +74,7 @@ router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sess
 
 router.post('/photo', isAuthenticated , userCtrl.uploadimage);
 router.get('/getphoto', isAuthenticated , userCtrl.getimage);
+router.get('/getusername', isAuthenticated , userCtrl.getusername);
 router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
 router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
 
