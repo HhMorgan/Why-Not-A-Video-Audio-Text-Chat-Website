@@ -17,6 +17,7 @@ import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
 import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
 import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
+import { TagSearchComponent } from './tagSearch/tagSearch.component';
 
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'upgradeToExpert', component: upgradeToExpertComponent },
   { path: 'expert', component: ExpertComponent },
   { path: 'expertsList', component: ExpertsListComponent },
+  {path:'tagSearch',component: TagSearchComponent},
 
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },

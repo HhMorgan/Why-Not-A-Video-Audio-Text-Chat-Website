@@ -48,6 +48,8 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
 import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
+import { TagSearchComponent } from './tagSearch/tagSearch.component';
+
 
 
 @NgModule({
@@ -92,6 +94,7 @@ import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component'
     upgradeToExpertComponent,
     ExpertComponent,
     ExpertsListComponent,
+    TagSearchComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../@core/service/api.service';
-import { APIData  , User ,FileData , OfferedSlots} from '../../@core/service/models/api.data.structure'
+import { APIData  , User ,FileData} from '../../@core/service/models/api.data.structure'
 import {Buffer} from 'buffer';
 
 @Component({
@@ -49,47 +49,15 @@ export class ProfileComponent implements OnInit {
       })
 
     }
-    private slot; //Omar
-    private expert;
-    requests: any; //Omar
+   
     ngOnInit() {
 
-      this.apiServ.getOfferedSlots().subscribe((response: APIData)=>{ //Omar
-        console.log(response);                                         //Omar
-        this.requests = response.data;                                 //Omar
-      });
-
-        this.loadStatus();
+         this.loadStatus();
         this.getimage();
         this.dragElement(document.getElementById(("name")));
     }
 
-    chooseSlot(){ 
-            
-            const offered = <OfferedSlots>{};
-            
-            offered.expert_email = this.expert;
-            offered.status = this.slot;
-            
-            if(this.expert != null && this.slot!=null ){
-            
-            this.apiServ.reserve(offered).subscribe((apiresponse: APIData)=>{
-            
-            //this.tagMessage = apiresponse.msg;
-            
-            console.log(apiresponse.msg);
-            
-            },(error: APIData)=>{
-            
-            
-            console.log(error.msg);
-            
-            })
-            
-            } else
-            console.log('hii');;
-            console.log();
-           } 
+   
 
     fileToUpload: File = null;
     editable: boolean = true; // intially just for testing
