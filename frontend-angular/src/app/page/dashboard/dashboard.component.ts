@@ -8,7 +8,8 @@ import * as $ from 'jquery';
   styleUrls: ['./template/dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  
+  directive=0;
+  first=false;
   constructor() { }
   
   ngOnInit() {
@@ -27,33 +28,41 @@ export class DashboardComponent implements OnInit {
       $('body').on("click", "nav ul li a", function(){
         var title = $(this).data('title');
         $('.title').children('h2').html(title);
+        console.log(this.directive);
       });
       $("main .card-dashboard div").hide();
 
       $("#Profile").click(function(){
         $("main .card-dashboard div").hide();
            $("#element1").toggle();
+           this.directive=1;
       });
   
       $("#Edit").click(function(){
         $("main .card-dashboard div").hide();
            $("#element2").toggle();
+           this.directive=2;
       });
   
       $("#Add").click(function(){
         $("main .card-dashboard div").hide();
            $("#element3").toggle();
+           this.directive=3;
       });
       $("#Remove").click(function(){
         $("main .card-dashboard div").hide();
         $("#element4").toggle();
+        this.directive=4;
     });
    $("#Announce").click(function(){
     $("main .card-dashboard div").hide();
       $("#element5").toggle();
+      this.directive=5;
     });
     });
       
   }
-
+  directive1(){
+    this.first=true;
+  }
 }
