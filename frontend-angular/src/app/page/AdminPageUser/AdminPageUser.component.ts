@@ -7,7 +7,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 
  @Component({
-  selector: 'app-AdminPage-User',
+  selector: 'app-viewUsers',
   templateUrl: './AdminPageUser.component.html',
   styleUrls: ['./AdminPageUser.component.css']
 })

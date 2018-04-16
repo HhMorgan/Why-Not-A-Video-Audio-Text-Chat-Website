@@ -95,6 +95,7 @@ import { TagSearchComponent } from './tagSearch/tagSearch.component';
     ExpertComponent,
     ExpertsListComponent,
     TagSearchComponent,
+    AdminPageUserComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

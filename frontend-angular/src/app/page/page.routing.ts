@@ -37,6 +37,7 @@ const routes: Routes = [
   { path: 'expert', component: ExpertComponent },
   { path: 'expertsList', component: ExpertsListComponent },
   {path:'tagSearch',component: TagSearchComponent},
+  {path:'adminPage', component:AdminPageUserComponent},
 
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },

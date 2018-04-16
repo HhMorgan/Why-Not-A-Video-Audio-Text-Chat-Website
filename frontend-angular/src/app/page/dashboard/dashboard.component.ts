@@ -10,6 +10,10 @@ import * as $ from 'jquery';
 export class DashboardComponent implements OnInit {
   directive=0;
   first=false;
+  second=false;
+  thrid=false;
+  fourth=false;
+  fifth=false;
   constructor() { }
   
   ngOnInit() {
@@ -64,17 +68,37 @@ export class DashboardComponent implements OnInit {
   }
   directive1(){
     this.first=true;
+    this.second=false;
+    this.thrid=false;
+    this.fourth=false;
+    this.fifth=false;
   }
   directive2(){
     this.first=false;
+    this.second=true;
+    this.thrid=false;
+    this.fourth=false;
+    this.fifth=false;
   }
   directive3(){
     this.first=false;
+    this.second=false;
+    this.thrid=true;
+    this.fourth=false;
+    this.fifth=false;
   }
   directive4(){
     this.first=false;
+    this.second=false;
+    this.thrid=false;
+    this.fourth=true;
+    this.fifth=false;
   }
   directive5(){
     this.first=false;
+    this.second=false;
+    this.thrid=false;
+    this.fourth=false;
+    this.fifth=true;
   }
 }
