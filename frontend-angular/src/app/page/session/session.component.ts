@@ -17,6 +17,7 @@ export class SessionComponent implements OnInit {
   }
   userChatChange(val : any){
     this.reciever=val;
+
   }
   /*onNavigate(){
     //window.open("ProfileComponent", "_blank");

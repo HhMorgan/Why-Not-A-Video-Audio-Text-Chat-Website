@@ -18,6 +18,7 @@ import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.comp
 import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 
+
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
   { path: 'login' , component:LoginComponent},
@@ -38,6 +39,12 @@ const routes: Routes = [
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
+ 
+
+// { path: 'date-picker', component: DatePickerComponent },
+
+//{ path: '', pathMatch: 'full', redirectTo: 'login' },
+
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 
