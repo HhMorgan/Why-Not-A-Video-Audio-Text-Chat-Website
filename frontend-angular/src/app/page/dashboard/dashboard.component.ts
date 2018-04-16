@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
     
       $('body').on("click", "nav ul li a", function(){
         var title = $(this).data('title');
-        $('.title').children('h2').html(title);
+        $('.headerH2').children('a').html(title);
         console.log(this.directive);
       });
       $("main .card-dashboard div").hide();
@@ -64,5 +64,17 @@ export class DashboardComponent implements OnInit {
   }
   directive1(){
     this.first=true;
+  }
+  directive2(){
+    this.first=false;
+  }
+  directive3(){
+    this.first=false;
+  }
+  directive4(){
+    this.first=false;
+  }
+  directive5(){
+    this.first=false;
   }
 }

@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app.routing';
 @Component({
   selector: 'app-root',
   template: `
-  <app-navbar ></app-navbar>
+  <app-navbar *ngIf="removeHeader()" ></app-navbar>
     <router-outlet></router-outlet>
     <app-footer *ngIf="removeFooter()"></app-footer>
   `,
@@ -31,7 +31,8 @@ export class AppComponent {
           }else{
               window.document.activeElement.scrollTop = 0;
           }
-          this.navbar.sidebarClose();
+          if(this.removeHeader())
+             this.navbar.sidebarClose();
       });
       this.renderer.listenGlobal('window', 'scroll', (event) => {
           const number = window.scrollY;
@@ -57,6 +58,16 @@ export class AppComponent {
       }
 
   }
+  removeHeader() {
+    var titlee = this.location.prepareExternalUrl(this.location.path());
+    titlee = titlee.slice( 7 );
+    if(titlee === 'dashboard' ) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
   removeFooter() {
       var titlee = this.location.prepareExternalUrl(this.location.path());
       titlee = titlee.slice( 7 );
