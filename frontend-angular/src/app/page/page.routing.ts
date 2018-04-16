@@ -16,6 +16,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoViewComponent } from './videoView/videoView.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
+import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
@@ -28,6 +29,8 @@ const routes: Routes = [
   { path: 'profile' , component:ProfileComponent},
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
+  { path: 'adminviewusers' , component:AdminViewUsersComponent},
+
   //{ path: 'session', component: SessionComponent },
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },

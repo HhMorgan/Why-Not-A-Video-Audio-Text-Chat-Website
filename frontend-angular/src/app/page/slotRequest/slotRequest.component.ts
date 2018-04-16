@@ -59,6 +59,7 @@ export class SlotRequestComponent implements OnInit {
   custom(event):void{
     if(event.action == 'accept'){
       this.OnAccept(event)
+      
     }else{
       this.OnReject(event)
     }
@@ -71,8 +72,11 @@ export class SlotRequestComponent implements OnInit {
     this.apiService.editSlotRequest(Requests).subscribe((apiresponse: APIData)=>{
       console.log(apiresponse);
       if( apiresponse.msg.includes('successfully') ){ //should route to data-picker page to choose slots
+        localStorage.setItem('sender',apiresponse.data.sender);
+
         this.apiService.getSlotRequests().subscribe((apiresponse: APIData)=>{
           this.source.load( apiresponse.data);
+          window.location.replace("#/page/date-picker");
         });
       }
     });

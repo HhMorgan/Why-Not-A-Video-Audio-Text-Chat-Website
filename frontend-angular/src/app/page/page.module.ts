@@ -45,6 +45,7 @@ import { SessionVideoComponent } from './sessionVideoVoice/session.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
+import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 
 
 
@@ -85,7 +86,8 @@ import { RatingComponent } from './rating/rating.component';
     SessionVideoComponent,
     SlotRequestComponent, 
     RatingComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    AdminViewUsersComponent
   ],
   entryComponents: [NgbdModalContent]
 })
