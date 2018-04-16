@@ -14,7 +14,7 @@ MongoClient.connect(url, function(err, db) {
 
  
   var ReservedSlotsObj = [{
-    slotDate: ''
+    
   }
   ];
   var collectionsObj = [
