@@ -134,9 +134,9 @@ module.exports.editSlotRequest =function(req, res, next) {
   });
 };
 
-module.exports.viewSLotRequests = function(req, res, next) {
+module.exports.viewRequestedSlots = function(req, res, next) {
   // Finds authenticated user info 
-  User.findById(req.decodedToken.user._id).exec(function(err, user) {
+  User.findById('5ad5bee364a0b6360cee111b').exec(function(err, user) {
     if (err) {
       return next(err);
     }
@@ -160,7 +160,7 @@ module.exports.viewSLotRequests = function(req, res, next) {
       res.status(200).json({
         err: null,
         msg:' Requested slots by users retrieved successfully.',
-        data: Schedule
+        data: slots
       });
     });
   });
@@ -191,11 +191,13 @@ module.exports.viewSLotRequests = function(req, res, next) {
         res.status(200).json({
           err: null,
           msg:' Requested slots by users retrieved successfully.',
-          data: Schedule
+          data: slots
         });
       });
     });
   };
+
+  
 
 
 
