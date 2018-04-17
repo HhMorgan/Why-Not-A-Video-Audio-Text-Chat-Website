@@ -57,6 +57,7 @@ router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
 router.patch('/User/blockUser/:userId', AdminController.blockUser);
 router.patch('/User/downgradeExpert/:userId', AdminController.downgradeExpertToUser);
 router.get('/User/getUsers',AdminController.getUsers);
+router.get('/getUsers',isAuthenticated, AdminController.getUsers);  
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);
@@ -76,6 +77,7 @@ router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sess
 
 router.post('/photo', isAuthenticated , userCtrl.uploadimage);
 router.get('/getphoto', isAuthenticated , userCtrl.getimage);
+router.get('/getusername', isAuthenticated , userCtrl.getusername);
 router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
 router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
 

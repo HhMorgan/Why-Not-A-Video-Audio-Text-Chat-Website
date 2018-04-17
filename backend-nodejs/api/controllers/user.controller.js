@@ -55,6 +55,19 @@ module.exports.getimage = function(req, res) {
    });
 };
 
+module.exports.getusername = function(req, res) {
+  User.findById(req.decodedToken.user._id).exec (function(err, user) {
+    if (err) {
+       return next(err);
+     }
+    return res.status(201).json({
+       err: null ,
+       msg: null ,
+       data: user.username
+    });
+   });
+};
+
 module.exports.uploadimage = function(req, res) {
   User.findByIdAndUpdate(req.decodedToken.user._id,{ $set: { img: { data : req.file.buffer , contentType: req.file.mimetype } } } , 
     { new: true } ).exec ( function(err, updatedUser) {

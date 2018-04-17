@@ -20,6 +20,7 @@ import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component'
 import { TagSearchComponent } from './tagSearch/tagSearch.component';
 
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
+import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
@@ -52,6 +53,7 @@ const routes: Routes = [
 //{ path: '', pathMatch: 'full', redirectTo: 'login' },
 
   { path: '', pathMatch: 'full', redirectTo: 'home' },
+  {path: 'admin-rating', component:AdminRatingComponent}
 ];
 
 @NgModule({

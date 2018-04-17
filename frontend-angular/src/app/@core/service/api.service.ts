@@ -26,6 +26,9 @@ export class APIService {
      return this.http.get<APIData>(this.apiUrl + 'Tags/getTags').catch(this.errorHandler);
   }
 
+  getUsers(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'getUsers').catch(this.errorHandler);
+ }
   
   signup(user:User):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'auth/signup', user).catch(this.errorHandler);
@@ -86,6 +89,9 @@ export class APIService {
     return this.http.get<APIData>(this.apiUrl + 'getphoto').catch(this.errorHandler);
   }
 
+  getusername(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'getusername').catch(this.errorHandler);
+  }
   chooseSlot(slotData:SlotData): Observable<APIData>{
     console.log(slotData);
    return this.http.post<APIData>(this.apiUrl + 'expert/chooseSlot' , slotData).catch(this.errorHandler);
@@ -144,10 +150,7 @@ export class APIService {
     return this.http.get<Tags>(this.apiUrl + 'user/viewSuggestedExperts/'+ tag.name).catch(this.errorHandler);
   }
 
-  getUsers(): Observable<APIData> {
-    return this.http.get<APIData>(this.apiUrl + 'User/getUsers').catch(this.errorHandler);
-  }
-
+  
 
   blockUser(Users:User):Observable<APIData>{
     return this.http.patch<APIData>(this.apiUrl + '/User/blockUser/'+Users._id,Users)

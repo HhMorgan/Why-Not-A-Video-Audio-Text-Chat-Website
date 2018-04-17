@@ -12,6 +12,8 @@ import { HTTP_INTERCEPTORS , HttpClientModule , HttpClient } from '@angular/comm
 import { NavbarComponent } from './page/shared/navbar/navbar.component';
 import { FooterComponent } from './page/shared/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AdminRatingComponent} from './page/components/admin-rating/admin-rating.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 
 
@@ -19,7 +21,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   declarations: [
     AppComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     NgbModule.forRoot(),
@@ -29,7 +31,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    Ng2SmartTableModule
   ],
   providers: [
     {
