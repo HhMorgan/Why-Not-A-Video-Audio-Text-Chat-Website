@@ -7,7 +7,8 @@ var sessionSchema = mongoose.Schema({
         required: true
     },
     
-    candidates: [ new mongoose.Schema({ id: { type: mongoose.Schema.Types.ObjectId , ref: 'User' } , rtcDes:{type: String} } , { _id: false })],
+    candidates: [ new mongoose.Schema({ id: { type: mongoose.Schema.Types.ObjectId , ref: 'User' } , 
+    rtcDes:{type: String} } , { _id: false })],
 
 },{ collection: 'Sessions'} );
 

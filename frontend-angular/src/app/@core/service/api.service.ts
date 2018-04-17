@@ -134,6 +134,7 @@ export class APIService {
     return this.http.post<OfferedSlots>(this.apiUrl + 'user/reserveSlot',offeredSlots).catch(this.errorHandler);
   }
 
+
   viewSuggestedExperts(tag:Tags):Observable<APIData>{
     return this.http.get<Tags>(this.apiUrl + 'user/viewSuggestedExperts/'+ tag.name).catch(this.errorHandler);
   }

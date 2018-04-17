@@ -60,6 +60,21 @@ export interface CandicateSession extends Session {
     rtcDes : String;
 }
 
+
+export interface Slots {
+    expertId : String;
+    date : Date;
+    slots: [oneSlot]
+}
+
+export interface oneSlot extends Slots {
+    sessionId : String;
+    date: Date;
+    usersAccepted: [User];
+    usersRequested: [User]
+
+}
+
 export interface SlotData{
     slotDate1: String;
     slotTime1: String;

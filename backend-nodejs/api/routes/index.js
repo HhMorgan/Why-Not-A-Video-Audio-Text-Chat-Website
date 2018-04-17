@@ -68,6 +68,11 @@ router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests)
 router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
 router.post('/expert/addSpeciality', isAuthenticated , expert.addSpeciality); 
 router.delete('/expert/editSpeciality/:tagId',isAuthenticated,expert.editSpeciality);
+
+
+router.post('/expert/createSchedule',expert.createSchedule);
+router.get('/expert/viewSchedule',expert.viewSchedule);
+
 //-------------------------------------------------------------------
 router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
 router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);

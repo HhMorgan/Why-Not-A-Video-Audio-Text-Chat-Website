@@ -7,6 +7,7 @@ EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
 User = mongoose.model('User'),
 Request = mongoose.model('Request'),
 OfferedSlot = mongoose.model('OfferedSlot'),
+schedule = mongoose.model('Schedule'),
 moment = require('moment');
 var Binary = require('mongodb').Binary;
 var fs = require('fs');
@@ -227,15 +228,23 @@ module.exports.getExpertSchedule = function(req, res, next) {
     if (!user) {
       return res.status(404).json({ err: null, msg: 'User not found.', data: null });
     }
-    var schedule = user.schedule;
-    if (!schedule) {
-      return res.status(404).json({ err: null, msg: 'Schedule not found.', data: null });
-    }
-    return res.status(200).json({
-      err: null,
-      msg: 'Schedule retrieved successfully.',
-      data: schedule
+    
+
+    schedule.find({
+      expertID: req.expertID,
+    
+    }).exec(function(err, slots) {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({
+        err: null,
+        msg:' slots defined by expert retrieved successfully.',
+        data: slots
+      });
     });
+
+
   });
 // dummy data for testing to display a schedule 
 

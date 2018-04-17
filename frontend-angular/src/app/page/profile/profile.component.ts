@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../@core/service/api.service';
-import { APIData  , User ,FileData , OfferedSlots} from '../../@core/service/models/api.data.structure'
+import { APIData  , User ,FileData , OfferedSlots, oneSlot} from '../../@core/service/models/api.data.structure'
 import {Buffer} from 'buffer';
 
 @Component({
@@ -56,8 +56,11 @@ export class ProfileComponent implements OnInit {
 
       this.apiServ.getOfferedSlots().subscribe((response: APIData)=>{ //Omar
         console.log(response);                                         //Omar
-        this.requests = response.data;                                 //Omar
-      });
+        this.requests = response.data;  //Omar
+});
+
+
+
 
         this.loadStatus();
         this.getimage();
@@ -90,6 +93,7 @@ export class ProfileComponent implements OnInit {
             console.log('hii');;
             console.log();
            } 
+
 
     fileToUpload: File = null;
     editable: boolean = true; // intially just for testing

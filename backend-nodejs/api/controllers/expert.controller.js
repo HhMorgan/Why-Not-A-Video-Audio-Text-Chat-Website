@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   Tag = mongoose.model('Tag'),
   Slot = mongoose.model('ReservedSlot'),
+  Schedule = mongoose.model('Schedule'),
   Validations = require('../utils/validations'),
   moment = require('moment');
 
@@ -147,22 +148,56 @@ module.exports.viewSLotRequests = function(req, res, next) {
     /* Requests is found by matching recipient to the expert's email, status should be
        pending and type is slotRequest.
      */
-    Request.find({
-      status: "pending",
-      recipient: email,
-      type: "slotRequest"
-    }).exec(function(err, requests) {
+    Schedule.find({
+      expertID: user._id,
+      //condition to display records with requested users only
+       $expr : { $gt:[ {$size : "$slots.usersRequested"} , 0 ] } 
+       
+    }).exec(function(err, slots) {
       if (err) {
         return next(err);
       }
       res.status(200).json({
         err: null,
-        msg:' Pending requests count retrieved successfully.',
-        data: requests
+        msg:' Requested slots by users retrieved successfully.',
+        data: Schedule
       });
     });
   });
-};
+}
+  module.exports.viewScheduledSlots = function(req, res, next) {
+    // Finds authenticated user info 
+    User.findById(req.decodedToken.user._id).exec(function(err, user) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(404).json({ err: null, msg: 'User not found.', data: null });
+      }
+      // Retrieves email of the logged in expert 
+      var email = user.email;
+      /* Requests is found by matching recipient to the expert's email, status should be
+         pending and type is slotRequest.
+       */
+      Schedule.find({
+        expertID: user._id,
+        //condition to display records with requested users only
+         $expr : { $gt:[{$size : "$slots.usersAccepted"} , 0 ] }  
+        
+      }).exec(function(err, slots) {
+        if (err) {
+          return next(err);
+        }
+        res.status(200).json({
+          err: null,
+          msg:' Requested slots by users retrieved successfully.',
+          data: Schedule
+        });
+      });
+    });
+  };
+
+
 
 module.exports.chooseSlot = function(req,res,next){
   console.log(req.body);
@@ -183,3 +218,116 @@ module.exports.chooseSlot = function(req,res,next){
     });
   }
 };
+
+
+
+module.exports.viewSchedule = function(req, res, next) {
+  // Finds authenticated user info 
+  User.findById('5ad5bee364a0b6360cee111b').exec(function(err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(404).json({ err: null, msg: 'User not found.', data: null });
+    }
+ 
+    Schedule.findOne({
+      expertID: user._id,
+    
+    }).exec(function(err, slots) {
+      if (err) {
+        return next(err);
+      }
+    
+      res.status(200).json({
+        err: null,
+        msg:' slots defined by expert retrieved successfully.',
+        data: slots
+      });
+    });
+  });
+};
+
+
+module.exports.createSchedule = function(req, res, next) {
+  // Check that the body keys are in the expected format and the required fields are there
+  var valid = req.body.userId && Validations.isObjectId(req.body.userId);
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'userId is Not Valid',
+      data: null
+    });
+  } else { 
+
+
+
+      User.findById(req.body.userId).exec(function(err, user) {
+          if (err) 
+              return next(err);
+          if(user){
+              req.body.expertID = user._id;
+
+              Schedule.find(req.body.userId).exec(function(err,schedule){
+
+                if (! schedule){
+                  req.body.slots =  {Date: req.body.Date} ; 
+                  Schedule.create( req.body , function(err,slots) {
+                    if(err)
+                        return next(err);
+                    return res.status(201).json({
+                      err: null ,
+                       msg: 'Adding slot to a new created Schedule Completed Successfully' ,
+                       data: slots
+                      });    
+                
+                });
+  
+              }
+
+                 else{ 
+      Schedule.findOneAndUpdate(  
+        { expertID : { $eq : req.body.userId } }  ,  
+
+       { $push: { slots :{ Date : req.body.Date } } } , {new: true}
+    ).exec(function(err, schedule) {
+      
+        if (err) 
+            return next(err);
+        if(schedule) {
+            return res.status(201).json({
+                err: null ,
+                msg: 'Adding slot to Schedule Completed Successfully' ,
+                data: schedule
+            });
+        } else {
+            return res.status(409).json({
+                err: null ,
+                msg: 'Adding slot to Schedule Failed' ,
+                data: null
+            });
+             }
+    });
+                  }    })
+                          
+              } 
+
+        //if not a user
+        else {
+              return res.status(404).json({
+                  err: null,
+                  msg: 'Unable to locate userWithId :' + req.body.userId,
+                  data: null
+              });
+  }  } )};
+
+
+
+      
+
+
+  
+};
+
+
+
