@@ -73,6 +73,7 @@ public socketjoin(){
     var js = JSON.parse(test);
     console.log(js);
     this.messageRecieved=js.message;
+    this.htmlVariable=this.messageRecieved;
     flag = false;
   });
   // JSON.stringify(
