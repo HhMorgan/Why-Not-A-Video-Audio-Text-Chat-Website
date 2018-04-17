@@ -18,6 +18,7 @@ import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.comp
 import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 import { TagSearchComponent } from './tagSearch/tagSearch.component';
+import { SessionVideoComponent } from './sessionVideoVoice/sessionvideo.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'admin-User', component: AdminPageUserComponent },
   { path: 'home' , component:HomeComponent},
   { path: 'video' , component:VideoViewComponent},
+  { path: 'videotest' , component:SessionVideoComponent},
   { path: 'profile' , component:ProfileComponent},
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},

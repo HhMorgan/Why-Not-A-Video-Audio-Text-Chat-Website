@@ -11,9 +11,11 @@ var express = require('express'),
   config = require('./api/config/appconfig'),
   http = require('http'),
   https = require('https'),
+  io = require('socket.io'),
+  fs = require('fs'),
+  multer = require('multer'),
   app = express();
-  var fs = require('fs');
-  var multer = require('multer');
+
 
 // Set the secret of the app that will be used in authentication
 app.set('secret', config.SECRET);

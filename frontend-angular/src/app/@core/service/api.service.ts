@@ -8,7 +8,7 @@ import { APIData , SlotData , Tags , Session , Request , CandicateSession , Prof
 
 @Injectable()
 export class APIService {
-  private apiUrl = 'http://localhost:3000/api/';
+  private apiUrl = 'https://192.168.0.3:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login','auth/signup'];
   constructor(private http: HttpClient) {}
 

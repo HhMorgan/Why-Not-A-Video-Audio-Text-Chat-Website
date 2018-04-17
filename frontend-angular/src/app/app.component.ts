@@ -38,9 +38,11 @@ export class AppComponent {
           const number = window.scrollY;
           if (number > 150 || window.pageYOffset > 150) {
               // add logic
+              if(this.removeHeader())
               navbar.classList.remove('navbar-transparent');
           } else {
               // remove logic
+              if(this.removeHeader())
               navbar.classList.add('navbar-transparent');
           }
       });
@@ -53,6 +55,7 @@ export class AppComponent {
       }
       if (version) {
           var body = document.getElementsByTagName('body')[0];
+          if(this.removeHeader())
           body.classList.add('ie-background');
 
       }
@@ -61,7 +64,7 @@ export class AppComponent {
   removeHeader() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
     titlee = titlee.slice( 7 );
-    if(titlee === 'dashboard' ) {
+    if(titlee === 'videotest' ) {
         return false;
     }
     else {
@@ -71,8 +74,10 @@ export class AppComponent {
   removeFooter() {
       var titlee = this.location.prepareExternalUrl(this.location.path());
       titlee = titlee.slice( 7 );
-      if(titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'video'
-        || titlee === 'login' ) {
+      if(titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'video' || this.title === 'videotest'
+       
+      
+      || titlee === 'login' ) {
           return false;
       }
       else {
