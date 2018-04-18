@@ -53,12 +53,15 @@
                                         </div>-->
 
                                         
-                                        <div  *ngFor="let mssg of innerHtml" >
-                                            ggg
-                                                <div  *ngIf="mssg.type==='recieved'" id="chatMessage" class="container" >
-                                                        aaaa
-
+                                        <div  *ngFor="let mssg of htmlVariable" >
+                                            
+                                                <div  *ngIf="mssg.type==='recieved' && mssg.message != undefined" id="chatMessage" class="container" >
                                                         <img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;">
+                                                        <p>{{mssg.message}}</p>
+                                                    </div>
+
+                                                    <div  *ngIf="mssg.type==='sender' && mssg.message != undefined" id="chatMessage" class="container darker" >
+                                                        <img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="Avatar" class="right" style="width:100%;">
                                                         <p>{{mssg.message}}</p>
                                                     </div>
                                         </div>

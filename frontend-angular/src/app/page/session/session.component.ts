@@ -19,7 +19,7 @@ export class SessionComponent implements OnInit {
   private chatArea;
   searchValue:string = '';
   messageRecieved:string='';
-  @Input() htmlVariable=[{type:"recieved",message:"hi?"}];
+  @Input() htmlVariable=[];
   
   private chatMessage;
  
@@ -56,7 +56,7 @@ onEnter(value : string){
       message : value
     }
   ));
-  
+  this.htmlVariable.push({type:"sender",message:this.value});
   this.searchValue=null;
 }
 
