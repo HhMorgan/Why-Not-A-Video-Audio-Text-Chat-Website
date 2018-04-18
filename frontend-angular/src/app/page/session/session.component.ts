@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Renderer2, ElementRef } from '@angular/core';
 import { ProfileComponent } from '../profile/profile.component';
 import { APIService } from '../../@core/service/api.service';
 import { APIData, User } from '../../@core/service/models/api.data.structure';
@@ -22,7 +22,17 @@ export class SessionComponent implements OnInit {
   
   private chatMessage;
  
-  constructor(private _apiService:APIService,private sessionService : SessionService) { }
+  constructor(private _apiService:APIService,private sessionService : SessionService,private el: ElementRef,private renderer:Renderer2) {
+    //this.renderer.addClass(document.body, 'modal-open');
+    const div = this.renderer.createElement('div');
+  const text = this.renderer.createText('Hello world!');
+
+  this.renderer.appendChild(div, text);
+  this.renderer.appendChild(this.el.nativeElement, div);
+   }
+  /* ngOnDestroy() {
+    this.renderer.removeClass(document.body, 'modal-open');
+  }*/
   
   ngOnInit() {
    
@@ -82,3 +92,7 @@ public socketjoin(){
 
 update(value: string) { this.value = value; }
 }
+
+
+
+
