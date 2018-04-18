@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../@core/service/api.service';
 import { APIData  , User ,FileData} from '../../@core/service/models/api.data.structure'
 import {Buffer} from 'buffer';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-profile',
@@ -11,8 +12,11 @@ import {Buffer} from 'buffer';
 
 export class ProfileComponent implements OnInit {
     private user =<User>{};
+    username: string;
+    private sub: any;
+  
 
-    constructor(private apiServ:APIService) { };
+    constructor(private apiServ:APIService,private route: ActivatedRoute) { };
     changeUserStatus(){
 
       var elem = document.querySelector('.toggle-btn');
@@ -51,10 +55,16 @@ export class ProfileComponent implements OnInit {
     }
    
     ngOnInit() {
-
-         this.loadStatus();
+       this.route.params.subscribe(params => {
+        this.username = params['username'];
+        console.log(this.username);
+        //console.log(params.get('username'));
+        this.loadStatus();
         this.getimage();
         this.dragElement(document.getElementById(("name")));
+     });
+
+       
     }
 
    
