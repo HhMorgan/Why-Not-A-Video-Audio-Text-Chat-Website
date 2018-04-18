@@ -51,10 +51,22 @@
                                           <p>Hey! I'm fine. Thanks for asking!</p>
                                           
                                         </div>-->
+
+                                        
+                                        <div  *ngFor="let mssg of innerHtml" >
+                                            ggg
+                                                <div  *ngIf="mssg.type==='recieved'" id="chatMessage" class="container" >
+                                                        aaaa
+
+                                                        <img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;">
+                                                        <p>{{mssg.message}}</p>
+                                                    </div>
+                                        </div>
+                                        <!--  
                                         <div  id="chatMessage" class="container" >
                                             <img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;">
                                             <div [innerHtml]="htmlVariable"></div>
-                                        </div>
+                                        </div>-->
                                         <div id="chatMessage" class="container">
                                           <img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;">
                                           <p>Sweet! So, what do you wanna do today?</p>
