@@ -66,6 +66,10 @@ export class APIService {
   getUserData(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'user/getUserData').catch(this.errorHandler);
   }
+
+  getUserProfile(user:User): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'user/getUserProfile/'+user.username).catch(this.errorHandler);
+  }
   
   login(user:User):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'auth/login', user).catch(this.errorHandler);

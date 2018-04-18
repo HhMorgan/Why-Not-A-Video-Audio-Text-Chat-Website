@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ProfileComponent implements OnInit {
     private user =<User>{};
     username: string;
+    description:string;
     private sub: any;
   
 
@@ -36,13 +37,13 @@ export class ProfileComponent implements OnInit {
       })
     }
 
-    loadStatus()
+    loadStatus(datain)
     {
       var elem = document.querySelector('.toggle-btn');
 
       this.apiServ.loadStatus().subscribe((apiresponse:APIData)=>
       {
-        if(apiresponse.data)
+        if(datain)
       {
         elem.classList.add('active');
       }
@@ -56,16 +57,33 @@ export class ProfileComponent implements OnInit {
    
     ngOnInit() {
        this.route.params.subscribe(params => {
-        this.username = params['username'];
-        console.log(this.username);
-        //console.log(params.get('username'));
-        this.loadStatus();
-        this.getimage();
-        this.dragElement(document.getElementById(("name")));
+        this.user.username = params['username'];
+        this.apiServ.getUserProfile(this.user).subscribe((apires : APIData) =>{
+          this.username = apires.data.username;
+          this.description=apires.data.description;  
+          console.log(apires.data);
+          console.log(this.username);
+          this.getimageuser(apires.data.img);
+          this.loadStatus(apires.data.onlineStatus);            
+ })
+       
+      
+        //this.dragElement(document.getElementById(("name")));
      });
 
        
     }
+
+    isloggeduser(){
+      this.apiServ.getusername().subscribe((apires : APIData) =>{
+        var profileuser = apires.data;
+        if(this.username!=profileuser){
+             return false;
+        }
+        return true;              
+});      
+    }
+
 
    
 
@@ -98,6 +116,18 @@ export class ProfileComponent implements OnInit {
       },(err) =>{
       console.log(err);
     });
+  }
+
+  getimageuser(datain){
+      var profileimg = document.getElementById("profileimg") as HTMLImageElement
+     // var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
+      var reader : FileReader = new FileReader();
+      reader.readAsDataURL(new Blob( [new Buffer(datain.data)] , {type: datain.data.contentType}))
+      reader.addEventListener("load", function () {
+        profileimg.src = reader.result;
+       // navbarimg.src = reader.result;
+      }, false);
+      
   }
 
   
