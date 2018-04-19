@@ -20,6 +20,13 @@ export class SessionComponent implements OnInit {
   searchValue:string = '';
   messageRecieved:string='';
   @Input() htmlVariable=[];
+  private sessionid = "5accc80710884653ec3a3b14"; 
+  private mediaSource_remote_list : any = [null];
+  private peerConnections : RTCPeerConnection[] = [ 
+    new RTCPeerConnection(null) , 
+    new RTCPeerConnection(null) 
+  ];
+
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   private chatMessage;
  
@@ -29,6 +36,7 @@ export class SessionComponent implements OnInit {
   
   
   ngOnInit() {
+    console.log(this.mediaSource_remote_list.length+"edenudne");
     this.scrollToBottom();
   }
 
@@ -49,6 +57,16 @@ public switchUser(){
   this.userid = (this.userid == "5accc86110884653ec3a3b15") ? "5accc40aef33b42a5cde5c87" : "5accc86110884653ec3a3b15"; 
 }
 
+
+private getOtherPc = (pc) => {
+  return (pc === this.peerConnections[0] ) ? this.peerConnections[1] : this.peerConnections[0];
+}
+
+private getPcName = (pc) => {
+  return (pc === this.peerConnections[0]) ? "PC1":"PC2" 
+}
+
+
 onEnter(value : string){
   console.log(value);
   console.log(JSON.stringify({
@@ -59,6 +77,7 @@ onEnter(value : string){
   this.value = value;
   this.sessionService.sendMessage(
     JSON.stringify({
+      room : this.sessionid ,
       type:"message" , 
       name:this.userid,
       message : value
@@ -74,10 +93,10 @@ onSwitch(){
 public socketSend(){
   this.sessionService.sendMessage(
     JSON.stringify({
-      type:"login" , 
-      name: (this.userid == "5accc86110884653ec3a3b15") ? "5accc40aef33b42a5cde5c87" : "5accc86110884653ec3a3b15"
-    }
-  ));
+      type : "Join",
+      room : this.sessionid
+    })
+  );
 }
 public socketjoin(){
   var flag = true;
@@ -97,6 +116,9 @@ public socketjoin(){
 
 update(value: string) { this.value = value; }
 }
+
+
+
 
 
 

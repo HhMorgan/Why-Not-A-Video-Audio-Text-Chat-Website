@@ -1,8 +1,8 @@
 var socketioJwt = require('socketio-jwt'),
 config = require('../config/appconfig');
-
+var users = {};
 module.exports = function (io) {
-
+    
     io.set('authorization', socketioJwt.authorize({
         secret: config.SECRET ,
         handshake: true
@@ -23,6 +23,11 @@ module.exports = function (io) {
                 data = {}; 
             } 
             switch(data.type){
+
+                
+
+
+
                 case "Join":
                     connection.join(data.room);
                     sendTo(connection , {
@@ -37,6 +42,25 @@ module.exports = function (io) {
                     connection.broadcast.to(data.room).emit('message' , JSON.stringify("User " + connection.request.decoded_token.user._id +" Connected"));
                     console.log(io.sockets.adapter.rooms[data.room].sockets)
                 break;
+                
+
+                case "message": 
+                    
+                    console.log("message : ", data.message); 
+                    //var conn = users[data.name];
+                    //if anyone is logged in with this username then refuse
+                    connection.broadcast.to(data.room).emit('message' , 
+                    JSON.stringify(
+                        {
+                            type: "message",
+                            message : data.message
+                        }
+                    )
+                ); 
+               break; 
+                
+
+
 
                 case "offer": 
                     console.log("Sending offer to room : ", data.room); 
@@ -61,7 +85,7 @@ module.exports = function (io) {
                         )
                     );
                 break;
-
+                    
                 case "candidate":
                     console.log("Sending candidate to room : ", data.room);
                     connection.broadcast.to(data.room).emit('message' , 
