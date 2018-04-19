@@ -65,10 +65,12 @@ export class AdminRatingComponent implements OnInit {
   //  event.confirm.resolve();
 //}
 
-// Dialog test
+// Dialog test (Testing Dialog)
 
+openDialog() { // Method gets called on-click
 
-openDialog() {
+  /* This part is responsible for popup text to be passed in. */
+
   const dialogRef = this.dialog.open(PopOutComponent, {
     width: '250px',
     data: {main_header: "hello world", 
@@ -82,6 +84,8 @@ openDialog() {
   dialogRef.afterClosed().subscribe(result => {
     console.log(`Dialog result: ${result}`);
   });
+
+  // Display result (if any).
 }
 
 }
