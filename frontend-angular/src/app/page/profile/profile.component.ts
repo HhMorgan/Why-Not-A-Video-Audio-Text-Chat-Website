@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ProfileComponent implements OnInit {
     private user =<User>{};
     username: string;
+    currusername: string;
     description:string;
     private sub: any;
   
@@ -60,7 +61,8 @@ export class ProfileComponent implements OnInit {
         this.user.username = params['username'];
         this.apiServ.getUserProfile(this.user).subscribe((apires : APIData) =>{
           this.username = apires.data.username;
-          this.description=apires.data.description;  
+          this.description=apires.data.description;
+          this.getcurrusername();  
           console.log(apires.data);
           console.log(this.username);
           this.getimageuser(apires.data.img);
@@ -74,14 +76,22 @@ export class ProfileComponent implements OnInit {
        
     }
 
-    isloggeduser(){
+    getcurrusername(){
       this.apiServ.getusername().subscribe((apires : APIData) =>{
-        var profileuser = apires.data;
-        if(this.username!=profileuser){
+               this.currusername = apires.data; 
+                           
+      });      
+  }
+
+    isloggeduser(){
+     
+        if(this.username!=this.currusername){
              return false;
         }
-        return true;              
-});      
+        else{
+        return true;       
+        }       
+    
     }
 
 

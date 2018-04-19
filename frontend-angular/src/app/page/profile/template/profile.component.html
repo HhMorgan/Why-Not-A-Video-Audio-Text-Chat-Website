@@ -2,13 +2,15 @@
     <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
         <div class="filter"></div>
     </div>
+    
     <div class="section profile-content">
+           <app-settings-page></app-settings-page>
         <div class="container">
             <div class="owner">
                 <div class="avatar">
                     <label for="file">
                         l                       
-                                               <input class="custom-file-upload" type="file"
+                                               <input *ngIf="isloggeduser()" class="custom-file-upload" type="file"
                                                id="file" style="display:none;" 
                                              (change)="handleFileInput($event.target.files)">
                                             <a > <img id ="profileimg" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture"></a>
@@ -16,7 +18,7 @@
                         
                 </div>
                 <div class="name" id="name">                       
-                       <div id="mydivheader" > <button class="btn btn-outline-default btn-round" (click)="myFunction()"><i class="fa fa-cog"></i> move</button></div>
+                      <!--  <div id="mydivheader" > <button class="btn btn-outline-default btn-round" (click)="myFunction()"><i class="fa fa-cog"></i> move</button></div> -->
                     <h4 class="title">{{username}}<br /></h4>
                     <h6 class="description">Music Producer</h6>
                 </div>
@@ -29,7 +31,7 @@
                 <div class="col-md-6 ml-auto mr-auto text-center">
                     <p>{{description}} </p>
                     <br />
-                    <button  class="btn btn-outline-default btn-round"><i class="fa fa-cog"></i> Settings</button>
+                    <button *ngIf="isloggeduser()" class="btn btn-outline-default btn-round"><i class="fa fa-cog"></i> Settings</button>
                 </div>
             </div>
             <br/>

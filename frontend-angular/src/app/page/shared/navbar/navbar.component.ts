@@ -79,7 +79,8 @@ export class NavbarComponent implements OnInit {
 
     getusername(){
         this.apiServ.getusername().subscribe((apires : APIData) =>{
-                 this.username = apires.data;              
+                 this.username = apires.data; 
+                             
         });      
     }
 
