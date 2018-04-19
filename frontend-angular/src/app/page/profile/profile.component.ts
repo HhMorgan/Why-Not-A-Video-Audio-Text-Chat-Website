@@ -13,143 +13,108 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 
 export class ProfileComponent implements OnInit {
     private user =<User>{};
-    username: string;
+    usernameOfProfile: string;
     currusername: string;
     description:string;
-    private sub: any;
     profileInfo=true;
     profilesettings=false;
   
 
     constructor(private apiServ:APIService,private route: ActivatedRoute) { };
+    //this method changes the user's current status if it's online to offlne and vice versa
+    //connects to th backend using changeUserStatus() method wchich is implemented in the service file
     changeUserStatus(){
-     console.log(this.user);
-
       this.apiServ.changeUserStatus(this.user).subscribe((apiresponse:APIData)=>
       {
-        var onlinestat = document.getElementById("onlinestat");
+        var onlineStatusElem = document.getElementById("onlinestat");  
       var elem = document.querySelector('.toggle-btn');
       //var inputValue = (<HTMLInputElement>document.getElementById("cb-value")).checked;
       if(//inputValue && 
-        !this.user.onlineStatus){
+        !this.user.onlineStatus){  //if offline 
        // elem.classList.add('active');
-        this.user.onlineStatus=true;
-        onlinestat.style.color="#2ecc71";
+        this.user.onlineStatus=true; //change the status to online
+        onlineStatusElem.style.color="#2ecc71"; //change the color of the status circle to green
       }
       else{
         //elem.classList.remove('active');
-        this.user.onlineStatus=false;
-        onlinestat.style.color="#e74c3c";
+        this.user.onlineStatus=false;  //change the status to offline
+        onlineStatusElem.style.color="#e74c3c"; //change the color of the status circle to red
       }
       })
-
-     // this.loadStatusCurrUser();
     }
 
+    //this method loads the user's current status
+    //connects to th backend using loadStatus() method wchich is implemented in the service file
     loadStatus(datain)
     {
-      var onlinestat = document.getElementById("onlinestat");
-      
+      var onlineStatusElem = document.getElementById("onlinestat");  
      // var elem = document.querySelector('.toggle-btn');
-
       this.apiServ.loadStatus().subscribe((apiresponse:APIData)=>
       {
         if(datain)
       {
-        onlinestat.style.color="#2ecc71";
+        onlineStatusElem.style.color="#2ecc71"; //change the color of the status circle to green if online
        // elem.classList.add('active');
       }
       else
       {
-        onlinestat.style.color="#e74c3c";
+        onlineStatusElem.style.color="#e74c3c"; //change the color of the status circle to red if offline
         
        // elem.classList.remove('active');
       }
       })
 
-    }
+    } 
 
     
-    loadStatusCurrUser()
-    {
-      var onlinestat = document.getElementById("onlinestat");
-      
-      var elem = document.querySelector('.toggle-btn');
-
-      this.apiServ.loadStatus().subscribe((apiresponse:APIData)=>
-      {
-        if(apiresponse)
-      {
-        onlinestat.style.color="#2ecc71";
-        //elem.classList.add('active');
-      }
-      else
-      {
-        onlinestat.style.color="#e74c3c";
-        
-        //elem.classList.remove('active');
-      }
-      })
-
-    }
-   
+   //this method gets called everytime the page is reloaded
     ngOnInit() {
-       this.route.params.subscribe(params => {
+       this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
         this.user.username = params['username'];
-        this.apiServ.getUserProfile(this.user).subscribe((apires : APIData) =>{
-          this.username = apires.data.username;
+        this.apiServ.getUserProfile(this.user).subscribe((apires : APIData) =>{ //this method gets all the info of current profile 
+          this.usernameOfProfile = apires.data.username;
           this.description=apires.data.description;
           this.getcurrusername();  
-          console.log(apires.data);
-          console.log(this.username);
-          this.getimageuser(apires.data.img);
-          this.showrating(apires.data.rating);
-          this.loadStatus(apires.data.onlineStatus);       
+          this.getimageuser(apires.data.img); //this method gets/views the image of the user 
+          this.showrating(apires.data.rating); //this method gets/views the ratings of the user 
+          this.loadStatus(apires.data.onlineStatus); //this method gets/views the status of the user  
  })
-
-
-       
-      
-        //this.dragElement(document.getElementById(("name")));
      });
 
        
     }
 
-
+   //this method takes the data(ratings) of the user from ngOnIt
     showrating(datain){
       var stars = document.querySelectorAll('[id^=star]');
       var textToWrite;
       var i;
       for(i in stars ){
         if (i<datain){
-        console.log(i);
           stars[i].classList.add('checked');
         }
-         /* do your thing */
       }
      }
-
+  
+     //this method gets username of the loggedin user
+     //connects to th backend using getusername() method wchich is implemented in the service file
     getcurrusername(){
       this.apiServ.getusername().subscribe((apires : APIData) =>{
-               this.currusername = apires.data; 
-                           
+               this.currusername = apires.data;             
       });      
   }
-
+  //this method checks if the profile that's currently viewed is the same as the loggedin user
     isloggeduser(){
-     
-        if(this.username!=this.currusername){
+        if(this.usernameOfProfile!=this.currusername){
              return false;
         }
         else{
         return true;       
         }       
-    
     }
 
-    editstatus(){
-      var onlinestat = document.getElementById("onlinestat");
+   /*  editstatus(){
+      var onlineStatusElem = document.getElementById("onlinestat");  
       if(!this.isloggeduser){
         onlinestat.removeEventListener("click", this.changeUserStatus);
       }
@@ -157,29 +122,19 @@ export class ProfileComponent implements OnInit {
         onlinestat.addEventListener("click", this.changeUserStatus);
       }       
   
-  }
+  } */
 
-
-    
-    //onlinestat.click('');
-   //
-
+   //this method basically disables the settings page and views the profile page
     public profileinfo(){
       this.profilesettings=false;
       this.profileInfo=true;
     }
+    //this method basically disables the profile page and views the settings page
     public profilesettingsbtn(){
       this.profilesettings=true;
       this.profileInfo=false;
     
     }
-
-    static staticMethod() {
-      console.log('static method has been called.');
-    }
-
-   
-
     fileToUpload: File = null;
     editable: boolean = true; // intially just for testing
 
