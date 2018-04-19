@@ -6,7 +6,7 @@ import { APIService } from './api.service';
 
 @Injectable()
 export class SessionService {
-  private url = 'https://192.168.0.199';  
+  private url = 'https://192.168.1.199:3000';  
   private socket;
   
   sendMessage(message){
