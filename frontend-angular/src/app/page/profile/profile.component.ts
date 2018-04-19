@@ -69,8 +69,11 @@ export class ProfileComponent implements OnInit {
           console.log(apires.data);
           console.log(this.username);
           this.getimageuser(apires.data.img);
+          this.showrating(apires.data.rating);
           this.loadStatus(apires.data.onlineStatus);            
  })
+
+
        
       
         //this.dragElement(document.getElementById(("name")));
@@ -78,6 +81,20 @@ export class ProfileComponent implements OnInit {
 
        
     }
+
+
+    showrating(datain){
+      var stars = document.querySelectorAll('[id^=star]');
+      var textToWrite;
+      var i;
+      for(i in stars ){
+        if (i<datain){
+        console.log(i);
+          stars[i].classList.add('checked');
+        }
+         /* do your thing */
+      }
+     }
 
     getcurrusername(){
       this.apiServ.getusername().subscribe((apires : APIData) =>{
@@ -105,6 +122,10 @@ export class ProfileComponent implements OnInit {
       this.profilesettings=true;
       this.profileInfo=false;
     
+    }
+
+    static staticMethod() {
+      console.log('static method has been called.');
     }
 
    

@@ -88,8 +88,10 @@ export class SettingsPageComponent implements OnInit {
       }
 
      profileinfo(){
-      //profileinfo();
     }
+
+    
+
 
      editemail() {
           var x = document.getElementById("editemail");

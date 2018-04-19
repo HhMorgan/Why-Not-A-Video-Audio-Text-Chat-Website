@@ -1,6 +1,9 @@
 <div class="nav-tabs-navigation">
+    
     <div class=" nav-tabs-wrapper">
+       
       <ngb-tabset [justify]="'left'">
+         
         <ngb-tab title="Profile">
         <ng-template ngbTabContent>
             
@@ -47,14 +50,18 @@
         </ng-template>
         </ngb-tab>
         <ngb-tab title="Upgrade to Expert">
-        <ng-template ngbTabContent>
+        <ng-template  ngbTabContent >
             <div ><app-requestExpert></app-requestExpert>
-              <button  (click)=profileinfo() type="button" class="btn btn-default">Default</button>
+             
              
             </div>
         </ng-template>
         </ngb-tab>
-        <ngb-tab ng-click="$parent.$parent.active = 0">   </ngb-tab> 
+        <ngb-tab>
+            <ng-template ngbTabTitle><i (click)=profileinfo() class="fa fa-times" style="font-size:24px"></i></ng-template>
+          </ngb-tab>
+       
       </ngb-tabset>
+      
     </div>
   </div>
