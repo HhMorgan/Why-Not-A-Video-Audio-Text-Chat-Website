@@ -35,19 +35,29 @@ export class SettingsPageComponent implements OnInit {
     }
 
     updateemail(){
-      this.profile.email=((document.getElementById("inputDanger1") as HTMLInputElement).value)
+      var element = document.getElementById("inputemail");
+      var groupofdanger = document.getElementById("groupdanger");
+      this.profile.email=((document.getElementById("inputemail") as HTMLInputElement).value)
       if( this.profile.email!= ''){
 
       var x = document.getElementById("warning");
       this.apiServ.update_Email(this.profile).subscribe((apires : APIData) =>{
         x.innerHTML="either the format is wrong or the email is taken";
         console.log(apires.msg);
-        if(apires.msg)
+        if(apires.msg){
            x.innerHTML=""+apires.msg;
+           groupofdanger.classList.add("has-danger");
+           element.classList.add("form-control-success");
+           element.classList.add("form-control-success");
+           element.classList.remove("form-control-danger");
+        }
        
         x.style.display = "block";
     },(err) =>{
-      x.innerHTML=err.msg;x.style.display = "block";
+      element.classList.remove("form-control-success");
+      element.classList.add("form-control-danger");
+        x.innerHTML=err.msg;
+        x.style.display = "block";
     });
       }
      
@@ -64,7 +74,7 @@ export class SettingsPageComponent implements OnInit {
           x.style.display = "none";
           var x = document.getElementById("editwithbuttons");
           x.style.display = "block";
-          var x = document.getElementById("inputDanger1");
+          var x = document.getElementById("inputemail");
           x.style.display = "block";
           
   }
@@ -80,7 +90,7 @@ export class SettingsPageComponent implements OnInit {
     x.style.display = "block";
     var x = document.getElementById("editwithbuttons");
     x.style.display = "none";
-    var x = document.getElementById("inputDanger1");
+    var x = document.getElementById("inputemail");
     x.style.display = "none";
 
   }

@@ -144,7 +144,7 @@ module.exports.uploadimage = function(req, res) {
 
 module.exports.updateEmail = function(req, res, next) {
   if (!Validations.matchesRegex(req.body.email, EMAIL_REGEX)) {
-    return res.status(400).json({
+    return res.status(422).json({
       err: null,
       msg: 'Email must be in correct format.',
       data: null
