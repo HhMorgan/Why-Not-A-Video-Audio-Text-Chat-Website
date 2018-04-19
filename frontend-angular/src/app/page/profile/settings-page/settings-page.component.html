@@ -1,3 +1,67 @@
-<p>
-  settings-page works!
-</p>
+<div class="nav-tabs-navigation">
+    <div class=" nav-tabs-wrapper">
+      <ngb-tabset [justify]="'left'">
+        <ngb-tab title="Profile">
+        <ng-template ngbTabContent>
+            
+          <div class="">
+           <a id="email" class=" dropdown-item">email:{{email}}</a>
+           <div (click)="editemail()" id="editemail" ><button  type="button" class=" btn btn-info btn-round ">Edit</button></div>
+           <div class="b form-group has-danger">
+              <input  style="display:none;" type="text" class=" form-control form-control-danger" id="inputDanger1" placeholder="">
+              <div id="warning" style="display:none;text-align:center;" class="form-control-feedback"></div>
+          </div>
+          <br>
+          <br>
+          <div  style="display:none;" id="editwithbuttons" > <button (click)="updateemail()" type="button" class="btn btn-success">EDIT</button>
+            <button type="button" (click)="CancelUpdateEmail()" class="btn btn-warning">CANCEL</button> </div>
+          </div>
+          <div class="dropdown-divider"></div>
+            <div class=" dropdown-item"><p>description: {{description}} </p></div>
+            <br>
+            <div class="c">
+              <!-- <textarea class="form-control"  rows="3" placeholder=">{{description}}"></textarea> -->
+          
+             </div>
+             <br>
+              <div class="box">
+                 <label></label>
+                 <div class="hr-line"><hr></div>
+             </div>
+             <div class="">
+                <!-- <a class=" dropdown-item">password:{{password}}</a> -->
+               <P>old Password:</P> <div  class="b"><input type="text" class="form-control" placeholder="old Password"></div>
+                <P>new Password:</P> <div  class="b"><input type="text" class="form-control" placeholder="new Password"></div>
+                <P>Confirm Password:</P> <div  class="b"><input type="text" class="form-control" placeholder="confirm Password"></div>
+               </div>
+               <br>
+               <br>
+               <br>
+               <br>
+                <div class="box">
+                   <label></label>
+                   <div class="hr-line"><hr></div>
+               </div>
+               <div class="">
+                  <a class=" dropdown-item">Another separated link</a>
+                 </div>
+                 <br>
+                  <div class="box">
+                     <label></label>
+                     <div class="hr-line"><hr></div>
+                 </div>
+          
+        </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Upgrade to Expert">
+        <ng-template ngbTabContent>
+            <div ><app-requestExpert></app-requestExpert>
+              <button  (click)=profileinfo() type="button" class="btn btn-default">Default</button>
+             
+            </div>
+        </ng-template>
+        </ngb-tab>
+        <ngb-tab ng-click="$parent.$parent.active = 0">   </ngb-tab> 
+      </ngb-tabset>
+    </div>
+  </div>

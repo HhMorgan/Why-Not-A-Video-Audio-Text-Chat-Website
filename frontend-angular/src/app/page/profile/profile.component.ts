@@ -3,6 +3,7 @@ import { APIService } from '../../@core/service/api.service';
 import { APIData  , User ,FileData} from '../../@core/service/models/api.data.structure'
 import {Buffer} from 'buffer';
 import { ActivatedRoute } from '@angular/router';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @Component({
     selector: 'app-profile',
@@ -16,6 +17,8 @@ export class ProfileComponent implements OnInit {
     currusername: string;
     description:string;
     private sub: any;
+    profileInfo=true;
+    profilesettings=false;
   
 
     constructor(private apiServ:APIService,private route: ActivatedRoute) { };
@@ -94,6 +97,15 @@ export class ProfileComponent implements OnInit {
     
     }
 
+    public profileinfo(){
+      this.profilesettings=false;
+      this.profileInfo=true;
+    }
+    public profilesettingsbtn(){
+      this.profilesettings=true;
+      this.profileInfo=false;
+    
+    }
 
    
 

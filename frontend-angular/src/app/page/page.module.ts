@@ -51,6 +51,7 @@ import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component'
 import { TagSearchComponent } from './tagSearch/tagSearch.component';
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
+import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
 
 
 
@@ -101,6 +102,7 @@ import { AdminRatingComponent } from '../page/components/admin-rating/admin-rati
     AdminPageUserComponent,
     AdminViewUsersComponent,
     AdminRatingComponent,
+    SettingsPageComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

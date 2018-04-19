@@ -14,7 +14,7 @@ import { FooterComponent } from './page/shared/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {AdminRatingComponent} from './page/components/admin-rating/admin-rating.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { SettingsPageComponent } from './settings-page/settings-page.component';
+
 
 
 
@@ -23,7 +23,6 @@ import { SettingsPageComponent } from './settings-page/settings-page.component';
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    SettingsPageComponent,
   ],
   imports: [
     NgbModule.forRoot(),

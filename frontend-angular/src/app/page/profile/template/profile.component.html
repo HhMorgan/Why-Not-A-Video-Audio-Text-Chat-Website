@@ -4,8 +4,8 @@
     </div>
     
     <div class="section profile-content">
-           <app-settings-page></app-settings-page>
-        <div class="container">
+           <div  *ngIf="profilesettings"><app-settings-page></app-settings-page></div>
+        <div *ngIf="profileInfo" class="container">
             <div class="owner">
                 <div class="avatar">
                     <label for="file">
@@ -19,7 +19,16 @@
                 </div>
                 <div class="name" id="name">                       
                       <!--  <div id="mydivheader" > <button class="btn btn-outline-default btn-round" (click)="myFunction()"><i class="fa fa-cog"></i> move</button></div> -->
-                    <h4 class="title">{{username}}<br /></h4>
+                    <h4 class="title">{{username}}
+                           
+                        <br /></h4>
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+                        <span id="s1" class="fa fa-star "></span>
+                        <span id="s2" class="fa fa-star "></span>
+                        <span id="s3" class="fa fa-star "></span>
+                        <span id="s4" class="fa fa-star"></span>
+                        <span id="s5" class="fa fa-star"></span>
                     <h6 class="description">Music Producer</h6>
                 </div>
             </div>
@@ -31,7 +40,7 @@
                 <div class="col-md-6 ml-auto mr-auto text-center">
                     <p>{{description}} </p>
                     <br />
-                    <button *ngIf="isloggeduser()" class="btn btn-outline-default btn-round"><i class="fa fa-cog"></i> Settings</button>
+                    <button  *ngIf="isloggeduser()" (click)=profilesettingsbtn() class="btn btn-outline-default btn-round"><i class="fa fa-cog"></i> Edit Info</button>
                 </div>
             </div>
             <br/>
@@ -42,7 +51,7 @@
                                 <input id='cb-value' type="checkbox" (click)="changeUserStatus()" checked class="cb-value" />
                                 <span class="round-btn"></span>
                               </div>
-                              <app-requestExpert></app-requestExpert>
+                              
                               </div>
                             </div>
             <div class="nav-tabs-navigation">

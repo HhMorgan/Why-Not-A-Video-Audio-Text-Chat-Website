@@ -55,8 +55,43 @@ module.exports.getimage = function(req, res) {
    });
 };
 
+module.exports.getpassword = function(req, res) {
+  User.findById(req.decodedToken.user._id).exec (function(err, user) {
+    if (err) {
+       return next(err);
+     }
+    return res.status(201).json({
+       err: null ,
+       msg: null ,
+       data: user.password
+    });
+   });
+};
+
 module.exports.getUserProfile = function(req, res) {
   User.findOne( { username:{ $eq: req.params.username } }).exec (function(err, user) {
+    if(!user){
+      return res.status(404).json({
+        err: null ,
+        msg: 'user not found' ,
+        data: null
+     });
+    }
+    else if (err) {
+       return next(err);
+     }
+   else{
+    return res.status(201).json({
+       err: null ,
+       msg: null ,
+       data: user
+    });
+  }
+   });
+};
+
+module.exports.getUserData = function(req, res) {
+  User.findById(req.decodedToken.user._id).exec (function(err, user) {
     if(!user){
       return res.status(404).json({
         err: null ,
@@ -109,7 +144,7 @@ module.exports.uploadimage = function(req, res) {
 
 module.exports.updateEmail = function(req, res, next) {
   if (!Validations.matchesRegex(req.body.email, EMAIL_REGEX)) {
-    return res.status(422).json({
+    return res.status(400).json({
       err: null,
       msg: 'Email must be in correct format.',
       data: null
