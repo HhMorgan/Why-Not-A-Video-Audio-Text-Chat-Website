@@ -134,16 +134,8 @@ module.exports.editSlotRequest =function(req, res, next) {
 };
 
 module.exports.viewSLotRequests = function(req, res, next) {
-  // Finds authenticated user info 
-  User.findById(req.decodedToken.user._id).exec(function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(404).json({ err: null, msg: 'User not found.', data: null });
-    }
-    // Retrieves email of the logged in expert 
-    var email = user.email;
+    // Retrieves email of the logged in expert from decoded token
+    var email = req.decodedToken.user.email;
     /* Requests is found by matching recipient to the expert's email, status should be
        pending and type is slotRequest.
      */
@@ -161,7 +153,6 @@ module.exports.viewSLotRequests = function(req, res, next) {
         data: requests
       });
     });
-  });
 };
 
 module.exports.chooseSlot = function(req,res,next){

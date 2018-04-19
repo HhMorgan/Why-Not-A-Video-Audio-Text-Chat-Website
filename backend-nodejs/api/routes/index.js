@@ -43,7 +43,15 @@ var isNotAuthenticated = function(req, res, next) {
   }
   next();
 };
-
+var isExpert = function(req,res,next){
+  if(req.decodedToken.user.role.trim() !== 'expert' && req.decodedToken.user.role.trim() !== 'Expert' ){
+    return res.status(403).json({
+       err: null,
+       msg: 'Unauthorized.',
+       data: null });
+  }
+  next();
+};
 // all the methods below are all routers where we specify a route for api.service to 
 // call and what method in the backend to go with the specefied route 
 //-----------------------------Authentication Routes-------------------------
@@ -65,10 +73,10 @@ router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescript
 
 //-----------------------------User Role Expert Routes-------------------------
 router.post('/expert/chooseSlot',expert.chooseSlot);
-router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests);
-router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
-router.post('/expert/addSpeciality', isAuthenticated , expert.addSpeciality); 
-router.delete('/expert/editSpeciality/:tagId',isAuthenticated,expert.editSpeciality);
+router.get('/expert/viewSlotRequest', isAuthenticated ,isExpert, expert.viewSLotRequests);
+router.patch('/expert/editSlotRequest/:requestId', isAuthenticated ,isExpert, expert.editSlotRequest);
+router.post('/expert/addSpeciality', isAuthenticated ,isExpert, expert.addSpeciality); 
+router.delete('/expert/editSpeciality/:tagId',isAuthenticated,isExpert,expert.editSpeciality);
 //-------------------------------------------------------------------
 router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
 router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);
