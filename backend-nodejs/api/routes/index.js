@@ -81,6 +81,7 @@ router.get('/getusername', isAuthenticated , userCtrl.getusername);
 router.get('/user/getUserData', isAuthenticated , userCtrl.getUserData);
 router.get('/user/getpassword', isAuthenticated , userCtrl.getpassword);
 router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
+router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
 router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUserProfile);
 
 //-----------------------------User Routes-------------------------

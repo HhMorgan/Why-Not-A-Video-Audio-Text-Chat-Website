@@ -23,36 +23,70 @@ export class ProfileComponent implements OnInit {
 
     constructor(private apiServ:APIService,private route: ActivatedRoute) { };
     changeUserStatus(){
-
+      var onlinestat = document.getElementById("onlinestat");
       var elem = document.querySelector('.toggle-btn');
-      var inputValue = (<HTMLInputElement>document.getElementById("cb-value")).checked;
-      if(inputValue && !this.user.onlineStatus){
-        elem.classList.add('active');
+      //var inputValue = (<HTMLInputElement>document.getElementById("cb-value")).checked;
+      if(//inputValue && 
+        !this.user.onlineStatus){
+       // elem.classList.add('active');
         this.user.onlineStatus=true;
+        onlinestat.style.color="#2ecc71";
       }
       else{
-        elem.classList.remove('active');
+        //elem.classList.remove('active');
         this.user.onlineStatus=false;
+        onlinestat.style.color="#e74c3c";
       }
 
       this.apiServ.changeUserStatus(this.user).subscribe((apiresponse:APIData)=>
       {
         console.log(apiresponse);
       })
+
+     // this.loadStatusCurrUser();
     }
 
     loadStatus(datain)
     {
-      var elem = document.querySelector('.toggle-btn');
+      var onlinestat = document.getElementById("onlinestat");
+      
+     // var elem = document.querySelector('.toggle-btn');
 
       this.apiServ.loadStatus().subscribe((apiresponse:APIData)=>
       {
         if(datain)
       {
+        onlinestat.style.color="#2ecc71";
+       // elem.classList.add('active');
+      }
+      else
+      {
+        onlinestat.style.color="#e74c3c";
+        
+       // elem.classList.remove('active');
+      }
+      })
+
+    }
+
+    
+    loadStatusCurrUser()
+    {
+      var onlinestat = document.getElementById("onlinestat");
+      
+      var elem = document.querySelector('.toggle-btn');
+
+      this.apiServ.loadStatus().subscribe((apiresponse:APIData)=>
+      {
+        if(apiresponse)
+      {
+        onlinestat.style.color="#2ecc71";
         elem.classList.add('active');
       }
       else
       {
+        onlinestat.style.color="#e74c3c";
+        
         elem.classList.remove('active');
       }
       })
