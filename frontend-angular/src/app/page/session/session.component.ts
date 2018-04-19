@@ -1,4 +1,4 @@
-import { Component, OnInit,Renderer2, ElementRef,Input  } from '@angular/core';
+import { Component, OnInit,Renderer2, ElementRef,Input,ViewChild  } from '@angular/core';
 
 import { ProfileComponent } from '../profile/profile.component';
 import { APIService } from '../../@core/service/api.service';
@@ -20,7 +20,7 @@ export class SessionComponent implements OnInit {
   searchValue:string = '';
   messageRecieved:string='';
   @Input() htmlVariable=[];
-  
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   private chatMessage;
  
   constructor(private _apiService:APIService,private sessionService : SessionService,private el: ElementRef,private renderer:Renderer2) {
@@ -29,10 +29,18 @@ export class SessionComponent implements OnInit {
   
   
   ngOnInit() {
-    
+    this.scrollToBottom();
   }
 
-  
+  ngAfterViewChecked() {        
+    this.scrollToBottom();        
+}
+
+scrollToBottom(): void {
+  try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+  } catch(err) { }                 
+}
   userChatChange(val : any){
     this.reciever=val;
   }

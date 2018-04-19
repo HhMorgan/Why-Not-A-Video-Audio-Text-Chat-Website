@@ -79,7 +79,7 @@ const options = {
   cert: fs.readFileSync(config.CERT_Path)
 };
 
-var server = http.createServer(app);
+var server = app.server;
 
 /**
  * Listen on provided port, on all network interfaces.

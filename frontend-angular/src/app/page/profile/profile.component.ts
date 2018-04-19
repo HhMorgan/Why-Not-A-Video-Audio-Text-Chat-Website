@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../@core/service/api.service';
-import { APIData  , User ,FileData } from '../../@core/service/models/api.data.structure'
+import { APIData  , User ,FileData} from '../../@core/service/models/api.data.structure'
 import {Buffer} from 'buffer';
 
 @Component({
@@ -49,12 +49,15 @@ export class ProfileComponent implements OnInit {
       })
 
     }
-
+   
     ngOnInit() {
-        this.loadStatus();
+
+         this.loadStatus();
         this.getimage();
         this.dragElement(document.getElementById(("name")));
     }
+
+   
 
     fileToUpload: File = null;
     editable: boolean = true; // intially just for testing
@@ -77,7 +80,7 @@ export class ProfileComponent implements OnInit {
       var profileimg = document.getElementById("profileimg") as HTMLImageElement
       var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
       var reader : FileReader = new FileReader();
-      reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer.data)] , {type: 'image/png'}))
+      reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer)] , {type: apires.data.contentType}))
       reader.addEventListener("load", function () {
         profileimg.src = reader.result;
         navbarimg.src = reader.result;

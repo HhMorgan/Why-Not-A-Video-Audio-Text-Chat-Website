@@ -54,6 +54,9 @@ router.post('/Tags/AddTag', AdminController.AddTag);
 router.get('/Tags/getTags' , AdminController.getTags);
 router.patch('/Tag/editTags/:tagId', AdminController.editTag);
 router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
+router.patch('/User/blockUser/:userId', AdminController.blockUser);
+router.patch('/User/downgradeExpert/:userId', AdminController.downgradeExpertToUser);
+router.get('/User/getUsers',AdminController.getUsers);
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);
@@ -64,6 +67,7 @@ router.post('/expert/chooseSlot',expert.chooseSlot);
 router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests);
 router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
 router.post('/expert/addSpeciality', isAuthenticated , expert.addSpeciality); 
+router.delete('/expert/editSpeciality/:tagId',isAuthenticated,expert.editSpeciality);
 //-------------------------------------------------------------------
 router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
 router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);
@@ -78,12 +82,15 @@ router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStat
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
 
-//router.get('/getExpertSchedule/:userId', isAuthenticated, userCtrl.getExpertSchedule);
-
-router.get('/getExpertSchedule/:userId', userCtrl.getExpertSchedule);
+router.get('/getExpertSchedule/:userId', isAuthenticated, userCtrl.getExpertSchedule);
 
 router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert);
 
+//to get offered slots:
+router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
+//to choose slot
+router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
+
+router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
+
 module.exports = router;
-
-

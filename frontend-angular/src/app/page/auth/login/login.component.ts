@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
 // merge conflict altho insignificant 
 //        console.log(apiresponse.msg);
       })
+      window.location.href="/#/page/officehours";
   } else
     this.loginMessage = 'Username or Password Can not Be Empty ';
   }

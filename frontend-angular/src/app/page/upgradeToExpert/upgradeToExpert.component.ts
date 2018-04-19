@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 
 @Component({
-  selector: 'app-request',
+  selector: 'app-requestExpert',
   templateUrl: './template/upgradeToExpert.component.html',
   styleUrls: ['./template/upgradeToExpert.component.css'],
  // providers:[APIService]

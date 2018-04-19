@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import * as io from 'socket.io-client';
+import { APIService } from './api.service';
 
 @Injectable()
 export class SessionService {
@@ -14,7 +15,9 @@ export class SessionService {
   
   getMessages() {
     let observable = new Observable(observer => {
-        this.socket = io(this.url);
+        this.socket = io.connect(this.url, {
+          query: 'token=' + APIService.getToken()
+        });
         this.socket.on('message', (data) => {
             observer.next(data);
         });

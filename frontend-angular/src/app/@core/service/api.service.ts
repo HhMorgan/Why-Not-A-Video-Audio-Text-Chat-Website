@@ -4,11 +4,11 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData,Tags , Session ,Request, CandicateSession , Profile , User , FileData,RequestData } from '../service/models/api.data.structure';
+import { APIData , SlotData , Tags , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
-  private apiUrl = 'http://localhost:3000/api/';
+  private apiUrl = 'https://192.168.0.3:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login','auth/signup'];
   constructor(private http: HttpClient) {}
 
@@ -48,12 +48,17 @@ export class APIService {
 
   getSlotRequests(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'expert/viewSLotRequest').catch(this.errorHandler);
+  }
+ 
+ 
+ editSlotRequest(request: Request): Observable<APIData> {
+  return this.http.patch<APIData>(this.apiUrl+'expert/editSlotRequest/'+request._id,request).catch(this.errorHandler);
+ }
 
-  }
-  
-  editSlotRequest(request: Request): Observable<APIData> {
-    return this.http.patch<APIData>(this.apiUrl + 'expert/editSlotRequest/'+request._id,request).catch(this.errorHandler);
-  }
+  getExpert(): Observable<APIData> {
+   return this.http.get<APIData>(this.apiUrl + 'session/getExpert').catch(this.errorHandler);
+}
+
 
   getUserData(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'user/getUserData').catch(this.errorHandler);
@@ -100,6 +105,11 @@ export class APIService {
     return this.http.post<APIData>(this.apiUrl + 'auth/changeUserStatus', user).catch(this.errorHandler);
   };
 
+  editSpeciality(speciality): Observable<APIData> {
+    return this.http.delete<APIData>(this.apiUrl + 'expert/editSpeciality',speciality)
+    .catch(this.errorHandler);
+  }
+
   updateSessionCandidates( sessionData : CandicateSession ): Observable<APIData> {
     return this.http.post<APIData>( this.apiUrl + 'session/updateCandidate', sessionData)
     .catch(this.errorHandler);
@@ -122,4 +132,31 @@ export class APIService {
     return this.http.post<APIData>(this.apiUrl + 'expert/addSpeciality',{speciality:speciality})
     .catch(this.errorHandler);
   }
+
+  getOfferedSlots(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'user/getOfferedSlots').catch(this.errorHandler);
+  }
+  reserve(offeredSlots:OfferedSlots): Observable<APIData> {
+    return this.http.post<OfferedSlots>(this.apiUrl + 'user/reserveSlot',offeredSlots).catch(this.errorHandler);
+  }
+
+  viewSuggestedExperts(tag:Tags):Observable<APIData>{
+    return this.http.get<Tags>(this.apiUrl + 'user/viewSuggestedExperts/'+ tag.name).catch(this.errorHandler);
+  }
+
+  getUsers(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'User/getUsers').catch(this.errorHandler);
+  }
+
+
+  blockUser(Users:User):Observable<APIData>{
+    return this.http.patch<APIData>(this.apiUrl + '/User/blockUser/'+Users._id,Users)
+    .catch(this.errorHandler);
+  }
+  downgradeExpert(Users:User):Observable<APIData>{
+    return this.http.patch<APIData>(this.apiUrl + '/User/downgradeExpert/'+Users._id,Users)
+    .catch(this.errorHandler);
+  }
+
+
 }

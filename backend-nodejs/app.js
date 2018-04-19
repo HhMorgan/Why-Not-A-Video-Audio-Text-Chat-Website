@@ -11,9 +11,11 @@ var express = require('express'),
   config = require('./api/config/appconfig'),
   http = require('http'),
   https = require('https'),
+  io = require('socket.io'),
+  fs = require('fs'),
+  multer = require('multer'),
   app = express();
-  var fs = require('fs');
-  var multer = require('multer');
+
 
 // Set the secret of the app that will be used in authentication
 app.set('secret', config.SECRET);
@@ -84,7 +86,21 @@ app.use(function(req, res) {
   });
 });
 
-app.server = http.createServer(app);
+const options = { 
+  key: fs.readFileSync(config.CERT_KEY_Path) ,
+  cert: fs.readFileSync(config.CERT_Path)
+};
+
+var secure = true
+
+if(secure){
+  app.server = https.createServer(options,app);
+} else {
+  app.server = http.createServer(app);
+}
+
+app.io = io(app.server);
+require('./api/controllers/socketio.controller')(app.io);
 module.exports = app;
 
 

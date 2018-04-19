@@ -33,4 +33,12 @@ export class ExpertComponent implements OnInit {
   });
  }
 }
+editSpeciality(){
+    
+     if(this.speciality!=null){ 
+      this.apiService.editSpeciality(this.speciality).subscribe((apiresponse: APIData)=>{
+        console.log(apiresponse);
+    });
+   }
+  }
 }

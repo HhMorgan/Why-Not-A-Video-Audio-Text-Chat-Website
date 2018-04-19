@@ -1,0 +1,30 @@
+<div style="background-color:gray" class="container">
+                <h2><a>Your Offered Slots</a></h2>            
+              <table class="table">
+                <thead>
+                  <tr>
+                        <th><h1>Expert</h1></th>
+                        <th><h1>Slots</h1></th>
+                        <th><h1>Status</h1></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let request of requests; let i=index">
+                     <!-- <td>{{ request.user_email }}</td>-->
+                      <td>{{ request.expert_email }}</td>
+                     <!-- <td>{{ request.slots }}</td>-->
+                      <td align='center'>
+                          <form><input type=submit value="{{ request.slots[0] }}"></form>
+                          <form><input type=submit value="{{ request.slots[1] }}"></form>
+                          <form><input type=submit value="{{ request.slots[2] }}"></form>
+                    </td>
+                      <td>{{ request.status }}</td>
+                      </tr>
+                </tbody>
+            </table>
+            </div>
+            <div>
+                    <input type="text" [(ngModel)]="slot" placeholder="Slot/(Decline)"/>
+                    <input type="text"  [(ngModel)]="expert" placeholder="ExpertEmail"/>
+                    <button (click)="chooseSlot($event)">Send</button>
+                </div>

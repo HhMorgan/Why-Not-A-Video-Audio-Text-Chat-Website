@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app.routing';
 @Component({
   selector: 'app-root',
   template: `
-  <app-navbar ></app-navbar>
+  <app-navbar *ngIf="removeHeader()" ></app-navbar>
     <router-outlet></router-outlet>
     <app-footer *ngIf="removeFooter()"></app-footer>
   `,
@@ -31,15 +31,18 @@ export class AppComponent {
           }else{
               window.document.activeElement.scrollTop = 0;
           }
-          this.navbar.sidebarClose();
+          if(this.removeHeader())
+             this.navbar.sidebarClose();
       });
       this.renderer.listenGlobal('window', 'scroll', (event) => {
           const number = window.scrollY;
           if (number > 150 || window.pageYOffset > 150) {
               // add logic
+              if(this.removeHeader())
               navbar.classList.remove('navbar-transparent');
           } else {
               // remove logic
+              if(this.removeHeader())
               navbar.classList.add('navbar-transparent');
           }
       });
@@ -52,16 +55,29 @@ export class AppComponent {
       }
       if (version) {
           var body = document.getElementsByTagName('body')[0];
+          if(this.removeHeader())
           body.classList.add('ie-background');
 
       }
 
   }
+  removeHeader() {
+    var titlee = this.location.prepareExternalUrl(this.location.path());
+    titlee = titlee.slice( 7 );
+    if(titlee === 'videotest' ) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
   removeFooter() {
       var titlee = this.location.prepareExternalUrl(this.location.path());
       titlee = titlee.slice( 7 );
-      if(titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'video'
-        || titlee === 'login' ) {
+      if(titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'video' || this.title === 'videotest'
+       
+      
+      || titlee === 'login' ) {
           return false;
       }
       else {

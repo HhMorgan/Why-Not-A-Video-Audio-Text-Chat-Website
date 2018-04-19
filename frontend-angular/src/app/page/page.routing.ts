@@ -15,6 +15,11 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
 import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
 import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
+import { ExpertsListComponent } from './expertsList/expertsList.component';
+import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
+import { TagSearchComponent } from './tagSearch/tagSearch.component';
+import { SessionVideoComponent } from './sessionVideoVoice/sessionvideo.component';
+
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
@@ -22,17 +27,29 @@ const routes: Routes = [
   { path: 'signup' , component: SignupComponent},
   { path: 'dashboard', component:DashboardComponent},
   { path: 'admin', component: AdminComponent },
+  { path: 'admin-User', component: AdminPageUserComponent },
   { path: 'home' , component:HomeComponent},
   { path: 'video' , component:VideoViewComponent},
+  { path: 'videotest' , component:SessionVideoComponent},
   { path: 'profile' , component:ProfileComponent},
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
   { path: 'viewSchedule', component: viewScheduleComponent },
   { path: 'upgradeToExpert', component: upgradeToExpertComponent },
   { path: 'expert', component: ExpertComponent },
+  { path: 'expertsList', component: ExpertsListComponent },
+  {path:'tagSearch',component: TagSearchComponent},
+  {path:'adminPage', component:AdminPageUserComponent},
+
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
+ 
+
+// { path: 'date-picker', component: DatePickerComponent },
+
+//{ path: '', pathMatch: 'full', redirectTo: 'login' },
+
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 

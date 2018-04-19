@@ -38,20 +38,11 @@
               <div class="col-md-4">
                   <div id="MessageArea">
                       <div class="motto">
-                           
                                   <div id="headerChat">
                                   <h4 >{{reciever}}</h4>
                                   </div>
                                   <form>
-                                      <div class="chatWindow" id="chatWindowScroll">
-                                      <!--<div id="chatMessage" class="container"><img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;"><p>Hello. How are you today?</p></div>
-                                        
-                                        <div id="chatMessage" class="container darker">
-                                          <img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="Avatar" class="right" style="width:100%;">
-                                          <p>Hey! I'm fine. Thanks for asking!</p>
-                                          
-                                        </div>-->
-
+                                      <div class="chatWindow" #scrollMe id="chatWindowScroll">
                                         
                                         <div  *ngFor="let mssg of htmlVariable" >
                                             
@@ -64,33 +55,18 @@
                                                         <img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="Avatar" class="right" style="width:100%;">
                                                         <p>{{mssg.message}}</p>
                                                     </div>
-                                        </div>
-                                        <!--  
-                                        <div  id="chatMessage" class="container" >
-                                            <img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;">
-                                            <div [innerHtml]="htmlVariable"></div>
-                                        </div>-->
-                                        <div id="chatMessage" class="container">
-                                          <img src="../assets/img/faces/erik-lucatero-2.jpg" alt="Avatar" style="width:100%;">
-                                          <p>Sweet! So, what do you wanna do today?</p>
-                                          
-                                        </div>
-                                        <div id="chatMessage" class="container darker">
-                                            <img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="Avatar" class="right" style="width:100%;">
-                                            <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
-                                            
-                                          </div>
-                                        </div>
+                                                </div>
+                                        
+                                            </div>
                                       <textarea rows="3" [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}" #msgInput (keydown.enter)="onEnter(msgInput.value);" (blur)="update(msgInput.value);" placeholder="Start chatting here..."></textarea>
                                       <button (click)="switchUser()">switch</button>
                                       <button (click)="socketjoin()">join</button>
                                       <div class="row">
                                           
                                       </div>
-                                  </form>
-                             
-                         
-                                </div>
+                            </form>
+
+                        </div>
                   </div>
               </div>
           
