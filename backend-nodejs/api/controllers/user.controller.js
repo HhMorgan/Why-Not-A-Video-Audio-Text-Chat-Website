@@ -214,24 +214,28 @@ module.exports.updateRating = function(req, res, next) {
 };
    
 module.exports.getExpertSchedule = function(req, res, next) {
-  if (!Validations.isObjectId(req.params.userId)) {
+  /* if (!Validations.isObjectId(req.params.userId)) {
     return res.status(422).json({
       err: null,
       msg: 'user parameter must be a valid ObjectId.',
       data: null
     });
-  }
-  User.findById(req.params.userId).exec(function(err, user) {
+  }  */
+
+  User.findById('5ad66d9564a0b6360cee1120').exec(function(err, user) {
+ // User.findById(req.decodedToken.user._id).exec(function(err, user) {
     if (err) {
       return next(err);
     }
     if (!user) {
       return res.status(404).json({ err: null, msg: 'User not found.', data: null });
     }
-    
-
+  //  console.log(req.decodedToken.user._id);
+    console.log(req);
+    console.log(req.params.expertID);
     schedule.find({
-      expertID: req.expertID,
+    //  expertID:'5ad5bee364a0b6360cee111b',
+        expertID: req.params.expertID,
     
     }).exec(function(err, slots) {
       if (err) {

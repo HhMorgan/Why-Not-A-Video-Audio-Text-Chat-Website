@@ -88,7 +88,7 @@ router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStat
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
 
-router.get('/getExpertSchedule/:userId', isAuthenticated, userCtrl.getExpertSchedule);
+router.get('/getExpertSchedule/:expertID',  userCtrl.getExpertSchedule);
 
 router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert);
 
