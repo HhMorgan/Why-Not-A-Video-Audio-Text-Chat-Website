@@ -15,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {AdminRatingComponent} from './page/components/admin-rating/admin-rating.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
+import { PopOutComponent } from './page/components/pop-out/pop-out.component';
 
 
 
@@ -23,6 +24,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
     AppComponent,
     NavbarComponent,
     FooterComponent,
+    PopOutComponent,
   ],
   imports: [
     NgbModule.forRoot(),
@@ -36,6 +38,11 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
     Ng2SmartTableModule,
     MatDialogModule,
   ],
+
+  entryComponents: [
+    PopOutComponent
+  ],
+  
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

@@ -9,12 +9,25 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 })
 export class PopOutComponent {
 
-  constructor(
-    public dialogRef: MatDialogRef<PopOutComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+  header: string;
+  body: string;
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  public setHeader(header:string) {
+    this.header = header;
   }
+
+  public getHeader() {
+    return this.header;
+  }
+
+  public getBody() {
+    return this.body;
+  }
+
+  public setBody(body:string) {
+    this.body = body;
+  }
+
+  
 
 }

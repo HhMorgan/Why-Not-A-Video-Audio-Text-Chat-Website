@@ -69,15 +69,15 @@ export class AdminRatingComponent implements OnInit {
 // Dialog test
 
 
-openDialog(): void {
-  let dialogRef = this.dialog.open(PopOutComponent, {
+openDialog() {
+  const dialogRef = this.dialog.open(PopOutComponent, {
     width: '250px',
-    data: { name: "Test One", animal: "Test Two" }
+    height: "250px",
+    data: {header: "hello"}
   });
 
   dialogRef.afterClosed().subscribe(result => {
-    console.log('The dialog was closed');
-    this.animal = result;
+    console.log(`Dialog result: ${result}`);
   });
 }
 

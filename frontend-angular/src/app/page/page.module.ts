@@ -51,7 +51,6 @@ import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component'
 import { TagSearchComponent } from './tagSearch/tagSearch.component';
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
-import { PopOutComponent } from '../page/components/pop-out/pop-out.component';
 
 
 
@@ -102,7 +101,6 @@ import { PopOutComponent } from '../page/components/pop-out/pop-out.component';
     AdminPageUserComponent,
     AdminViewUsersComponent,
     AdminRatingComponent,
-    PopOutComponent,
   ],
   entryComponents: [NgbdModalContent]
 })
