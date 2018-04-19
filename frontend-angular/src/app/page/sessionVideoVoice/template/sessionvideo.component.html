@@ -4,15 +4,26 @@
     <h2> RtcMedia Local </h2>
     <rtc-media-recorder [constrains] = "constrains" (startRecording) = "announceStart($event)" 
     (handleMediaStream) = "handle_Media_Stream($event)" [mediaSource] = "mediaSource_local" 
-    [isRemote] = "isRemote_Local"></rtc-media-recorder>
-    <h2> RtcMedia Remote </h2>
+    [isRemote] = "false"></rtc-media-recorder>
+    
+    <h2> RtcMedia Remote  </h2>
     <rtc-media-recorder [constrains] = "constrains" (startRecording) = "announceStart($event)" 
     (handleMediaStream) = "handle_Media_Stream($event)" [mediaSource] = "mediaSource_remote_list[0]" 
-    [isRemote] = "isRemote_Remote"></rtc-media-recorder>
+    [isRemote] = "true"></rtc-media-recorder>
+<!-- 
+    <h2> RtcMedia Remote 2 </h2>
+    <rtc-media-recorder [constrains] = "constrains" (startRecording) = "announceStart($event)" 
+    (handleMediaStream) = "handle_Media_Stream($event)" [mediaSource] = "mediaSource_remote_list[1]" 
+    [isRemote] = "true"></rtc-media-recorder> -->
+
   </div>
   <button (click)="joinClick($event)">Join</button>
-  <button (click)="testConnection($event)">call</button>
   <button (click)="socketjoin($event)">socketjoin</button>
   <button (click)="socketSend($event)">socketsend</button>
-
 <hr>
+
+<select>
+  <option *ngFor="let user of users" value={{users}}>{{user}}
+  </option>
+</select>
+

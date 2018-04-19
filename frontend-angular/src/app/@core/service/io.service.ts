@@ -5,7 +5,7 @@ import * as io from 'socket.io-client';
 import { APIService } from './api.service';
 
 @Injectable()
-export class SessionService {
+export class IOService {
   private url = 'https://192.168.0.3:3000';  
   private socket;
   
