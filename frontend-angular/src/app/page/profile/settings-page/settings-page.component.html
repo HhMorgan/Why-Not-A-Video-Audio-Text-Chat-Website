@@ -4,7 +4,7 @@
        
       <ngb-tabset [justify]="'left'">
          
-        <ngb-tab title="Profile">
+        <ngb-tab title="Edit Profile">
         <ng-template ngbTabContent>
             
           <div class="">
@@ -17,7 +17,7 @@
           <br>
           <br>
           <div  style="display:none;" id="editwithbuttons" > <button (click)="updateemail()" type="button" class="btn btn-success">EDIT</button>
-            <button type="button" (click)="CancelUpdateEmail()" class="btn btn-warning">CANCEL</button> </div>
+            <button type="button" (click)="CancelUpdateEmail()" class="btn btn-danger">CANCEL</button> </div>
           </div>
           <div class="dropdown-divider"></div>
             <div class=" dropdown-item"><p>description: {{description}} </p></div>
@@ -30,15 +30,17 @@
                <br>
                <div id="succ" style="display:none;text-align:center;" class="form-control-feedback"></div>
                <div  style="display:none;" id="editwithbuttonsdesc" > <button (click)="UpdateDesc()" type="button" class="btn btn-success">EDIT</button>
-                <button type="button" (click)="CancelUpdateDesc()" class="btn btn-warning">CANCEL</button> </div>
+                <button type="button" (click)="CancelUpdateDesc()" class="btn btn-danger">CANCEL</button> </div>
 
              </div>
              <div class="dropdown-divider"></div>
              <div class="">
                 <!-- <a class=" dropdown-item">password:{{password}}</a> -->
-               <P>old Password:</P> <div  class="b"><input type="text" class="form-control" placeholder="old Password"></div>
-                <P>new Password:</P> <div  class="b"><input type="text" class="form-control" placeholder="new Password"></div>
-                <P>Confirm Password:</P> <div  class="b"><input type="text" class="form-control" placeholder="confirm Password"></div>
+               <P>old Password:</P> <div  class="b"><input id="oldpass" type="text" class="form-control" placeholder="old Password"></div>
+                <P>new Password:</P> <div   class="b"><input id="newpass" type="text" class="form-control" placeholder="new Password"></div>
+                <P>Confirm Password:</P> <div  class="b"><input id="confirmpass" type="text" class="form-control" placeholder="confirm Password"></div>
+                <div  style="" id="editwithbuttons" > <button (click)="UpdatePassword()" type="button" class="btn btn-success">EDIT</button>
+                  <button type="button" (click)="CancelUpdateEmail()" class="btn btn-danger">CANCEL</button> </div>
                </div>
                <div class="dropdown-divider"></div>
                <div class="">
@@ -49,9 +51,9 @@
           
         </ng-template>
         </ngb-tab>
-        <ngb-tab title="Upgrade to Expert">
+        <ngb-tab title="Settings">
         <ng-template  ngbTabContent >
-            <div ><app-requestExpert></app-requestExpert>
+            <div >Upgrade <app-requestExpert></app-requestExpert>
              
              
             </div>

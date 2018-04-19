@@ -23,7 +23,11 @@ export class ProfileComponent implements OnInit {
 
     constructor(private apiServ:APIService,private route: ActivatedRoute) { };
     changeUserStatus(){
-      var onlinestat = document.getElementById("onlinestat");
+     console.log(this.user);
+
+      this.apiServ.changeUserStatus(this.user).subscribe((apiresponse:APIData)=>
+      {
+        var onlinestat = document.getElementById("onlinestat");
       var elem = document.querySelector('.toggle-btn');
       //var inputValue = (<HTMLInputElement>document.getElementById("cb-value")).checked;
       if(//inputValue && 
@@ -37,10 +41,6 @@ export class ProfileComponent implements OnInit {
         this.user.onlineStatus=false;
         onlinestat.style.color="#e74c3c";
       }
-
-      this.apiServ.changeUserStatus(this.user).subscribe((apiresponse:APIData)=>
-      {
-        console.log(apiresponse);
       })
 
      // this.loadStatusCurrUser();
@@ -81,13 +81,13 @@ export class ProfileComponent implements OnInit {
         if(apiresponse)
       {
         onlinestat.style.color="#2ecc71";
-        elem.classList.add('active');
+        //elem.classList.add('active');
       }
       else
       {
         onlinestat.style.color="#e74c3c";
         
-        elem.classList.remove('active');
+        //elem.classList.remove('active');
       }
       })
 
@@ -104,7 +104,7 @@ export class ProfileComponent implements OnInit {
           console.log(this.username);
           this.getimageuser(apires.data.img);
           this.showrating(apires.data.rating);
-          this.loadStatus(apires.data.onlineStatus);            
+          this.loadStatus(apires.data.onlineStatus);       
  })
 
 
@@ -147,6 +147,22 @@ export class ProfileComponent implements OnInit {
         }       
     
     }
+
+    editstatus(){
+      var onlinestat = document.getElementById("onlinestat");
+      if(!this.isloggeduser){
+        onlinestat.removeEventListener("click", this.changeUserStatus);
+      }
+      else{
+        onlinestat.addEventListener("click", this.changeUserStatus);
+      }       
+  
+  }
+
+
+    
+    //onlinestat.click('');
+   //
 
     public profileinfo(){
       this.profilesettings=false;

@@ -36,7 +36,8 @@ export interface Profile {
     description,
     password,
     rating,
-    confirmPassword;
+    confirmPassword,
+    oldPassword
 }
 
 export interface Request{

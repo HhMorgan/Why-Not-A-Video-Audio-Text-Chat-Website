@@ -64,6 +64,33 @@ export class SettingsPageComponent implements OnInit {
      
       }
 
+
+      UpdatePassword(){
+        var element = document.getElementById("textdesc");
+        var success = document.getElementById("succ");
+        this.profile.oldPassword=((document.getElementById("oldpass") as HTMLInputElement).value)
+        this.profile.password=((document.getElementById("newpass") as HTMLInputElement).value)
+        this.profile.confirmPassword=((document.getElementById("confirmpass") as HTMLInputElement).value)
+        if( true){
+          console.log( this.profile.oldPassword);
+        this.apiServ.update_Password(this.profile).subscribe((apires : APIData) =>{
+          console.log(apires);
+          if(apires.msg){
+             this.getData();
+             success.innerHTML=""+apires.msg;
+            
+          }
+          //success.style.display="block";
+         
+      },(err) =>{
+         console.log(err);
+      });
+        }
+       
+
+      }
+
+
       UpdateDesc(){
         var element = document.getElementById("textdesc");
         var success = document.getElementById("succ");

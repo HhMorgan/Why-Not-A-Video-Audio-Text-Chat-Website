@@ -5,11 +5,13 @@ Validations = require('../utils/Validations'),
 Encryption = require('../utils/encryption'),
 EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
 User = mongoose.model('User'),
+User2=mongoose.model('User'),
 Request = mongoose.model('Request'),
 OfferedSlot = mongoose.model('OfferedSlot'),
 moment = require('moment');
 var Binary = require('mongodb').Binary;
 var fs = require('fs');
+var bcrypt = require('bcryptjs');
 
 
 module.exports.changeUserStatus = function(req, res, next) {
@@ -197,7 +199,6 @@ module.exports.updatePassword = function(req, res, next) {
     Validations.isString(req.body.password) &&
     req.body.confirmPassword &&
     Validations.isString(req.body.confirmPassword);
-
   if (!valid) {
     return res.status(422).json({
       err: null,
@@ -205,7 +206,6 @@ module.exports.updatePassword = function(req, res, next) {
       data: null
     });
   }
-
   var password = req.body.password.trim();
 
   if (password.length < 8) {
@@ -223,26 +223,49 @@ module.exports.updatePassword = function(req, res, next) {
       data: null
     });
   }
-
+  
   delete req.body.updatedAt;
 
   Encryption.hashPassword(password, function(err, hash) {
     if (err) {
       return next(err);
     }
-    req.body.password = hash;
-    User.findByIdAndUpdate(req.decodedToken.user._id,{$set: req.body},{ new: true }).exec (function(err, updatedUser) {
+
+    User.findById(req.decodedToken.user._id).exec (function(err, user) {
       if (err) {
-        return next(err);
-      }
-      res.status(201).json({
-        err: null,
-        msg: 'Password updated successfully.',
-        data: updatedUser
-      });
+         return next(err);
+       }
+      Encryption.hashPassword(req.body.oldPassword, function(err, hash2) {
+        if (err) {
+          return next(err);
+        }
+        Encryption.comparePasswordToHash(req.body.oldPassword,
+          user.password, function(err, matches) {
+          if (err) {
+            return next(err);
+          }
+          if(!matches){
+           return res.status(422).json({
+              err: null,
+              msg: 'wrong old password',
+              data: null
+            });  
+          }
+          req.body.password = hash;
+        User2.findByIdAndUpdate(req.decodedToken.user._id,{$set: req.body},{ new: true }).exec (function(err, updatedUser) {
+          if (err) {
+            return next(err);
+          }
+          return res.status(201).json({
+            err: null,
+            msg: 'Password updated successfully.',
+            data: updatedUser
+          });     
+        });       
+        });
+     });
     });
   });
-  
 };
 
 module.exports.updateDescription = function(req, res, next) {
