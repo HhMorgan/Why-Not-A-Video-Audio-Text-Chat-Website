@@ -27,7 +27,7 @@ before(function(done) {
   this.timeout(1800000);
 	mockgoose.prepareStorage().then(function() {
 		mongoose.connect('mongodb://localhost:27017/StartUp-Connect-Database', function(err) {
-      
+      connection.name = connection.db.databaseNam
             
     done(err);
     });
