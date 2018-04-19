@@ -50,3 +50,11 @@
 :host /deep/ ng2-smart-table ng2-smart-table-pager .pagination {
    margin-left: 40px
 }
+.tagTable{
+  position: absolute;
+  margin: auto;
+  top: 20%;
+  bottom: 0;
+  left: 0;
+  right:0;
+}

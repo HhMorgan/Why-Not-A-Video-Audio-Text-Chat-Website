@@ -3,15 +3,13 @@ var mongoose = new Mongoose();
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
-let Tags = require('../api/models/Tags.model' );
-
+let Tags = require('../api/models/Tag.model');
 var chai = require('chai');
 var chaiHttp = require('chai-http');
-var app = require('../app');
 var should = chai.should();
 
 chai.use(chaiHttp);
-
+let Tag ;
 //describe('...', function() {
 //	it("...", function(done) {
 		// ...
@@ -22,39 +20,39 @@ chai.use(chaiHttp);
 
 
 process.env.NODE_ENV = 'test';
+const base = process.env.PWDF;
+var app = require('../app');
 
 before(function(done) {
   this.timeout(1800000);
 	mockgoose.prepareStorage().then(function() {
 		mongoose.connect('mongodb://localhost:27017/StartUp-Connect-Database', function(err) {
-			done(err);
-		});
-	});
+      
+            
+    done(err);
+    });
+    mongoose.connection.on('connected', () => {  
+      console.log('db connection is now open');
+    });
+  });
 });
 
-//describe('Tags', function() {
-  //  it('should list ALL Tags on /api/Tags/getTags GET');
-    // all these are wrong  the need the path to be like the one above 
-    // try the actual command in the browser then look at the body of the request from
-    //there
- //   it('should list a SINGLE Tags on /Tags/<id> GET');
-    //it('should add a SINGLE Tags on /Tags POST');
-   // it('should update a SINGLE Tags on /Tags/<id> PUT');
-   // it('should delete a SINGLE Tags on /Tags/<id> DELETE');
- // });
-//  it('should list ALL Tags on /api/Tags/getTags GET', function(done) {
-//    chai.request(app)
-//      .get('/api/Tags/getTags')
-//      .end(function(err, res){
-//        res.should.have.status(200);
-//        done();
-//     });
-//      this.timeout(3000);
-//  });
-
+// beforeEach(function(done) { 
+//   mockgoose.helper.reset().then(() => {
+//     done()
+//   });
+// });
 //when getting the the path used below for ease of use the frontend to get do the 
 // request and get the path
-describe('/GET /api/Tags/getTags', () => {
+describe('Admin tests: ', () =>  {
+  before(function(done) {
+     Tag = new Tags({name: "Tarek" ,status:"Pending" ,blocked: false,});
+    Tag.save((err, Tag) => {
+    });
+    done();
+    
+  }),
+  //describe('/GET /api/Tags/getTags', () => {
   it('it should GET all the Tags', (done) => {
    chai.request(app)
    .get('/api/Tags/getTags')
@@ -76,7 +74,68 @@ for (var i = 0 ; i < res.body.data ; i++ ){
    done();
    });
    });
+  // });
+  it('it should UPDATE a Tag given the id on /api//Tag/editTags/ PATCH' , (done) => {
+     chai.request(app).patch('/api//Tag/editTags/' + Tag.id)
+     .send({name: "ana" , status: "Pending", blocked:false,}).end((err, res) => {
+      res.should.have.status(200);     
+        res.body.data.should.have.property('name');
+        res.body.data.should.have.property('status');
+        res.body.data.should.have.property('blocked');
+   
+        res.body.data.should.have.property('name').eql('ana');
+        res.body.data.should.have.property('status').eql('Pending');
+        res.body.data.should.have.property('blocked').eql(false);   
+
+     done();    
+  });
+});
+it('it should add a Tag POST /api/Tags/AddTag' , (done) => {
+     chai.request(app).post('/api/Tags/AddTag')
+     .send({name: "Mohamed" , status: "Accepted", blocked:false,}).end((err, res) => {
+      res.should.have.status(201);     
+        res.body.data.should.have.property('name');
+        res.body.data.should.have.property('status');
+        res.body.data.should.have.property('blocked');
+   
+        res.body.data.should.have.property('name').eql('Mohamed');
+        res.body.data.should.have.property('status').eql('Accepted');
+        res.body.data.should.have.property('blocked').eql(false);   
+        
+     done();    
+  });
+});
+it('it should delete a Tag DELETE /api//Tags/deleteTags/' , (done) => {
+  chai.request(app).delete('/api//Tags/deleteTags/' + Tag.id).end((err, res) => {
+   res.should.have.status(200);     
+      done();    
+});
+});
+
    });
+
+//    after(function(done) {
+// //    Tag.remove();
+// // mockgoose.reset(function() {
+// //   done();
+// // });
+// mongoose.disconnect(done);
+    
+//   });
+after(function(done) {
+  mockgoose.helper.reset().then(() => {
+  });
+     
+  mongoose.disconnect(done);
+//done();
+});
+
+   //mockoose.disconnect(done);
+  //  after(function(done) {
+  //   mockgoose.
+
+  // });
+
 // describe('/api//Tag/editTags/:tagId PATCH' , () => {
 //   it('it should UPDATE a Tag given the id on /api//Tag/editTags/ PATCH' , (done) => {
 //      let Tag = new Tags({name: "Tarek" ,status:"Pending" ,blocked: false,})
@@ -90,15 +149,8 @@ for (var i = 0 ; i < res.body.data ; i++ ){
 //      done();});});});});
     // let Tag = new Tags({name: "Dola" ,status:"Pending" ,blocked: false,})
     // Tag.save((err, Tag) => {
-    //  after(function(done) {
-    //    Tag.remove({},function(err ){
-    //       if(err){
-    //         console.log(err);
-    //       }
-    //     });
-    //     monckoose.disconnect(done);
-    //    });
-    //  });
+//       });
+//     });
 
     
     
