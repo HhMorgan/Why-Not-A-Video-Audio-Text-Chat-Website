@@ -3,7 +3,7 @@ import { Component, OnInit,Renderer2, ElementRef,Input,ViewChild  } from '@angul
 import { ProfileComponent } from '../profile/profile.component';
 import { APIService } from '../../@core/service/api.service';
 import { APIData, User } from '../../@core/service/models/api.data.structure';
-import { SessionService } from '../../@core/service/session.service';
+import { IOService } from '../../@core/service/io.service';
 declare var jquery:any;
 import * as $ from 'jquery';
 @Component({
@@ -23,7 +23,7 @@ export class SessionComponent implements OnInit {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   private chatMessage;
  
-  constructor(private _apiService:APIService,private sessionService : SessionService,private el: ElementRef,private renderer:Renderer2) {
+  constructor(private _apiService:APIService,private sessionService : IOService,private el: ElementRef,private renderer:Renderer2) {
     
    }
   
@@ -57,6 +57,8 @@ onEnter(value : string){
   }
 ));
   this.value = value;
+
+
   this.sessionService.sendMessage(
     JSON.stringify({
       type:"message" , 
@@ -64,6 +66,9 @@ onEnter(value : string){
       message : value
     }
   ));
+
+
+  
   this.htmlVariable.push({type:"sender",message:this.value});
   this.searchValue=null;
 }

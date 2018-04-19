@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component , OnChanges , SimpleChange , OnInit, ViewChild, Input , Output , EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'rtc-media-recorder',
   templateUrl: './template/rtc-media-recorder.component.html',
   styleUrls: ['./template/rtc-media-recorder.component.css']
 })
-export class RtcMediaCaptureComponent implements OnInit {
+export class RtcMediaCaptureComponent implements OnInit , OnChanges {
   
   @Input() isRemote;
   @Input() mediaSource;
@@ -39,6 +39,15 @@ export class RtcMediaCaptureComponent implements OnInit {
       || this._navigator.msGetUserMedia );
   }
 
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}): void {
+    for (let propName in changes) {
+      if( propName === "mediaSource" && this.isRemote && this.mediaSource != null ){
+        console.log('change');
+        this.start();
+      }
+    }
+  }
+
   private _initStream(constrains, navigator) {
     return navigator.mediaDevices.getUserMedia(constrains).then((stream) => {  
       this.handleMediaStream.emit(stream);
@@ -54,8 +63,6 @@ export class RtcMediaCaptureComponent implements OnInit {
   }
 
   public start() {
-    // console.log('start recording');
-    console.log(this.mediaSource)
     this.recordedBlobs = [];
     if(this.isRemote) 
       if(this.mediaSource != null){
@@ -98,14 +105,5 @@ export class RtcMediaCaptureComponent implements OnInit {
     this.hideStopBtn = true;
     this._stopStream();
     this.mediaRecorder.stop();
-  }
-
-  public play() {
-    if (!this.video) {
-      return;
-    }
-    console.log('Play recorded stream');
-    const superBuffer = new Blob(this.recordedBlobs);
-    this.video.srcObject = superBuffer;
   }
 }

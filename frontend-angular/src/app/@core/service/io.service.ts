@@ -5,8 +5,8 @@ import * as io from 'socket.io-client';
 import { APIService } from './api.service';
 
 @Injectable()
-export class SessionService {
-  private url = 'http://localhost:5000';  
+export class IOService {
+  private url = 'https://192.168.1.199:3000';  
   private socket;
   
   sendMessage(message){
