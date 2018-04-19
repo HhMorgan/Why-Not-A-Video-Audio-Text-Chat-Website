@@ -222,8 +222,8 @@ module.exports.getExpertSchedule = function(req, res, next) {
     });
   }  */
 
-  User.findById('5ad66d9564a0b6360cee1120').exec(function(err, user) {
- // User.findById(req.decodedToken.user._id).exec(function(err, user) {
+ // User.findById('5ad66d9564a0b6360cee1120').exec(function(err, user) {
+  User.findById(req.decodedToken.user._id).exec(function(err, user) {
     if (err) {
       return next(err);
     }
