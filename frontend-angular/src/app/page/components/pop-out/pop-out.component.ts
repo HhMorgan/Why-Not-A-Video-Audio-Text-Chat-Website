@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {AdminRatingComponent} from '../admin-rating/admin-rating.component';
 
 
 @Component({
@@ -8,26 +9,11 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
   //styleUrls: ['./pop-out.component.css']
 })
 export class PopOutComponent {
+  constructor(
+    public dialogRef: MatDialogRef<AdminRatingComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  header: string;
-  body: string;
-
-  public setHeader(header:string) {
-    this.header = header;
+  onNoClick(): void {
+    this.dialogRef.close();
   }
-
-  public getHeader() {
-    return this.header;
-  }
-
-  public getBody() {
-    return this.body;
-  }
-
-  public setBody(body:string) {
-    this.body = body;
-  }
-
-  
-
 }

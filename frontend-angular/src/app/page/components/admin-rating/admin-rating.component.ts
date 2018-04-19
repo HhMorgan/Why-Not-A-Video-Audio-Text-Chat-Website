@@ -40,8 +40,7 @@ export class AdminRatingComponent implements OnInit {
     this.refresh();
   }
   
-  source: LocalDataSource = new LocalDataSource();
-  animal: string;
+  source: LocalDataSource = new LocalDataSource(); 
   name: string;
 
   constructor(private _apiService: APIService, public dialog: MatDialog) {
@@ -72,8 +71,12 @@ export class AdminRatingComponent implements OnInit {
 openDialog() {
   const dialogRef = this.dialog.open(PopOutComponent, {
     width: '250px',
-    height: "250px",
-    data: {header: "hello"}
+    data: {main_header: "hello world", 
+    header: "testing",
+    body:"Is this thing working?",
+    left_button: "Cancel",
+    right_button: "Okay"
+    }
   });
 
   dialogRef.afterClosed().subscribe(result => {
