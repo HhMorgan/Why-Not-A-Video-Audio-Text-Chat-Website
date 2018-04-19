@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {APIService} from '../../@core/service/api.service';
-import {APIData} from '../../@core/service/models/api.data.structure';
+import {APIData,Tags} from '../../@core/service/models/api.data.structure';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -13,6 +13,10 @@ import { Observable } from 'rxjs/Observable';
 export class ExpertComponent implements OnInit {
   //speciality='accounting';
  private speciality;
+ private editspeciality;
+ private tags;
+
+
   requests: any;
   constructor(private apiService:APIService ) { }
 
@@ -34,9 +38,10 @@ export class ExpertComponent implements OnInit {
  }
 }
 editSpeciality(){
-    
-     if(this.speciality!=null){ 
-      this.apiService.editSpeciality(this.speciality).subscribe((apiresponse: APIData)=>{
+  console.log(this.editspeciality);
+    let x = <Tags>{_id : this.editspeciality};
+     if(this.editspeciality!=null){ 
+      this.apiService.editSpeciality(x,this.speciality).subscribe((apiresponse: APIData)=>{
         console.log(apiresponse);
     });
    }
