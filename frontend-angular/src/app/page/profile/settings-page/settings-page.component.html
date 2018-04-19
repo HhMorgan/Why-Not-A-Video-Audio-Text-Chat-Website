@@ -6,7 +6,7 @@
             
           <div class="">
            <a id="email" class=" dropdown-item">email:{{email}}</a>
-           <div (click)="editemail()" id="editemail" ><button  type="button" class=" btn btn-info btn-round ">Edit</button></div>
+           <div  id="editemail" ><button (click)="editemail()" type="button" class=" btn btn-info btn-round ">Edit</button></div>
            <div id="groupdanger" class="b form-group">
               <input  style="display:none;" type="text" class=" form-control " id="inputemail" placeholder="">
               <div id="warning" style="display:none;text-align:center;" class="form-control-feedback"></div>
@@ -18,38 +18,31 @@
           </div>
           <div class="dropdown-divider"></div>
             <div class=" dropdown-item"><p>description: {{description}} </p></div>
+            <div  id="editdesc" ><button (click)=" editdesc()" type="button" class=" btn btn-info btn-round ">Edit</button></div>
             <br>
-            <div class="c">
-              <!-- <textarea class="form-control"  rows="3" placeholder=">{{description}}"></textarea> -->
-          
+            <div  class="textarea" id="textdescdiv" >
+              
+               <textarea style="display:none;" id="textdesc" class="form-control"  rows="3" placeholder="enter your new description here"></textarea> 
+               
+               <br>
+               <div id="succ" style="display:none;text-align:center;" class="form-control-feedback"></div>
+               <div  style="display:none;" id="editwithbuttonsdesc" > <button (click)="UpdateDesc()" type="button" class="btn btn-success">EDIT</button>
+                <button type="button" (click)="CancelUpdateDesc()" class="btn btn-warning">CANCEL</button> </div>
+
              </div>
-             <br>
-              <div class="box">
-                 <label></label>
-                 <div class="hr-line"><hr></div>
-             </div>
+             <div class="dropdown-divider"></div>
              <div class="">
                 <!-- <a class=" dropdown-item">password:{{password}}</a> -->
                <P>old Password:</P> <div  class="b"><input type="text" class="form-control" placeholder="old Password"></div>
                 <P>new Password:</P> <div  class="b"><input type="text" class="form-control" placeholder="new Password"></div>
                 <P>Confirm Password:</P> <div  class="b"><input type="text" class="form-control" placeholder="confirm Password"></div>
                </div>
-               <br>
-               <br>
-               <br>
-               <br>
-                <div class="box">
-                   <label></label>
-                   <div class="hr-line"><hr></div>
-               </div>
+               <div class="dropdown-divider"></div>
                <div class="">
                   <a class=" dropdown-item">Another separated link</a>
                  </div>
                  <br>
-                  <div class="box">
-                     <label></label>
-                     <div class="hr-line"><hr></div>
-                 </div>
+                 <div class="dropdown-divider"></div>
           
         </ng-template>
         </ngb-tab>

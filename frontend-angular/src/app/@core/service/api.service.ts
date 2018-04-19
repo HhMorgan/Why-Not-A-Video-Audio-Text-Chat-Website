@@ -83,6 +83,9 @@ export class APIService {
   update_Email(profile:Profile):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'auth/updateEmail', profile).catch(this.errorHandler);
   }
+  update_Desc(profile:Profile):Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'auth/updateDescription', profile).catch(this.errorHandler);
+  }
 
   update_Rating(user:User):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'user/updateRating', user).catch(this.errorHandler);

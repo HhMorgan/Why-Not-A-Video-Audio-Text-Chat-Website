@@ -11,6 +11,7 @@ import { ProfileComponent } from '../../profile/profile.component';
 })
 export class SettingsPageComponent implements OnInit {
 
+
    private email:string;
    private description:string;
    private password:string;
@@ -45,17 +46,17 @@ export class SettingsPageComponent implements OnInit {
         x.innerHTML="either the format is wrong or the email is taken";
         console.log(apires.msg);
         if(apires.msg){
-           x.innerHTML=""+apires.msg;
-           groupofdanger.classList.add("has-danger");
+           x.innerHTML=""+apires.msg; 
+           groupofdanger.classList.remove("has-danger");
            element.classList.add("form-control-success");
-           element.classList.add("form-control-success");
-           element.classList.remove("form-control-danger");
+           this.getData();
         }
        
         x.style.display = "block";
     },(err) =>{
       element.classList.remove("form-control-success");
       element.classList.add("form-control-danger");
+      groupofdanger.classList.add("has-danger");
         x.innerHTML=err.msg;
         x.style.display = "block";
     });
@@ -63,13 +64,34 @@ export class SettingsPageComponent implements OnInit {
      
       }
 
+      UpdateDesc(){
+        var element = document.getElementById("textdesc");
+        var success = document.getElementById("succ");
+        this.profile.description=((document.getElementById("textdesc") as HTMLInputElement).value)
+        if( this.profile.description!= ''){
+        
+        this.apiServ.update_Desc(this.profile).subscribe((apires : APIData) =>{
+          console.log(apires.msg);
+          if(apires.msg){
+             this.getData();
+             success.innerHTML=""+apires.msg;
+            
+          }
+          success.style.display="block";
+         
+      },(err) =>{
+      
+      });
+        }
+       
+
+      }
+
      profileinfo(){
       //profileinfo();
     }
 
      editemail() {
-      var x = document.getElementById("email");
-          x.style.display = "none";
           var x = document.getElementById("editemail");
           x.style.display = "none";
           var x = document.getElementById("editwithbuttons");
@@ -95,13 +117,32 @@ export class SettingsPageComponent implements OnInit {
 
   }
 
+  editdesc() {
+    var x = document.getElementById("editdesc");
+    x.style.display = "none";
+    var x = document.getElementById("textdesc");
+    x.style.display = "block";
+    var x = document.getElementById("editwithbuttonsdesc");
+    x.style.display = "block";
+    
+}
+
+CancelUpdateDesc(){
+  var x = document.getElementById("editdesc");
+  x.style.display = "block";
+  var x = document.getElementById("textdesc");
+  x.style.display = "none";
+  var x = document.getElementById("editwithbuttonsdesc");
+  x.style.display = "none";
+  var x = document.getElementById("succ");
+  x.style.display = "none";
+}
+
   getData(){
   this.apiServ.getUserData().subscribe((apires : APIData) =>{
     this.email = apires.data.email;
     this.description=apires.data.description;
     this.password=apires.data.password;
-    console.log(apires.data);
-    console.log(this.email);
     //this.getimageuser(apires.data.img);
    // this.loadStatus(apires.data.onlineStatus);            
 })
