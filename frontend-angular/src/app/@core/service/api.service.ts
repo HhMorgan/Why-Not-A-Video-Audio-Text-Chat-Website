@@ -44,6 +44,11 @@ export class APIService {
     .catch(this.errorHandler);
   }
 
+  getTagbyId(Tags:Tags):Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'expert/getTagById/'+Tags._id)
+    .catch(this.errorHandler);
+  }
+
   deleteTags(Tags:Tags):Observable<APIData> {
     return this.http.delete<APIData>(this.apiUrl + '/Tags/deleteTags/'+Tags._id)
     .catch(this.errorHandler);

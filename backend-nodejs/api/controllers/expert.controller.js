@@ -1,7 +1,7 @@
 /* The  controller that handles all the functionality that an expert can do.
 An expert can view the his/her pending slot requests created by another user --> "viewSlotRequests".
 An expert can accept/reject a slot request --> "editSlotRequest".
-*/
+*/var ObjectId = require('mongodb').ObjectID;
 var mongoose = require('mongoose'),
   Request = mongoose.model('Request'),
   User = mongoose.model('User'),
@@ -61,6 +61,37 @@ module.exports.addSpeciality = function(req, res, next) {
     });
   });
 };
+
+
+module.exports.findTagbyid = function(req, res, next) {
+  Tag.findOne({ _id: new ObjectId(req.params.TagId+"") }
+   
+  ).exec(function(err,tag){
+    if (err){
+      return next(err);
+    }
+    
+    if (!tag) {
+      return res.status(404).json({ 
+         err: null, 
+         msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
+         data: null 
+        });
+    }
+
+    return res.status(201).json({ 
+      err: null, 
+      msg:  'Succesfully retrieved the Tag',
+      data: tag 
+     });
+
+
+  
+})
+};
+
+
+
 
 module.exports.editSpeciality= function(req, res, next) {
   Tag.findOne({

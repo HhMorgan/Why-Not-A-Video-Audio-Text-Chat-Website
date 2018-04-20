@@ -66,6 +66,7 @@ router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescript
 //-----------------------------User Role Expert Routes-------------------------
 router.post('/expert/chooseSlot',expert.chooseSlot);
 router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests);
+router.get('/expert/getTagById/:TagId' , expert.findTagbyid);
 router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
 router.post('/expert/addSpeciality', isAuthenticated , expert.addSpeciality); 
 router.delete('/expert/editSpeciality/:tagId',isAuthenticated,expert.editSpeciality);
