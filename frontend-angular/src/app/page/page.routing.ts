@@ -19,6 +19,7 @@ import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 import { TagSearchComponent } from './tagSearch/tagSearch.component';
 import { SessionVideoComponent } from './sessionVideoVoice/sessionvideo.component';
+import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'expertsList', component: ExpertsListComponent },
   {path:'tagSearch',component: TagSearchComponent},
   {path:'adminPage', component:AdminPageUserComponent},
+  {path:'chat',component: SessionChatMobileComponent},
 
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },

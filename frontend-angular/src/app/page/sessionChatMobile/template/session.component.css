@@ -21,6 +21,14 @@
     vertical-align: top;
     
 }
+.positionMobileMain{
+    position: absolute;
+    margin: auto;
+    top:13em;
+    bottom: 0;
+    right: 0;
+    left: -23em;
+}
 .chatWindow{
     overflow-y: scroll;
     height: 25em;

@@ -49,6 +49,7 @@ import { RatingComponent } from './rating/rating.component';
 import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 import { TagSearchComponent } from './tagSearch/tagSearch.component';
+import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
 
 
 
@@ -96,6 +97,7 @@ import { TagSearchComponent } from './tagSearch/tagSearch.component';
     ExpertsListComponent,
     TagSearchComponent,
     AdminPageUserComponent,
+    SessionChatMobileComponent,
   ],
   entryComponents: [NgbdModalContent]
 })
