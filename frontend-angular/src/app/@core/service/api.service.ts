@@ -44,6 +44,11 @@ export class APIService {
     .catch(this.errorHandler);
   }
 
+  getTagbyId(Tags:Tags):Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'expert/getTagById/'+Tags._id)
+    .catch(this.errorHandler);
+  }
+
   deleteTags(Tags:Tags):Observable<APIData> {
     return this.http.delete<APIData>(this.apiUrl + '/Tags/deleteTags/'+Tags._id)
     .catch(this.errorHandler);
@@ -66,6 +71,15 @@ export class APIService {
   getUserData(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'user/getUserData').catch(this.errorHandler);
   }
+
+  getpassword(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'user/getpassword').catch(this.errorHandler);
+  }
+
+
+  getUserProfile(user:User): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'user/getUserProfile/'+user.username).catch(this.errorHandler);
+  }
   
   login(user:User):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'auth/login', user).catch(this.errorHandler);
@@ -73,6 +87,12 @@ export class APIService {
   
   update_Email(profile:Profile):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'auth/updateEmail', profile).catch(this.errorHandler);
+  }
+  update_Password(profile:Profile):Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'auth/updatePassword', profile).catch(this.errorHandler);
+  }
+  update_Desc(profile:Profile):Observable<APIData> {
+    return this.http.post<APIData>(this.apiUrl + 'auth/updateDescription', profile).catch(this.errorHandler);
   }
 
   update_Rating(user:User):Observable<APIData> {

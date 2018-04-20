@@ -30,7 +30,8 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'home' , component:HomeComponent},
   { path: 'video' , component:VideoViewComponent},
-  { path: 'profile' , component:ProfileComponent},
+  { path: 'profile/:username' , component:ProfileComponent},
+
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
   { path: 'viewSchedule', component: viewScheduleComponent },

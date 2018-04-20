@@ -73,10 +73,11 @@ router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescript
 
 //-----------------------------User Role Expert Routes-------------------------
 router.post('/expert/chooseSlot',expert.chooseSlot);
-router.get('/expert/viewSlotRequest', isAuthenticated ,isExpert, expert.viewSLotRequests);
-router.patch('/expert/editSlotRequest/:requestId', isAuthenticated ,isExpert, expert.editSlotRequest);
-router.post('/expert/addSpeciality', isAuthenticated ,isExpert, expert.addSpeciality); 
-router.delete('/expert/editSpeciality/:tagId',isAuthenticated,isExpert,expert.editSpeciality);
+router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests);
+router.get('/expert/getTagById/:TagId' , expert.findTagbyid);
+router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
+router.post('/expert/addSpeciality', isAuthenticated , expert.addSpeciality); 
+router.delete('/expert/editSpeciality/:tagId',isAuthenticated,expert.editSpeciality);
 //-------------------------------------------------------------------
 router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
 router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);
@@ -86,8 +87,11 @@ router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sess
 router.post('/photo', isAuthenticated , userCtrl.uploadimage);
 router.get('/getphoto', isAuthenticated , userCtrl.getimage);
 router.get('/getusername', isAuthenticated , userCtrl.getusername);
+router.get('/user/getUserData', isAuthenticated , userCtrl.getUserData);
+router.get('/user/getpassword', isAuthenticated , userCtrl.getpassword);
 router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
 router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
+router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUserProfile);
 
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);

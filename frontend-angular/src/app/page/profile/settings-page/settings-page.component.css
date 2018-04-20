@@ -1,0 +1,57 @@
+div.b {
+    margin: auto;
+    width: 20%;
+    padding: 10px;
+} 
+
+.edity{
+    padding: 10px 45px 10px 15px;
+    white-space: nowrap;
+    display: block;
+
+}
+
+div.edit {
+    margin: auto;
+    width: 20%;
+    padding: 5px;
+} 
+
+
+textarea{
+    margin: auto;
+    width: 40%;
+    height:40%;
+    padding: 10px;
+} 
+
+div.a {
+    position: relative;
+
+}
+
+ex1 {
+    border: 1px solid red; 
+    padding-left: 50px;
+}
+
+.box { 
+    width: 100%;  
+    display:-moz-flex;
+    display:-webkit-flex;
+    display:-ms-flex;
+    display:flex;
+  }
+  
+  hr {
+    /*border: .5px solid #000;*/
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .hr-line {
+    -moz-flex: 3;
+    -webkit-flex: 3;
+    -ms-flex: 3;
+    flex: 3;
+   }
