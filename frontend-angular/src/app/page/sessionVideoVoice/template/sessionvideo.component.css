@@ -67,3 +67,7 @@
     bottom: 0;
     }
     }
+
+    .headLine{
+        border-color: rgba(0, 0, 0, 0);
+    }
