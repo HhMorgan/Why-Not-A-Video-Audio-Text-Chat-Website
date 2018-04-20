@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { APIService } from '../../../@core/service/api.service';
 import { APIData  , User ,FileData,Profile} from '../../../@core/service/models/api.data.structure'
 import { ProfileComponent } from '../../profile/profile.component';
@@ -11,29 +11,21 @@ import { ProfileComponent } from '../../profile/profile.component';
 })
 export class SettingsPageComponent implements OnInit {
 
+  @Input() profilComp: ProfileComponent;
 
    private email:string;
    private description:string;
    private password:string;
-   //private email:string;
    private profile =<Profile>{};
+   private username:string;
 
 
   constructor(private apiServ:APIService) { }
    
   ngOnInit() {
     this.getData();
-    this.getpass();
   }
 
-  getpass(){
-    this.apiServ.getpassword().subscribe((apires : APIData) =>{
-      this.password=apires.data.password;
-      console.log(apires.data+"testy");
-      //this.getimageuser(apires.data.img);
-     // this.loadStatus(apires.data.onlineStatus);            
-  })
-    }
 
     updateemail(){
       var element = document.getElementById("inputemail");
@@ -48,6 +40,7 @@ export class SettingsPageComponent implements OnInit {
         if(apires.msg){
            x.innerHTML=""+apires.msg; 
            groupofdanger.classList.remove("has-danger");
+           groupofdanger.classList.add("has-success");
            element.classList.add("form-control-success");
            this.getData();
         }
@@ -57,6 +50,7 @@ export class SettingsPageComponent implements OnInit {
       element.classList.remove("form-control-success");
       element.classList.add("form-control-danger");
       groupofdanger.classList.add("has-danger");
+      groupofdanger.classList.remove("has-success");
         x.innerHTML=err.msg;
         x.style.display = "block";
     });
@@ -68,6 +62,8 @@ export class SettingsPageComponent implements OnInit {
       UpdatePassword(){
         var element = document.getElementById("textdesc");
         var success = document.getElementById("succ");
+        var EditingMsg = document.getElementById("warningPassword");
+        var EditPasswordDiv= document.getElementById("EditPasswordDiv")
         this.profile.oldPassword=((document.getElementById("oldpass") as HTMLInputElement).value)
         this.profile.password=((document.getElementById("newpass") as HTMLInputElement).value)
         this.profile.confirmPassword=((document.getElementById("confirmpass") as HTMLInputElement).value)
@@ -77,13 +73,18 @@ export class SettingsPageComponent implements OnInit {
           console.log(apires);
           if(apires.msg){
              this.getData();
-             success.innerHTML=""+apires.msg;
+             EditPasswordDiv.classList.remove("has-danger");
+             EditPasswordDiv.classList.add("has-success");
+             EditingMsg.innerHTML=""+apires.msg;
             
           }
-          //success.style.display="block";
+          EditingMsg.style.display="block";
          
       },(err) =>{
-         console.log(err);
+        EditPasswordDiv.classList.remove("has-success");
+        EditPasswordDiv.classList.add("has-danger");
+          EditingMsg.innerHTML=""+err.msg;EditingMsg.style.display="block";
+          //document.getElementById("confirmpass").classList.add("form-control-danger");
       });
         }
        
@@ -115,6 +116,10 @@ export class SettingsPageComponent implements OnInit {
       }
 
      profileinfo(){
+      var x = document.getElementById("settings-page");
+      var y = document.getElementById("profile-page");
+      x.style.display = "none";
+      y.style.display = "block";
     }
 
     
@@ -128,6 +133,20 @@ export class SettingsPageComponent implements OnInit {
           var x = document.getElementById("inputemail");
           x.style.display = "block";
           
+  }
+
+  editPasswordView(){
+    var x = document.getElementById("editPassword");
+    x.style.display = "none";
+    var x = document.getElementById("EditPasswordDiv");
+    x.style.display = "block";
+  }
+
+  CancelEditPasswordView(){
+    var x = document.getElementById("editPassword");
+    x.style.display = "block";
+    var x = document.getElementById("EditPasswordDiv");
+    x.style.display = "none";
   }
 
   CancelUpdateEmail(){
@@ -172,8 +191,7 @@ CancelUpdateDesc(){
     this.email = apires.data.email;
     this.description=apires.data.description;
     this.password=apires.data.password;
-    //this.getimageuser(apires.data.img);
-   // this.loadStatus(apires.data.onlineStatus);            
+    this.username=apires.data.username;
 })
   }
 }

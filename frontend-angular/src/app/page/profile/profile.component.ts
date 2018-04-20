@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
     description:string;
     profileInfo=true;
     profilesettings=false;
-  
+    
 
     constructor(private apiServ:APIService,private route: ActivatedRoute) { };
     //this method changes the user's current status if it's online to offlne and vice versa
@@ -72,6 +72,8 @@ export class ProfileComponent implements OnInit {
        this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
         this.user.username = params['username'];
         this.apiServ.getUserProfile(this.user).subscribe((apires : APIData) =>{ //this method gets all the info of current profile 
+          console.log(apires.data.speciality);
+          console.log(apires.data);
           this.usernameOfProfile = apires.data.username;
           this.description=apires.data.description;
           this.getcurrusername();  
@@ -125,9 +127,10 @@ export class ProfileComponent implements OnInit {
   } */
 
    //this method basically disables the settings page and views the profile page
-    public profileinfo(){
-      this.profilesettings=false;
+     profileinfo(){
+     
       this.profileInfo=true;
+      this.profilesettings=false;
     }
     //this method basically disables the profile page and views the settings page
     public profilesettingsbtn(){
@@ -135,6 +138,7 @@ export class ProfileComponent implements OnInit {
       this.profileInfo=false;
     
     }
+    ProfileComponent=this;
     fileToUpload: File = null;
     editable: boolean = true; // intially just for testing
 
@@ -177,70 +181,5 @@ export class ProfileComponent implements OnInit {
       }, false);
       
   }
-
-  
-  
-  myFunction() {
-     if (this.editable==true){
-       console.log('work');
-       var root = document.getElementById("name"); // '0' to assign the first (and only `HTML` tag)
-       root.className += ' mydiv';
-       this.dragElement(document.getElementById(("name")));
-       this.editable=false;
-     }
-     else{
-        var root = document.getElementById("name"); // '0' to assign the first (and only `HTML` tag)
-        root.classList.remove('mydiv') ;
-        this.editable=true;
-     }
-      
-     // (<HTMLInputElement>document.getElementById(("mydiv"))).disabled =! (<HTMLInputElement>document.getElementById(("mydiv"))).disabled;
-      
-      // document.stylesheets[0].disabled=!document.styleSheets[0].disabled;
-       //document.getElementById("mydiv").disabled = true;
-   
-}
-
-
-
- dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "header")) {
-    /* if present, the header is where you move the DIV from:*/
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-  } else {
-    /* otherwise, move the DIV from anywhere inside the DIV:*/
-    elmnt.onmousedown = dragMouseDown;
-  }
-
-  function dragMouseDown(e) {
-    e = e || window.event;
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
-    e = e || window.event;
-    // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
-
-  function closeDragElement() {
-    /* stop moving when mouse button is released:*/
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
-}
-
 
 }

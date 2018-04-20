@@ -4,8 +4,8 @@
     </div>
     
     <div class="section profile-content">
-           <div  *ngIf="profilesettings"><app-settings-page></app-settings-page></div>
-        <div *ngIf="profileInfo" class="container">
+           <div id="settings-page" *ngIf="profilesettings"><app-settings-page [profilComp]="ProfileComponent" ></app-settings-page></div>
+        <div  id="profile-page" *ngIf="profileInfo" class="container">
             <div class="owner">
                 <div class="avatar">
                     <label for="file">

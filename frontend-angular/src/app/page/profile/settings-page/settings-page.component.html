@@ -20,8 +20,8 @@
             <button type="button" (click)="CancelUpdateEmail()" class="btn btn-danger">CANCEL</button> </div>
           </div>
           <div class="dropdown-divider"></div>
-          <p>description:</p>
-            <div class=" dropdown-item"><p> {{description}} </p></div>
+          <p class=" dropdown-item">description:</p>
+            <div ><p> {{description}} </p></div>
             <div  id="editdesc" ><button (click)=" editdesc()" type="button" class=" btn btn-info btn-round ">Edit</button></div>
             <br>
             <div  class="textarea" id="textdescdiv" >
@@ -35,19 +35,18 @@
 
              </div>
              <div class="dropdown-divider"></div>
-             <div class="">
+             <div  id="editPassword" > <p  class=" dropdown-item" >Password:</p><button (click)="editPasswordView()" type="button" class=" btn btn-info btn-round ">Edit</button></div>
+             <div  style="display:none;" id="EditPasswordDiv" class="form-group">
                 <!-- <a class=" dropdown-item">password:{{password}}</a> -->
                <P>old Password:</P> <div  class="b"><input id="oldpass" type="text" class="form-control" placeholder="old Password"></div>
                 <P>new Password:</P> <div   class="b"><input id="newpass" type="text" class="form-control" placeholder="new Password"></div>
+               
                 <P>Confirm Password:</P> <div  class="b"><input id="confirmpass" type="text" class="form-control" placeholder="confirm Password"></div>
-                <div  style="" id="editwithbuttons" > <button (click)="UpdatePassword()" type="button" class="btn btn-success">EDIT</button>
-                  <button type="button" (click)="CancelUpdateEmail()" class="btn btn-danger">CANCEL</button> </div>
+                <div id="warningPassword" style="display:none;text-align:center;" class="form-control-feedback"></div>
+                <br>
+                <div   id="editwithbuttons" > <button (click)="UpdatePassword()" type="button" class="btn btn-success">EDIT</button>
+                  <button type="button" (click)="CancelEditPasswordView()" class="btn btn-danger">CANCEL</button> </div>
                </div>
-               <div class="dropdown-divider"></div>
-               <div class="">
-                  <a class=" dropdown-item">Another separated link</a>
-                 </div>
-                 <br>
                  <div class="dropdown-divider"></div>
           
         </ng-template>
