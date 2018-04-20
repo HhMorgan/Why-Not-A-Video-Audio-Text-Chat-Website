@@ -14,6 +14,8 @@ import { FooterComponent } from './page/shared/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {AdminRatingComponent} from './page/components/admin-rating/admin-rating.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
+import { PopOutComponent } from './page/components/pop-out/pop-out.component';
 
 
 
@@ -23,6 +25,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     AppComponent,
     NavbarComponent,
     FooterComponent,
+    PopOutComponent,
   ],
   imports: [
     NgbModule.forRoot(),
@@ -33,14 +36,22 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    MatDialogModule,
   ],
+
+  entryComponents: [
+    PopOutComponent
+  ],
+  
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    } , APIService , SessionService
+    }
+     , APIService , SessionService
+     ,{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]
 })

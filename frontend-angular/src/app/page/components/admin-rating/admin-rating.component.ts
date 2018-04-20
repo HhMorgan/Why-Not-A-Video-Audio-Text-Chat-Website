@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
  import {APIService } from '../../../@core/service/api.service';
  import {APIData,Tags } from '../../../@core/service/models/api.data.structure';
  import { LocalDataSource } from 'ng2-smart-table';
  import { Ng2SmartTableModule } from 'ng2-smart-table';
  import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { PopOutComponent } from '../pop-out/pop-out.component';
 
 @Component({
   selector: 'app-admin-rating',
@@ -38,12 +40,14 @@ export class AdminRatingComponent implements OnInit {
     this.refresh();
   }
   
-  source: LocalDataSource = new LocalDataSource();
+  source: LocalDataSource = new LocalDataSource(); 
+  name: string;
 
-  constructor(private _apiService: APIService) {
+  constructor(private _apiService: APIService, public dialog: MatDialog) {
     this._apiService.getUsers().subscribe((apiresponse: APIData)=>{
       this.source.load( apiresponse.data);
       console.log(apiresponse.data);
+
     });
 }
 
@@ -60,5 +64,28 @@ export class AdminRatingComponent implements OnInit {
  // onDeleteConfirm(event): void {
   //  event.confirm.resolve();
 //}
+
+// Dialog test (Testing Dialog)
+
+openDialog() { // Method gets called on-click
+
+  /* This part is responsible for popup text to be passed in. */
+
+  const dialogRef = this.dialog.open(PopOutComponent, {
+    width: '250px',
+    data: {main_header: "hello world", 
+    header: "testing",
+    body:"Is this thing working?",
+    left_button: "Cancel",
+    right_button: "Okay"
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log(`Dialog result: ${result}`);
+  });
+
+  // Display result (if any).
+}
 
 }
