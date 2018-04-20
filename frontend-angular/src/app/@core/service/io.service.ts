@@ -6,7 +6,7 @@ import { APIService } from './api.service';
 
 @Injectable()
 export class IOService {
-  private url = 'https://192.168.1.199:3000';  
+  private url = APIService.apiUrl.substring(0,APIService.apiUrl.length - 5);  
   private socket;
   
   sendMessage(message){
@@ -14,6 +14,7 @@ export class IOService {
   }
   
   getMessages() {
+    console.log(this.url)
     let observable = new Observable(observer => {
         this.socket = io.connect(this.url, {
           query: 'token=' + APIService.getToken()
