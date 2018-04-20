@@ -4,8 +4,8 @@ import { ProfileComponent } from '../profile/profile.component';
 import { APIService } from '../../@core/service/api.service';
 import { APIData, User } from '../../@core/service/models/api.data.structure';
 import { IOService } from '../../@core/service/io.service';
-declare var jquery:any;
-import * as $ from 'jquery';
+import {trigger, state, style, animate, transition, query,stagger} from '@angular/animations';
+
 @Component({
   selector: 'app-session',
   templateUrl: './template/session.component.html',
@@ -21,6 +21,7 @@ export class SessionComponent implements OnInit {
   messageRecieved:string='';
   @Input() htmlVariable=[];
   mediaSource_local = null;
+  joinFlag=false;
   private sessionid = "5accc80710884653ec3a3b14"; 
   private mediaSource_remote_list : any = [null];
   private peerConnections : RTCPeerConnection[] = [ 
@@ -35,11 +36,8 @@ export class SessionComponent implements OnInit {
     
    }
   
-  
+ 
   ngOnInit() {
-    /*this.joinClick();
-    this.socketjoin();
-    this.socketSend();*/
     console.log(this.mediaSource_remote_list.length+"edenudne");
     this.scrollToBottom();
   }
@@ -57,9 +55,7 @@ scrollToBottom(): void {
     this.reciever=val;
   }
  
-public switchUser(){
-  //this.userid = (this.userid == "5accc86110884653ec3a3b15") ? "5accc40aef33b42a5cde5c87" : "5accc86110884653ec3a3b15"; 
-}
+
 
 
 private getOtherPc = (pc) => {
@@ -96,9 +92,7 @@ onEnter(value : string){
   this.searchValue=null;
 }
 
-onSwitch(){
-  this.switchUser();
-}
+
 public socketSend(){
   this.sessionService.sendMessage(
     JSON.stringify({
@@ -169,6 +163,7 @@ public socketjoin(){
     if(flag)
        this.socketSend();
     flag = false;
+    this.joinFlag=true;
     var js = JSON.parse(test);
     console.log(js);
     switch(js.type) {
@@ -217,6 +212,7 @@ public socketjoin(){
 
 update(value: string) { this.value = value; }
 }
+
 
 
 
