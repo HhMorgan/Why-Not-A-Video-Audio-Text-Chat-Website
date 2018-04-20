@@ -1,0 +1,69 @@
+@media (min-width: 600px) {
+.LocalVideo{
+    position: absolute;
+    margin: auto;
+    top:439%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.RemoteVideo{
+    position: absolute;
+    margin: auto;
+    top: 188%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 290%;
+    z-index: 0;
+}
+.tmp{
+    position: absolute;
+    margin: auto;
+    top: 30%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+}
+
+@media (max-width: 600px) {
+    .LocalVideo{
+    position: absolute;
+    margin: auto;
+    top: 602%;
+    left: 9%;
+    right: -194%;
+    bottom: 0;
+    z-index: 0;
+    }
+    
+    .RemoteVideo{
+        position: absolute;
+        margin: auto;
+        top: 154%;
+        left: 8%;
+        right: 0;
+        bottom: 0;
+        width: 290%;
+        z-index: 0;
+    }
+    .tmp{
+        position: absolute;
+        margin: auto;
+        top: 30%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    .buttons{
+        position: relative;
+    margin: auto;
+    left: 32%;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    }
+    }

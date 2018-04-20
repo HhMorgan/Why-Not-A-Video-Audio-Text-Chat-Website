@@ -48,10 +48,10 @@
 .LeftBox{
     position: absolute;
     margin: auto;
-    top: 25%;
+    top: 0;
     bottom: 0;
-    right: 0;
-    left: 0;
+    right: 10%;
+    left: -10%;
 }
 .middleBox{
     position: absolute;

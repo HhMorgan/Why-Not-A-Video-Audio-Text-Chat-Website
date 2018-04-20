@@ -4,7 +4,7 @@ import { APIService } from '../../@core/service/api.service';
 import { APIData , Session , CandicateSession } from '../../@core/service/models/api.data.structure';
 
 @Component({
-  selector: 'app-session',
+  selector: 'app-video',
   templateUrl: './template/sessionvideo.component.html',
   styleUrls: ['./template/sessionvideo.component.css']
 })

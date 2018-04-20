@@ -7,33 +7,32 @@
       <div class="container">
           <div class="row">
 <!-- -->
-            <div class="col-md-3 ">
-                <div *ngIf='joinFlag' class="LeftBox">
-                        <div  *ngFor="let user of userArray" class="animated fadeInDown card card-profile card-plain">
-                                <div class="card-avatar imgSize">
-                                  <button id="close-image" type="button" class=" btn hovering btn-outline-default btn-round" placement="right" ngbTooltip="{{user.username}}" (click)='userChatChange(user.username)'>
-                      
-                                      <a ><img src="{{user.img}}" alt="..."></a>          
-                                      
-                                    </button>
-                                </div>
-                            </div>                         
+                <!-- -->     
+                <div *ngIf='!joinFlag' class="col-md-3 "> </div>          
+              <div *ngIf='!joinFlag' class="col-md-5">
+                    <div class="middleBox">
+                      <div class="motto text-center">
+                          <h2>Hi, User!</h2>
+                          <h3>Join Conference</h3>
+                          <br />
+                          <a href="../page/profile"  onclick="window.open('#/page/videotest','newwindow','width=700,height=800'); return false;" class="btn buttonDivider btn-outline-neutral btn-round"><i class="fa fa-camera"></i>Start Video Call</a>
+                          <button type="button" class="btn buttonDivider btn-outline-neutral btn-round"><i class="fa fa-phone"></i>Start Voice Call</button>
+                          <button type="button" class="btn buttonDivider btn-outline-neutral btn-round"  *ngIf='!joinFlag' (click)="socketjoin()"><i class="fa fa-comments"></i>Start Text Chat</button>
+                      </div>
                       </div>
                   </div>
-<!-- -->               
-              <div class="col-md-5">
-                <div class="middleBox">
-                  <div class="motto text-center">
-                      <h2>Hi, User!</h2>
-                      <h3>Join Conference</h3>
-                      <br />
-                      <a href="../page/profile"  onclick="window.open('#/page/videotest','newwindow','width=700,height=800'); return false;" class="btn buttonDivider btn-outline-neutral btn-round"><i class="fa fa-camera"></i>Start Video Call</a>
-                      <button type="button" class="btn buttonDivider btn-outline-neutral btn-round"><i class="fa fa-phone"></i>Start Voice Call</button>
-                      <button type="button" class="btn buttonDivider btn-outline-neutral btn-round"  *ngIf='!joinFlag' (click)="socketjoin()"><i class="fa fa-comments"></i>Start Text Chat</button>
+    <!-- -->   
+            <div class="col-md-8 ">       
+                <div  class="LeftBox">
+                        <div class="motto">
+                                <div *ngIf='joinFlag'>
+                               <app-video></app-video>   
+                            </div>           
+                      </div>
                   </div>
-                  </div>
-              </div>
-<!-- -->       
+                </div>
+                <!-- <div *ngIf='!joinFlag' class="col-md-3 "> </div> -->
+    <!--  -->
               <div class="col-md-4">
                   <div id="MessageArea">
                       <div class="motto">
@@ -92,22 +91,29 @@
             <div class="row">
 
         <!--  -->
-          <div class="col-md-3 ">
-          </div>
-          <div class="col-md-5">
-                  <div class="middleBox">
-                    <div class="motto text-center">
-                        <h2>Hi, User!</h2>
-                        <h3>Join Conference</h3>
-                        <br />
-                        <a href="../page/profile"  onclick="window.open('#/page/videotest','newwindow','width=700,height=800'); return false;" class="btn buttonDivider btn-outline-neutral btn-round"><i class="fa fa-camera"></i>Start Video Call</a>
-                        <button type="button" class="btn buttonDivider btn-outline-neutral btn-round"><i class="fa fa-phone"></i>Start Voice Call</button>
-                        <button type="button" onclick="window.open('#/page/chat','newwindow','width=700,height=800'); return false;" class="btn buttonDivider btn-outline-neutral btn-round"  *ngIf='!joinFlag' (click)="socketjoin()"><i class="fa fa-comments"></i>Start Text Chat</button>
-                    </div>
-                    </div>
+        <div *ngIf='!joinFlag' class="col-md-3 "> </div>          
+        <div *ngIf='!joinFlag' class="col-md-5">
+              <div class="middleBox">
+                <div class="motto text-center">
+                    <h2>Hi, User!</h2>
+                    <h3>Join Conference</h3>
+                    <br />
+                    <button type="button" class="btn buttonDivider btn-outline-neutral btn-round"  *ngIf='!joinFlag' (click)="socketjoin()"><i class="fa fa-camera"></i>Start Video Call</button>
+                    <button type="button" class="btn buttonDivider btn-outline-neutral btn-round"><i class="fa fa-phone"></i>Start Voice Call</button>
+                    <!-- <button type="button" class="btn buttonDivider btn-outline-neutral btn-round"  *ngIf='!joinFlag' (click)="socketjoin()"><i class="fa fa-comments"></i>Start Text Chat</button> -->
                 </div>
-                <div class="col-md-4">
                 </div>
+            </div>
+            <!-- -->
+            <div class="col-md-8 ">       
+                    <div  class="LeftBox">
+                            <div class="motto">
+                                    <div *ngIf='joinFlag'>
+                                   <app-video></app-video>   
+                                </div>           
+                          </div>
+                      </div>
+                    </div>
                 <!--  -->
       </div>
     </div>
