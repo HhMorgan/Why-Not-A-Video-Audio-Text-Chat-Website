@@ -3,13 +3,16 @@ var mongoose = new Mongoose();
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
-let Tags = require('../api/models/Tag.model');
+var Tags = require('../api/models/Tag.model');
+var Users = require('../api/models/user.model');
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var should = chai.should();
 
 chai.use(chaiHttp);
 let Tag ;
+let User;
+let Expert;
 //describe('...', function() {
 //	it("...", function(done) {
 		// ...
@@ -46,8 +49,16 @@ before(function(done) {
 // request and get the path
 describe('Admin tests: ', () =>  {
   before(function(done) {
-     Tag = new Tags({name: "Tarek" ,status:"Pending" ,blocked: false,});
+    Tag = new Tags({name: "Tarek" ,status:"Pending" ,blocked: false,});
     Tag.save((err, Tag) => {
+    });
+
+    User = new Users({username: "Jimmy" ,email:"Mahmoud@gmail.com" ,password: "9194591945" ,});
+    User.save((err, User) => {
+    });
+
+    Expert = new Users({username: "Mahmoud" ,email:"mahmoudgamal@gmail.com" ,password: "9194591945" ,role: "expert" ,});
+    User.save((err, User) => {
     });
     done();
     
@@ -112,6 +123,41 @@ it('it should delete a Tag DELETE /api//Tags/deleteTags/' , (done) => {
 });
 });
 
+it('it should Block a User given the User_id on /User/blockUser/ PATCH' , (done) => {
+     chai.request(app).patch('/api//User/blockUser/' + User.id)
+     .end((err, res) => {
+      res.should.have.status(200);     
+        res.body.data.should.have.property('username');
+        res.body.data.should.have.property('email');
+        //res.body.data.should.have.property('password');
+   
+        res.body.data.should.have.property('username').eql('Jimmy');
+        res.body.data.should.have.property('email').eql('mahmoud@gmail.com');
+        res.body.data.should.have.property('blocked').eql(true);   
+
+     done();    
+  });
+});
+
+it('it should GET all the Users with their ratings', (done) => {
+  chai.request(app)
+  .get('/api//User/getUsers')
+  .end((err, res) => {
+  res.should.have.status(200);
+  //.body.data is used because we return the result of our api request in the data
+  // structure we made where it returns err,msg and data where data in this case is
+  // the array of tags
+  res.body.data.should.be.a('array');
+//   res.body.data.should.have.property('_id');
+// this takes the array and checks that every single tag has the correct data
+// structure 
+for (var i = 0 ; i < res.body.data ; i++ ){
+  res.body.data[i].should.have.property('rating');
+}
+  
+  done();
+  });
+  });
    });
 
 //    after(function(done) {
