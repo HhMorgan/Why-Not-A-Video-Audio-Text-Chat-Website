@@ -2,7 +2,7 @@
 .LocalVideo{
     position: absolute;
     margin: auto;
-    top:439%;
+    top:187%;
     left: 0;
     right: 0;
     bottom: 0;
@@ -16,7 +16,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    width: 290%;
+    width: 250%;
     z-index: 0;
 }
 .tmp{
@@ -33,9 +33,9 @@
     .LocalVideo{
     position: absolute;
     margin: auto;
-    top: 602%;
-    left: 9%;
-    right: -194%;
+    top: 526%;
+    left: 14%;
+    right: -166%;
     bottom: 0;
     z-index: 0;
     }
@@ -43,11 +43,11 @@
     .RemoteVideo{
         position: absolute;
         margin: auto;
-        top: 154%;
-        left: 8%;
-        right: 0;
+        top: 54%;
+        left: 14%;
+        right: -166%;
         bottom: 0;
-        width: 290%;
+        width: 253%;
         z-index: 0;
     }
     .tmp{
@@ -63,7 +63,7 @@
     margin: auto;
     left: 32%;
     right: 0;
-    top: 0;
+    top:-5em;
     bottom: 0;
     }
     }
