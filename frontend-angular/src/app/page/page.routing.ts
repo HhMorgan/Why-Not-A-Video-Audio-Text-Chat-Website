@@ -16,6 +16,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoViewComponent } from './videoView/videoView.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
+import { ScheduleComponent } from './Schedule/Schedule.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
+  { path: 'schedule', component: ScheduleComponent },
  
 
 // { path: 'date-picker', component: DatePickerComponent },

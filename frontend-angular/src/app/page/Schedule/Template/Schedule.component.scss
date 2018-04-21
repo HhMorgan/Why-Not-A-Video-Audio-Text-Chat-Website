@@ -9,7 +9,7 @@ html, body { height: 100%; margin: 0px; }
 .w3-button{
   background-color: #34495e;
   color:#efefef;
-  
+  width:977px;
 }
 
 body {
@@ -20,7 +20,7 @@ body {
 
 
 .day {
-  width: 3%;
+  width: 13%;
   height: 100vh;
   float: left;
   background-color: #fff;
@@ -57,8 +57,8 @@ body {
   height: 5vh; /*90min*/
   line-height: 5vh;
   background-color: #4d969b;
-  font-size: 0.47vw;
-  padding-left: 0.5px;
+  font-size: 1vw;
+  padding-left: 40px;
   font-family: monospace;
   font-weight: 300;
 }
