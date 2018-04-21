@@ -2,55 +2,98 @@
 <html>
 <body>
     <div class="wrapper">
-    <div class="page-header" style="background-image: url('../assets/img/login-image.jpg');">
+    <div class="page-header" style="background-image: url('../assets/img/bruno-abatti.jpg');">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     
 <!--  -->
 
-
+<div *ngIf='monthFlag' >
+        <div class="container">
+                <div class="container">
+                        <div class="container">
 <div class="row">
-        <div class="col-md-3 buttonBetweenPadding ">
-            <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('January')"><i class="fa fa-calendar"></i>January</button>
-            <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('May')"><i class="fa fa-calendar"></i>May</button>
-            <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('September')"><i class="fa fa-calendar"></i>September</button>
+        <div class="col-md-3">
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('January')"><i class="fa fa-calendar"></i>January</button>
+            </div>
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="monthGetValue('May')"><i class="fa fa-calendar"></i>May</button>
+            </div>
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('September')"><i class="fa fa-calendar"></i>September</button>
         </div>
-        <div class="col-md-3 buttonBetweenPadding">
-            <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('February')"><i class="fa fa-calendar"></i>February</button>    
-            <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('June')"><i class="fa fa-calendar"></i>June</button>
-            <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('October')"><i class="fa fa-calendar"></i>October</button>
         </div>
-        <div class="col-md-3 buttonBetweenPadding">
-                <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('March')"><i class="fa fa-calendar"></i>March</button>
-                <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('July')"><i class="fa fa-calendar"></i>July</button>
-                <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('November')"><i class="fa fa-calendar"></i>November</button>
+        <div class="col-md-3">
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('February')"><i class="fa fa-calendar"></i>February</button>    
+            </div>
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('June')"><i class="fa fa-calendar"></i>June</button>
+            </div>
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('October')"><i class="fa fa-calendar"></i>October</button>
+            </div>
         </div>
-        <div class="col-md-3 buttonBetweenPadding">
-                <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('April')"><i class="fa fa-calendar"></i>April</button>
-                <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('Augest')"><i class="fa fa-calendar"></i>Augest</button>
-                <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='monthFlag' (click)="monthGetValue('December')"><i class="fa fa-calendar"></i>December</button>
-        </div>
+        <div class="col-md-3">
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="monthGetValue('March')"><i class="fa fa-calendar"></i>March</button>
+                </div>
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('July')"><i class="fa fa-calendar"></i>July</button>
+                </div>
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('November')"><i class="fa fa-calendar"></i>November</button>
+                </div>
+            </div>
+        <div class="col-md-3">
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('April')"><i class="fa fa-calendar"></i>April</button>
+                </div>
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('Augest')"><i class="fa fa-calendar"></i>Augest</button>
+                </div>
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('December')"><i class="fa fa-calendar"></i>December</button>
+                </div>
+            </div>
     </div>
-
+</div>
+</div>
+</div>
+</div>
 
 <!--  -->
-        <div class="row">
-            <div class="col-md-3 buttonBetweenPadding ">
-                <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='weekFlag' (click)="weekGetValue(1)"><i class="fa fa-window-maximize"></i>First Week</button>
+    <div *ngIf='weekFlag' >
+            <div class="container">
+                    <div class="container">
+                            <div class="container">
+        <div class="row ">
+            <div class="col-md-3  ">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="weekGetValue(1)"><i class="fa fa-window-maximize"></i>First Week</button>
             </div>
-            <div class="col-md-3 buttonBetweenPadding">
-                <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='weekFlag' (click)="weekGetValue(2)"><i class="fa fa-window-maximize"></i>Second Week</button>
+            <div class="col-md-3 ">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(2)"><i class="fa fa-window-maximize"></i>Second Week</button>
             </div>
-            <div class="col-md-3 buttonBetweenPadding">
-                <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='weekFlag' (click)="weekGetValue(3)"><i class="fa fa-window-maximize"></i>Third Week</button>
+            <div class="col-md-3 ">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(3)"><i class="fa fa-window-maximize"></i>Third Week</button>
             </div>
-            <div class="col-md-3 buttonBetweenPadding">
-                <button type="button" class="btn buttonDivider btn-outline-neutral buttonPadding"  *ngIf='weekFlag' (click)="weekGetValue(4)"><i class="fa fa-window-maximize"></i>Fourth Week</button>
+            <div class="col-md-3 ">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(4)"><i class="fa fa-window-maximize"></i>Fourth Week</button>
             </div>
+        </div>
+        <div class="backButtonWeekBlock">
+        <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekToMonth()"><i class="fa fa-arrow-circle-left"></i>back</button>
+       </div>
+    </div>
+            </div>
+        </div>
         </div>
        <!--  -->
         <div *ngIf = "scheduleFlag">
         <div class="container ">       
-
+                <div class="backButtonScheduleBlock">
+                        <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="scheduleToWeek()"><i class="fa fa-arrow-circle-left"></i>back</button>
+                       </div>
        <!-- <p><button class="w3-button w3-block" (click)="book();">This is the expert's schedule , if you would like to book a session with the expert at another time please press here</button></p> -->
        
                     <div class="day time">

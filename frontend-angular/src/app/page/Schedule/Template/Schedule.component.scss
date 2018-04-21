@@ -33,6 +33,9 @@ html, body { height: 100%; margin: 0px; }
     padding: 8%;
   }
 }
+.buttonBetweenPaddingWeek{
+  padding: 8%;
+}
   .buttonBetweenPadding{
     padding: 5%;
   }
@@ -41,13 +44,43 @@ html, body { height: 100%; margin: 0px; }
   color:#efefef;
   width:977px;
 }
-
+.positionWeekBlock {
+  display: -ms-flexbox!important;
+  display: flex!important;
+  -ms-flex-wrap: wrap!important;
+  flex-wrap: wrap!important;
+  margin-right: 0!important;
+  margin-left: 21%!important;
+}
+.backButtonWeekBlock{
+  position: absolute;
+    margin: auto;
+    top: -22%;
+    bottom: 0;
+    right: 80%;
+    left: 0;
+}
+.backButtonScheduleBlock{
+  position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
 body {
   font-family: 'Open Sans', sans-serif;
   color: #efefef;
   overflow: hidden;
 }
-
+.positionChangeWeek{
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
 .paddingDiv{
   padding: 20%;
 }
