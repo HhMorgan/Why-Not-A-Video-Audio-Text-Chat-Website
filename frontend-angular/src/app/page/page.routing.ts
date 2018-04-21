@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'admin-User', component: AdminPageUserComponent },
   { path: 'home' , component:HomeComponent},
   { path: 'video' , component:VideoViewComponent},
-  { path: 'videotest' , component:SessionVideoComponent},
+  { path: 'videotest/:sessionid' , component:SessionVideoComponent},
   { path: 'profile' , component:ProfileComponent},
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
