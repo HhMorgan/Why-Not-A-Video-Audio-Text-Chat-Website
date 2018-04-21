@@ -18,22 +18,39 @@ export class AdminComponent implements OnInit {
    // we call refresh to load data on entery of the page
     this.refresh();
   }
-  settings = {
+    settings = {
+      edit: {
+        editButtonContent: '<i  class="fa fa-edit"></i>',
+        saveButtonContent: '<i class="fa fa-check"></i>',
+        cancelButtonContent: '<i class="fa fa-ban"></i>',
+      },
+      delete: {
+        deleteButtonContent: '<i class="fa fa-trash"></i>',
+      },
+      add: {
+        addButtonContent: '<i class="fa fa-plus"></i>',
+        createButtonContent: '<i class="fa fa-check"></i>',
+        cancelButtonContent: '<i class="fa fa-close"></i>',
+      },
+      pager:{
+        display: true ,
+        perPage: 5
+      },
 
     actions:{
 // Initializing the custom buttons for the ng2smarttable
       custom: [{
         name:'accept', 
-        title: "Accept  "
+        title: `<i class="fa fa-check-circle"></i>`
       } ,
        {name:'reject', 
-       title: " Reject  "
+       title: `<i class="fa fa-times-circle"></i>`
       },
       {name:'block',
-       title: "Block  " 
+       title: `<i class="fa fa-lock"></i>`
       },
       {name: 'unblock',
-      title: "Unblock"
+      title: `<i class="fa fa-unlock"></i>`
       }]
       
       },

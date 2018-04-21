@@ -1,0 +1,98 @@
+body {
+    padding: 20px;
+    background: #073B4C;
+  }
+  
+  .notifier {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .bell {
+    font-size: 26px;
+    color: #FFF;
+    transition: 0.3s;
+  }
+  
+  .bell:hover {
+    color: #EF476F;
+  }
+  
+  .badge {
+    position: absolute;
+    top: -9px;
+    left: 30px;
+    padding: 0 5px;
+    font-size: 16px;
+    line-height: 22px;
+    height: 22px;
+    background: #EF476F;
+    color: #FFF;
+    border-radius: 11px;
+    white-space: nowrap;
+  }
+  
+  .notifier.green .badge {
+    background: #06D6A0;
+  }
+  
+  .notifier.green .bell:hover {
+    color: #06D6A0;
+  }
+  
+  .notifier.new .badge {
+    animation: pulse 2s ease-out;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes pulse {
+    40% {
+      transform: scale3d(1, 1, 1);
+    }
+  
+    50% {
+      transform: scale3d(1.3, 1.3, 1.3);
+    }
+  
+    55% {
+      transform: scale3d(1, 1, 1);
+    }
+    
+    60% {
+      transform: scale3d(1.3, 1.3, 1.3);
+    }
+  
+    65% {
+      transform: scale3d(1, 1, 1);
+    }
+  }
+  .positionCenter{
+    position: absolute;
+    margin:auto;
+    right:0;
+    left:0;
+}
+
+.positionProfileImage
+{
+    position: absolute;
+    margin:auto;
+    bottom: 0%;
+    cursor: pointer;
+}
+
+.positionUsername
+{
+  position: relative;
+  margin: auto;
+  right: 0;
+  left: 100%;
+  cursor: pointer;
+}
+.img-circle{
+  background-color: white;
+  margin-bottom: 23px !important;
+  padding: 4px;
+  border-radius: 50% !important;
+  max-width: 100%;
+}

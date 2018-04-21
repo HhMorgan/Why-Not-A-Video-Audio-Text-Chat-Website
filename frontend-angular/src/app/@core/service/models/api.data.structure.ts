@@ -36,7 +36,8 @@ export interface Profile {
     description,
     password,
     rating,
-    confirmPassword;
+    confirmPassword,
+    oldPassword
 }
 
 export interface Request{
@@ -61,6 +62,8 @@ export interface CandicateSession extends Session {
 }
 
 export interface SlotData{
+    user: String;
+    expert: String;
     slotDate1: String;
     slotTime1: String;
     slotDate2: String;

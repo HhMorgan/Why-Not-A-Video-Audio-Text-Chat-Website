@@ -2,13 +2,15 @@
     <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
         <div class="filter"></div>
     </div>
+    
     <div class="section profile-content">
-        <div class="container">
+           <div id="settings-page" *ngIf="profilesettings"><app-settings-page [profilComp]="ProfileComponent" ></app-settings-page></div>
+        <div  id="profile-page" *ngIf="profileInfo" class="container">
             <div class="owner">
                 <div class="avatar">
                     <label for="file">
                         l                       
-                                               <input class="custom-file-upload" type="file"
+                                               <input *ngIf="isloggeduser()" class="custom-file-upload" type="file"
                                                id="file" style="display:none;" 
                                              (change)="handleFileInput($event.target.files)">
                                             <a > <img id ="profileimg" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture"></a>
@@ -16,9 +18,18 @@
                         
                 </div>
                 <div class="name" id="name">                       
-                       <div id="mydivheader" > <button class="btn btn-outline-default btn-round" (click)="myFunction()"><i class="fa fa-cog"></i> move</button></div>
-                    <h4 class="title">Jane Faker<br /></h4>
-                    <h6 class="description">Music Producer</h6>
+                      <!--  <div id="mydivheader" > <button class="btn btn-outline-default btn-round" (click)="myFunction()"><i class="fa fa-cog"></i> move</button></div> -->
+                     <h4 class="title">{{usernameOfProfile}}
+                            <i (click)=changeUserStatus() id="onlinestat" class="fa fa-circle" style="font-size:20px;" placement="bottom" ngbTooltip="change status" ></i>
+                        <br /></h4>
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+                        <span id="star" class="fa fa-star "></span>
+                        <span id="star" class="fa fa-star "></span>
+                        <span id="star" class="fa fa-star "></span>
+                        <span id="star" class="fa fa-star"></span>
+                        <span id="star" class="fa fa-star"></span>
+                    <h6 id="specs" class="description"></h6>
                 </div>
             </div>
 
@@ -27,20 +38,20 @@
 
             <div class="row">
                 <div class="col-md-6 ml-auto mr-auto text-center">
-                    <p>An artist of considerable range, Jane Faker — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. </p>
+                    <p>{{description}} </p>
                     <br />
-                    <button class="btn btn-outline-default btn-round"><i class="fa fa-cog"></i> Settings</button>
+                    <button  *ngIf="isloggeduser()" (click)=profilesettingsbtn() class="btn btn-outline-default btn-round"><i class="fa fa-cog"></i> Edit Info</button>
                 </div>
             </div>
             <br/>
 
             <div class="row">
                 <div class="col-md-6 ml-auto mr-auto text-center">
-                            <div class="toggle-btn active">
+                           <!--  <div class="toggle-btn active">
                                 <input id='cb-value' type="checkbox" (click)="changeUserStatus()" checked class="cb-value" />
                                 <span class="round-btn"></span>
-                              </div>
-                              <app-requestExpert></app-requestExpert>
+                              </div> -->
+                              
                               </div>
                             </div>
             <div class="nav-tabs-navigation">

@@ -1,7 +1,7 @@
 /* The  controller that handles all the functionality that an expert can do.
 An expert can view the his/her pending slot requests created by another user --> "viewSlotRequests".
 An expert can accept/reject a slot request --> "editSlotRequest".
-*/
+*/var ObjectId = require('mongodb').ObjectID;
 var mongoose = require('mongoose'),
   Request = mongoose.model('Request'),
   User = mongoose.model('User'),
@@ -62,15 +62,16 @@ module.exports.addSpeciality = function(req, res, next) {
   });
 };
 
-module.exports.editSpeciality= function(req, res, next) {
-  Tag.findOne({
-    name : { $eq : req.body.speciality } , 
-    status : { $eq : 'Accepted' } , 
-    blocked : { $eq : false}
-  },function(err,tag){
+
+
+module.exports.findTagbyid = function(req, res, next) {
+  Tag.findOne({ _id: new ObjectId(req.params.TagId+"") }
+   
+  ).exec(function(err,tag){
     if (err){
       return next(err);
     }
+    
     if (!tag) {
       return res.status(404).json({ 
          err: null, 
@@ -78,10 +79,44 @@ module.exports.editSpeciality= function(req, res, next) {
          data: null 
         });
     }
+
+    return res.status(201).json({ 
+      err: null, 
+      msg:  'Succesfully retrieved the Tag',
+      data: tag 
+     });
+
+
+  
+})
+};
+
+
+
+//This is the function responsible for editing a certain speciality (removing this speciality)
+module.exports.editSpeciality= function(req, res, next) {
+  // Tag.findOne({
+  //   name : { $eq : req.body.speciality } , 
+  //   status : { $eq : 'Accepted' } , 
+  //   blocked : { $eq : false}
+  // },function(err,tag){
+  //   if (err){
+  //     return next(err);
+  //   }
+  //   if (!tag) {
+  //     return res.status(404).json({ 
+  //        err: null, 
+  //        msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
+  //        data: null 
+  //       });
+  //   }
+//Checking that the user logged in has an expert role in order to edit his speciality
     User.findOneAndUpdate({
       _id : { $eq : req.decodedToken.user._id} , role :{$eq: 'expert'},
-      speciality: { $eq: tag._id }
-    },{ $pull: { speciality: tag._id } }, { new : true } , function (err, updateduser) {
+      //search for the tag id that should be removed in the array of specialities with its id
+      speciality: { $eq: req.params.tagId }
+      //remove the tag if found 
+    },{ $pull: { speciality: req.params.tagId } }, { new : true } , function (err, updateduser) {
       if (err) {
         return next(err);
       }
@@ -98,8 +133,9 @@ module.exports.editSpeciality= function(req, res, next) {
         data: updateduser.speciality
       });
     });
-  }); 
+  // }); 
 };
+ 
  
 module.exports.editSlotRequest =function(req, res, next) {
    // checks first that requestId is valid
@@ -134,16 +170,8 @@ module.exports.editSlotRequest =function(req, res, next) {
 };
 
 module.exports.viewSLotRequests = function(req, res, next) {
-  // Finds authenticated user info 
-  User.findById(req.decodedToken.user._id).exec(function(err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(404).json({ err: null, msg: 'User not found.', data: null });
-    }
-    // Retrieves email of the logged in expert 
-    var email = user.email;
+    // Retrieves email of the logged in expert from decoded token
+    var email = req.decodedToken.user.email;
     /* Requests is found by matching recipient to the expert's email, status should be
        pending and type is slotRequest.
      */
@@ -161,7 +189,6 @@ module.exports.viewSLotRequests = function(req, res, next) {
         data: requests
       });
     });
-  });
 };
 
 module.exports.chooseSlot = function(req,res,next){

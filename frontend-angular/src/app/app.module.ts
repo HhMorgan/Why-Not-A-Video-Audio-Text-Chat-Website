@@ -12,6 +12,11 @@ import { HTTP_INTERCEPTORS , HttpClientModule , HttpClient } from '@angular/comm
 import { NavbarComponent } from './page/shared/navbar/navbar.component';
 import { FooterComponent } from './page/shared/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AdminRatingComponent} from './page/components/admin-rating/admin-rating.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
+import { PopOutComponent } from './page/components/pop-out/pop-out.component';
+
 
 
 
@@ -19,7 +24,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   declarations: [
     AppComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    PopOutComponent,
   ],
   imports: [
     NgbModule.forRoot(),
@@ -29,14 +35,23 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    Ng2SmartTableModule,
+    MatDialogModule,
   ],
+
+  entryComponents: [
+    PopOutComponent
+  ],
+  
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    } , APIService , IOService
+    }
+     , APIService , IOService
+     ,{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]
 })

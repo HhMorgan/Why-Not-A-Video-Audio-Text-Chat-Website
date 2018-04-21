@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app.routing';
 @Component({
   selector: 'app-root',
   template: `
-  <app-navbar ></app-navbar>
+  <app-navbar></app-navbar>
     <router-outlet></router-outlet>
     <app-footer *ngIf="removeFooter()"></app-footer>
   `,
@@ -69,7 +69,7 @@ export class AppComponent {
     }
     else {
         return true;
-    }
+    }   
 }
   removeFooter() {
       var titlee = this.location.prepareExternalUrl(this.location.path());

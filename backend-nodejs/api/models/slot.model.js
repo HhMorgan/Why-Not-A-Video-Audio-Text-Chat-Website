@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
 var slotSchema = mongoose.Schema({
   expert: {
-   type:String
+    type:String
   },
-  
+  user:{
+    type:String
+ },
   slotDate1: {
     type :String,
     required: true
@@ -15,7 +17,7 @@ var slotSchema = mongoose.Schema({
   
   slotDate2: {
     type :String,
-    required: true
+    required: false
   },
   
   slotTime2: {
@@ -24,7 +26,7 @@ var slotSchema = mongoose.Schema({
   
   slotDate3: {
     type :String,
-    required: true
+    required: false
   },
   
   slotTime3: {

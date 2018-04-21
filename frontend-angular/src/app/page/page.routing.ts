@@ -21,6 +21,8 @@ import { TagSearchComponent } from './tagSearch/tagSearch.component';
 import { SessionVideoComponent } from './sessionVideoVoice/sessionvideo.component';
 import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
 
+import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
+import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
@@ -28,11 +30,12 @@ const routes: Routes = [
   { path: 'signup' , component: SignupComponent},
   { path: 'dashboard', component:DashboardComponent},
   { path: 'admin', component: AdminComponent },
-  { path: 'admin-User', component: AdminPageUserComponent },
   { path: 'home' , component:HomeComponent},
   { path: 'video' , component:VideoViewComponent},
   { path: 'videotest' , component:SessionVideoComponent},
   { path: 'profile' , component:ProfileComponent},
+  { path: 'profile/:username' , component:ProfileComponent},
+
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
   { path: 'viewSchedule', component: viewScheduleComponent },
@@ -43,6 +46,9 @@ const routes: Routes = [
   {path:'adminPage', component:AdminPageUserComponent},
   {path:'chat',component: SessionChatMobileComponent},
 
+  { path: 'adminviewusers' , component:AdminViewUsersComponent},
+
+  //{ path: 'session', component: SessionComponent },
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
@@ -53,6 +59,7 @@ const routes: Routes = [
 //{ path: '', pathMatch: 'full', redirectTo: 'login' },
 
   { path: '', pathMatch: 'full', redirectTo: 'home' },
+  {path: 'admin-rating', component:AdminRatingComponent}
 ];
 
 @NgModule({

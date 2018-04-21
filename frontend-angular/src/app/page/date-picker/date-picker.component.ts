@@ -14,20 +14,21 @@ export class DatePickerComponent implements OnInit {
   private slotTime1;
   private slotTime2;
   private slotTime3;
-
+  private user;
 constructor(private _apiService:APIService) { }
 
   ngOnInit() {
   }
   //---Method confirming the chosen slots
   confirmClick(){
+    this.user = localStorage.getItem('sender');
+    console.log(this.user);
     if(this.scheduleDate1 == null){
       console.log("hi");
     }else{
       console.log(this.slotTime1);
    
-      // this._apiService.chooseSlot({expertName:'',slotDate1: this.scheduleDate1,slotTime1: this.slotTime1,slotDate2:this.scheduleDate2 ,slotTime2:this.slotTime2,slotDate3:this.scheduleDate3,slotTime3:this.slotTime3}).subscribe((apiresponse:APIData)=>(console.log(apiresponse)))
-    this._apiService.chooseSlot({slotDate1: this.scheduleDate1,slotTime1: this.slotTime1,slotDate2:this.scheduleDate2 ,slotTime2:this.slotTime2,slotDate3:this.scheduleDate3,slotTime3:this.slotTime3}).subscribe((apiresponse:APIData)=>(console.log(apiresponse)))
+    this._apiService.chooseSlot({user: this.user,expert:'' ,slotDate1: this.scheduleDate1,slotTime1: this.slotTime1,slotDate2:this.scheduleDate2 ,slotTime2:this.slotTime2,slotDate3:this.scheduleDate3,slotTime3:this.slotTime3}).subscribe((apiresponse:APIData)=>(console.log(apiresponse)))
       
     }
   }

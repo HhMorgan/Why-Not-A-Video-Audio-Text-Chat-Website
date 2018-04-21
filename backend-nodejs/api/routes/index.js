@@ -43,7 +43,15 @@ var isNotAuthenticated = function(req, res, next) {
   }
   next();
 };
-
+var isExpert = function(req,res,next){
+  if(req.decodedToken.user.role.trim() !== 'expert' && req.decodedToken.user.role.trim() !== 'Expert' ){
+    return res.status(403).json({
+       err: null,
+       msg: 'Unauthorized.',
+       data: null });
+  }
+  next();
+};
 // all the methods below are all routers where we specify a route for api.service to 
 // call and what method in the backend to go with the specefied route 
 //-----------------------------Authentication Routes-------------------------
@@ -57,6 +65,7 @@ router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
 router.patch('/User/blockUser/:userId', AdminController.blockUser);
 router.patch('/User/downgradeExpert/:userId', AdminController.downgradeExpertToUser);
 router.get('/User/getUsers',AdminController.getUsers);
+router.get('/getUsers',isAuthenticated, AdminController.getUsers);  
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);
@@ -65,6 +74,7 @@ router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescript
 //-----------------------------User Role Expert Routes-------------------------
 router.post('/expert/chooseSlot',expert.chooseSlot);
 router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests);
+router.get('/expert/getTagById/:TagId' , expert.findTagbyid);
 router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
 router.post('/expert/addSpeciality', isAuthenticated , expert.addSpeciality); 
 router.delete('/expert/editSpeciality/:tagId',isAuthenticated,expert.editSpeciality);
@@ -76,8 +86,12 @@ router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sess
 
 router.post('/photo', isAuthenticated , userCtrl.uploadimage);
 router.get('/getphoto', isAuthenticated , userCtrl.getimage);
+router.get('/getusername', isAuthenticated , userCtrl.getusername);
+router.get('/user/getUserData', isAuthenticated , userCtrl.getUserData);
+router.get('/user/getpassword', isAuthenticated , userCtrl.getpassword);
 router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
 router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
+router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUserProfile);
 
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);

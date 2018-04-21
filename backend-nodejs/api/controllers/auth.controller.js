@@ -24,7 +24,7 @@ module.exports.login = function(req, res, next) {
   }
 
   // Find the user with this email from the database
-  User.findOne( { email: req.body.email.trim().toLowerCase() ,  } , { _id : 1 , username : 1 , email : 1 , password : 1 , blocked : 1 } ).exec(function(err, user) {
+  User.findOne( { email: req.body.email.trim().toLowerCase() ,  } , { _id : 1 , username : 1 , email : 1 , password : 1 , blocked : 1 , role : 1 } ).exec(function(err, user) {
     if (err) {
       return next(err);
     }

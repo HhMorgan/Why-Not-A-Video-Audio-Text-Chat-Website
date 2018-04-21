@@ -13,6 +13,8 @@ import { Routes,Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
+    private username: string;
+
 
     constructor(public location: Location, private element : ElementRef,private apiServ:APIService,private router: Router) {
         this.sidebarVisible = false;
@@ -75,6 +77,13 @@ export class NavbarComponent implements OnInit {
         });      
     }
 
+    getusername(){
+        this.apiServ.getusername().subscribe((apires : APIData) =>{
+                 this.username = apires.data; 
+                             
+        });      
+    }
+
     isLogin() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
 
@@ -104,6 +113,7 @@ export class NavbarComponent implements OnInit {
      document.getElementById("logout").style.display="block";
         document.getElementById("signup").style.display="none";
         this.getimage();
+        this.getusername();
       
         }
         else{
@@ -112,7 +122,8 @@ export class NavbarComponent implements OnInit {
             document.getElementById("dropdownBasic1").style.display="none";
             document.getElementById("profile").style.display="none";
         }
-     
+
+
     }
     logout(){
        
