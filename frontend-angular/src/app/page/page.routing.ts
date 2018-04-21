@@ -20,6 +20,7 @@ import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component'
 import { TagSearchComponent } from './tagSearch/tagSearch.component';
 import { SessionVideoComponent } from './sessionVideoVoice/sessionvideo.component';
 import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
+import { ScheduleComponent } from './Schedule/Schedule.component';
 
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
@@ -52,6 +53,7 @@ const routes: Routes = [
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
+  { path: 'schedule', component: ScheduleComponent },
  
 
 // { path: 'date-picker', component: DatePickerComponent },

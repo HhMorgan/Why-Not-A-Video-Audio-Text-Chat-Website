@@ -3,6 +3,7 @@ import { PageModule } from './page/page.module';
 import { SessionComponent } from './page/session/session.component';
 import { ExpertComponent } from './page/expert/expert.component';
 import { RatingComponent } from './page/rating/rating.component';
+import { ScheduleComponent } from './page/Schedule/Schedule.component';
 import { LoginComponent } from './page/auth/login/login.component'
 import { SlotRequestComponent } from './page/slotRequest/slotRequest.component';
 import { AdminRatingComponent } from './page/components/admin-rating/admin-rating.component';

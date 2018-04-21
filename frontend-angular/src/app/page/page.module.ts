@@ -52,6 +52,7 @@ import { SessionChatMobileComponent } from './sessionChatMobile/session.componen
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
 import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
+import { ScheduleComponent } from './Schedule/Schedule.component';
 
 
 
@@ -104,6 +105,8 @@ import { SettingsPageComponent } from './profile/settings-page/settings-page.com
     AdminViewUsersComponent,
     AdminRatingComponent,
     SettingsPageComponent,
+    ScheduleComponent
+
   ],
   entryComponents: [NgbdModalContent]
 })
