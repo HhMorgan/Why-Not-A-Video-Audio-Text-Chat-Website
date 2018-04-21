@@ -75,7 +75,7 @@ export class AppComponent {
       var titlee = this.location.prepareExternalUrl(this.location.path());
       titlee = titlee.slice( 7 );
       if(titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'video' || this.title === 'videotest'
-       ||   titlee=== 'chat'  || titlee === 'login' ) {
+       ||   titlee=== 'chat'  || titlee === 'login') {
           return false;
       }
       else {

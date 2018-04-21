@@ -1,11 +1,41 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
 
 html, body { height: 100%; margin: 0px; }
+@media (min-width: 600px) {
 .container{
-    height: 500px;
-
+    height: auto;
+  position: absolute;
+  margin: auto;
+  top: 15%;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
-
+}
+@media (max-width: 600px) {
+  .container{
+      height: auto;
+    position: absolute;
+    margin: auto;
+    top: 18%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  }
+  @media (max-width: 600px) {
+  .buttonPadding{
+    padding: 5%;
+  }
+}
+@media (min-width: 600px) {
+  .buttonPadding{
+    padding: 8%;
+  }
+}
+  .buttonBetweenPadding{
+    padding: 5%;
+  }
 .w3-button{
   background-color: #34495e;
   color:#efefef;
@@ -18,10 +48,12 @@ body {
   overflow: hidden;
 }
 
-
+.paddingDiv{
+  padding: 20%;
+}
 .day {
-  width: 13%;
-  height: 100vh;
+  width: 12%;
+  height: auto;
   float: left;
   background-color: #fff;
   background-image: linear-gradient(rgba(0,0,0,.08) 50%, transparent 50%);
@@ -31,38 +63,73 @@ body {
 
 .day.time { width: 10%;}
 
-
+@media (min-width: 600px) {
 .day_title {
   height:5%;
   background-color: #34495e;
-  font-size: 8.3px;
+  font-size: 100%;
   font-weight: 600;
   text-transform: uppercase;
   text-align: center;
   line-height: 5vh;
 }
-
-
-.hour {
-  height: 5%;
-  background-color: rgba(52, 73, 94,0.9);
-  font-size: 12px;
-  text-align: center;
-  line-height: 5vh;
+}
+@media (max-width: 600px) {
+  .day_title {
+    height:5%;
+    background-color: #34495e;
+    font-size: 60%;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 5vh;
+  }
 }
 
+@media (min-width: 600px) {
+.hour {
+  height: 10%;
+  background-color: rgba(52, 73, 94,0.9);
+  font-size: 100%;
+  text-align: center;
+  line-height: 5.05vh;
+}
+}
+@media (max-width: 600px) {
+  .hour {
+    height: 10%;
+    background-color: rgba(52, 73, 94,0.9);
+    font-size: 60%;
+    text-align: center;
+    line-height: 5.05vh;
+  }
+  }
 
+@media (min-width: 600px) {
 .class {
-  width: 100%;
+  width: 60%;
   height: 5vh; /*90min*/
   line-height: 5vh;
   background-color: #4d969b;
-  font-size: 1vw;
-  padding-left: 40px;
+  font-size: 100%;
+  padding-left: 0;
   font-family: monospace;
   font-weight: 300;
 }
-
+}
+@media (max-width: 600px) {
+  .class {
+    width: 60%;
+    height: 5vh; /*90min*/
+    line-height: 5vh;
+    background-color: #4d969b;
+    font-size: 60%;
+    padding-left: 0;
+    font-family: monospace;
+    font-weight: 300;
+  }
+  }
+  
 
 
 
