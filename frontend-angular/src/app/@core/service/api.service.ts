@@ -44,8 +44,9 @@ export class APIService {
     .catch(this.errorHandler);
   }
 
-  getTagbyId(Tags:Tags):Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'expert/getTagById/'+Tags._id)
+  getTagbyId(Tags_ids: String[]):Observable<APIData> {
+    console.log(Tags_ids);
+    return this.http.get<APIData>( APIService.apiUrl + 'expert/getTagById/'+Tags_ids)
     .catch(this.errorHandler);
   }
 
