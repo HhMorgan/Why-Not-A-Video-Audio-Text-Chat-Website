@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
     description:string;
     profileInfo=true;
     profilesettings=false;
+    private role:string;
     
 
     constructor(private apiServ:APIService,private route: ActivatedRoute) { };
@@ -108,7 +109,7 @@ export class ProfileComponent implements OnInit {
               var t = document.createTextNode( specialities_names[l].name+"");
               Tag.classList.add("btn");
              // Tag.classList.add("btn-danger");
-              Tag.classList.add("btn-round");
+             // Tag.classList.add("btn-round");
               Tag.style.backgroundColor =specialities_names[l].color.toString();
               Tag.style.borderColor =specialities_names[l].color.toString();
               Tag.classList.add("btn-sm");
@@ -131,7 +132,9 @@ export class ProfileComponent implements OnInit {
               var Tag = document.createElement("button");                      // Create a <p> element
             var t = document.createTextNode( specialities_names[i]+"");
             Tag.classList.add("btn");
-            Tag.classList.add("btn-danger");
+             // Tag.classList.add("btn-round");
+            Tag.style.backgroundColor =specialities_names[l].color.toString();
+            Tag.style.borderColor =specialities_names[l].color.toString();
             Tag.classList.add("btn-sm");
               Tag.appendChild(t);
               TagsContainer.appendChild(Tag); 
@@ -152,9 +155,12 @@ export class ProfileComponent implements OnInit {
           
           this.usernameOfProfile = apires.data.username; //getting the username of showed profile
           this.description=apires.data.description; //getting the desc. of showed profile
-         
           this.getimageuser(apires.data.img); //this method gets/views the image of the user 
           this.showrating(apires.data.rating); //this method gets/views the ratings of the user 
+          this.role=apires.data.role;
+          if(this.role=='user'){
+            this.role='';
+          }
           this.editstatus();
           this.loadStatus(apires.data.onlineStatus); //this method gets/views the status of the user
         
@@ -192,6 +198,15 @@ export class ProfileComponent implements OnInit {
         else{
         return true;       
         }       
+    }
+
+    isExpert(){
+      if(this.role=='expert'){
+         return true;
+      }
+      else{
+         return false;
+      }
     }
 
      editstatus(){
