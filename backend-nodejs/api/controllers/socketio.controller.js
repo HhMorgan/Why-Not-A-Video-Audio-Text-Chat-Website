@@ -23,42 +23,23 @@ module.exports = function (io) {
                 data = {}; 
             } 
             switch(data.type){
-
-                
-
-
-
                 case "Join":
                     connection.join(data.room);
                     connection.broadcast.to(data.room).emit('message' , 
                         JSON.stringify({
                         type : "Join" ,
                         msg : "Joined Room " + data.room ,
-                        user : connection.request.decoded_token.user._id
+                        userid : connection.request.decoded_token.user._id
                         })
                     )
-
-                    // for (var socketId in io.nsps['/'].adapter.rooms['5accc80710884653ec3a3b14']) {
-                    //     console.log(socketId);
-                    // }
+                    sendAllConnectedUsersinRoom(connection,data.room);
                     // io.sockets.in('5accc80710884653ec3a3b14').emit('message', JSON.stringify('hi 3ml ')); // kol nas including sending socket
-                    // console.log(connection.adapter.nsp.adapter.rooms)
-                    connection.request.decoded_token.user._id
-                    connection.broadcast.to(data.room).emit('message' , 
-                        JSON.stringify({
-                           type : "User",
-                           id : connection.request.decoded_token.user._id
-                        })
-                    );
-                   
                 break;
                 
 
                 case "message": 
                     
                     console.log("message : ", data.message,", id : ", data.name); 
-                    //var conn = users[data.name];
-                    //if anyone is logged in with this username then refuse
                     connection.broadcast.to(data.room).emit('message' , 
                     JSON.stringify(
                         {
@@ -68,57 +49,70 @@ module.exports = function (io) {
                     )
                 ); 
                break; 
-                
-
-
-
-                case "OfferRequest":
-                    connection.broadcast.to(data.room).emit('message' , 
-                        JSON.stringify(
-                            {
-                                type: "OfferRequest",
-                                from: connection.request.decoded_token.user._id,
-                            }
-                        )
-                    );
-                    console.log("offerrequest " + connection.request.decoded_token.user._id)
-                break;
                 case "offer":
-                    broadCastToAll(connection , data.room , {
-                        type : "offer",
-                        offer : data.offer, 
-                        from : connection.request.decoded_token.user._id,
-                    })
+                    console.log("Sending offer to : ", data.to);
+                    if( isConnectioninRoom( connection , data.room ) ){
+                        send_To_Using_ID( connection , data.to , data.room , {
+                            type : "offer",
+                            offer : data.offer, 
+                            from : connection.request.decoded_token.user._id,
+                        })
+                    }
                 break;
 
                 case "answer":
-                    console.log("Sending answer to room : ", data.room); 
-
-                    broadCastToAll(connection , data.room , {
-                        type : "answer",
-                        answer : data.answer, 
-                        from : connection.request.decoded_token.user._id,
-                    })
+                    console.log("Sending answer to : ", data.to);
+                    if( isConnectioninRoom( connection , data.room ) ){
+                        send_To_Using_ID( connection , data.to , data.room , {
+                            type : "answer",
+                            answer : data.answer, 
+                            from : connection.request.decoded_token.user._id,
+                        })
+                    }
                 break;
                     
                 case "candidate":
                     console.log("Sending candidate to room : ", data.room);
-
-                    broadCastToAll(connection , data.room , {
-                        type: "candidate", 
-                        candidate: data.candidate,
-                        from: connection.request.decoded_token.user._id,
-                    })
+                    if( isConnectioninRoom( connection , data.room ) ){
+                        send_To_Using_ID( connection , data.to , data.room , {
+                            type: "candidate", 
+                            candidate: data.candidate,
+                            from: connection.request.decoded_token.user._id,
+                        })
+                    }
                 break;
                
             }
         })
-        connection.send(JSON.stringify('fuck you'))
+        connection.send(JSON.stringify(
+            {
+                type : "connected"
+            }
+        ))
       });
     
-      function sendTo(connection, message) {
+    function sendTo(connection, message) {
           console.log("sending to " + connection.request.decoded_token.user._id)
         connection.send(JSON.stringify(message)); 
+    }
+
+    function isConnectioninRoom(connection , room) {
+        for( var socketId in io.sockets.adapter.rooms[room].sockets) {
+            var socketconnection = io.of("/").connected[socketId];
+            if(socketconnection == connection ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function send_To_Using_ID( connection , userid , room  , message ){
+        for( var socketId in io.sockets.adapter.rooms[room].sockets) {
+            var socketconnection = io.of("/").connected[socketId];
+            if(socketconnection != null && connection.request.decoded_token.user._id != userid && socketconnection.request.decoded_token.user._id == userid ) {
+                sendTo(socketconnection,message);
+            }
+        }
     }
 
     function broadCastToAll( connection , room , message ) {
@@ -127,6 +121,22 @@ module.exports = function (io) {
             if(socketconnection != null && connection.request.decoded_token.user._id != socketconnection.request.decoded_token.user._id){
                 sendTo(socketconnection,message);
             }
+        }
+    }
+
+    function sendAllConnectedUsersinRoom( connection , room ) {
+        var usersid = [];
+        for( var socketId in io.sockets.adapter.rooms[room].sockets) {
+            var socketconnection = io.of("/").connected[socketId];
+            if(socketconnection != null && connection.request.decoded_token.user._id != socketconnection.request.decoded_token.user._id){
+                usersid.push(socketconnection.request.decoded_token.user._id)
+            }
+        }
+        if(usersid.length != 0){
+            sendTo(connection,{
+                type : "connectedUsers",
+                data : usersid
+            })
         }
     }
 }

@@ -1,6 +1,7 @@
 import {Component , OnInit} from "@angular/core";
 import {APIData , User} from '../../@core/service/models/api.data.structure';
 import { APIService  } from "../../@core/service/api.service";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,8 @@ import { APIService  } from "../../@core/service/api.service";
   styleUrls: ['./template/Schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
+  public yourDate : Date = new Date();
+  private weekduration : String ;
   scheduleFlag:boolean=false;
   weekFlag:boolean=false;
   monthFlag:boolean=true;
@@ -19,6 +22,7 @@ export class ScheduleComponent implements OnInit {
 
   slots: String []=['No']; 
   constructor(){
+
 
     this.assignslots();
     
@@ -35,15 +39,25 @@ export class ScheduleComponent implements OnInit {
       this.randomFlag=false
       return false
    }
+
+
+   
  ngOnInit() {
   this.numbers = Array(15).fill(0).map((x,i)=>i);
-
+  var data = moment(this.yourDate).startOf('week').isoWeekday(6);
+  this.weekduration = "";
+  for (var i = 0 ; i < 2 ; i++) {
+    this.weekduration += data.format('D-MMMM');
+   if(i != 1) {
+    this.weekduration += " => "
+   }
+   data.add(6,'d');
+  }
  }
 
 addslot(day , hour) {
-this.slots[0]= 'Reserved';
-this.slots[100]='Reserved';
-
+  this.slots[0]= 'Reserved';
+  this.slots[100]='Reserved';
 }
 
 monthGetValue(val : any){

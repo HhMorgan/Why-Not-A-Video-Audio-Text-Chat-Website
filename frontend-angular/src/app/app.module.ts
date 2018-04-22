@@ -16,6 +16,7 @@ import {AdminRatingComponent} from './page/components/admin-rating/admin-rating.
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
 import { PopOutComponent } from './page/components/pop-out/pop-out.component';
+import { NavBarService } from './@core/service/shared.service';
 
 
 
@@ -50,7 +51,7 @@ import { PopOutComponent } from './page/components/pop-out/pop-out.component';
       useClass: AuthInterceptor,
       multi: true
     }
-     , APIService , IOService
+     , APIService , IOService , NavBarService
      ,{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]

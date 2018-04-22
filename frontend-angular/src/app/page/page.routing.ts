@@ -33,7 +33,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'home' , component:HomeComponent},
   { path: 'video' , component:VideoViewComponent},
-  { path: 'videotest' , component:SessionVideoComponent},
+  { path: 'videotest/:sessionid' , component:SessionVideoComponent},
   { path: 'profile' , component:ProfileComponent},
   { path: 'profile/:username' , component:ProfileComponent},
 

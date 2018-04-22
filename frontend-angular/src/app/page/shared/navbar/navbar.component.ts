@@ -1,9 +1,11 @@
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { APIService } from '../../../@core/service/api.service';
 import { APIData , User  } from '../../../@core/service/models/api.data.structure'
 import { Buffer } from 'buffer';
 import { Routes,Router } from '@angular/router';
+import { NavBarService } from '../../../@core/service/shared.service';
 
 @Component({
     selector: 'app-navbar',
@@ -16,22 +18,24 @@ export class NavbarComponent implements OnInit {
     private username: string;
 
 
-    constructor(public location: Location, private element : ElementRef,private apiServ:APIService,private router: Router) {
+    constructor( public location: Location , private element : ElementRef , private apiServ:APIService , private router: Router , 
+        private navbarservice : NavBarService ) {
         this.sidebarVisible = false;
+
+        navbarservice.change.subscribe(isUserLoggedIn => {
+            this.isloggedin();
+        });
     }
 
     ngOnInit() {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
         this.isloggedin();
-       
-        }
+    }
+
     sidebarOpen() {
         const toggleButton = this.toggleButton;
         const html = document.getElementsByTagName('html')[0];
-        // console.log(html);
-        // console.log(toggleButton, 'toggle');
-
         setTimeout(function(){
             toggleButton.classList.add('toggled');
         }, 500);
@@ -47,8 +51,6 @@ export class NavbarComponent implements OnInit {
         html.classList.remove('nav-open');
     };
     sidebarToggle() {
-        // const toggleButton = this.toggleButton;
-        // const body = document.getElementsByTagName('body')[0];
         if (this.sidebarVisible === false) {
             this.sidebarOpen();
         } else {
@@ -79,21 +81,19 @@ export class NavbarComponent implements OnInit {
 
     getusername(){
         this.apiServ.getusername().subscribe((apires : APIData) =>{
-                 this.username = apires.data; 
-                             
+            this.username = apires.data;  
         });      
     }
 
     isLogin() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
-
         if( titlee === 'page/login' ) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
+
     isDocumentation() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
         if( titlee === '/documentation' ) {
@@ -103,43 +103,38 @@ export class NavbarComponent implements OnInit {
             return false;
         }
     }
-    isloggedin(){
-        var isAuth = !(localStorage.getItem('token')==null)
-        console.log(localStorage.getItem('token')==null);
-        if (isAuth){
-            
-            document.getElementById("officeHours").style.display="block";
-            document.getElementById("login").style.display="none";
-            document.getElementById("logout").style.display="block";
-            document.getElementById("signup").style.display="none";
-            this.getimage();
-            this.getusername();
-      
-        }
-        else{
-           document.getElementById("officeHours").style.display="none";
-            document.getElementById("login").style.display="block";
-            document.getElementById("logout").style.display="none";
-            document.getElementById("dropdownBasic1").style.display="none";
-            document.getElementById("profile").style.display="none";
-        }
-
-
-    }
-    logout(){
-       
-            localStorage.clear();
-            console.log(localStorage.getItem('token'));
-          location.reload();
-    }
 
     isAuth(){
         var isAuth = !(localStorage.getItem('token')=="null")
         if (isAuth){
             return true
-        }
-        else return false
+        } else 
+            return false
+    }
 
+    private isloggedin(){
+        var isAuth = !( APIService.getToken() == null )
+        if (isAuth) { // NG IF Will Be Added
+            document.getElementById("login").style.display="none";
+            document.getElementById("signup").style.display="none";
+            document.getElementById("logout").style.display="block";
+            document.getElementById("profile").style.display="block";
+            document.getElementById("officeHours").style.display="block";
+            document.getElementById("dropdownBasic1").style.display="block";
+            this.getimage();
+            this.getusername();
+        } else {
+            document.getElementById("login").style.display="block";
+            document.getElementById("logout").style.display="none";
+            document.getElementById("profile").style.display="none";
+            document.getElementById("officeHours").style.display="none";
+            document.getElementById("dropdownBasic1").style.display="none";
+        }
+    }
+
+    logout() {
+        localStorage.clear();
+        this.navbarservice.setUserLoggedin(false);
     }
 
     

@@ -9,7 +9,11 @@
         <div class="container">
                 <div class="container">
                         <div class="container">
-<div class="row">
+                                <div class="week-number">
+                                        {{ yourDate | week }} <br>
+                                        {{ weekduration }}
+                                    </div>
+                                    <div class="row">
         <div class="col-md-3">
             <div class="buttonBetweenPadding">
             <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('January')"><i class="fa fa-calendar"></i>January</button>
