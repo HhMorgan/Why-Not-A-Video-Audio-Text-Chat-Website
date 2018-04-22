@@ -108,15 +108,16 @@ export class NavbarComponent implements OnInit {
         console.log(localStorage.getItem('token')==null);
         if (isAuth){
             
-          
-     document.getElementById("login").style.display="none";
-     document.getElementById("logout").style.display="block";
-        document.getElementById("signup").style.display="none";
-        this.getimage();
-        this.getusername();
+            document.getElementById("officeHours").style.display="block";
+            document.getElementById("login").style.display="none";
+            document.getElementById("logout").style.display="block";
+            document.getElementById("signup").style.display="none";
+            this.getimage();
+            this.getusername();
       
         }
         else{
+           document.getElementById("officeHours").style.display="none";
             document.getElementById("login").style.display="block";
             document.getElementById("logout").style.display="none";
             document.getElementById("dropdownBasic1").style.display="none";
