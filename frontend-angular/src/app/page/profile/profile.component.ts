@@ -75,25 +75,31 @@ export class ProfileComponent implements OnInit {
    //this method gets called everytime the page is reloaded
     ngOnInit() {
       this.getcurrusername();  
-     
        this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
         this.user.username = params['username'];
         this.apiServ.getUserProfile(this.user).subscribe((apires : APIData) =>{ //this method gets all the info of current profile 
           var specialities_ids=apires.data.speciality; //getting the speciality array of the user in terms of Object_id
           var specialities_names: String[]= new Array(); //array to hold the names of the specs
+          var Tags_ids: String[]= new Array();
           var i;
           var specsElem = document.getElementById("specs"); //specs div
           specsElem.innerHTML="";  
-          for( i=0;i<specialities_ids.length;i++ ){ //looping over every object_id and calling getTagbyId to get it's info
-            this.Tag._id=specialities_ids[i]+"";  
-            this.apiServ.getTagbyId(this.Tag).subscribe((apires : APIData) =>{
-              specsElem.innerHTML += apires.data.name+" ";
-            },(err) =>{
-              console.log(err);
-            });  
+          for( i=0;i<specialities_ids.length;i++ ){ //looping over every object_id and adding it to  to get it's info
+            this.Tag._id=specialities_ids[i]+"";
+            Tags_ids.push(specialities_ids[i]);  
+           
           }
-          this.usernameOfProfile = apires.data.username;
-          this.description=apires.data.description;
+          this.apiServ.getTagbyId(Tags_ids).subscribe((apires : APIData) =>{
+            for( i=0;i<apires.data.length;i++ ){ //looping over every element and adding it to an array to append it later with the string of the element getTagbyId to get it's info
+            specialities_names.push(apires.data[i].name);  
+          }
+          specsElem.innerHTML += specialities_names.toString();
+          },(err) =>{
+            console.log(err);
+          }); 
+          
+          this.usernameOfProfile = apires.data.username; //getting the username of showed profile
+          this.description=apires.data.description; //getting the desc. of showed profile
          
           this.getimageuser(apires.data.img); //this method gets/views the image of the user 
           this.showrating(apires.data.rating); //this method gets/views the ratings of the user 

@@ -64,9 +64,15 @@ module.exports.addSpeciality = function(req, res, next) {
 
 
 module.exports.findTagbyid = function(req, res, next) {
-  Tag.findOne({ _id: new ObjectId(req.params.TagId+"") }
+ //consol.log(req.params+"tttty") ;
+// var arr = JSON.parse(req.params.Tags_ids);
+  Tag.find(
+
+    
+    //{[req.params.Tags_ids]: {$in :Tag}} 
+   // {_id: { $eq:JSON.parse(req.params.Tags_ids) }}
    
-  ).exec(function(err,tag){
+  ).populate(req.params.Tags_ids).exec(function(err,tag){
     if (err){
       return next(err);
     }
@@ -82,10 +88,10 @@ module.exports.findTagbyid = function(req, res, next) {
     return res.status(201).json({ 
       err: null, 
       msg:  'Succesfully retrieved the Tag',
-      data: tag 
+      data:tag
      });
 
-
+   //  consol.log(arr+"tttty") ;
   
 })
 };
