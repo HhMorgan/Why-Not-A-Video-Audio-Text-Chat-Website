@@ -429,3 +429,72 @@ module.exports.viewSuggestedExperts = function(req, res, next) {
   });
 });
 };
+
+
+
+module.exports.addToBookmarks = function (req, res, next){
+
+  if (!Validations.isObjectId(req.params.expertId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'The expert ID sent must be a valid ObjectId.',
+      data: null
+    });
+  }
+
+  User.findById(req.decodedToken.user._id).exec(function(err, user) {
+
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(404).json({ err: null, msg: 'User not found.', data: null });
+    }
+
+    User.find({ _id: req.params.expertId, role: 'expert' }).exec(function(err, expert) {
+      if (err) {
+        return next(err);
+      }
+      if (!expert ) {
+        return res.status(404).json({ 
+          err: null, 
+          msg: 'The expert you are trying to add to your bookmarks is either not found or not an expert.', 
+          data: null });
+      }
+
+    User.update(
+      { username:  req.decodedToken.user.username },
+      { $push: { bookmarks: req.params.expertId } }
+   )
+
+    return res.status(201).json({
+      err: null,
+      msg: 'The expert was successfully added to your array of bookmarks.',
+      data: req.params.expertId
+    });
+  });
+
+  });
+}
+
+module.exports.viewBookmarks = function (req, res, next){
+
+  User.findById(req.decodedToken.user._id).exec(function(err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(404).json({ err: null, msg: 'User not found.', data: null });
+    }
+    
+    if (!user.bookmarks) {
+      return res.status(404).json({ err: null, msg: 'Bookmarks not found.', data: null });
+    }
+    return res.status(200).json({
+      err: null,
+      msg: 'Bookmarks retrieved successfully.',
+      data: user.bookmarks
+    });
+
+  });
+}

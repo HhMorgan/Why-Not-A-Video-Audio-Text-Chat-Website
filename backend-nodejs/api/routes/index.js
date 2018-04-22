@@ -95,16 +95,14 @@ router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUser
 
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
-
 router.get('/getExpertSchedule/:userId', isAuthenticated, userCtrl.getExpertSchedule);
-
 router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert);
-
 //to get offered slots:
 router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
 //to choose slot
 router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
-
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
+router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
+router.get('/user/viewBookmarks', isAuthenticated , userCtrl.viewBookmarks);
 
 module.exports = router;
