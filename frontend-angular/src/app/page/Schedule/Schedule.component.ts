@@ -8,6 +8,12 @@ import { APIService  } from "../../@core/service/api.service";
   styleUrls: ['./template/Schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
+  scheduleFlag:boolean=false;
+  weekFlag:boolean=false;
+  monthFlag:boolean=true;
+  monthValue;
+  weekValue;
+
   slots: String []=['No']; 
   constructor(){
 
@@ -18,11 +24,36 @@ export class ScheduleComponent implements OnInit {
  ngOnInit() {}
 
 addslot(day , hour) {
-this.slots[0]= 'Reserved';
-this.slots[100]='Reserved';
-
+  this.slots[0]= 'Reserved';
+  this.slots[100]='Reserved';
 }
 
+monthGetValue(val : any){
+  this.monthValue=val;
+  this.monthToWeek();
+}
+weekGetValue(val : any){
+  this.weekValue=val;
+  console.log(this.weekValue);
+  this.weekToSchedule();
+}
+
+monthToWeek(){
+  this.monthFlag=false;
+  this.weekFlag=true;
+}
+weekToSchedule(){
+  this.weekFlag=false;
+  this.scheduleFlag=true;
+}
+weekToMonth(){
+  this.monthFlag=true;
+  this.weekFlag=false;
+}
+scheduleToWeek(){
+  this.weekFlag=true;
+  this.scheduleFlag=false;
+}
 
 assignslots(){
   this.addslot(0,0);

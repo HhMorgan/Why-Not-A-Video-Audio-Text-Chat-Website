@@ -2,29 +2,115 @@
 <html>
 <body>
     <div class="wrapper">
-    <div class="page-header" style="background-image: url('../assets/img/login-image.jpg');">
+    <div class="page-header" style="background-image: url('../assets/img/bruno-abatti.jpg');">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     
-      
-        <div class="container">       
-              
-       <p><button class="w3-button w3-block" (click)="book();">This is the expert's schedule , if you would like to book a session with the expert at another time please press here</button></p>
+<!--  -->
+
+<div *ngIf='monthFlag' >
+        <div class="container">
+                <div class="container">
+                        <div class="container">
+<div class="row">
+        <div class="col-md-3">
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('January')"><i class="fa fa-calendar"></i>January</button>
+            </div>
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="monthGetValue('May')"><i class="fa fa-calendar"></i>May</button>
+            </div>
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('September')"><i class="fa fa-calendar"></i>September</button>
+        </div>
+        </div>
+        <div class="col-md-3">
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('February')"><i class="fa fa-calendar"></i>February</button>    
+            </div>
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('June')"><i class="fa fa-calendar"></i>June</button>
+            </div>
+            <div class="buttonBetweenPadding">
+            <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('October')"><i class="fa fa-calendar"></i>October</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="monthGetValue('March')"><i class="fa fa-calendar"></i>March</button>
+                </div>
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('July')"><i class="fa fa-calendar"></i>July</button>
+                </div>
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('November')"><i class="fa fa-calendar"></i>November</button>
+                </div>
+            </div>
+        <div class="col-md-3">
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('April')"><i class="fa fa-calendar"></i>April</button>
+                </div>
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('Augest')"><i class="fa fa-calendar"></i>Augest</button>
+                </div>
+                <div class="buttonBetweenPadding">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "   (click)="monthGetValue('December')"><i class="fa fa-calendar"></i>December</button>
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+<!--  -->
+    <div *ngIf='weekFlag' >
+            <div class="container">
+                    <div class="container">
+                            <div class="container">
+        <div class="row ">
+                <div class="col-md-3 ">
+                        <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(1)"><i class="fa fa-window-maximize"></i>First Week</button>
+                    </div>
+            <div class="col-md-3 ">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(2)"><i class="fa fa-window-maximize"></i>Second Week</button>
+            </div>
+            <div class="col-md-3 ">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(3)"><i class="fa fa-window-maximize"></i>Third Week</button>
+            </div>
+            <div class="col-md-3 ">
+                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(4)"><i class="fa fa-window-maximize"></i>Fourth Week</button>
+            </div>
+        </div>
+        <div class="backButtonWeekBlock">
+        <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekToMonth()"><i class="fa fa-arrow-circle-left"></i>back</button>
+       </div>
+    </div>
+            </div>
+        </div>
+        </div>
+       <!--  -->
+        <div *ngIf = "scheduleFlag">
+        <div class="container ">       
+                <div class="backButtonScheduleBlock">
+                        <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="scheduleToWeek()"><i class="fa fa-arrow-circle-left"></i>back</button>
+                       </div>
+       <!-- <p><button class="w3-button w3-block" (click)="book();">This is the expert's schedule , if you would like to book a session with the expert at another time please press here</button></p> -->
        
                     <div class="day time">
             <div class="day_title">Time</div>
-            <div class="hour">9:00</div>
+            <div class="hour">09:00</div>
             <div class="hour">10:00</div>
             <div class="hour">11:00</div>
             <div class="hour">12:00</div>
-            <div class="hour">1:00</div>
-            <div class="hour">2:00</div>
-            <div class="hour">3:00</div>
-            <div class="hour">4:00</div>
-            <div class="hour">5:00</div>
-            <div class="hour">6:00</div>
-            <div class="hour">7:00</div>
-            <div class="hour">8:00</div>
-            <div class="hour">9:00</div>
+            <div class="hour">01:00</div>
+            <div class="hour">02:00</div>
+            <div class="hour">03:00</div>
+            <div class="hour">04:00</div>
+            <div class="hour">05:00</div>
+            <div class="hour">06:00</div>
+            <div class="hour">07:00</div>
+            <div class="hour">08:00</div>
+            <div class="hour">09:00</div>
             <div class="hour">10:00</div>
             <div class="hour">11:00</div>
             
@@ -128,10 +214,11 @@
               <div class="class spacing"></div>
               <div class="class spacing"></div>
               <div class="class spacing"></div>
+              <div class="class spacing"></div>
+              <div class="class spacing"></div>
               <div class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(4 , 8);" >{{slots[64]}}</div>
               <div class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(4 , 9);" >{{slots[65]}}</div>
-              <div class="class spacing"></div>
-              <div class="class spacing"></div>
+            
               <div class="class spacing"></div>
               <div class="class spacing"></div>
             </div>
@@ -154,10 +241,11 @@
                     <div class="class spacing"></div>
                     <div class="class spacing"></div>
                     <div class="class spacing"></div>
+                    
                   </div>
            
                   
-                  <div class="day Friday">
+                   <div class="day Friday">
                         <div class="day_title">FRIDAY</div>
                       
                         <div class="class spacing"></div>
@@ -174,11 +262,13 @@
                         <div class="class spacing"></div>
                         <div class="class spacing"></div>
                         <div class="class spacing"></div>
+                        <div class="class spacing"></div>
                      
-                </div> 
+                </div>  
                 
-            </div>
-     
+            
+    </div>
+    </div>
                   
                 </div> 
     </div></body>
