@@ -52,14 +52,24 @@ var isExpert = function(req,res,next){
   }
   next();
 };
+//This function checks if the user is an admin to be authorized to certain functionalities
+var isAdmin = function(req,res,next){
+  if(req.decodedToken.user.role.trim().toLowerCase() !== 'admin'){
+    return res.status(403).json({
+       err: null,
+       msg: 'Unauthorized.',
+       data: null });
+  }
+  next();
+};
 // all the methods below are all routers where we specify a route for api.service to 
 // call and what method in the backend to go with the specefied route 
 //-----------------------------Authentication Routes-------------------------
 router.post('/auth/login' , isNotAuthenticated , authCtrl.login);
 router.post('/auth/signup' , isNotAuthenticated , authCtrl.signup);
 //----------------------------Admin Routes ----------------------------------
-router.post('/Tags/AddTag', AdminController.AddTag);
-router.get('/Tags/getTags' , AdminController.getTags);
+router.post('/Tags/AddTag',isAuthenticated,isAdmin, AdminController.AddTag);//checked
+router.get('/Tags/getTags' ,isAuthenticated,isAdmin, AdminController.getTags);//checked
 router.patch('/Tag/editTags/:tagId', AdminController.editTag);
 router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
 router.patch('/User/blockUser/:userId', AdminController.blockUser);

@@ -32,14 +32,13 @@ module.exports.addSpeciality = function(req, res, next) {
       if (!tag) {
         return res.status(404).json({ 
            err: null, 
-           msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
+           msg:  'This Tag is not found or is blocked. '+
+                 ' Please request this tag first then add it as speciality',
            data: null 
           });
       }
-      //need to check on role first before adding the speciality
       // If Tag was found in tag table then add it in user table
       User.findOneAndUpdate({ 
-        // email : {$eq: req.body.email } , 
         _id : { $eq : req.decodedToken.user._id} , role :{$eq: 'expert'},
         speciality: { $ne: tag._id }
       },{ $push: { speciality: tag._id } }, { new : true } , function (err, updateduser) {
@@ -49,7 +48,8 @@ module.exports.addSpeciality = function(req, res, next) {
           if (!updateduser) {
             return res.status(404).json({ 
               err: null , 
-              msg: 'Speciality could not be added either it already exists or u are not an expert or a user', 
+              msg: 'Speciality could not be added either it already'+
+                   ' exists or u are not an expert or a user', 
               data: null 
             });
           }
