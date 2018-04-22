@@ -73,6 +73,20 @@ html, body { height: 100%; margin: 0px; }
   color: #efefef;
   overflow: hidden;
 }
+@media (min-width: 600px) {
+.weekRangeFont{
+  font-family: "Times New Roman", Times, serif;
+  color: #efefef;
+  font-size: 140%;
+}
+}
+@media (max-width: 600px) {
+  .weekRangeFont{
+    font-family: "Times New Roman", Times, serif;
+    color: #efefef;
+    font-size: 100%;
+  }
+}
 .positionChangeWeek{
   position: absolute;
   margin: auto;

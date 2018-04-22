@@ -19,8 +19,12 @@ export class ScheduleComponent implements OnInit {
   numbers;
   randomNumber=0;
   randomFlag;
-
+  weekStart;
+  weekEnd;
+  daysOfTheWeek=["Sunday","Moday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+  modifiedWeek=[]
   slots: String []=['No']; 
+
   constructor(){
 
 
@@ -40,21 +44,64 @@ export class ScheduleComponent implements OnInit {
       return false
    }
 
-
    
  ngOnInit() {
   this.numbers = Array(15).fill(0).map((x,i)=>i);
+ }
+ modifyWeekArray(val){
+    for(let i=0;i<this.daysOfTheWeek.length;i++){
+      this.modifiedWeek.push(this.daysOfTheWeek[val]);
+      val++;
+      if (val==7)
+        val=0;
+    }
+ }
+ ifFifthWeek(){
+  let day= ((4-1)*7)+1
+  var dayTargeted=new Date(this.monthValue +" "+day+", "+(new Date()).getFullYear()+" 10:00:00")
+  var LastDay = new Date((new Date()).getFullYear(), this.getMonth() + 1, 0);
+  var data = moment(dayTargeted).startOf('week').isoWeekday(6);
+  data.add(6,'d');
+  if(LastDay.getDate!=data.date)
+    return true
+  return false
+ }
+getMonth(){
+  switch(this.monthValue){
+    case 'January' : return 1;
+    case 'February' : return 2;
+    case 'March' : return 3;
+    case 'April' : return 4;
+    case 'May' : return 5;
+    case 'June' : return 6;
+    case 'July' : return 7;
+    case 'Augest' : return 8;
+    case 'September' : return 9;
+    case 'October' : return 10;
+    case 'November' : return 11;
+    case 'December' : return 12;
+  }
+}
+getRange(){
+ 
+  //new Date("February 4, 2016 10:13:00")
+  //Sun Apr 22 2018
+  let day= ((this.weekValue-1)*7)+1
+  //console.log("day : "+day);
+  //console.log(this.yourDate);
+  this.yourDate=new Date(this.monthValue +" "+day+", "+(new Date()).getFullYear()+" 10:00:00")
+  console.log(this.yourDate)
   var data = moment(this.yourDate).startOf('week').isoWeekday(6);
   this.weekduration = "";
-  for (var i = 0 ; i < 2 ; i++) {
-    this.weekduration += data.format('D-MMMM');
-   if(i != 1) {
-    this.weekduration += " => "
-   }
+  //for (var i = 0 ; i < 2 ; i++) {
+    this.weekStart = data.format('D-MMMM');
+   //if(i != 1) {
+  //  this.weekduration += " => "
+  // }
    data.add(6,'d');
-  }
- }
-
+   this.weekEnd = data.format('D-MMMM');
+  //}
+}
 addslot(day , hour) {
   this.slots[0]= 'Reserved';
   this.slots[100]='Reserved';

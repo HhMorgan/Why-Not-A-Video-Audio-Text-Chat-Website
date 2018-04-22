@@ -9,10 +9,6 @@
         <div class="container">
                 <div class="container">
                         <div class="container">
-                                <div class="week-number">
-                                        {{ yourDate | week }} <br>
-                                        {{ weekduration }}
-                                    </div>
                                     <div class="row">
         <div class="col-md-3">
             <div class="buttonBetweenPadding">
@@ -71,22 +67,35 @@
                         
                             <div class="container">
         <div class="row ">
-                <div class="col-md-3 ">
+                <div class="col-md-4">
+                        <div class="buttonBetweenPadding">
                         <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(1)"><i class="fa fa-window-maximize"></i>First Week</button>
+                        </div>
+                        <div class="buttonBetweenPadding">
+                                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekToMonth()"><i class="fa fa-arrow-circle-left"></i>back</button>
+                               </div>
                     </div>
-            <div class="col-md-3 ">
-                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(2)"><i class="fa fa-window-maximize"></i>Second Week</button>
-            </div>
-            <div class="col-md-3 ">
-                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(3)"><i class="fa fa-window-maximize"></i>Third Week</button>
-            </div>
-            <div class="col-md-3 ">
-                <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(4)"><i class="fa fa-window-maximize"></i>Fourth Week</button>
-            </div>
+                    <div class="col-md-4">
+                            <div class="buttonBetweenPadding">
+                                    <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(2)"><i class="fa fa-window-maximize"></i>Second Week</button>
+                                    </div>
+                        <div class="buttonBetweenPadding">
+                        <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(4)"><i class="fa fa-window-maximize"></i>Fourth Week</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                            <div class="buttonBetweenPadding">
+                                    <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(3)"><i class="fa fa-window-maximize"></i>Third Week</button>
+                                    </div>
+                            
+                            <div *ngIf="ifFifthWeek()" class="buttonBetweenPadding">
+                                    <button  type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekGetValue(5)"><i class="fa fa-window-maximize"></i>Fifth Week</button>
+                                    </div>
+                    </div>
+                    
+            
         </div>
-        <div class="backButtonWeekBlock">
-        <button type="button" class="btn buttonDivider btn-outline-neutral "  (click)="weekToMonth()"><i class="fa fa-arrow-circle-left"></i>back</button>
-       </div>
+       
     </div>
             </div>
         </div>
@@ -95,7 +104,15 @@
         <div *ngIf = "scheduleFlag">
             
         <div class="container ">       
-               hbhh
+                <div class="week-number">
+                    {{getRange()}}
+                        <!-- {{ yourDate | week }} <br> -->
+                        <div class="weekRangeFont">
+                        {{weekStart}}
+                        <i class='fa fa-arrow-right'></i>
+                        {{ weekEnd }}
+                        </div>
+                    </div>
                <div id="table">
        <!-- <p><button class="w3-button w3-block" (click)="book();">This is the expert's schedule , if you would like to book a session with the expert at another time please press here</button></p> -->
        
