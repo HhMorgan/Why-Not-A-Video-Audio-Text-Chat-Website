@@ -3,6 +3,7 @@ import { APIData, User } from '../../../@core/service/models/api.data.structure'
 import { APIService } from '../../../@core/service/api.service';
 import { error } from 'protractor';
 import { Routes,Router } from '@angular/router';
+import { NavBarService } from '../../../@core/service/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -14,9 +15,10 @@ export class LoginComponent implements OnInit {
   private password;
   private loginMessage;
 
-  constructor(private _apiService:APIService,private router: Router) { }
+  constructor(private _apiService:APIService , private router: Router , private _navBarService : NavBarService ) { }
 
   ngOnInit() {
+
   }
 
   loginClick(){
@@ -28,18 +30,14 @@ export class LoginComponent implements OnInit {
         this.loginMessage = apiresponse.msg;
         if( apiresponse.msg.includes('Welcome') ){
           localStorage.setItem('token', apiresponse.data);
-        // this.router.navigate(['home']); 
-        window.location.reload();
-          console.log(apiresponse.data);
+          this._navBarService.setUserLoggedin(true);
+          this.router.navigate(['home']); 
         } else {
           this.loginMessage = apiresponse.msg;
         }
-      },(error: APIData)=>{
+      } , (error: APIData) => {
         this.loginMessage = error.msg;
-// merge conflict altho insignificant 
-//        console.log(apiresponse.msg);
       })
-      window.location.href="/#/page/officehours";
   } else
     this.loginMessage = 'Username or Password Can not Be Empty ';
   }
