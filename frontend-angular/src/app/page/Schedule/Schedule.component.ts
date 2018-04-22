@@ -13,6 +13,9 @@ export class ScheduleComponent implements OnInit {
   monthFlag:boolean=true;
   monthValue;
   weekValue;
+  numbers;
+  randomNumber=0;
+  randomFlag;
 
   slots: String []=['No']; 
   constructor(){
@@ -20,8 +23,22 @@ export class ScheduleComponent implements OnInit {
     this.assignslots();
     
     }
-   
- ngOnInit() {}
+  randomNumberGenerator(){
+    this.randomNumber=Math.random();
+   }
+   randomChecker(val){
+    this.randomNumberGenerator();
+    if(val%this.randomNumber==0){
+      this.randomFlag= true
+      return true
+   }
+      this.randomFlag=false
+      return false
+   }
+ ngOnInit() {
+  this.numbers = Array(15).fill(0).map((x,i)=>i);
+
+ }
 
 addslot(day , hour) {
 this.slots[0]= 'Reserved';
@@ -31,6 +48,7 @@ this.slots[100]='Reserved';
 
 monthGetValue(val : any){
   this.monthValue=val;
+  console.log(this.monthValue);
   this.monthToWeek();
 }
 weekGetValue(val : any){

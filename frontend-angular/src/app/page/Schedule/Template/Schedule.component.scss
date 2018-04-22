@@ -63,9 +63,9 @@ html, body { height: 100%; margin: 0px; }
 .backButtonScheduleBlock{
   position: absolute;
   margin: auto;
-  top: 94%;
+  top: 0%;
   bottom: 0%;
-  right: 84%;
+  right: 88%;
   left: 0%;
 }
 body {
@@ -88,12 +88,17 @@ body {
   width: 12%;
   height: auto;
   float: left;
-  background-color: #fff;
+  background-color: rgba(49, 49, 49, 0.4);
   background-image: linear-gradient(rgba(0,0,0,.08) 50%, transparent 50%);
   background-size: 0.5px 10%;
+  
 }
-
-
+.buttonBox{
+  border-style: solid;
+}
+.btnBorder{
+  border-color: rgba(0,0,0,0);
+}
 .day.time { width: 10%;}
 
 @media (min-width: 600px) {
