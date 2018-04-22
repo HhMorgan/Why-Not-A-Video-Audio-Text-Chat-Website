@@ -53,8 +53,7 @@ import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.com
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
 import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
 import { ScheduleComponent } from './Schedule/Schedule.component';
-
-
+import { WeekModule } from './Schedule/week.module';
 
 
 @NgModule({
@@ -69,10 +68,10 @@ import { ScheduleComponent } from './Schedule/Schedule.component';
     RtcMediaCaptureModule,
     AngularFontAwesomeModule,
     JWBootstrapSwitchModule,
-    AmazingTimePickerModule
+    AmazingTimePickerModule,
+    WeekModule  
   ],
   declarations: [
-    
     AdminComponent,
     AdminPageUserComponent,
     BasicelementsComponent,
@@ -105,8 +104,7 @@ import { ScheduleComponent } from './Schedule/Schedule.component';
     AdminViewUsersComponent,
     AdminRatingComponent,
     SettingsPageComponent,
-    ScheduleComponent
-
+    ScheduleComponent,
   ],
   entryComponents: [NgbdModalContent]
 })
