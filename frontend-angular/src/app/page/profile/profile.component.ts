@@ -23,14 +23,13 @@ export class ProfileComponent implements OnInit {
 
     constructor(private apiServ:APIService,private route: ActivatedRoute) { };
     //this method changes the user's current status if it's online to offlne and vice versa
-    //connects to th backend using changeUserStatus() method wchich is implemented in the service file
+  
     changeUserStatus(){
-      this.apiServ.changeUserStatus(this.user).subscribe((apiresponse:APIData)=>
-      {
+   
         var onlineStatusElem = document.getElementById("onlinestat");  
-      var elem = document.querySelector('.toggle-btn');
-      //var inputValue = (<HTMLInputElement>document.getElementById("cb-value")).checked;
+      //var elem = document.querySelector('.toggle-btn');
       if(//inputValue && 
+      onlineStatusElem.style.color=="rgb(231, 76, 60)" &&
         !this.user.onlineStatus){  //if offline 
        // elem.classList.add('active');
         this.user.onlineStatus=true; //change the status to online
@@ -41,6 +40,11 @@ export class ProfileComponent implements OnInit {
         this.user.onlineStatus=false;  //change the status to offline
         onlineStatusElem.style.color="#e74c3c"; //change the color of the status circle to red
       }
+      //after that send the user with the new user status value
+        //connects to th backend using changeUserStatus() method wchich is implemented in the service file
+        this.apiServ.changeUserStatus(this.user).subscribe((apiresponse:APIData)=>
+        {
+      
       })
     }
 
@@ -70,6 +74,7 @@ export class ProfileComponent implements OnInit {
     
    //this method gets called everytime the page is reloaded
     ngOnInit() {
+      this.getcurrusername();  
      
        this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
         this.user.username = params['username'];
@@ -89,10 +94,12 @@ export class ProfileComponent implements OnInit {
           }
           this.usernameOfProfile = apires.data.username;
           this.description=apires.data.description;
-          this.getcurrusername();  
+         
           this.getimageuser(apires.data.img); //this method gets/views the image of the user 
           this.showrating(apires.data.rating); //this method gets/views the ratings of the user 
-          this.loadStatus(apires.data.onlineStatus); //this method gets/views the status of the user  
+          this.editstatus();
+          this.loadStatus(apires.data.onlineStatus); //this method gets/views the status of the user
+        
  })
      });
 
@@ -120,6 +127,7 @@ export class ProfileComponent implements OnInit {
   }
   //this method checks if the profile that's currently viewed is the same as the loggedin user
     isloggeduser(){
+     
         if(this.usernameOfProfile!=this.currusername){
              return false;
         }
@@ -128,16 +136,20 @@ export class ProfileComponent implements OnInit {
         }       
     }
 
-   /*  editstatus(){
+     editstatus(){
+       
       var onlineStatusElem = document.getElementById("onlinestat");  
-      if(!this.isloggeduser){
-        onlinestat.removeEventListener("click", this.changeUserStatus);
+      if(!this.isloggeduser()){
+       onlineStatusElem.setAttribute('style','pointer-events:none');
       }
       else{
-        onlinestat.addEventListener("click", this.changeUserStatus);
-      }       
+        onlineStatusElem.setAttribute('style','pointer-events:block');
+      }
+      console.log(this.usernameOfProfile+" ahh");
+      console.log(this.currusername+" ahhwn");
+      console.log(this.isloggeduser()+"ttt");       
   
-  } */
+  } 
 
    //this method basically disables the settings page and views the profile page
      profileinfo(){
