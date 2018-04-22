@@ -132,8 +132,8 @@ export class APIService {
     return this.http.post<APIData>(this.apiUrl + 'auth/changeUserStatus', user).catch(this.errorHandler);
   };
 
-  editSpeciality(speciality): Observable<APIData> {
-    return this.http.delete<APIData>(this.apiUrl + 'expert/editSpeciality',speciality)
+  editSpeciality(Tags:Tags,speciality): Observable<APIData> {
+    return this.http.delete<APIData>(this.apiUrl + 'expert/editSpeciality/'+Tags._id)
     .catch(this.errorHandler);
   }
 

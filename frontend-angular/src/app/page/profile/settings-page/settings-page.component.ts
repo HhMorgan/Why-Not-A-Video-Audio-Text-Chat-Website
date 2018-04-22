@@ -1,7 +1,9 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { APIService } from '../../../@core/service/api.service';
-import { APIData  , User ,FileData,Profile} from '../../../@core/service/models/api.data.structure'
+import { APIData  , User ,FileData,Profile , Tags} from '../../../@core/service/models/api.data.structure'
 import { ProfileComponent } from '../../profile/profile.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { LocalDataSource } from 'ng2-smart-table';
 
 
 @Component({
@@ -21,10 +23,63 @@ export class SettingsPageComponent implements OnInit {
 
 
   constructor(private apiServ:APIService) { }
+  source: LocalDataSource = new LocalDataSource();
+  settings = {
+    pager:{
+      display: true ,
+      perPage: 5
+    },
+
+  actions:{
+    add: false,
+    edit: false,
+     delete: false,
+     columnTitle: '',
+     position: 'right',
+// Initializing the custom buttons for the ng2smarttable
+    custom: [{
+      name:'add', 
+      title: `<i class="fa fa-check" aria-hidden="true"></i> `
+    } ]
+    
+    },
+  columns: {
+// Initializing the columns with their name and type and whether they are selectable
+// when adding or editing the columns or not.        
+    name: {
+      title: 'Name',
+      type: 'string',
+      
+    },
+   
+  }
+};
+
+
    
   ngOnInit() {
     this.getData();
+    this.refresh();
+
   }
+
+
+  custom(event):void{
+    if(event.action == 'add'){
+      this.OnAdd(event);
+    }
+  }
+
+  //this method is invoked when the user presses the custom made button add
+  OnAdd(event): void {
+  var Tags = <Tags>{};
+  Tags = event.data;
+//sends the tag name through addSpeciality which is later used to search for the tag and add it
+ 
+    this.apiServ.addSpeciality(Tags.name).subscribe((apiresponse: APIData)=>{
+      this.refresh();
+    });
+}
 
 
     updateemail(){
@@ -57,6 +112,19 @@ export class SettingsPageComponent implements OnInit {
       }
      
       }
+
+      // the refresh method loads all the data from the database and inserts it into the 
+// ng2smarttable
+refresh(): void {
+// we call the method getTags through the api.service and then loop on all the 
+// recived data and add it to the ng2smarttable
+  this.apiServ.getTags().subscribe((apiresponse: APIData)=>{
+    for (var i = 0 ; i < apiresponse.data.length ; i++ )
+      //apiresponse.data[i].id = (i+1);
+      console.log(apiresponse.data);
+    this.source.load(apiresponse.data);
+  });
+}
 
 
       UpdatePassword(){
@@ -184,6 +252,13 @@ CancelUpdateDesc(){
   x.style.display = "none";
   var x = document.getElementById("succ");
   x.style.display = "none";
+}
+
+AddTagsClick(){
+  var AddTagsBtn = document.getElementById("AddTagsBtn");
+  x.style.display = "none";
+  var x = document.getElementById("AddTagsBtn");
+  x.style.display = "block";
 }
 
   getData(){

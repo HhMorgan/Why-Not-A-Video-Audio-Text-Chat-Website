@@ -13,7 +13,9 @@
     <button (click)="addSpeciality()">speciality</button>
     <input type="text" [(ngModel)]="speciality" placeholder="speciality" 
     [ngModelOptions]="{standalone: true}"/>
-    
+    <button (click)="editSpeciality()">Edit Speciality</button>
+    <input type="text" [(ngModel)]="editspeciality" placeholder="editspeciality" 
+    [ngModelOptions]="{standalone: true}"/>
     
     <button (click)="toRequests()">requests</button>
 </div>

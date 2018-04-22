@@ -59,3 +59,138 @@ div.ex1 {
     -ms-flex: 3;
     flex: 3;
    }
+
+
+ 
+
+  :host /deep/ ng2-smart-table table {
+    position: static;
+    width:40% ;
+    margin-left: 30%;
+    top: -30px;
+    bottom: 0;
+    left: 0;
+    right:0; 
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.20);
+    border-radius: 10px;
+}
+
+:host /deep/ ng2-smart-table tbody > tr > td:first-child {
+    color: royalblue;
+    border-radius: 25px;
+}
+
+:host /deep/ ng2-smart-table tbody > tr > td {
+
+    border-radius: 25px;
+    font-size: .875em;
+    padding: .375em .75em;
+}
+
+:host /deep/ ng2-smart-row {
+  
+    
+}
+
+:host /deep/ ng2-smart-row > tr {
+  
+}
+
+:host /deep/ ng2-smart-row > td {
+ 
+}
+
+:host /deep/ ng2-smart-table table > tbody > tr:hover {background-color:#F5F5F5;} 
+
+:host /deep/ ng2-smart-table_cell {
+    border-bottom: 1px solid red !important;
+}
+
+:host /deep/ ng2-smart-table tbody > tr > td > a {
+    
+    text-decoration: none;
+    font-size: small;
+    font-weight: bold;
+}
+
+:host /deep/ ng2-smart-table tbody > tr > th > a {
+    
+    text-decoration: none;
+    font-size: small;
+    font-weight: bold;
+}
+
+/* clickable paging number */
+:host /deep/ a.ng2-smart-page-link.page-link {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: royalblue;
+    font-weight: bold;
+    line-height: 6px;
+}
+/* selected paging number */
+:host /deep/ span.ng2-smart-page-link.page-link {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    font-weight: bold;
+    line-height: 6px;
+}
+
+:host /deep/ span.ng2-smart-page-item.page-item.disabled {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: grey;
+    font-weight: bold;
+    line-height: 6px;
+}
+
+/* previous paging button */
+:host /deep/ a.ng2-smart-page-link.page-link.page-link-prev {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: royalblue;
+    font-weight: bold;
+    line-height: 6px;
+}
+
+/* previous paging button disabled */
+:host /deep/ span.ng2-smart-page-link.page-link.page-link-prev.disabled {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    line-height: 6px;
+}
+
+/* next paging button */
+:host /deep/ a.ng2-smart-page-link.page-link.page-link-next {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: royalblue;
+    font-weight: bold;
+    line-height: 6px;
+}
+
+/* next paging button */
+:host /deep/ span.ng2-smart-page-link.page-link.page-link-next.disabled {
+    height: 22px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: grey;
+    font-weight: bold;
+    line-height: 6px;
+}

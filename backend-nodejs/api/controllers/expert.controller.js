@@ -62,63 +62,30 @@ module.exports.addSpeciality = function(req, res, next) {
   });
 };
 
-
-module.exports.findTagbyid = function(req, res, next) {
- //consol.log(req.params+"tttty") ;
-// var arr = JSON.parse(req.params.Tags_ids);
-  Tag.find(
-
-    
-    //{[req.params.Tags_ids]: {$in :Tag}} 
-   // {_id: { $eq:JSON.parse(req.params.Tags_ids) }}
-   
-  ).populate(req.params.Tags_ids).exec(function(err,tag){
-    if (err){
-      return next(err);
-    }
-    
-    if (!tag) {
-      return res.status(404).json({ 
-         err: null, 
-         msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
-         data: null 
-        });
-    }
-
-    return res.status(201).json({ 
-      err: null, 
-      msg:  'Succesfully retrieved the Tag',
-      data:tag
-     });
-
-   //  consol.log(arr+"tttty") ;
-  
-})
-};
-
-
-
-
+//This is the function responsible for editing a certain speciality (removing this speciality)
 module.exports.editSpeciality= function(req, res, next) {
-  Tag.findOne({
-    name : { $eq : req.body.speciality } , 
-    status : { $eq : 'Accepted' } , 
-    blocked : { $eq : false}
-  },function(err,tag){
-    if (err){
-      return next(err);
-    }
-    if (!tag) {
-      return res.status(404).json({ 
-         err: null, 
-         msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
-         data: null 
-        });
-    }
+  // Tag.findOne({
+  //   name : { $eq : req.body.speciality } , 
+  //   status : { $eq : 'Accepted' } , 
+  //   blocked : { $eq : false}
+  // },function(err,tag){
+  //   if (err){
+  //     return next(err);
+  //   }
+  //   if (!tag) {
+  //     return res.status(404).json({ 
+  //        err: null, 
+  //        msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
+  //        data: null 
+  //       });
+  //   }
+//Checking that the user logged in has an expert role in order to edit his speciality
     User.findOneAndUpdate({
       _id : { $eq : req.decodedToken.user._id} , role :{$eq: 'expert'},
-      speciality: { $eq: tag._id }
-    },{ $pull: { speciality: tag._id } }, { new : true } , function (err, updateduser) {
+      //search for the tag id that should be removed in the array of specialities with its id
+      speciality: { $eq: req.params.tagId }
+      //remove the tag if found 
+    },{ $pull: { speciality: req.params.tagId } }, { new : true } , function (err, updateduser) {
       if (err) {
         return next(err);
       }
@@ -135,7 +102,7 @@ module.exports.editSpeciality= function(req, res, next) {
         data: updateduser.speciality
       });
     });
-  }); 
+  // }); 
 };
  
 module.exports.editSlotRequest =function(req, res, next) {
