@@ -10,100 +10,167 @@ var mongoose = require('mongoose'),
   Validations = require('../utils/validations'),
   moment = require('moment');
 
-//This function is responsible for adding a speciality for the expert,only if it exists in the tag table
-module.exports.addSpeciality = function(req, res, next) {
-  var valid = req.body.speciality && Validations.isString(req.body.speciality);
-  if(!valid){
-    return res.status(422).json({
-      err: null,
-      msg: 'Speciality: '+req.body.speciality+' is not a string/is not valid.',
-      data: null
-      });
-    } 
-    //will be added when integrated with Tags
-    Tag.findOne({
-      name : { $eq : req.body.speciality } , 
-      status : { $eq : 'Accepted' } , 
-      blocked : { $eq : false}
-    },function(err,tag){
-      if (err){
-        return next(err);
-      }
-      if (!tag) {
-        return res.status(404).json({ 
-           err: null, 
-           msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
-           data: null 
-          });
-      }
-      //need to check on role first before adding the speciality
-      // If Tag was found in tag table then add it in user table
-      User.findOneAndUpdate({ 
-        // email : {$eq: req.body.email } , 
-        _id : { $eq : req.decodedToken.user._id} , role :{$eq: 'expert'},
-        speciality: { $ne: tag._id }
-      },{ $push: { speciality: tag._id } }, { new : true } , function (err, updateduser) {
-          if (err) {
-            return next(err);
-          }
-          if (!updateduser) {
-            return res.status(404).json({ 
-              err: null , 
-              msg: 'Speciality could not be added either it already exists or u are not an expert or a user', 
-              data: null 
-            });
-          }
-      return res.status(201).json({
+  module.exports.addSpeciality = function(req, res, next) {
+    var valid = req.body.speciality && Validations.isString(req.body.speciality);
+    if(!valid){
+      return res.status(422).json({
         err: null,
-        msg: 'Speciality added',
-        data: updateduser.speciality
+        msg: 'Speciality: '+req.body.speciality+' is not a string/is not valid.',
+        data: null
+        });
+      } 
+      //will be added when integrated with Tags
+      Tag.findOne({
+        name : { $eq : req.body.speciality } , 
+        status : { $eq : 'Accepted' } , 
+        blocked : { $eq : false}
+      },function(err,tag){
+        if (err){
+          return next(err);
+        }
+        if (!tag) {
+          return res.status(404).json({ 
+             err: null, 
+             msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
+             data: null 
+            });
+        }
+        //need to check on role first before adding the speciality
+        // If Tag was found in tag table then add it in user table
+        User.findOneAndUpdate({ 
+          // email : {$eq: req.body.email } , 
+          _id : { $eq : req.decodedToken.user._id} , role :{$eq: 'expert'},
+          speciality: { $ne: tag._id }
+        },{ $push: { speciality: tag._id } }, { new : true } , function (err, updateduser) {
+            if (err) {
+              return next(err);
+            }
+            if (!updateduser) {
+              return res.status(404).json({ 
+                err: null , 
+                msg: 'Speciality could not be added either it already exists or u are not an expert or a user', 
+                data: null 
+              });
+            }
+        return res.status(201).json({
+          err: null,
+          msg: 'Speciality added',
+          data: updateduser.speciality
+        });
       });
     });
-  });
-};
-
-//This is the function responsible for editing a certain speciality (removing this speciality)
-module.exports.editSpeciality= function(req, res, next) {
-  // Tag.findOne({
-  //   name : { $eq : req.body.speciality } , 
-  //   status : { $eq : 'Accepted' } , 
-  //   blocked : { $eq : false}
-  // },function(err,tag){
-  //   if (err){
-  //     return next(err);
-  //   }
-  //   if (!tag) {
-  //     return res.status(404).json({ 
-  //        err: null, 
-  //        msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
-  //        data: null 
-  //       });
-  //   }
-//Checking that the user logged in has an expert role in order to edit his speciality
-    User.findOneAndUpdate({
-      _id : { $eq : req.decodedToken.user._id} , role :{$eq: 'expert'},
-      //search for the tag id that should be removed in the array of specialities with its id
-      speciality: { $eq: req.params.tagId }
-      //remove the tag if found 
-    },{ $pull: { speciality: req.params.tagId } }, { new : true } , function (err, updateduser) {
+  };
+  
+  //This is the function responsible for editing a certain speciality (removing this speciality)
+  module.exports.editSpeciality= function(req, res, next) {
+    // Tag.findOne({
+    //   name : { $eq : req.body.speciality } , 
+    //   status : { $eq : 'Accepted' } , 
+    //   blocked : { $eq : false}
+    // },function(err,tag){
+    //   if (err){
+    //     return next(err);
+    //   }
+    //   if (!tag) {
+    //     return res.status(404).json({ 
+    //        err: null, 
+    //        msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
+    //        data: null 
+    //       });
+    //   }
+  //Checking that the user logged in has an expert role in order to edit his speciality
+      User.findOneAndUpdate({
+        _id : { $eq : req.decodedToken.user._id} , role :{$eq: 'expert'},
+        //search for the tag id that should be removed in the array of specialities with its id
+        speciality: { $eq: req.params.tagId }
+        //remove the tag if found 
+      },{ $pull: { speciality: req.params.tagId } }, { new : true } , function (err, updateduser) {
+        if (err) {
+          return next(err);
+        }
+        if (!updateduser) {
+          return res.status(404).json({ 
+            err: null , 
+            msg: 'Speciality could not be removed u are not an expert or a user', 
+            data: null 
+          });
+        }
+        return res.status(201).json({
+          err: null,
+          msg: 'Speciality removed',
+          data: updateduser.speciality
+        });
+      });
+    // }); 
+  };
+   
+  module.exports.editSlotRequest =function(req, res, next) {
+     // checks first that requestId is valid
+    if (!Validations.isObjectId(req.params.requestId)) {
+      return res.status(422).json({
+        err: null,
+        msg: 'requestId parameter must be a valid ObjectId.',
+        data: null
+      });
+    }
+    delete req.body.createdAt;
+    //finds and updates the request
+    Request.findByIdAndUpdate(
+      req.params.requestId,
+      { $set: req.body } , { new: true } ).exec(function(err, updatedRequest) {
       if (err) {
         return next(err);
       }
-      if (!updateduser) {
-        return res.status(404).json({ 
-          err: null , 
-          msg: 'Speciality could not be removed u are not an expert or a user', 
+      if (!updatedRequest) {
+        return res.status(404).json({
+          err: null,
+          msg: 'Request not found.', 
           data: null 
         });
       }
-      return res.status(201).json({
+      return res.status(200).json({
         err: null,
-        msg: 'Speciality removed',
-        data: updateduser.speciality
+        msg: 'Request was updated successfully.',
+        data: updatedRequest
       });
     });
-  // }); 
+  };
+
+module.exports.findTagbyid = function(req, res, next) {
+ //consol.log(req.params+"tttty") ;
+// var arr = JSON.parse(req.params.Tags_ids);
+  Tag.find(
+
+    
+    //{[req.params.Tags_ids]: {$in :Tag}} 
+   // {_id: { $eq:JSON.parse(req.params.Tags_ids) }}
+   
+  ).populate(req.params.Tags_ids).exec(function(err,tag){
+    if (err){
+      return next(err);
+    }
+    
+    if (!tag) {
+      return res.status(404).json({ 
+         err: null, 
+         msg:  'This Tag is not found or is blocked. + Please request this tag first then add it as speciality',
+         data: null 
+        });
+    }
+
+    return res.status(201).json({ 
+      err: null, 
+      msg:  'Succesfully retrieved the Tag',
+      data:tag
+     });
+
+   //  consol.log(arr+"tttty") ;
+  
+})
 };
+
+
+
  
 module.exports.editSlotRequest =function(req, res, next) {
    // checks first that requestId is valid

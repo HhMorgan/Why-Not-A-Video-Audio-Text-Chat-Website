@@ -29,6 +29,7 @@ export interface Tags {
     name: String;
     status: String;
     blocked: Boolean;
+    color: String;
   }
 
 export interface Profile {

@@ -88,18 +88,7 @@ div.ex1 {
     padding: .375em .75em;
 }
 
-:host /deep/ ng2-smart-row {
-  
-    
-}
 
-:host /deep/ ng2-smart-row > tr {
-  
-}
-
-:host /deep/ ng2-smart-row > td {
- 
-}
 
 :host /deep/ ng2-smart-table table > tbody > tr:hover {background-color:#F5F5F5;} 
 

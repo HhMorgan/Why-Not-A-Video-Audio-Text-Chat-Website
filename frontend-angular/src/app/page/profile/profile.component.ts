@@ -79,11 +79,11 @@ export class ProfileComponent implements OnInit {
         this.user.username = params['username'];
         this.apiServ.getUserProfile(this.user).subscribe((apires : APIData) =>{ //this method gets all the info of current profile 
           var specialities_ids=apires.data.speciality; //getting the speciality array of the user in terms of Object_id
-          var specialities_names: String[]= new Array(); //array to hold the names of the specs
+          var specialities_names: Tags[]= new Array(); //array to hold the names of the specs
           var Tags_ids: String[]= new Array();
-          var i;
+          var i,j,l=0,Tags_names_length;
           var specsElem = document.getElementById("specs"); //specs div
-          specsElem.innerHTML="";  
+         // specsElem.innerHTML="";  
           for( i=0;i<specialities_ids.length;i++ ){ //looping over every object_id and adding it to  to get it's info
             this.Tag._id=specialities_ids[i]+"";
             Tags_ids.push(specialities_ids[i]);  
@@ -91,9 +91,61 @@ export class ProfileComponent implements OnInit {
           }
           this.apiServ.getTagbyId(Tags_ids).subscribe((apires : APIData) =>{
             for( i=0;i<apires.data.length;i++ ){ //looping over every element and adding it to an array to append it later with the string of the element getTagbyId to get it's info
-            specialities_names.push(apires.data[i].name);  
+            specialities_names.push(apires.data[i]);  
           }
-          specsElem.innerHTML += specialities_names.toString();
+          
+          Tags_names_length=specialities_names.length;
+        if(specialities_names.length >=4){
+          for(i=0;i<specialities_names.length/4;i++ ){
+           // Tags_names_length=Tags_names_length-5;
+            var TagsContainer = document.createElement("div");
+            TagsContainer.setAttribute("id", "TagsSmallContainer"+i);
+            for(j=0;j<4 && l<specialities_names.length  ;j++ ){
+              console.log("loop soghyrh");
+              var Tag = document.createElement("button");                       // Create a <p> element
+              var divider = document.createElement("div");
+                divider.classList.add("divider");
+              var t = document.createTextNode( specialities_names[l].name+"");
+              Tag.classList.add("btn");
+             // Tag.classList.add("btn-danger");
+              Tag.classList.add("btn-round");
+              Tag.style.backgroundColor =specialities_names[l].color.toString();
+              Tag.style.borderColor =specialities_names[l].color.toString();
+              Tag.classList.add("btn-sm");
+                Tag.appendChild(t); 
+                TagsContainer.appendChild(Tag); 
+                TagsContainer.appendChild( document.createTextNode(' ') );                                         // Append the text to <p>
+              l++
+             // document.getElementById("tagsdiv").appendChild(para2);           // Append <p> to <div> with id="myDIV"
+            }
+            document.getElementById("tagsdiv").appendChild(TagsContainer);
+           // var br = document.createElement("br"); 
+            document.getElementById("tagsdiv").appendChild( document.createTextNode(' '));           // Append <p> to <div> with id="myDIV"
+            }
+          }
+          
+           else{
+            var TagsContainer = document.createElement("div");
+            
+            for(i=0;i<specialities_names.length;i++ ){ 
+              var Tag = document.createElement("button");                      // Create a <p> element
+            var t = document.createTextNode( specialities_names[i]+"");
+            Tag.classList.add("btn");
+            Tag.classList.add("btn-danger");
+            Tag.classList.add("btn-sm");
+              Tag.appendChild(t);
+              TagsContainer.appendChild(Tag); 
+            
+            }
+            document.getElementById("tagsdiv").appendChild(TagsContainer); 
+            TagsContainer.appendChild( document.createTextNode(' ') );      
+          } 
+         
+
+        
+          //specsElem.innerHTML += specialities_names.toString();
+
+         //pecsElem.innerHTML += specialities_names.toString();
           },(err) =>{
             console.log(err);
           }); 
