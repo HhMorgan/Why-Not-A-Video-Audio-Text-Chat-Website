@@ -10,15 +10,15 @@ import { APIData , Session , CandicateSession } from '../../@core/service/models
   styleUrls: ['./template/sessionvideo.component.css']
 })
 export class SessionVideoComponent implements OnInit {
-  format = 'video/webm';
-  constrains = {video: true , audio: true };
-  mediaSource_local = null;
-  private mediaSource_remote_list : any = [null];
+  public sessionid : String; 
+  public format = 'video/webm';
+  public constrains = {video: true , audio: true };
+  public mediaSource_local = null;
+  public mediaSource_remote_list : any = [null];
   private peer_config = <RTCConfiguration>{iceServers: [{urls: 'stun:stun.l.google.com:19302'}
   ,{urls: 'stun:stun.services.mozilla.com'}]};
   private peerConnections : RTCPeerConnection[] = [];
   private connectedUsers : String[] = [];
-  private sessionid : String; 
 
   constructor( private apiService : APIService , private ioService : IOService , private route : ActivatedRoute ) {
     this.route.params.subscribe( 
@@ -31,7 +31,7 @@ export class SessionVideoComponent implements OnInit {
             case "Join" :
               if(!this.connectedUsers.includes(js.userid)){
                 this.connectedUsers.push(js.userid);
-                this.peerConnections.push(new RTCPeerConnection(null))
+                this.peerConnections.push(new RTCPeerConnection(this.peer_config))
               }
             break;
             case "connected":
@@ -45,7 +45,7 @@ export class SessionVideoComponent implements OnInit {
             case "connectedUsers":
               this.connectedUsers = js.data;
               for(var i = 0 ; i < this.connectedUsers.length ; i++){
-                this.peerConnections.push(new RTCPeerConnection(null))
+                this.peerConnections.push(new RTCPeerConnection(this.peer_config))
               }
             break;
             case "offer" :
@@ -89,9 +89,6 @@ export class SessionVideoComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  
-
   preparePeerConnection( peerConnection : RTCPeerConnection , userid : String ){
     peerConnection.onicecandidate = (event) => {
       if(event.candidate) {
@@ -111,7 +108,6 @@ export class SessionVideoComponent implements OnInit {
     peerConnection.addStream(this.mediaSource_local);
   }
 
-  
   public joinClick() {
     console.log(this.connectedUsers);
     console.log(this.peerConnections.length);

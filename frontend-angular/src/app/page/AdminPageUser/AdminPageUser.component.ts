@@ -13,9 +13,9 @@ import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-t
 })
 
 export class AdminPageUserComponent implements OnInit {
-  private Email;
-  private Role;
-  private Blocked;
+  public Email;
+  public Role;
+  public Blocked;
   
    
   ngOnInit() {

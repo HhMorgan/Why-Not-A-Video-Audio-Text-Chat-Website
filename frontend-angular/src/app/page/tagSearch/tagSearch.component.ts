@@ -12,8 +12,8 @@ import { Observable } from 'rxjs/Observable';
 })
 export class TagSearchComponent implements OnInit {
 
-  private slot; //Omar
-  private expert;
+  public slot; //Omar
+  public expert;
   requests: any; //Omar
   constructor(private apiServ:APIService ) { }
 

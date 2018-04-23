@@ -29,10 +29,8 @@ import { AdminComponent } from './AdminPage/Admin.component';
 import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
 import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
 
-import { SlotRequestModule } from './slotRequest/slotRequest.module';
 import { SlotRequestComponent } from './slotRequest/slotRequest.component';
 import { ExpertComponent } from './expert/expert.component';
-import { ExpertModule } from './expert/expert.module';
 import { PagesRoutingModule } from './page.routing'
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { LoginComponent } from './auth/login/login.component';
@@ -49,7 +47,6 @@ import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 import { TagSearchComponent } from './tagSearch/tagSearch.component';
 import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
-import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
 import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
 import { ScheduleComponent } from './Schedule/Schedule.component';
@@ -101,7 +98,6 @@ import { WeekModule } from './Schedule/week.module';
     TagSearchComponent,
     AdminPageUserComponent,
     SessionChatMobileComponent,
-    AdminViewUsersComponent,
     AdminRatingComponent,
     SettingsPageComponent,
     ScheduleComponent,

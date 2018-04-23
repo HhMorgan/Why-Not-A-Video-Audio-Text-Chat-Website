@@ -12,7 +12,7 @@ import { APIData  , User , Tags } from '../../@core/service/models/api.data.stru
 
 export class ExpertsListComponent implements OnInit {
     requests: any;
-    private tagName;
+    public tagName;
 
     constructor(private apiService:APIService){}
 
@@ -28,9 +28,5 @@ export class ExpertsListComponent implements OnInit {
             this.requests = response.data;
         });
     }
-
-
-
-    myEvent(event)
-{}
+    myEvent(event){}
 }

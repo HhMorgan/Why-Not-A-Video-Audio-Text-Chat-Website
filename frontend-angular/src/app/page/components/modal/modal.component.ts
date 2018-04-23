@@ -15,6 +15,7 @@ export class NgbdModalContent {
     templateUrl: './template/modal.component.html'
 })
 export class NgbdModalComponent {
+    public activeModal: NgbActiveModal
     constructor(private modalService: NgbModal) {}
     open() {
         const modalRef = this.modalService.open(NgbdModalContent);

@@ -13,10 +13,9 @@ import { NavBarService } from '../../../@core/service/shared.service';
     styleUrls: ['./template/navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-    private toggleButton: any;
-    private sidebarVisible: boolean;
-    private username: string;
-
+    public username: string;
+    public toggleButton: any;
+    public sidebarVisible: boolean;
 
     constructor( public location: Location , private element : ElementRef , private apiServ:APIService , private router: Router , 
         private navbarservice : NavBarService ) {

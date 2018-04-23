@@ -12,9 +12,9 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ExpertComponent implements OnInit {
   //speciality='accounting';
- private speciality;
- private editspeciality;
- private tags;
+ public speciality;
+ public editspeciality;
+ public tags;
 
 
   requests: any;

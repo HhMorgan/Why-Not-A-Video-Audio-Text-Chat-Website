@@ -11,9 +11,9 @@ import { NavBarService } from '../../../@core/service/shared.service';
   styleUrls: ['./template/login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private email;
-  private password;
-  private loginMessage;
+  public email;
+  public password;
+  public loginMessage;
 
   constructor(private _apiService:APIService , private router: Router , private _navBarService : NavBarService ) { }
 

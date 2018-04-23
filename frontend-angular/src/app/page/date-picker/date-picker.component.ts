@@ -8,13 +8,14 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./template/date-picker.component.css']
 })
 export class DatePickerComponent implements OnInit {
-  private scheduleDate1;
-  private scheduleDate2; 
-  private scheduleDate3; 
-  private slotTime1;
-  private slotTime2;
-  private slotTime3;
-  private user;
+  public scheduleDate1;
+  public scheduleDate2; 
+  public scheduleDate3; 
+  public slotTime1;
+  public slotTime2;
+  public slotTime3;
+  public user;
+  public confirmationMessage;
 constructor(private _apiService:APIService) { }
 
   ngOnInit() {

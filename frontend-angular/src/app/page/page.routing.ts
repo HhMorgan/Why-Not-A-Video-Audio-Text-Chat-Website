@@ -22,7 +22,6 @@ import { SessionVideoComponent } from './sessionVideoVoice/sessionvideo.componen
 import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
 import { ScheduleComponent } from './Schedule/Schedule.component';
 
-import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
 
 const routes: Routes = [
@@ -47,13 +46,13 @@ const routes: Routes = [
   {path:'adminPage', component:AdminPageUserComponent},
   {path:'chat',component: SessionChatMobileComponent},
 
-  { path: 'adminviewusers' , component:AdminViewUsersComponent},
-
   //{ path: 'session', component: SessionComponent },
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
   { path: 'schedule', component: ScheduleComponent },
+  { path: 'admin-rating', component:AdminRatingComponent },
+
  
 
 // { path: 'date-picker', component: DatePickerComponent },
@@ -61,7 +60,6 @@ const routes: Routes = [
 //{ path: '', pathMatch: 'full', redirectTo: 'login' },
 
   { path: '', pathMatch: 'full', redirectTo: 'home' },
-  {path: 'admin-rating', component:AdminRatingComponent}
 ];
 
 @NgModule({

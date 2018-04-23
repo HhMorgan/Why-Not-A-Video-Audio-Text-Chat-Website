@@ -12,20 +12,16 @@ import { Observable } from 'rxjs/Observable';
 })
 export class upgradeToExpertComponent implements OnInit {
 
-  private requestStatus;
-  requests: any;
+  public requestStatus;
+  public requests: any;
   constructor(private apiService:APIService ) { }
 
   ngOnInit() {}
 
-
-
   upgradeToExpertClick(){
- 
-        this.apiService.upgradeToExpert({ sender: '', recipient: 'admin', type: 'upgradeToExpert', status: '', createdAt: '', viewed: false }).subscribe((apiresponse: APIData)=>{
-          console.log(apiresponse.msg);
-         this.requestStatus = apiresponse.msg;
-        });
-      
-      } 
-    }
+    this.apiService.upgradeToExpert({ sender: '', recipient: 'admin', type: 'upgradeToExpert', status: '', createdAt: '', viewed: false }).subscribe((apiresponse: APIData)=>{
+      console.log(apiresponse.msg);
+      this.requestStatus = apiresponse.msg;
+    });
+  } 
+}
