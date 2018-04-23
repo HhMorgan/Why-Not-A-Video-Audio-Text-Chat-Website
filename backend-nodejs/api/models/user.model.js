@@ -82,7 +82,8 @@ var userSchema = mongoose.Schema( {
 
 },
 {
-  bookmarks: [ObjectId]
+  bookmarks: 
+ [ { type: mongoose.Schema.Types.ObjectId , ref: 'User'  } ]
 },
 
 { collection: 'Users' } );
