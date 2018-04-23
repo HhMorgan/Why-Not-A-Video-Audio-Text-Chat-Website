@@ -431,7 +431,7 @@ module.exports.viewSuggestedExperts = function(req, res, next) {
 };
 
 
-
+//adding an expert to the array of bookmarks of a certain user
 module.exports.addToBookmarks = function (req, res, next){
 
   if (!Validations.isObjectId(req.params.expertId)) {
@@ -477,6 +477,7 @@ module.exports.addToBookmarks = function (req, res, next){
   });
 }
 
+//user requests to see the experts he/she added to his/her array
 module.exports.viewBookmarks = function (req, res, next){
 
   User.findById(req.decodedToken.user._id).exec(function(err, user) {
