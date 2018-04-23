@@ -2,14 +2,15 @@ var Mongoose = require('mongoose').Mongoose;
 var mongoose = new Mongoose();
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
-
+Encryption = require('../api/utils/encryption');
 var Tags = require('../api/models/Tag.model');
 var Users = require('../api/models/user.model');
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var should = chai.should();
-
+let User1;
 chai.use(chaiHttp);
+let v;
 let Tag ;
 let User;
 let Expert;
@@ -27,7 +28,7 @@ const base = process.env.PWDF;
 var app = require('../app');
 
 before(function(done) {
-  this.timeout(1800000);
+  this.timeout(2800000);
 	mockgoose.prepareStorage().then(function() {
 		mongoose.connect('mongodb://localhost:27017/StartUp-Connect-Database', function(err) {
       
@@ -49,6 +50,7 @@ before(function(done) {
 // request and get the path
 describe('Admin tests: ', () =>  {
   before(function(done) {
+   
     Tag = new Tags({name: "Tarek" ,status:"Pending" ,blocked: false,});
     Tag.save((err, Tag) => {
     });
@@ -60,11 +62,19 @@ describe('Admin tests: ', () =>  {
     Expert = new Users({username: "Mahmoud" ,email:"mahmoudgamal@gmail.com" ,password: "9194591945" ,role: "expert" ,});
     User.save((err, User) => {
     });
+    v = "tarek123";
+   Encryption.hashPassword(v, function(err, hash){ 
+     User1 = new Users({username: "Tarek" ,email:"tarek@abdocience.com" ,password: hash,});
+    User1.save((err, User1) => {
+    });
+   });
     done();
     
   }),
+  
   //describe('/GET /api/Tags/getTags', () => {
   it('it should GET all the Tags', (done) => {
+ 
    chai.request(app)
    .get('/api/Tags/getTags')
    .end((err, res) => {
@@ -82,6 +92,30 @@ for (var i = 0 ; i < res.body.data ; i++ ){
    res.body.data[i].should.have.property('blocked');
 }
    //res.body.length.should.be.eql(0);
+   done();
+   });
+   });
+   it('it should add a user', (done) => {
+    chai.request(app).post('/api/auth/signup')
+   .send({ username: "tarekk",email:"tarek@gmail.com" , password: "tarek12356",}).end((err, res) => {
+           res.should.have.status(201);
+           res.body.data.should.have.property('username');
+           res.body.data.should.have.property('email');
+           res.body.data.should.have.property('username').eql('tarekk');
+           res.body.data.should.have.property('email').eql('tarek@gmail.com');
+   done();
+   });
+   });
+   it('it should login a user', (done) => {
+    console.log(v);
+
+    chai.request(app).post('/api/auth/login')
+   .send({email: "tarek@abdocience.com" , password: "tarek123",}).end((err, res) => {
+           res.should.have.status(200);
+           //res.body.data.should.have.property(');
+           res.body.should.be.a('object');
+           //res.body.should.have.property('Welcome');
+           //res.body.msg.should.have.property.eql('Welcome');
    done();
    });
    });
