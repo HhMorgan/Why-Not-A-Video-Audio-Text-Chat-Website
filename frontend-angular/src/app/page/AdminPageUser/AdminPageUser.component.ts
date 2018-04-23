@@ -16,8 +16,8 @@ export class AdminPageUserComponent implements OnInit {
   private Email;
   private Role;
   private Blocked;
-  
-   
+
+
   ngOnInit() {
     this.refresh();
   }
@@ -25,12 +25,12 @@ export class AdminPageUserComponent implements OnInit {
     actions:{
 
       custom: [{
-        name:'block', 
+        name:'block',
         title: "Block  "
       } ,
-       {name:'downgrade', 
+       {name:'downgrade',
        title: "Downgrade"}]
-      
+
       },
     columns: {
       email: {
@@ -38,7 +38,7 @@ export class AdminPageUserComponent implements OnInit {
         type: 'string',
         editable: false,
         addable: false,
-        
+
       },
       role: {
         title: 'Role',
@@ -61,24 +61,24 @@ export class AdminPageUserComponent implements OnInit {
   config: ToasterConfig;
 
   constructor(private _apiService: APIService) {
-    
+
   }
 refresh(): void {
   this._apiService.getUsers().subscribe((apiresponse: APIData)=>{
-    
+
     for (var i = 0 ; i < apiresponse.data.length ; i++ )
-      
+
       console.log(apiresponse.data);
     this.source.load(apiresponse.data);
   });
 }
 
 public onCustom(event):void{
-  
+
   if(event.action == 'block'){
     this.OnBlock(event)
   }else{
-   
+
     this.OnDown(event)
   }
 }
@@ -113,5 +113,16 @@ OnDown(event): void {
   }
 }
 
+// ------------------------------- loading the requests -----------------------------------
+
+getRequestFromUsersToBeExpert(): void {
+  this._apiService.getRequestsFromUsersToBeExpert().subscribe((apiresponse: APIData)=>{
+
+    for (var i = 0 ; i < apiresponse.data.length ; i++ )
+
+      console.log(apiresponse.data);
+    this.source.load(apiresponse.data);
+  });
 }
 
+}
