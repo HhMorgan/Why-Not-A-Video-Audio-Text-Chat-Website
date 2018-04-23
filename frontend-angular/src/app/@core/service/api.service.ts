@@ -46,7 +46,7 @@ export class APIService {
 
   getTagbyId(Tags_ids: String[]):Observable<APIData> {
     console.log(Tags_ids);
-    return this.http.get<APIData>(this.apiUrl + 'expert/getTagById/'+Tags_ids)
+    return this.http.post<APIData>(this.apiUrl + 'expert/getTagById',Tags_ids)
     .catch(this.errorHandler);
   }
 
@@ -105,6 +105,13 @@ export class APIService {
     formData.append('file', fileData.file, fileData.file.name);
     return this.http.post<APIData>(this.apiUrl + 'photo', formData).catch(this.errorHandler);
   }
+
+  postCoverImg(fileData: FileData): Observable<APIData> {
+    const formData: FormData = new FormData();
+    formData.append('file', fileData.file, fileData.file.name);
+    return this.http.post<APIData>(this.apiUrl + 'CoverImgUpload', formData).catch(this.errorHandler);
+  }
+
 
   getimage(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'getphoto').catch(this.errorHandler);

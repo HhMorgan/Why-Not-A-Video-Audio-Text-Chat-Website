@@ -77,6 +77,12 @@ var userSchema = mongoose.Schema( {
     data: Buffer , 
     contentType: String ,
   } ,
+
+  CoverImg: { 
+    data: Buffer , 
+    contentType: String ,
+  } ,
+  
   
   updatedAt: Date
 

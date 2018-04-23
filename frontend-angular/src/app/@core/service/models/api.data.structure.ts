@@ -20,7 +20,8 @@ export interface User {
     rating:any,
     numberofsessions:any,
     img:Blob,
-    onlineStatus: Boolean;
+    onlineStatus: Boolean,
+    CoverImg:Blob,
     blocked: Boolean;
 
 }

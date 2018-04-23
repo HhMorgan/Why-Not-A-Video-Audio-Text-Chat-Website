@@ -27,7 +27,7 @@ export class SettingsPageComponent implements OnInit {
   settings = {
     pager:{
       display: true ,
-      perPage: 5
+      perPage: 5,
     },
 
   actions:{

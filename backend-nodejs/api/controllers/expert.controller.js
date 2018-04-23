@@ -137,15 +137,15 @@ var mongoose = require('mongoose'),
   };
 
 module.exports.findTagbyid = function(req, res, next) {
- //consol.log(req.params+"tttty") ;
+ //console.log(req.body+"tttty") ;
 // var arr = JSON.parse(req.params.Tags_ids);
-  Tag.find(
+  Tag.find({_id : req.body}
 
     
     //{[req.params.Tags_ids]: {$in :Tag}} 
    // {_id: { $eq:JSON.parse(req.params.Tags_ids) }}
    
-  ).populate(req.params.Tags_ids).exec(function(err,tag){
+  ).exec(function(err,tag){
     if (err){
       return next(err);
     }
@@ -164,7 +164,7 @@ module.exports.findTagbyid = function(req, res, next) {
       data:tag
      });
 
-   //  consol.log(arr+"tttty") ;
+    //console.log(tag+"tttty") ;
   
 })
 };

@@ -1,5 +1,18 @@
 <div class="wrapper">
-    <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
+        <div class="">
+               <!--  background-image: url('../assets/img/fabio-mangione.jpg'); -->
+    <div id="coverImg" class="page-header page-header-xs image" data-parallax="true" style="width:100%;">
+        
+        <div class="middle">
+              
+                     <div *ngIf="isloggeduser()" class="choose_file">
+                            <span *ngIf="isloggeduser()">Edit Cover Image</span>
+                            <input (change)="handleFileInputCoverImg($event.target.files)" *ngIf="isloggeduser()" name="Select File" type="file" />
+                        </div>
+ 
+              </div>
+    </div>
+           
         <div class="filter"></div>
     </div>
     
@@ -9,7 +22,7 @@
             <div class="owner">
                 <div class="avatar">
                     <label for="file">
-                        l                       
+                                              
                                                <input *ngIf="isloggeduser()" class="custom-file-upload" type="file"
                                                id="file" style="display:none;" 
                                              (change)="handleFileInput($event.target.files)">
@@ -35,8 +48,8 @@
                         <br /><br />
                        
                    <!--  <h6 id="specs" class="description"></h6> -->
-                   
-                   <div id="tagsdiv"></div>
+                   <div id="tagsdivouter">  <div id="tagsdiv"></div></div>
+                  
                 </div>
             </div>
 

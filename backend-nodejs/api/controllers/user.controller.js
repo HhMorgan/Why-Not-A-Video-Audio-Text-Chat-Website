@@ -144,6 +144,23 @@ module.exports.uploadimage = function(req, res) {
   
 };
 
+module.exports.uploadCoverPic = function(req, res) {
+  User.findByIdAndUpdate(req.decodedToken.user._id,{ $set: { CoverImg: { data : req.file.buffer , contentType: req.file.mimetype } } } , 
+    { new: true } ).exec ( function(err, updatedUser) {
+      /* Checks For File Type */
+    if (err) {
+       return next(err);
+     }
+     return res.status(201).json({
+       err: null,
+       msg: 'Cover Pic got updated.',
+       data: { buffer : updatedUser.CoverImg.data , contentType : updatedUser.CoverImg.contentType } /* Hnn3ml load el new Image From El Browser B3d El Checks 
+       Only Confirmation Message Is Needed*/ 
+     });
+   });
+  
+};
+
 module.exports.updateEmail = function(req, res, next) {
   if (!Validations.matchesRegex(req.body.email, EMAIL_REGEX)) {
     return res.status(422).json({

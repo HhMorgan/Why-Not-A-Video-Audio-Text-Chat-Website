@@ -15,6 +15,58 @@
 }
 
 
+
+.container {
+
+}
+
+.choose_file{
+  position:relative;
+  display:inline-block;    
+border-radius:8px;
+  border:#ebebeb solid 1px;
+  width:100px; 
+  padding: 4px 6px 4px 8px;
+  font: normal 14px Myriad Pro, Verdana, Geneva, sans-serif;
+  color: #7f7f7f;
+  margin-top: 2px;
+background:white
+}
+.choose_file input[type="file"]{
+  -webkit-appearance:none; 
+  position:absolute;
+  top:0; left:0;
+  opacity:0; 
+}
+
+.image {
+opacity: 1;
+display: block;
+width: 100%;
+height: auto;
+transition: .5s ease;
+backface-visibility: hidden;
+}
+
+.middle {
+transition: .5s ease;
+opacity: 0;
+position: absolute;
+top: 80%;
+left: 95%;
+transform: translate(-50%, -50%);
+-ms-transform: translate(-50%, -50%);
+text-align: center;
+}
+
+.image:hover  {
+
+}
+
+.image:hover .middle {
+opacity: 1;
+}
+
 #t {
     position: absolute;
     top: 0px;

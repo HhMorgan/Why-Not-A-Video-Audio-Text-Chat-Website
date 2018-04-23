@@ -14,6 +14,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 export class ProfileComponent implements OnInit {
     private user =<User>{};
     private Tag =<Tags>{};
+    private CoverImgOfUser;
     usernameOfProfile: string;
     currusername: string;
     description:string;
@@ -109,7 +110,7 @@ export class ProfileComponent implements OnInit {
               var t = document.createTextNode( specialities_names[l].name+"");
               Tag.classList.add("btn");
              // Tag.classList.add("btn-danger");
-             // Tag.classList.add("btn-round");
+              Tag.classList.add("btn-round");
               Tag.style.backgroundColor =specialities_names[l].color.toString();
               Tag.style.borderColor =specialities_names[l].color.toString();
               Tag.classList.add("btn-sm");
@@ -130,11 +131,9 @@ export class ProfileComponent implements OnInit {
             
             for(i=0;i<specialities_names.length;i++ ){ 
               var Tag = document.createElement("button");                      // Create a <p> element
-            var t = document.createTextNode( specialities_names[i]+"");
+            var t = document.createTextNode( specialities_names[i].name+"");
             Tag.classList.add("btn");
-             // Tag.classList.add("btn-round");
-            Tag.style.backgroundColor =specialities_names[l].color.toString();
-            Tag.style.borderColor =specialities_names[l].color.toString();
+            Tag.classList.add("btn-round");
             Tag.classList.add("btn-sm");
               Tag.appendChild(t);
               TagsContainer.appendChild(Tag); 
@@ -157,6 +156,9 @@ export class ProfileComponent implements OnInit {
           this.description=apires.data.description; //getting the desc. of showed profile
           this.getimageuser(apires.data.img); //this method gets/views the image of the user 
           this.showrating(apires.data.rating); //this method gets/views the ratings of the user 
+          console.log(apires.data);
+          this.CoverImgOfUser=apires.data.CoverImg;
+          this.getCoverImgUser(apires.data.CoverImg);
           this.role=apires.data.role;
           if(this.role=='user'){
             this.role='';
@@ -252,6 +254,19 @@ export class ProfileComponent implements OnInit {
       });
       
   }
+
+  handleFileInputCoverImg(files: FileList) {
+    //console.log(files.item(0));
+    this.fileToUpload = files.item(0);
+    let fy:FileData ={file:files.item(0)};
+    this.apiServ.postCoverImg(fy).subscribe(data => {
+      // do something, if upload success
+      this.getCoverImgUser(this.CoverImgOfUser);
+      }, error => {
+        console.log(error);
+      });
+      
+  }
   
   getimage(){
     this.apiServ.getimage().subscribe((apires : APIData) =>{
@@ -273,11 +288,26 @@ export class ProfileComponent implements OnInit {
      // var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
       var reader : FileReader = new FileReader();
       reader.readAsDataURL(new Blob( [new Buffer(datain.data)] , {type: datain.data.contentType}))
+      console.log(reader.result);
       reader.addEventListener("load", function () {
         profileimg.src = reader.result;
        // navbarimg.src = reader.result;
       }, false);
       
   }
+
+  getCoverImgUser(datain){
+    var profileimg = document.getElementById("coverImg") as HTMLImageElement
+   // var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
+    var reader2 : FileReader = new FileReader();
+    reader2.readAsDataURL(new Blob( [new Buffer(datain.data)] , {type: datain.data.contentType}))
+    console.log((reader2.result));
+    //var holder=;
+    reader2.addEventListener("load", function () {
+      profileimg.style.backgroundImage = 'url('+reader2.result+')';
+     // profileimg.src = reader2.result;
+    }, false);
+    
+}
 
 }
