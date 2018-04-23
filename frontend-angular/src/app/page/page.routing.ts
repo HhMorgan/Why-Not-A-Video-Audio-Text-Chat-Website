@@ -25,7 +25,7 @@ import { ScheduleComponent } from './Schedule/Schedule.component';
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
 
 const routes: Routes = [
-  { path: 'session', component: SessionComponent },
+  { path: 'session/:sessionid', component: SessionComponent },
   { path: 'login' , component:LoginComponent},
   { path: 'signup' , component: SignupComponent},
   { path: 'dashboard', component:DashboardComponent},

@@ -5,6 +5,7 @@ import { APIService } from '../../@core/service/api.service';
 import { APIData, User } from '../../@core/service/models/api.data.structure';
 import { IOService } from '../../@core/service/io.service';
 import {trigger, state, style, animate, transition, query,stagger} from '@angular/animations';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-session',
@@ -16,208 +17,206 @@ export class SessionComponent implements OnInit {
   userArray=[{img:"../assets/img/faces/clem-onojeghuo-3.jpg",username:"Clem"},{img:"../assets/img/faces/joe-gardner-2.jpg",username:"Joe"},{img:"../assets/img/faces/kaci-baum-2.jpg",username:"Kaci"},{img:"../assets/img/faces/clem-onojeghuo-2.jpg",username:"Nate"},{img:"../assets/img/faces/erik-lucatero-2.jpg",username:"Erik"}];
   reciever="Chat";
   value='';
-  private chatArea;
+  public chatArea;
+  public chatMessage;
   searchValue:string = '';
   messageRecieved:string='';
+  public joinFlag = false;
   @Input() htmlVariable=[];
-  mediaSource_local = null;
-  joinFlag=false;
-  private sessionid = "5accc80710884653ec3a3b14"; 
-  private mediaSource_remote_list : any = [null];
-  private peerConnections : RTCPeerConnection[] = [ 
-    new RTCPeerConnection(null) , 
-    new RTCPeerConnection(null) 
-  ];
-
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-  private chatMessage;
- 
-  constructor(private _apiService:APIService,private sessionService : IOService,private el: ElementRef,private renderer:Renderer2) {
-    
-   }
-  
- 
+
+  public sessionid : String; 
+  public format = 'video/webm';
+  public constrains = {video: true , audio: true };
+  public mediaSource_local = null;
+  public mediaSource_remote_list : any = [null];
+  private peer_config = <RTCConfiguration>{iceServers: [{urls: 'stun:stun.l.google.com:19302'}
+  ,{urls: 'stun:stun.services.mozilla.com'}]};
+  private peerConnections : RTCPeerConnection[] = [];
+  private connectedUsers : String[] = [];
+
   ngOnInit() {
-    console.log(this.mediaSource_remote_list.length+"edenudne");
     this.scrollToBottom();
   }
 
   ngAfterViewChecked() {        
     this.scrollToBottom();        
-}
-screenSize(){
-  if (screen.width <= 699) {
-    return false;
+  }
+
+  screenSize(){
+    if (screen.width <= 699) {
+      return false;
+    } else {
+        return true;
     }
-    else {
-      return true;
-    }
-}
-scrollToBottom(): void {
-  try {
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-  } catch(err) { }                 
-}
+  }
+
+  scrollToBottom(): void {
+    try {
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }                 
+  }
+  
   userChatChange(val : any){
     this.reciever=val;
   }
- 
 
-
-
-private getOtherPc = (pc) => {
-  return (pc === this.peerConnections[0] ) ? this.peerConnections[1] : this.peerConnections[0];
-}
-
-private getPcName = (pc) => {
-  return (pc === this.peerConnections[0]) ? "PC1":"PC2" 
-}
-
-
-onEnter(value : string){
-  console.log(value);
-  console.log(JSON.stringify({
-    type:value , 
-    name:this.sessionid
+  socketjoin(){
+    this.joinFlag = true;
   }
-));
-  this.value = value;
 
+  constructor( private apiService : APIService , private ioService : IOService , private route : ActivatedRoute ) {
+    this.route.params.subscribe( 
+      params => {
+        this.sessionid = params.sessionid;
+        this.ioService.getMessages().subscribe((test:any)=>{
+          var js = JSON.parse(test);
+          console.log(js);
+          switch(js.type) {
+            case "Join" :
+              if(!this.connectedUsers.includes(js.userid)){
+                this.connectedUsers.push(js.userid);
+                this.peerConnections.push(new RTCPeerConnection(this.peer_config))
+              }
+            break;
+            case "connected":
+              this.ioService.sendMessage(
+                JSON.stringify({
+                  type : "Join",
+                  room : this.sessionid
+                })
+              )
+            break;
 
-  this.sessionService.sendMessage(
-    JSON.stringify({
-      room : this.sessionid ,
-      type:"message" , 
-      name:this.sessionid,
-      message : value
-    }
-  ));
+            case "connectedUsers":
+              this.connectedUsers = js.data;
+              for(var i = 0 ; i < this.connectedUsers.length ; i++){
+                this.peerConnections.push(new RTCPeerConnection(this.peer_config))
+              }
+            break;
 
+            case "offer" :
+              let rtcPeer : RTCPeerConnection = this.peerConnections[this.connectedUsers.indexOf(js.from)];
+              rtcPeer.setRemoteDescription(js.offer).then(
+                () => {
+                  this.preparePeerConnection( rtcPeer , js.from );
+                  rtcPeer.createAnswer().then(
+                    (desc) => {
+                      rtcPeer.setLocalDescription(desc).then(
+                        () => {
+                          this.ioService.sendMessage(JSON.stringify(
+                            {
+                              room : this.sessionid ,
+                              type : "answer" ,
+                              answer : desc,
+                              to : js.from
+                            }
+                          ));
+                        }
+                      );
+                    }
+                  );
+                  this.mediaSource_remote_list[0] = rtcPeer.getRemoteStreams()[0];
+                }
+              ); 
+            break;
 
-  
-  this.htmlVariable.push({type:"sender",message:this.value});
-  this.searchValue=null;
-}
+            case "answer" :
+              this.peerConnections[this.connectedUsers.indexOf(js.from)].setRemoteDescription(js.answer).then()
+            break;
+            
+            case "candidate":
+              this.peerConnections[this.connectedUsers.indexOf(js.from)].addIceCandidate(js.candidate).then();
+            break;
 
-
-public socketSend(){
-  this.sessionService.sendMessage(
-    JSON.stringify({
-      type : "Join",
-      room : this.sessionid
-    })
-  );
-}
-
-
-private getRemoteStream = (e) => {
-  this.mediaSource_remote_list[0] = e.stream;
-}
-
-preparePeerConnection( peerConnection : RTCPeerConnection ){
-  peerConnection.onicecandidate = (event) => {
-    if(event.candidate) {
-      this.sessionService.sendMessage(
-        JSON.stringify(
-          {
-            room : this.sessionid ,
-            type : "candidate",
-            candidate : event.candidate
+            case "message" :
+              this.messageRecieved = js.message;
+              this.htmlVariable.push({type:"recieved",message:this.messageRecieved});
+              console.log(this.htmlVariable);
+            break;
           }
-        )
-      ) 
+        });
+      }
+    );
+  }
+
+  preparePeerConnection( peerConnection : RTCPeerConnection , userid : String ){
+    peerConnection.onicecandidate = (event) => {
+      if(event.candidate) {
+        this.ioService.sendMessage(
+          JSON.stringify(
+            {
+              room : this.sessionid ,
+              type : "candidate",
+              candidate : event.candidate ,
+              to : userid
+            }
+          )
+        ) 
+      }
+    }
+    peerConnection.onaddstream = this.getRemoteStream;
+    peerConnection.addStream(this.mediaSource_local);
+  }
+
+  public joinClick() {
+    console.log(this.connectedUsers);
+    console.log(this.peerConnections.length);
+    for(var i = 0 ; i < this.connectedUsers.length ; i++) {
+      let userid : String = this.connectedUsers[i];
+      let rtcPeer : RTCPeerConnection = this.peerConnections[i];
+      this.preparePeerConnection(this.peerConnections[i] , userid );
+      rtcPeer.createOffer().then(
+        (desc) =>{
+          rtcPeer.setLocalDescription(desc).then();
+          this.ioService.sendMessage(JSON.stringify(
+            {
+              room : this.sessionid ,
+              type : "offer" ,
+              offer : desc ,
+              to : userid
+            })
+          );
+        }
+      )
     }
   }
-  peerConnection.onaddstream = this.getRemoteStream;
-  peerConnection.addStream(this.mediaSource_local);
-}
-public joinClick() {
-  this.peerConnections.push(new RTCPeerConnection(null));
-  this.preparePeerConnection(this.peerConnections[0]);
-  this.peerConnections[0].createOffer().then(
-    (desc) =>{
-      this.peerConnections[0].setLocalDescription(desc).then();
-      this.sessionService.sendMessage(JSON.stringify(
+
+  private getRemoteStream = (e) => {
+    console.log(e);
+    this.mediaSource_remote_list[0] = e.stream;
+  }
+
+  public handle_Media_Stream(stream) {
+    this.mediaSource_local = stream;
+  }
+
+  onEnter(value : string){
+    console.log(value);
+    console.log(JSON.stringify(
+      {
+        type:value , 
+        name:this.sessionid
+      })
+    );
+    this.value = value;
+    this.ioService.sendMessage(
+      JSON.stringify(
         {
           room : this.sessionid ,
-          type : "offer" ,
-          offer : desc
-        })
-      );
-    }
-  )
-}
-
-// public socketjoin(){
-//   var flag = true;
-//   this.sessionService.getMessages().subscribe((test:any)=>{
-//     if(flag)
-//       this.socketSend();
-//     var js = JSON.parse(test);
-//     console.log(js);
-//     this.messageRecieved=js.message;
-//     this.htmlVariable.push({type:"recieved",message:this.messageRecieved});
-//     console.log(this.htmlVariable);
-//     flag = false;
-//   });
-// }
-
-
-
-public socketjoin(){
-  var flag = true;
-  this.sessionService.getMessages().subscribe((test:any)=>{
-    if(flag)
-       this.socketSend();
-    flag = false;
-    this.joinFlag=true;
-    var js = JSON.parse(test);
-    console.log(js);
-    switch(js.type) {
-      case "offer" :
-        let rtcPeer : RTCPeerConnection = new RTCPeerConnection(null)
-        this.peerConnections.push(rtcPeer);
-        rtcPeer.setRemoteDescription(js.offer).then(
-          () => {
-            this.preparePeerConnection(rtcPeer);
-            rtcPeer.createAnswer().then(
-              (desc) => {
-                rtcPeer.setLocalDescription(desc).then(
-                  () => {
-                    this.sessionService.sendMessage(JSON.stringify(
-                      {
-                        room : this.sessionid ,
-                        type : "answer" ,
-                        answer : desc
-                      }
-                    ));
-                  }
-                );
-              }
-            );
-            this.mediaSource_remote_list[0] = rtcPeer.getRemoteStreams()[0];
-          }
-        ); 
-      break;
-      
-      case "answer" :
-        this.peerConnections[0].setRemoteDescription(js.answer).then()
-      break;
-      case "message" :
-      var js = JSON.parse(test);
-      console.log(js);
-      this.messageRecieved=js.message;
-      this.htmlVariable.push({type:"recieved",message:this.messageRecieved});
-      console.log(this.htmlVariable);
-      break;
-      case "candidate":
-        this.peerConnections[0].addIceCandidate(js.candidate).then();
-      break;
-    }
-  });
-}
-
-update(value: string) { this.value = value; }
+          type : "message" ,
+          name : this.sessionid,
+          message : value
+        }
+      )
+    );
+    this.htmlVariable.push({type:"sender",message:this.value});
+    this.searchValue=null;
+  }
+  
+  update(value: string) { 
+    this.value = value; 
+  }
 }
 
 
