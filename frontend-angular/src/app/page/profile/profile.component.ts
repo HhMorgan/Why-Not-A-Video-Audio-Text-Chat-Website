@@ -103,14 +103,70 @@ export class ProfileComponent implements OnInit {
             var TagsContainer = document.createElement("div");
             TagsContainer.setAttribute("id", "TagsSmallContainer"+i);
             for(j=0;j<4 && l<specialities_names.length  ;j++ ){
-              console.log("loop soghyrh");
-              var Tag = document.createElement("button");                       // Create a <p> element
+              var Tag = document.createElement("button"); 
+            //  <i class=" "></i>
+              var DeleteTag=document.createElement("i")  ;
+              Tag.appendChild(DeleteTag);
+            //  DeleteTag.classList.add("testy");
+           // DeleteTag.classList.add("testy"); 
+              DeleteTag.classList.add('fa');
+              DeleteTag.classList.add('fa-close');
+              var f;
+              //f=false;
+              DeleteTag.style.display="none";
+              var ParentTag = event.target as HTMLElement;
+              var x= ParentTag.firstChild as HTMLElement;
+
+              Tag.addEventListener("mouseover", function(){
+                var ParentTag = event.target as HTMLElement;
+              var x= ParentTag.firstChild as HTMLElement;
+              if(x!=null){
+                 x.style.display="inline-block";
+                // x.style.zIndex="block";
+              }
+            });
+
+            Tag.addEventListener("mouseout", function(){
+              var ParentTag = event.target as HTMLElement;
+           var x=   ParentTag.firstChild as HTMLElement;
+           if(x!=null){
+              x.style.display="none";
+           }
+         });
+
+         /////
+
+         DeleteTag.addEventListener("mouseover", function(){
+          var ParentTag = event.target as HTMLElement;
+        var x= ParentTag.firstChild as HTMLElement;
+        if(ParentTag!=null){
+          ParentTag.style.display="inline-block";
+          // x.style.zIndex="block";
+        }
+      });
+
+      DeleteTag.addEventListener("mouseout", function(){
+        var ParentTag = event.target as HTMLElement;
+     var x=   ParentTag.firstChild as HTMLElement;
+     if(ParentTag!=null){
+      ParentTag.style.display="none";
+     }
+   });
+              DeleteTag.addEventListener("click", function(){
+                var iElementX = event.target as HTMLElement;
+                var parentBtn= iElementX.parentNode as HTMLElement
+                console.log(iElementX.parentNode);
+                console.log(parentBtn.textContent);
+            });
+            
+            
               var divider = document.createElement("div");
                 divider.classList.add("divider");
               var t = document.createTextNode( specialities_names[l].name+"");
               Tag.classList.add("btn");
              // Tag.classList.add("btn-danger");
               Tag.classList.add("btn-round");
+             
               Tag.style.backgroundColor =specialities_names[l].color.toString();
               Tag.style.borderColor =specialities_names[l].color.toString();
               Tag.classList.add("btn-sm");
@@ -259,12 +315,17 @@ export class ProfileComponent implements OnInit {
     //console.log(files.item(0));
     this.fileToUpload = files.item(0);
     let fy:FileData ={file:files.item(0)};
+    
     this.apiServ.postCoverImg(fy).subscribe(data => {
-      // do something, if upload success
+      this.apiServ.getUserProfile(this.user).subscribe((apires : APIData) =>{
+        this.CoverImgOfUser=apires.data.CoverImg;
+      });
       this.getCoverImgUser(this.CoverImgOfUser);
       }, error => {
         console.log(error);
       });
+
+    
       
   }
   
@@ -297,6 +358,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getCoverImgUser(datain){
+    console.log(datain);
     var profileimg = document.getElementById("coverImg") as HTMLImageElement
    // var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
     var reader2 : FileReader = new FileReader();

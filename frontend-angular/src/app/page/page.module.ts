@@ -52,6 +52,7 @@ import { TagSearchComponent } from './tagSearch/tagSearch.component';
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
 import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
+import { TagsReqAddComponent } from '../tags-req-add/tags-req-add.component';
 
 
 
@@ -103,6 +104,7 @@ import { SettingsPageComponent } from './profile/settings-page/settings-page.com
     AdminViewUsersComponent,
     AdminRatingComponent,
     SettingsPageComponent,
+    TagsReqAddComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

@@ -18,6 +18,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

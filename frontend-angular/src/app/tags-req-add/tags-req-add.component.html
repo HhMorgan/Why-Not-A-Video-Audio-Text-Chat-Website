@@ -1,0 +1,29 @@
+
+    <button id="AddTagsBtn" (click)="AddTagsClick" type="button" class="btn btn-success">Add Tags</button>  
+
+        <div style="width:25%;
+        position: absolute;
+        margin-left: 38%;
+        "> <input    type="text" class="form-control" placeholder="Default"> 
+        
+        </div>
+        <br>
+    <br>
+    <br>
+    <br>
+        <div> <button type="button" class="btn btn-success">ADD</button>
+          <button type="button" class="btn btn-warning">Request</button>
+          <button type="button" class="btn btn-neutral"><i class="fa fa-search"></i></button></div>
+    <br>
+    <div  id="table">     
+      <ng2-smart-table  [settings]="settings" [source]="source" (custom) = "custom($event)" (deleteConfirm)="onDeleteConfirm($event)">
+       </ng2-smart-table>
+     </div>
+
+    
+     <p>
+        <ngb-alert>
+          This alert's type is success and it's not dismissible because the config has been customized
+        </ngb-alert>
+      </p>
+      
