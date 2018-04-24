@@ -126,6 +126,10 @@ export class APIService {
  
   }
 
+  getMatchingSearch(searchtag:String): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'user/Search/'+ searchtag).catch(this.errorHandler);
+  }
+
   addCandidate( sessionData : CandicateSession ): Observable<APIData> {
     return this.http.post<APIData>( this.apiUrl + 'session/updateCandidate', sessionData)
     .catch(this.errorHandler);

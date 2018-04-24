@@ -21,6 +21,9 @@ import { TagSearchComponent } from './tagSearch/tagSearch.component';
 
 import { AdminViewUsersComponent } from './admin-view-users/admin-view-users.component';
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
+import { SearchUserComponent } from './search-user/search-user.component';
+ 
+ 
 
 const routes: Routes = [
   { path: 'session', component: SessionComponent },
@@ -40,7 +43,7 @@ const routes: Routes = [
   { path: 'expertsList', component: ExpertsListComponent },
   {path:'tagSearch',component: TagSearchComponent},
   {path:'adminPage', component:AdminPageUserComponent},
-
+  {path: 'search/:searchtag' , component:SearchUserComponent},
   { path: 'adminviewusers' , component:AdminViewUsersComponent},
 
   //{ path: 'session', component: SessionComponent },

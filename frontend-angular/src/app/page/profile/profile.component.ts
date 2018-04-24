@@ -97,18 +97,15 @@ export class ProfileComponent implements OnInit {
           }
           
           Tags_names_length=specialities_names.length;
-        if(specialities_names.length >=4){
+     
           for(i=0;i<specialities_names.length/4;i++ ){
-           // Tags_names_length=Tags_names_length-5;
             var TagsContainer = document.createElement("div");
             TagsContainer.setAttribute("id", "TagsSmallContainer"+i);
             for(j=0;j<4 && l<specialities_names.length  ;j++ ){
               var Tag = document.createElement("button"); 
-            //  <i class=" "></i>
+ 
               var DeleteTag=document.createElement("i")  ;
               Tag.appendChild(DeleteTag);
-            //  DeleteTag.classList.add("testy");
-           // DeleteTag.classList.add("testy"); 
               DeleteTag.classList.add('fa');
               DeleteTag.classList.add('fa-close');
               var f;
@@ -180,30 +177,6 @@ export class ProfileComponent implements OnInit {
            // var br = document.createElement("br"); 
             document.getElementById("tagsdiv").appendChild( document.createTextNode(' '));           // Append <p> to <div> with id="myDIV"
             }
-          }
-          
-           else{
-            var TagsContainer = document.createElement("div");
-            
-            for(i=0;i<specialities_names.length;i++ ){ 
-              var Tag = document.createElement("button");                      // Create a <p> element
-            var t = document.createTextNode( specialities_names[i].name+"");
-            Tag.classList.add("btn");
-            Tag.classList.add("btn-round");
-            Tag.classList.add("btn-sm");
-              Tag.appendChild(t);
-              TagsContainer.appendChild(Tag); 
-            
-            }
-            document.getElementById("tagsdiv").appendChild(TagsContainer); 
-            TagsContainer.appendChild( document.createTextNode(' ') );      
-          } 
-         
-
-        
-          //specsElem.innerHTML += specialities_names.toString();
-
-         //pecsElem.innerHTML += specialities_names.toString();
           },(err) =>{
             console.log(err);
           }); 
