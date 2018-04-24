@@ -107,7 +107,7 @@ for (var i = 0 ; i < res.body.data ; i++ ){
    });
    });
    it('it should login a user', (done) => {
-    console.log(v);
+    //console.log(v);
 
     chai.request(app).post('/api/auth/login')
    .send({email: "tarek@abdocience.com" , password: "tarek123",}).end((err, res) => {
@@ -204,8 +204,9 @@ for (var i = 0 ; i < res.body.data ; i++ ){
 //   });
 after(function(done) {
    Tags.remove({}, (err) => {
-  //   done();
    });
+   Users.remove({}, (err) => {
+  });
   // mockgoose.helper.reset().then(() => {
   // });
      
