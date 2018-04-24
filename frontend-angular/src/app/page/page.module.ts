@@ -51,7 +51,7 @@ import { AdminRatingComponent } from '../page/components/admin-rating/admin-rati
 import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
 import { ScheduleComponent } from './Schedule/Schedule.component';
 import { WeekModule } from './Schedule/week.module';
-
+import { SearchUserComponent } from '../search-user/search-user.component';
 
 @NgModule({
   imports: [
@@ -101,6 +101,7 @@ import { WeekModule } from './Schedule/week.module';
     AdminRatingComponent,
     SettingsPageComponent,
     ScheduleComponent,
+    SearchUserComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

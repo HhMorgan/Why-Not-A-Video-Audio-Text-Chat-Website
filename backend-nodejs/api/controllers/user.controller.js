@@ -13,6 +13,28 @@ var Binary = require('mongodb').Binary;
 var fs = require('fs');
 var bcrypt = require('bcryptjs');
 
+module.exports.getMatchingUsers = function(req, res, next)
+{
+  User.find( { username:{ $regex: req.params.searchtag } }).exec (function(err, user) {
+    if(!user){
+      return res.status(404).json({
+        err: null ,
+        msg: 'user not found' ,
+        data: null
+     });
+    }
+    else if (err) {
+       return next(err);
+     }
+   else{
+    return res.status(201).json({
+       err: null ,
+       msg: null ,
+       data: user
+    });
+  }
+   });
+};
 
 module.exports.changeUserStatus = function(req, res, next) {
   /* Add Validations */

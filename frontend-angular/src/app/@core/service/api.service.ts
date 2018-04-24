@@ -81,6 +81,10 @@ export class APIService {
   getUserProfile(user:User): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'user/getUserProfile/'+user.username).catch(this.errorHandler);
   }
+
+  getMatchingUsers(searchtag:String): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'user/getMatchingUsers/'+ searchtag).catch(this.errorHandler);
+  }
   
   login(user:User):Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'auth/login', user).catch(this.errorHandler);

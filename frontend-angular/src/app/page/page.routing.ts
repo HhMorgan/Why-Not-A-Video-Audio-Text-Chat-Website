@@ -23,6 +23,7 @@ import { SessionChatMobileComponent } from './sessionChatMobile/session.componen
 import { ScheduleComponent } from './Schedule/Schedule.component';
 
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
+import { SearchUserComponent } from '../search-user/search-user.component';
 
 const routes: Routes = [
   { path: 'session/:sessionid', component: SessionComponent },
@@ -35,7 +36,7 @@ const routes: Routes = [
   { path: 'videotest/:sessionid' , component:SessionVideoComponent},
   { path: 'profile' , component:ProfileComponent},
   { path: 'profile/:username' , component:ProfileComponent},
-
+  {path: 'search-user/:searchtag' , component:SearchUserComponent},
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
   { path: 'viewSchedule', component: viewScheduleComponent },
