@@ -27,7 +27,7 @@ before(function(done) {
   this.timeout(1800000);
 	mockgoose.prepareStorage().then(function() {
 		mongoose.connect('mongodb://localhost:27017/StartUp-Connect-Database', function(err) {
-      connection.name = connection.db.databaseNam
+//s      connection.name = connection.db.databaseNam
             
     done(err);
     });
@@ -123,11 +123,14 @@ it('it should delete a Tag DELETE /api//Tags/deleteTags/' , (done) => {
     
 //   });
 after(function(done) {
-  mockgoose.helper.reset().then(() => {
-  });
+   Tags.remove({}, (err) => {
+  //   done();
+   });
+  // mockgoose.helper.reset().then(() => {
+  // });
      
-  mongoose.disconnect(done);
-//done();
+  // mongoose.disconnect(done);
+done();
 });
 
    //mockoose.disconnect(done);
