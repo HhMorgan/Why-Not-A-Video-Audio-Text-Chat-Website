@@ -96,3 +96,27 @@ body {
   border-radius: 50% !important;
   max-width: 100%;
 }
+
+
+  @media (max-width: 600px) {
+    .positionProfileImage{
+      height: auto;
+      position: absolute;
+      margin: auto;
+      top: 50%;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .positionUsername
+    {
+        height: auto;
+        position: absolute;
+        margin: auto;
+        top: 50%;
+        bottom: 0;
+        left: 30%;
+        right: 0; 
+    }
+  }
