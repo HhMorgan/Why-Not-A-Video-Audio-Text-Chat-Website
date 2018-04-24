@@ -6,6 +6,7 @@ import { APIData , User  } from '../../../@core/service/models/api.data.structur
 import { Buffer } from 'buffer';
 import { Routes,Router } from '@angular/router';
 import { NavBarService } from '../../../@core/service/shared.service';
+import { SearchUserComponent } from '../../../search-user/search-user.component';
 
 @Component({
     selector: 'app-navbar',
@@ -136,5 +137,14 @@ export class NavbarComponent implements OnInit {
         this.navbarservice.setUserLoggedin(false);
     }
 
+
+/*    TextFieldSearch()
+    {
+        var userTextField = document.getElementById("userTextField");
+        userTextField.addEventListener("keyup",function(addEventListener)
+        {
+            
+        })
+    }*/
     
 }
