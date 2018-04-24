@@ -67,6 +67,8 @@ var userSchema = mongoose.Schema( {
     default: true
   },
 
+  bookmarks: [{ type: mongoose.Schema.Types.ObjectId , ref: 'User'  }],
+
   blocked: {
     type: Boolean,
     required: true,
@@ -77,10 +79,11 @@ var userSchema = mongoose.Schema( {
     data: Buffer , 
     contentType: String ,
   } ,
-  updatedAt: Date ,
+
+  updatedAt: Date,
   
-  bookmarks: [mongoose.Schema.Types.ObjectId] ,
 },
+
 
 { collection: 'Users' } );
 // Override the transform function of the schema to delete the password before it returns the object
