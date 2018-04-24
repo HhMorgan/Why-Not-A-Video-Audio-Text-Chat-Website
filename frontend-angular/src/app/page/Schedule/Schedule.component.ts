@@ -10,17 +10,20 @@ import * as moment from 'moment';
 })
 export class ScheduleComponent implements OnInit {
   public yourDate : Date = new Date();
-  private weekduration : String ;
+  public weekduration : String ;
   scheduleFlag:boolean=false;
   weekFlag:boolean=false;
   monthFlag:boolean=true;
   monthValue;
-  weekValue;
+  oldWeekValue=1;
+  weekValue=1;
   numbers;
   randomNumber=0;
   randomFlag;
   weekStart;
   weekEnd;
+  rightArrow=false;
+  leftArrow=false;
   daysOfTheWeek=["Sunday","Moday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
   modifiedWeek=[]
   slots: String []=['No']; 
@@ -66,6 +69,20 @@ export class ScheduleComponent implements OnInit {
     return true
   return false
  }
+ onAdd(){
+    if(this.rightArrow){
+     this.rightArrow=false
+   }
+   this.oldWeekValue=this.weekValue;
+  this.weekValue++;
+ }
+ onSubtract(){
+   if(this.leftArrow){
+    this.leftArrow=false
+  }
+  this.oldWeekValue=this.weekValue;
+  this.weekValue--;
+ }
 getMonth(){
   switch(this.monthValue){
     case 'January' : return 1;
@@ -83,14 +100,30 @@ getMonth(){
   }
 }
 getRange(){
- 
-  //new Date("February 4, 2016 10:13:00")
-  //Sun Apr 22 2018
-  let day= ((this.weekValue-1)*7)+1
+  let day= ((this.weekValue-1)*7)+1;
+  //console.log(this.weekValue+"//"+day);
+ //console.log(this.rightArrow)
+  if(day<-31){
+    this.rightArrow=true;
+    day=-31;
+    this.weekValue=this.oldWeekValue;
+  }
+  if(this.rightArrow){
+    day=-31;
+  }
+  if(day>1){
+    this.leftArrow=true;
+    day=1;
+    this.weekValue=this.oldWeekValue;
+  }
+  if(this.leftArrow){
+    day=1;
+  }
+  
   //console.log("day : "+day);
   //console.log(this.yourDate);
   this.yourDate=new Date(this.monthValue +" "+day+", "+(new Date()).getFullYear()+" 10:00:00")
-  console.log(this.yourDate)
+  //console.log(this.yourDate)
   var data = moment(this.yourDate).startOf('week').isoWeekday(6);
   this.weekduration = "";
   //for (var i = 0 ; i < 2 ; i++) {
@@ -120,7 +153,8 @@ weekGetValue(val : any){
 
 monthToWeek(){
   this.monthFlag=false;
-  this.weekFlag=true;
+  //this.weekFlag=true;
+  this.scheduleFlag=true;
 }
 weekToSchedule(){
   this.weekFlag=false;
@@ -131,7 +165,12 @@ weekToMonth(){
   this.weekFlag=false;
 }
 scheduleToWeek(){
-  this.weekFlag=true;
+  //this.weekFlag=true;
+  this.weekValue=1;
+  this.rightArrow=false;
+  this.leftArrow=false;
+  console.log(this.weekValue);
+  this.monthFlag=true;
   this.scheduleFlag=false;
 }
 

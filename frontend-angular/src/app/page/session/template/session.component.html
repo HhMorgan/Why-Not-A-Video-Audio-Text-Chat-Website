@@ -40,10 +40,11 @@
                                                 <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)"
                                                     [mediaSource]="mediaSource_remote_list[0]" [isRemote]="true"></rtc-media-recorder>
                                             </div>
+                                            <div  class="buttons">
+                                                <button *ngIf="!joinButtonflag" class="btn btn-success positionJoinButton" (click)="joinClick()">Join</button>
+                                            </div>
                                         </div>
-                                        <div class="buttons">
-                                            <button (click)="joinClick()">Join</button>
-                                        </div>
+                                        
                                         <hr class="headLine">
                                     </div>
                                 </div>
@@ -145,7 +146,7 @@
                                             </div>
                                         </div>
                                         <div class="buttons">
-                                            <button (click)="joinClick()">Join</button>
+                                            <button class="btn btn-success" (click)="joinClick()">Join</button>
                                         </div>
                                         <hr class="headLine">
                                     </div>

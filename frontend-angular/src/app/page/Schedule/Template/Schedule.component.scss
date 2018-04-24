@@ -182,7 +182,16 @@ html, body { height: 100%; margin: 0px; }
   }
   }
   
-
+.positionArrow{
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    font-size: 600%;
+}
+.tableCenter{
+  margin-left: 5%;
+  width: 100%;
+}
 
 
 .class.short { height: 5.2vh; line-height: 5.2vh; } /* 45min class */

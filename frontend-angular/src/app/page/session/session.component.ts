@@ -22,6 +22,7 @@ export class SessionComponent implements OnInit {
   searchValue:string = '';
   messageRecieved:string='';
   public joinFlag = false;
+  public joinButtonflag=false;
   @Input() htmlVariable=[];
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
@@ -162,6 +163,7 @@ export class SessionComponent implements OnInit {
   public joinClick() {
     console.log(this.connectedUsers);
     console.log(this.peerConnections.length);
+    this.joinButtonflag=true;
     for(var i = 0 ; i < this.connectedUsers.length ; i++) {
       let userid : String = this.connectedUsers[i];
       let rtcPeer : RTCPeerConnection = this.peerConnections[i];

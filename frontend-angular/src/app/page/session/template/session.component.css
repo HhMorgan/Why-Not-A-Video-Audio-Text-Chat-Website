@@ -234,13 +234,29 @@
         left: 0;
         right: 0;
         bottom: 0;
-        width: 250%;
+        width: 300%;
         z-index: 0;
     }
     .tmp{
         position: absolute;
         margin: auto;
         top: 30%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    .positionJoinButton{
+        position: relative;
+        margin: auto;
+        left: 3%;
+        right: 0;
+        top: 0%;
+        bottom: 0;
+    }
+    .buttons{
+        position: absolute;
+        margin: auto;
+        top: 2500%;
         bottom: 0;
         left: 0;
         right: 0;

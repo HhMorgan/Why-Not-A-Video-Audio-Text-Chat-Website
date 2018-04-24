@@ -77,12 +77,9 @@ var userSchema = mongoose.Schema( {
     data: Buffer , 
     contentType: String ,
   } ,
+  updatedAt: Date ,
   
-  updatedAt: Date
-
-},
-{
-  bookmarks: [ObjectId]
+  bookmarks: [mongoose.Schema.Types.ObjectId] ,
 },
 
 { collection: 'Users' } );
