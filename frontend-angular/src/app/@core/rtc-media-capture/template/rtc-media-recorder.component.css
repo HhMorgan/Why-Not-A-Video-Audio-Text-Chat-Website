@@ -1,6 +1,6 @@
 .video-rec {
-  width: 35%;
-  background-color: gray;
+  width: 100%;
+  background-color: rgb(0, 0, 0);
 }
 .rec-actions button {
   text-transform: capitalize;

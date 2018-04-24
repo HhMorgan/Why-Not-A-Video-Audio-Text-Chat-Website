@@ -81,6 +81,15 @@ module.exports = function (io) {
                         })
                     }
                 break;
+
+                case "close":
+                    if( isConnectioninRoom( connection , data.room ) ){
+                        send_To_Using_ID( connection , data.userid , data.room , {
+                            type: "close", 
+                            from: connection.request.decoded_token.user._id,
+                        })
+                    }
+                break;
                
             }
         })

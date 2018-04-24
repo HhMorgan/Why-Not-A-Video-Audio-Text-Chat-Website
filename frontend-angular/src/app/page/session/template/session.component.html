@@ -26,8 +26,9 @@
                         <div class="col-md-8 ">
                             <div class="LeftBox">
                                 <div class="motto">
+                                    <div class="centeralizeVertical">
                                     <div *ngIf='joinFlag'>
-                                        <hr class="headLine">
+                                        <!-- <hr class="headLine"> -->
                                         <!-- <h1>{{ sessionid }}</h1> -->
                                         <div class="media-display">
                                             <!-- <h2> RtcMedia Local </h2> -->
@@ -42,10 +43,13 @@
                                             </div>
                                             <div  class="buttons">
                                                 <button *ngIf="!joinButtonflag" class="btn btn-success positionJoinButton" (click)="joinClick()">Join</button>
+                                                <button *ngIf="joinButtonflag" class="btn btn-danger positionJoinButton" (click)="closeCall()">End</button>
+
                                             </div>
                                         </div>
                                         
-                                        <hr class="headLine">
+                                        <!-- <hr class="headLine"> -->
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +135,7 @@
                             <div class="LeftBox">
                                 <div class="motto">
                                     <div *ngIf='joinFlag'>
-                                        <hr class="headLine">
+                                        <!-- <hr class="headLine"> -->
                                         <!-- <h1>{{ sessionid }}</h1> -->
                                         <div class="media-display">
                                             <!-- <h2> RtcMedia Local </h2> -->
@@ -147,8 +151,10 @@
                                         </div>
                                         <div class="buttons">
                                             <button class="btn btn-success" (click)="joinClick()">Join</button>
+                                            <button class="btn btn-danger" (click)="closeCall()">closeCall</button>
+
                                         </div>
-                                        <hr class="headLine">
+                                        <!-- <hr class="headLine"> -->
                                     </div>
                                 </div>
                             </div>

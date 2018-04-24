@@ -23,6 +23,7 @@ import { SessionChatMobileComponent } from './sessionChatMobile/session.componen
 import { ScheduleComponent } from './Schedule/Schedule.component';
 
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   { path: 'session/:sessionid', component: SessionComponent },
@@ -45,7 +46,7 @@ const routes: Routes = [
   {path:'tagSearch',component: TagSearchComponent},
   {path:'adminPage', component:AdminPageUserComponent},
   {path:'chat',component: SessionChatMobileComponent},
-
+  {path:'about',component:AboutComponent},
   //{ path: 'session', component: SessionComponent },
 //  { path: 'editProfile', component: ProfileComponent },
   { path: 'slotRequest', component: SlotRequestComponent },

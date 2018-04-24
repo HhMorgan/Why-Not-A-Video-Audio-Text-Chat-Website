@@ -49,6 +49,10 @@
     right: 10%;
     left: -10%;
 }
+.centeralizeVertical{
+    margin-top: 5%;
+    margin-bottom: 0;
+}
 .middleBox{
     position: absolute;
     margin: auto;
@@ -216,6 +220,21 @@
 
 
 
+
+.LocalVideo{
+   width:30%;
+   position: absolute;
+    margin: auto;
+}
+
+
+.RemoteVideo{
+   
+}
+
+
+
+/*
 @media (min-width: 600px) {
     .LocalVideo{
         position: absolute;
@@ -303,4 +322,4 @@
 
 .headLine{
     border-color: rgba(0, 0, 0, 0);
-}
+} */
