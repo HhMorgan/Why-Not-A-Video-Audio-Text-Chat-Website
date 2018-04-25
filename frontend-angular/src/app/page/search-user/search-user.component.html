@@ -2,7 +2,7 @@
   <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
       <div class="filter"></div>
   </div>
-
+  <!-- <app-notification  [alerts]=alerts></app-notification>   -->
 <div class="nav-tabs-navigation">
 <div class="nav-tabs-wrapper">
     <ngb-tabset [justify]="'center'" (tabChange)="refresh()">
@@ -35,7 +35,29 @@
         </ngb-tab>
         <ngb-tab title="Tags">
             <ng-template ngbTabContent>
+                    <ng-template #content let-c="close" let-d="dismiss">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Request a Tag</h4>
+                              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div> 
+                            <div class="modal-body">
+                                    <input (click)="RequestTag()" type="text" class="form-control" placeholder="Tag name"> <button type="button" class="btn btn-warning">Request</button>
+                            </div>  
+                         <!--    <div class="modal-footer">
+                            
+                            </div> -->
+                          </ng-template>
+                          
+                         <p>Can't find your Tag ? <a href="javascript:;" (click)="open(content)" > Request it Here </a></p> 
+                         <button (click)="triggernotifications()">Show Snackbar</button>
+                         <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
 
+                          <hr>
+                   <div id="TagsResults">
+                       
+                       <br>
                     <div class="row following" id="follows">
                             <div class="col-md-6 ml-auto mr-auto">
                                 <ul class="list-unstyled follows">
@@ -49,7 +71,8 @@
                                              
                                             </div>
                                             <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                                   <i (click)="AddTag()" class="fa fa-plus"></i>
+                                                    <button (click)="AddTag()" type="button" class="btn btn-success"> ADD</button>
+                                                    
                                             </div>
                                         </div>
                                     </li>
@@ -57,12 +80,18 @@
                                   </div>
                                 </ul>
                             </div>
-                        </div>
+                        </div>  
+                    </div>
+                <!--     <ngb-pagination [collectionSize]="totalItems" [pageSize]="itemsPerPage" [(page)]="tags" [maxSize]="2" [rotate]="true" (pageChange)="loadPage($event)"></ngb-pagination> -->
+                    <br>
             </ng-template>
         </ngb-tab>
     </ngb-tabset>
 
 
 </div>
-
+  
 </div>
+
+<div  id="snackbar" >Some text some message..</div>
+

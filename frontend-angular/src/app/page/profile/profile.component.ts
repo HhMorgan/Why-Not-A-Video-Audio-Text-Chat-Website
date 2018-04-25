@@ -154,6 +154,7 @@ export class ProfileComponent implements OnInit {
                 var parentBtn= iElementX.parentNode as HTMLElement
                 console.log(iElementX.parentNode);
                 console.log(parentBtn.textContent);
+                 // to be implemented
             });
             
             
@@ -249,9 +250,6 @@ export class ProfileComponent implements OnInit {
       else{
         onlineStatusElem.setAttribute('style','pointer-events:block');
       }
-      console.log(this.usernameOfProfile+" ahh");
-      console.log(this.currusername+" ahhwn");
-      console.log(this.isloggeduser()+"ttt");       
   
   } 
 

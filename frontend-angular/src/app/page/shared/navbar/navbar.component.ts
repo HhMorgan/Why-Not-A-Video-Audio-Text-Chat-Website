@@ -14,7 +14,8 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
     private username: string;
-
+    private searchtag:string;
+      searchtext;
 
     constructor(public location: Location, private element : ElementRef,private apiServ:APIService,private router: Router) {
         this.sidebarVisible = false;
@@ -25,6 +26,15 @@ export class NavbarComponent implements OnInit {
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
         this.isloggedin();
        
+        }
+        appendSearchTag(){
+           
+            this.searchtext  =(document.getElementById("textInput") as HTMLInputElement).value;
+            this.router.navigate(['page/search',this.searchtext]);
+     
+          //  this.searchtag = searchtext.value;
+          //  console.log(this.searchtag);
+      //      console.log( this.searchtext.value);
         }
     sidebarOpen() {
         const toggleButton = this.toggleButton;

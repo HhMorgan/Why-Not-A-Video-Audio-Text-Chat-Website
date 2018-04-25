@@ -103,7 +103,7 @@ import { SearchUserComponent } from './search-user/search-user.component';
     AdminViewUsersComponent,
     AdminRatingComponent,
     SettingsPageComponent,
-    SearchUserComponent
+    SearchUserComponent,
   ],
   entryComponents: [NgbdModalContent]
 })
