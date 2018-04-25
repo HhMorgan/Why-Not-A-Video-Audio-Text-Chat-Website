@@ -5,7 +5,8 @@
   userCtrl = require('../controllers/user.controller'),
   sessionCtrl = require('../controllers/session.controller'),
   expert = require('../controllers/expert.controller'),
-  AdminController = require('../controllers/Admin.Controller');
+  AdminController = require('../controllers/Admin.Controller'),
+  scheduleController = require('../controllers/schedule.controller');
  
 var isAuthenticated = function(req, res, next) {
   // Check that the request has the JWT in the authorization header
@@ -104,5 +105,11 @@ router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
 router.get('/user/viewBookmarks', isAuthenticated , userCtrl.viewBookmarks);
+
+router.post('/schedule/fuck' , scheduleController.fuck);
+router.post('/schedule/fuck2' , scheduleController.fuck2);
+router.post('/schedule/fuck3' , scheduleController.fuck3);
+
+
 
 module.exports = router;
