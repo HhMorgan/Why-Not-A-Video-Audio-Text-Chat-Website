@@ -27,7 +27,7 @@ export class ScheduleComponent implements OnInit {
   daysOfTheWeek=["Sunday","Moday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
   modifiedWeek=[]
   slots: String []=['Reserved']; 
-
+  public popout=false;
   constructor(){
 
 
@@ -51,6 +51,16 @@ export class ScheduleComponent implements OnInit {
  ngOnInit() {
   this.numbers = Array(15).fill(0).map((x,i)=>i);
  }
+
+
+ popoutOn(){
+  this.popout=true;
+ }
+ popoutOff(){
+  this.popout=false;
+ }
+
+
  modifyWeekArray(val){
     for(let i=0;i<this.daysOfTheWeek.length;i++){
       this.modifiedWeek.push(this.daysOfTheWeek[val]);
