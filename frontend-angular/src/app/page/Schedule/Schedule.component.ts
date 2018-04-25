@@ -26,14 +26,14 @@ export class ScheduleComponent implements OnInit {
   leftArrow=false;
   daysOfTheWeek=["Sunday","Moday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
   modifiedWeek=[]
-  slots: String []=['No']; 
+  slots: String []=['Reserved']; 
 
   constructor(){
 
 
-    this.assignslots();
+    // this.assignslots();
     
-    }
+     }
   randomNumberGenerator(){
     this.randomNumber=Math.random();
    }
@@ -174,21 +174,20 @@ scheduleToWeek(){
   this.scheduleFlag=false;
 }
 
-assignslots(){
-  this.addslot(0,0);
-for( var i=0; i<30; i++){
-  for(var j=0; j<14; j++){
- console.log(this.slots[(i*14)+j]);
- if((this.slots[(i*14)+j] === 'Reserved' ) )
-  this.slots[(i*14)+j]= 'Reserved';
-  else
-  this.slots[(i*14)+j]= 'Reserve';
+// assignslots(){
+//   this.addslot(0,0);
+// for( var i=0; i<30; i++){
+//   for(var j=0; j<14; j++){
+//  console.log(this.slots[(i*14)+j]);
+//  if((this.slots[(i*14)+j] === 'Reserved' ) )
+//   this.slots[(i*14)+j]= 'Reserved';
+//   else
+//   this.slots[(i*14)+j]= 'Reserve';
 
-}}
-}
+// }}
+// }
 
 Reserve(day , hour) {
-
 var slot=(day*14)+hour;
 console.log(this.slots[slot]);
 if((this.slots[slot]==='Reserve')){
