@@ -108,8 +108,9 @@
             
                 <div class="day_title">SATURDAY</div>
                 <div *ngFor="let number of numbers">
-                        <div *ngIf="randomChecker(number)" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);">{{slots[0]}}</div>
-                        <div *ngIf="!randomFlag" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                        <div *ngIf="avilableFlag" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);"></div>
+                        <div *ngIf="!avilableFlag" class="class spacing" data-tooltip="Cannot be reserved" (click)="Reserve(0 , number);"></div>
+
                 </div>
                
             </div>
@@ -119,8 +120,9 @@
                 <div class="day_title">SUNDAY</div>
 
                 <div *ngFor="let number of numbers">
-                        <div *ngIf="randomChecker(number)" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);">{{slots[0]}}</div>
-                        <div *ngIf="!randomFlag" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                        <div *ngIf="avilableFlag" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);"></div>
+                        <div *ngIf="!avilableFlag" class="class spacing" data-tooltip="Cannot be reserved" (click)="Reserve(0 , number);"></div>
+
                 </div>
     
               
@@ -131,8 +133,9 @@
                 <div class="day_title">MONDAY</div>
                 
                 <div *ngFor="let number of numbers">
-                        <div *ngIf="randomChecker(number)" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);">{{slots[0]}}</div>
-                        <div *ngIf="!randomFlag" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                        <div *ngIf="avilableFlag" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);"></div>
+                        <div *ngIf="!avilableFlag" class="class spacing" data-tooltip="Cannot be reserved" (click)="Reserve(0 , number);"></div>
+
                 </div>
              
                
@@ -144,8 +147,9 @@
                 <div class="day_title">TUESDAY</div>
                
                 <div *ngFor="let number of numbers">
-                        <div *ngIf="randomChecker(number)" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);">{{slots[0]}}</div>
-                        <div *ngIf="!randomFlag" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                        <div *ngIf="avilableFlag" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);"></div>
+                        <div *ngIf="!avilableFlag" class="class spacing" data-tooltip="Cannot be reserved" (click)="Reserve(0 , number);"></div>
+
                 </div>
                
             </div>
@@ -155,8 +159,9 @@
               <div class="day_title">WEDNESDAY</div>
              
               <div *ngFor="let number of numbers">
-                    <div *ngIf="randomChecker(number)" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);">{{slots[0]}}</div>
-                    <div *ngIf="!randomFlag" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                <div *ngIf="avilableFlag" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);"></div>
+                <div *ngIf="!avilableFlag" class="class spacing" data-tooltip="Cannot be reserved" (click)="Reserve(0 , number);"></div>
+
             </div>
             </div>
            
@@ -165,8 +170,9 @@
                     <div class="day_title">THURSDAY</div>
                     
                     <div *ngFor="let number of numbers">
-                            <div *ngIf="randomChecker(number)" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);">{{slots[0]}}</div>
-                            <div *ngIf="!randomFlag" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                        <div *ngIf="avilableFlag" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);"></div>
+                        <div *ngIf="!avilableFlag" class="class spacing" data-tooltip="Cannot be reserved" (click)="Reserve(0 , number);"></div>
+
                     </div>
                     
                   </div>
@@ -177,8 +183,8 @@
                         <div class="day_title">FRIDAY</div>
                       
                         <div *ngFor="let number of numbers">
-                                <div *ngIf="randomChecker(number)" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);">{{slots[0]}}</div>
-                                <div *ngIf="!randomFlag" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                <div *ngIf="avilableFlag" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);"></div>
+                                <div *ngIf="!avilableFlag" class="class spacing" data-tooltip="Cannot be reserved" (click)="Reserve(0 , number);"></div>
                         </div>
                      
                 </div>  

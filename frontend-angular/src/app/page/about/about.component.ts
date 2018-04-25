@@ -20,6 +20,7 @@ export class AboutComponent implements OnInit {
   //
   $("body").css("overflow", "hidden");
   //
+  
   //
   (function(){
     //$("body").css("overflow", "hidden");
