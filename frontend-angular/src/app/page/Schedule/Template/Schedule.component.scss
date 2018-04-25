@@ -1,5 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
-
+.parlox{
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 html, body { height: 100%; margin: 0px; }
 @media (min-width: 600px) {
 .container{
