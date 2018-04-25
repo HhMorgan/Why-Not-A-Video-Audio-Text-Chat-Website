@@ -53,6 +53,7 @@ import { ScheduleComponent } from './Schedule/Schedule.component';
 import { WeekModule } from './Schedule/week.module';
 import { AboutComponent } from './about/about.component';
 
+import { SearchUserComponent } from '../search-user/search-user.component';
 
 @NgModule({
   imports: [
@@ -103,6 +104,7 @@ import { AboutComponent } from './about/about.component';
     SettingsPageComponent,
     ScheduleComponent,
     AboutComponent,
+    SearchUserComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

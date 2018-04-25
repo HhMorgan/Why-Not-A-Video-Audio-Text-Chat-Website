@@ -93,6 +93,7 @@ router.get('/user/getpassword', isAuthenticated , userCtrl.getpassword);
 router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
 router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
 router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUserProfile);
+router.get('/user/getMatchingUsers/:searchtag', userCtrl.getMatchingUsers);
 
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
