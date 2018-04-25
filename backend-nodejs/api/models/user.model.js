@@ -67,7 +67,8 @@ var userSchema = mongoose.Schema( {
     default: true
   },
 
-  bookmarks: [{ type: mongoose.Schema.Types.ObjectId , ref: 'User'  }],
+ //array containing all the experts id the user bookmarked
+ bookmarks: [{ type: mongoose.Schema.Types.ObjectId , ref: 'User'  }],
 
   blocked: {
     type: Boolean,
