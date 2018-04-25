@@ -1,6 +1,7 @@
 import {Component , OnInit} from "@angular/core";
 import {APIData , User} from '../../@core/service/models/api.data.structure';
 import { APIService  } from "../../@core/service/api.service";
+import { Router, NavigationEnd } from '@angular/router';
 declare var jquery:any;
 import * as $ from 'jquery';
 
@@ -18,6 +19,9 @@ export class AboutComponent implements OnInit {
    
  ngOnInit() {
   //
+  setTimeout((router: Router) => {
+    router.navigate(['/home']);
+}, 5000); 
   $("body").css("overflow", "hidden");
   //
   
