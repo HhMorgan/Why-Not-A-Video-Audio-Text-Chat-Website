@@ -15,6 +15,9 @@ var bcrypt = require('bcryptjs');
 Tag = mongoose.model('Tag');
 var RegExp = require('mongodb').RegExp;
 
+
+
+
 module.exports.changeUserStatus = function(req, res, next) {
   /* Add Validations */
   delete req.body.email;
@@ -48,8 +51,27 @@ module.exports.getSearchResultsTagUser = function(req, res, next)
      });
    } */
 
+/*    Tags.find({ blocked:{$eq: "false" } }).exec(function(err, tags) {
+    if (err) {
+      return next(err);
+    }
+    else if(!user || !tag){
+      return res.status(404).json({
+        err: null ,
+        msg: 'user not found' ,
+        data: null
+     });
+    }
+    else if(user && tag){
+    return res.status(200).json({
+      err: null,
+      msg: 'Users/Tags retrieved successfully.',
+      data: [tag,user]
+    });
+  }; */
+
    
-   Tag.find( { name: {$regex: req.params.searchtag, $options: "$i"}}).exec(function(err, tag) {
+   Tag.find( { name: {$regex: req.params.searchtag, $options: "$i"},blocked:{$eq: "false" }}).exec(function(err, tag) {
     if (err) {
       return next(err);
     }
