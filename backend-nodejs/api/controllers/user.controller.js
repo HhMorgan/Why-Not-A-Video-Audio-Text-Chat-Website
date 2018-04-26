@@ -522,8 +522,6 @@ module.exports.removeFromBookmarks = function (req, res, next){
     if (!user) {
       return res.status(404).json({ err: null, msg: 'User not found.', data: null });
     }
-  
-  
   });
 
 }
