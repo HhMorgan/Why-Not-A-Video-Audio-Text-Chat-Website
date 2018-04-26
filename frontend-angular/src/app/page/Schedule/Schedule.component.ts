@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { APIData, User, ReserveSlotBody } from '../../@core/service/models/api.data.structure';
+import { APIData, User, ReserveSlotBody, OfferSlotBody } from '../../@core/service/models/api.data.structure';
 import { APIService } from "../../@core/service/api.service";
 import * as moment from 'moment';
 import { error } from "util";
@@ -23,24 +23,22 @@ export class ScheduleComponent implements OnInit {
   weekEnd;
   rightArrow = false;
   leftArrow = false;
-
+  role;
+  usersRequestedSlot=[];
   public schedule: any[][] = [];
-  daysOfTheWeek = ["Saturday", "Sunday", "Moday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-  modifiedWeek = []
-  slots: String[] = ['Reserved'];
+  daysOfTheWeek = ["Saturday", "Sunday", "Moday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  modifiedWeek = [];
   public popout = false;
+  public popoutExpert=false;
+  public lateSub=false;
 
-  private id = "5ae1d18a000e4d44380aee19";
+  private id = "5ad0c0fbee0ffd38e0549a5a";
 
   constructor(private apiService: APIService) {
     var user = <User>{};
     user._id = this.id;
-    for (var i = 0; i < 7; i++) {
-      this.schedule[i] = []
-      for (var j = 0; j < 15; j++) {
-        this.schedule[i][j] = { offered: false, users: [] };
-      }
-    }
+    
+    
     this.apiService.getSchedule(user).subscribe((apiresponse: APIData) => {
       for (let slot of apiresponse.data) {
         this.schedule[slot.day][slot.time].offered = true;
@@ -50,8 +48,14 @@ export class ScheduleComponent implements OnInit {
     })
   }
   ngOnInit() {
+    for (var i = 0; i < 7; i++) {
+      this.schedule[i] = []
+      for (var j = 0; j < 15; j++) {
+        this.schedule[i][j] = { offered: false, users: [] };
+      }
+    }
     this.numbers = Array(15).fill(0).map((x, i) => i);
-
+    this.getData();
   }
   popoutOn() {
     this.popout = true;
@@ -59,7 +63,38 @@ export class ScheduleComponent implements OnInit {
   popoutOff() {
     this.popout = false;
   }
-
+  popoutExpertOn(slot) {
+    //this.usersRequestedSlot.push(apires.data.username);
+    this.usersRequestedSlot=[];
+    //console.log(slot.users)
+    if(slot.users.length>0){
+      for(let user of slot.users){      
+        this.apiService.getUsernameOfUser(user).subscribe((apires : APIData) =>{
+          //console.log(apires);
+          this.usersRequestedSlot.push(apires.data); 
+          //console.log(this.usersRequestedSlot);    
+          this.lateSub=true;        
+ }); 
+      }
+   
+  }
+  else{
+    console.log("not here");
+  }
+    this.popoutExpert = true;
+    //console.log('hi')
+  }
+  popoutExpertOff() {
+    this.lateSub=false;
+    this.popoutExpert = false;
+  }
+  getData(){
+    this.apiService.getUserData().subscribe((apires : APIData) =>{
+      //console.log(apires.data);
+      this.role=apires.data.role;
+      console.log(this.role);
+  })
+    }
 
   modifyWeekArray(val) {
     for (let i = 0; i < this.daysOfTheWeek.length; i++) {
@@ -143,10 +178,6 @@ export class ScheduleComponent implements OnInit {
     this.weekEnd = data.format('D-MMMM');
     //}
   }
-  addslot(day, hour) {
-    this.slots[0] = 'Reserved';
-    this.slots[100] = 'Reserved';
-  }
 
   monthGetValue(val: any) {
     this.monthValue = val;
@@ -186,6 +217,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   Reserve(day, slot) {
+    console.log("slot : "+this.schedule[day].indexOf(slot));
     this.apiService.userReserveSlot( <ReserveSlotBody> { expertID : this.id , dayNo : JSON.stringify(day) , slotNo : JSON.stringify(this.schedule[day].indexOf(slot)) } ).subscribe((apiresponse: APIData) => {
       console.log(apiresponse.msg)
     }, (err) =>{
@@ -193,7 +225,16 @@ export class ScheduleComponent implements OnInit {
     });
     console.log(this.schedule[day].indexOf(slot))
   }
-
+  //users
+  Offer(day, slot) {
+   // console.log(slot);
+    this.apiService.expertOfferSlot( <OfferSlotBody> { dayNo : JSON.stringify(day) , slotNo : JSON.stringify(this.schedule[day].indexOf(slot)) } ).subscribe((apiresponse: APIData) => {
+      console.log(apiresponse.msg)
+    }, (err) =>{
+      console.log(err);
+    });
+    console.log(this.schedule[day].indexOf(slot))
+  }
   book() {
     alert("Thank you. You will be notified with slots that suit the expert");
   }

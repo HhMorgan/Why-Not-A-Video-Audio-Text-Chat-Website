@@ -26,8 +26,7 @@ export class SearchUserComponent implements OnInit {
     this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
     this.searchtag = params['searchtag'];
 
-      this.apiServ.getMatchingUsers(this.searchtag).subscribe((apires : APIData)=>
-      {
+      this.apiServ.getMatchingUsers(this.searchtag).subscribe((apires : APIData)=>{
         this.users=new Array();
         console.log(apires);
         for(i=0;i<apires.data.length;i++){

@@ -88,6 +88,7 @@ router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sess
 router.post('/photo', isAuthenticated , userCtrl.uploadimage);
 router.get('/getphoto', isAuthenticated , userCtrl.getimage);
 router.get('/getusername', isAuthenticated , userCtrl.getusername);
+router.get('/getUsernameOfUser/:username', isAuthenticated , userCtrl.getUsernameOfUser);
 router.get('/user/getUserData', isAuthenticated , userCtrl.getUserData);
 router.get('/user/getpassword', isAuthenticated , userCtrl.getpassword);
 router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);

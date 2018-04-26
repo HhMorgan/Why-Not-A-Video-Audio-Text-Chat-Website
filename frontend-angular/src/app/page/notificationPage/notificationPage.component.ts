@@ -62,7 +62,20 @@ type: {
   config: ToasterConfig;
   constructor(private _apiService: APIService) {
     //onAdded is called when some 1 adds a tag using the ng2smarttable 
-    
+    // this.source.onAdded().subscribe((Tags :Tags)=>{
+    //   // we intilialize status to accepted and blocked to false as the admin is 
+    //   // the one adding the tag so he doesn't need to write these himself 
+    //   Tags.status = 'Accepted';
+    //   Tags.blocked = false;
+    //   //Then we send APIData to the method named AddTag through the api.service then we 
+    //   //refresh after the database has been updated to get the new tag
+    //   this._apiService.AddTag(Tags).subscribe((apiresponse: APIData)=>{
+    //     console.log(apiresponse.msg);
+    //     console.log(Tags);
+    //     this.refresh();  
+    //   });
+    //   this.refresh();  
+    // });    
 }
 refresh(): void {
 
@@ -72,7 +85,7 @@ refresh(): void {
 //       console.log(apiresponse.data);
 //     this.source.load(apiresponse.data);
 //   });
-// }
+ }
 
 }
 

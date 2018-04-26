@@ -91,12 +91,21 @@
                             <i (click)="onAdd()" class="fa fa-chevron-left"></i>
                         </div>
                         <div class="col-md-10">
-                            <div *ngIf="popout" id="popout">
+                            <div *ngIf="popoutExpert" id="popout">
                                 <div class="windowPop">
-                                    <p>hello man</p>
-                                    <button class="btn btn-danger" (click)="popoutOff()">close</button>
+                                    <p>hi man</p>
+                                    <div *ngIf="lateSub">
+                                    {{usersRequestedSlot}}
+                                    </div>
+                                    <button class="btn btn-danger" (click)="popoutExpertOff()">close</button>
                                 </div>
                             </div>
+                            <div *ngIf="popout" id="popout">
+                                    <div class="windowPop">
+                                        <p>hello man</p>
+                                        <button class="btn btn-danger" (click)="popoutOff()">close</button>
+                                    </div>
+                                </div>
                             <div id="table" class="tableCenter">
                                 <!-- <p><button class="w3-button w3-block" (click)="book();">This is the expert's schedule , if you would like to book a session with the expert at another time please press here</button></p> -->
 
@@ -129,8 +138,12 @@
 
                                         <div class="day_title">SATURDAY</div>
                                             <div *ngFor="let slot of schedule[0]">
-                                                    <div *ngIf="slot.offered" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , slot)"></div>
-                                                    <div *ngIf="!slot.offered" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                <!-- popoutExpertOn() -->
+                                                <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn(slot)" data-tooltip="This slot is offered">Offered</div>
+                                                    <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="Reserve(0 , slot)">Available</div>
+                                                    
+                                                    <div *ngIf="!slot.offered && role!=='expert'" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                    <div *ngIf="!slot.offered && role==='expert'" (click)="Offer(0 , slot)" class="class spacing gray buttonBox" data-tooltip="Cannot be reserved">Offer</div>
                                             </div>
                                     </div>
 
@@ -139,8 +152,12 @@
                                         <div class="day_title">SUNDAY</div>
 
                                         <div *ngFor="let slot of schedule[1]">
-                                            <div *ngIf="slot.offered" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(1 , slot)"></div>
-                                            <div *ngIf="!slot.offered" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                              
+                                                <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn(slot)" data-tooltip="This slot is offered">Offered</div>
+                                                <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="Reserve(1 , slot)">Available</div>
+                                                
+                                            <div *ngIf="!slot.offered && role!=='expert'" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                            <div *ngIf="!slot.offered && role==='expert'" (click)="Offer(1 , slot)" class="class spacing gray buttonBox" data-tooltip="Cannot be reserved">Offer</div>
                                         </div>
 
 
@@ -150,8 +167,11 @@
 
                                         <div class="day_title">MONDAY</div>
                                         <div *ngFor="let slot of schedule[2]">
-                                                <div *ngIf="slot.offered" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(2 , slot)"></div>
-                                                <div *ngIf="!slot.offered" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn(slot)" data-tooltip="This slot is offered">Offered</div>
+                                                    <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="Reserve(2 , slot)">Available</div>
+                                                    
+                                                <div *ngIf="!slot.offered && role!=='expert'" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                <div *ngIf="!slot.offered && role==='expert'" (click)="Offer(2 , slot)" class="class spacing gray buttonBox" data-tooltip="Cannot be reserved">Offer</div>
                                         </div>
                                     </div>
 
@@ -160,8 +180,11 @@
                                         <div class="day_title">TUESDAY</div>
 
                                         <div *ngFor="let slot of schedule[3]">
-                                                <div *ngIf="slot.offered" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(3 , slot)"></div>
-                                                <div *ngIf="!slot.offered" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn(slot)" data-tooltip="This slot is offered">Offered</div>
+                                                <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="Reserve(3 , slot)">Available</div>
+                                                
+                                                <div *ngIf="!slot.offered && role!=='expert'" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                    <div *ngIf="!slot.offered && role==='expert'" (click)="Offer(3 , slot)" class="class spacing gray buttonBox" data-tooltip="Cannot be reserved">Offer</div>
                                         </div>
 
                                     </div>
@@ -171,8 +194,11 @@
                                         <div class="day_title">WEDNESDAY</div>
                                         
                                         <div *ngFor="let slot of schedule[4]">
-                                                <div *ngIf="slot.offered" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(4 , slot)"></div>
-                                                <div *ngIf="!slot.offered" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn(slot)" data-tooltip="This slot is offered">Offered</div>
+                                                    <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="Reserve(4 , slot)">Available</div>
+                                                    
+                                                <div *ngIf="!slot.offered && role!=='expert'" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                    <div *ngIf="!slot.offered && role==='expert'" (click)="Offer(4 , slot)" class="class spacing gray buttonBox" data-tooltip="Cannot be reserved">Offer</div>
                                         </div>
                                     </div>
 
@@ -180,16 +206,22 @@
 
                                         <div class="day_title">THURSDAY</div>
                                         <div *ngFor="let slot of schedule[5]">
-                                                <div *ngIf="slot.offered" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(5 , slot)"></div>
-                                                <div *ngIf="!slot.offered" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn(slot)" data-tooltip="This slot is offered">Offered</div>
+                                                <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="Reserve(5 , slot)">Available</div>
+                                                
+                                                <div *ngIf="!slot.offered && role!=='expert'" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                    <div *ngIf="!slot.offered && role==='expert'" (click)="Offer(5 , slot)" class="class spacing gray buttonBox" data-tooltip="Cannot be reserved">Offer</div>
                                         </div>
                                         </div>
                                     <div class="day Friday">
 
                                         <div class="day_title">FRIDAY</div>
                                         <div *ngFor="let slot of schedule[6]">
-                                                <div *ngIf="slot.offered" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(6 , slot)"></div>
-                                                <div *ngIf="!slot.offered" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn(slot)" data-tooltip="This slot is offered">Offered</div>
+                                                <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="Reserve(6 , slot)">Available</div>
+                                                
+                                                <div *ngIf="!slot.offered && role!=='expert'" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                <div *ngIf="!slot.offered && role==='expert'" (click)="Offer(6 , slot)" class="class spacing gray buttonBox" data-tooltip="Cannot be reserved">Offer</div>
                                         </div>
 
                                     </div>

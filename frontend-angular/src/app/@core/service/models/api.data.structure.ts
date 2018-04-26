@@ -102,5 +102,8 @@ export interface Notification{
         
          type: String,
         createdAt : Date
-        
+}  
+export interface OfferSlotBody {
+    dayNo : String ,
+    slotNo : String
 }
