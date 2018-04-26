@@ -122,6 +122,7 @@ export class NavbarComponent implements OnInit {
             document.getElementById("logout").style.display="block";
             document.getElementById("profile").style.display="block";
             document.getElementById("officeHours").style.display="block";
+            document.getElementById("userTextField").style.display="block";
             document.getElementById("dropdownBasic1").style.display="block";
             this.getimage();
             this.getusername();
@@ -130,6 +131,7 @@ export class NavbarComponent implements OnInit {
             document.getElementById("logout").style.display="none";
             document.getElementById("profile").style.display="none";
             document.getElementById("officeHours").style.display="none";
+            document.getElementById("userTextField").style.display="none";
             document.getElementById("dropdownBasic1").style.display="none";
         }
     }
