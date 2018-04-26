@@ -443,3 +443,19 @@ module.exports.userViewScheduledSlots = function(req, res, next) {
               });
   }  } )};
 };
+
+module.exports.chooseSlot = function(req, res, next) {
+  schedule.findOneAndUpdate({ expertEmail: req.params.expertEmail, 'slots.sessionId':req.body.sessionId     },  { $push: { 'slots.$.usersRequested': req.decodedToken.user.email}},function( err, updatedTable ) {
+    if (err) {
+      return next(err);       
+    }
+    if (!updatedTable) {
+      return res.status(404).json({ err: null, msg: "Not able to request to attend this session.", data: null });
+    }
+    return res.status(200).json({
+      err: null,
+      msg: 'Successfully requested to reserve this slot.',
+      data: updatedTable
+    });
+  });
+};

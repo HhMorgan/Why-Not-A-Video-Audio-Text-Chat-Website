@@ -98,6 +98,8 @@ router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert)
 router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
 //to choose slot
 router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
+router.post('/user/chooseSlot/:expertEmail', isAuthenticated, userCtrl.chooseSlot)
+
 
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 
