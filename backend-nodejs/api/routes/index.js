@@ -63,8 +63,8 @@ router.post('/Tags/AddTag', AdminController.AddTag);
 router.get('/Tags/getTags' , AdminController.getTags);
 router.patch('/Tag/editTags/:tagId', AdminController.editTag);
 router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
-router.patch('/User/blockUser/:userId', AdminController.blockUser);
-router.patch('/User/downgradeExpert/:userId', AdminController.downgradeExpertToUser);
+router.patch('/User/BlockAndUnblock/:userId', AdminController.BlockAndUnblock);
+router.patch('/User/ChangeRole/:userId', AdminController.ChangeRole);
 router.get('/User/getUsers',AdminController.getUsers);
 router.get('/getUsers',isAuthenticated, AdminController.getUsers);  
 //----------------------------User Routes -----------------------------------
