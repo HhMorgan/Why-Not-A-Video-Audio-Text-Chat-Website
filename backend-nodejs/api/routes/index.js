@@ -70,10 +70,10 @@ router.post('/auth/signup' , isNotAuthenticated , authCtrl.signup);
 //----------------------------Admin Routes ----------------------------------
 router.post('/Tags/AddTag',isAuthenticated,isAdmin, AdminController.AddTag);//checked
 router.get('/Tags/getTags' ,isAuthenticated,isAdmin, AdminController.getTags);//checked
-router.patch('/Tag/editTags/:tagId', AdminController.editTag);
-router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
-router.patch('/User/blockUser/:userId', AdminController.blockUser);
-router.patch('/User/downgradeExpert/:userId', AdminController.downgradeExpertToUser);
+router.patch('/Tag/editTags/:tagId',isAuthenticated,isAdmin, AdminController.editTag);//checked
+router.delete('/Tags/deleteTags/:tagId',isAuthenticated,isAdmin,AdminController.deleteTags);//checked
+router.patch('/User/blockUser/:userId',isAuthenticated,isAdmin, AdminController.blockUser);//checked
+router.patch('/User/downgradeExpert/:userId',isAuthenticated,isAdmin,AdminController.downgradeExpertToUser);//checked
 router.get('/User/getUsers',AdminController.getUsers);
 router.get('/getUsers',isAuthenticated, AdminController.getUsers);  
 //----------------------------User Routes -----------------------------------

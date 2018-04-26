@@ -3,20 +3,7 @@ var mongoose = require('mongoose'),
   Validations = require('../utils/validations'),
   Tags = mongoose.model('Tag');
   User = mongoose.model('User');
-
-  module.exports.getUsers = function(req, res, next) {
-    User.find({}).exec(function(err, User) {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).json({
-        err: null,
-        msg: 'Users retrieved successfully.',
-        data: User
-      });
-    });
-  };
- 
+  
   module.exports.AddTag = function(req, res, next) {
     var valid =
       req.body.name &&
