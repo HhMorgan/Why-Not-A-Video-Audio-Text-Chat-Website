@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
- import {APIService } from '../../../@core/service/api.service';
- import {APIData,Tags } from '../../../@core/service/models/api.data.structure';
- import { LocalDataSource } from 'ng2-smart-table';
- import { Ng2SmartTableModule } from 'ng2-smart-table';
- import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { APIService } from '../../../@core/service/api.service';
+import { APIData } from '../../../@core/service/models/api.data.structure';
+import { LocalDataSource } from 'ng2-smart-table';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { PopOutComponent } from '../pop-out/pop-out.component';
 
 @Component({

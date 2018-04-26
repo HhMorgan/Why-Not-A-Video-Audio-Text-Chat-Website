@@ -76,17 +76,19 @@ var userSchema = mongoose.Schema( {
     default: false
   },
 
+  updatedAt: Date,
+
   img: { 
+    data: Buffer , 
+    contentType: String ,
+  } ,  
+
+  CoverImg: { 
     data: Buffer , 
     contentType: String ,
   } ,
 
-  updatedAt: Date,
-  
-},
-
-
-{ collection: 'Users' } );
+}, { collection: 'Users' } );
 // Override the transform function of the schema to delete the password before it returns the object
 if (!userSchema.options.toObject) {
   userSchema.options.toObject = {};

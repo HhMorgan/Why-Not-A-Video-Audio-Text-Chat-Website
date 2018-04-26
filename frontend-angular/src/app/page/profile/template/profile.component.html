@@ -1,35 +1,61 @@
 <div class="wrapper">
-    <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
+    <div class="">
+        <!--  background-image: url('../assets/img/fabio-mangione.jpg'); -->
+        <div id="coverImg" class="page-header page-header-xs image" data-parallax="true" style="width:100%;">
+
+            <div class="middle">
+
+                <div *ngIf="isloggeduser()" class="choose_file">
+                    <span *ngIf="isloggeduser()">Edit Cover Image</span>
+                    <input (change)="handleFileInputCoverImg($event.target.files)" *ngIf="isloggeduser()" name="Select File" type="file" />
+                </div>
+
+            </div>
+        </div>
+
         <div class="filter"></div>
     </div>
-    
+
     <div class="section profile-content">
-           <div id="settings-page" *ngIf="profilesettings"><app-settings-page [profilComp]="ProfileComponent" ></app-settings-page></div>
-        <div  id="profile-page" *ngIf="profileInfo" class="container">
+        <div [style.display]="profilesettings ? 'block' : 'none'"  id="settings-page">
+            <app-settings-page (settingClose) = "settingsComponentClose($event)"></app-settings-page>
+        </div>
+        <div id="profile-page" [style.display]="profileInfo ? 'block' : 'none'" class="container">
             <div class="owner">
                 <div class="avatar">
                     <label for="file">
-                        l                       
-                                               <input *ngIf="isloggeduser()" class="custom-file-upload" type="file"
-                                               id="file" style="display:none;" 
-                                             (change)="handleFileInput($event.target.files)">
-                                            <a > <img id ="profileimg" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture"></a>
-                                            </label>
-                        
-                </div>
-                <div class="name" id="name">                       
-                      <!--  <div id="mydivheader" > <button class="btn btn-outline-default btn-round" (click)="myFunction()"><i class="fa fa-cog"></i> move</button></div> -->
-                     <h4 class="title">{{usernameOfProfile}}
-                            <i (click)=changeUserStatus() id="onlinestat"  class="fa fa-circle" style="font-size:20px;color:#2ecc71;" placement="bottom" ngbTooltip="change status" ></i>
-                        <br /></h4>
-                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                        <input *ngIf="isloggeduser()" class="custom-file-upload" type="file" id="file" style="display:none;" (change)="handleFileInput($event.target.files)">
+                        <a>
+                            <img id="profileimg" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture">
+                        </a>
+                    </label>
 
-                        <span id="star" class="fa fa-star "></span>
-                        <span id="star" class="fa fa-star "></span>
-                        <span id="star" class="fa fa-star "></span>
-                        <span id="star" class="fa fa-star"></span>
-                        <span id="star" class="fa fa-star"></span>
-                    <h6 id="specs" class="description"></h6>
+                </div>
+                <h6 class="description">{{role}}</h6>
+                <div class="name" id="name">
+                    <!--  <div id="mydivheader" > <button class="btn btn-outline-default btn-round" (click)="myFunction()"><i class="fa fa-cog"></i> move</button></div> -->
+                    <h4 class="title">{{usernameOfProfile}}
+                        <i (click)=changeUserStatus() id="onlinestat" class="fa fa-circle" style="font-size:20px;color:#2ecc71;" placement="bottom"
+                            ngbTooltip="change status"></i>
+                        <br />
+                    </h4>
+
+
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+                    <span id="star" class="fa fa-star "></span>
+                    <span id="star" class="fa fa-star "></span>
+                    <span id="star" class="fa fa-star "></span>
+                    <span id="star" class="fa fa-star"></span>
+                    <span id="star" class="fa fa-star"></span>
+                    <br />
+                    <br />
+
+                    <!--  <h6 id="specs" class="description"></h6> -->
+                    <div id="tagsdivouter">
+                        <div id="tagsdiv"></div>
+                    </div>
+
                 </div>
             </div>
 
@@ -40,25 +66,26 @@
                 <div class="col-md-6 ml-auto mr-auto text-center">
                     <p>{{description}} </p>
                     <br />
-                    <button  *ngIf="isloggeduser()" (click)=profilesettingsbtn() class="btn btn-outline-default btn-round"><i class="fa fa-cog"></i> Edit Info</button>
+                    <button *ngIf="isloggeduser()" (click)=profilesettingsbtn() class="btn btn-outline-default btn-round">
+                        <i class="fa fa-cog"></i> Edit Info</button>
                 </div>
             </div>
             <br/>
 
             <div class="row">
                 <div class="col-md-6 ml-auto mr-auto text-center">
-                           <!--  <div class="toggle-btn active">
+                    <!--  <div class="toggle-btn active">
                                 <input id='cb-value' type="checkbox" (click)="changeUserStatus()" checked class="cb-value" />
                                 <span class="round-btn"></span>
                               </div> -->
-                              
-                              </div>
-                            </div>
+
+                </div>
+            </div>
             <div class="nav-tabs-navigation">
                 <div class="nav-tabs-wrapper">
                     <ngb-tabset [justify]="'center'">
                         <ngb-tab title="Follows">
-                            <ng-template ngbTabContent >
+                            <ng-template ngbTabContent>
                                 <div class="row following" id="follows">
                                     <div class="col-md-6 ml-auto mr-auto">
                                         <ul class="list-unstyled follows">
@@ -68,14 +95,17 @@
                                                         <img src="../assets/img/faces/clem-onojeghuo-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                                     </div>
                                                     <div class="col-md-7 col-sm-4 ml-auto">
-                                                        <h6>Flume<br/><small>Musical Producer</small></h6>
+                                                        <h6>Flume
+                                                            <br/>
+                                                            <small>Musical Producer</small>
+                                                        </h6>
                                                     </div>
                                                     <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                                        <div class="form-check">
-                                                          <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox" value="" checked="">
-                                                            <span class="form-check-sign"></span>
-                                                          </label>
+                                                        <div class="form-check" onSubmit="return false">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox" value="" checked="">
+                                                                <span class="form-check-sign"></span>
+                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -87,14 +117,17 @@
                                                         <img src="../assets/img/faces/ayo-ogunseinde-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                                     </div>
                                                     <div class="col-md-7 col-sm-4 ml-auto">
-                                                        <h6>Banks<br /><small>Singer</small></h6>
+                                                        <h6>Banks
+                                                            <br />
+                                                            <small>Singer</small>
+                                                        </h6>
                                                     </div>
                                                     <div class="col-md-3 col-sm-2 ml-auto mr-auto">
                                                         <div class="form-check">
-                                                          <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox" value="" checked="">
-                                                            <span class="form-check-sign"></span>
-                                                          </label>
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox" value="" checked="">
+                                                                <span class="form-check-sign"></span>
+                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>

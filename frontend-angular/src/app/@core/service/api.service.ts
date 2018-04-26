@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData , Tags , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots } from '../service/models/api.data.structure';
+import { APIData , SlotData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
@@ -35,23 +35,23 @@ export class APIService {
   }
 
   
-  AddTag(Tags:Tags): Observable<APIData> {
-    return this.http.post<APIData>( APIService.apiUrl + 'Tags/AddTag', Tags).catch(this.errorHandler);
+  AddTag( tag : Tag ): Observable<APIData> {
+    return this.http.post<APIData>( APIService.apiUrl + 'Tags/AddTag', tag).catch(this.errorHandler);
   }
 
-  editTag(Tags:Tags):Observable<APIData> {
-    return this.http.patch<APIData>( APIService.apiUrl + '/Tag/editTags/'+Tags._id,Tags)
+  editTag( tag : Tag ):Observable<APIData> {
+    return this.http.patch<APIData>( APIService.apiUrl + '/Tag/editTags/'+tag._id , tag )
     .catch(this.errorHandler);
   }
 
   getTagbyId(Tags_ids: String[]):Observable<APIData> {
     console.log(Tags_ids);
-    return this.http.get<APIData>( APIService.apiUrl + 'expert/getTagById/'+Tags_ids)
+    return this.http.post<APIData>( APIService.apiUrl + 'expert/getTagById',Tags_ids)
     .catch(this.errorHandler);
   }
 
-  deleteTags(Tags:Tags):Observable<APIData> {
-    return this.http.delete<APIData>( APIService.apiUrl + '/Tags/deleteTags/'+Tags._id)
+  deleteTags( tag : Tag ):Observable<APIData> {
+    return this.http.delete<APIData>( APIService.apiUrl + '/Tags/deleteTags/' + tag._id)
     .catch(this.errorHandler);
   }
 
@@ -106,6 +106,13 @@ export class APIService {
     return this.http.post<APIData>( APIService.apiUrl + 'photo', formData).catch(this.errorHandler);
   }
 
+  postCoverImg(fileData: FileData): Observable<APIData> {
+    const formData: FormData = new FormData();
+    formData.append('file', fileData.file, fileData.file.name);
+    return this.http.post<APIData>( APIService.apiUrl + 'CoverImgUpload', formData).catch(this.errorHandler);
+  }
+
+
   getimage(): Observable<APIData> {
     return this.http.get<APIData>( APIService.apiUrl + 'getphoto').catch(this.errorHandler);
   }
@@ -117,6 +124,10 @@ export class APIService {
     console.log(slotData);
    return this.http.post<APIData>( APIService.apiUrl + 'expert/chooseSlot' , slotData).catch(this.errorHandler);
  
+  }
+
+  getMatchingSearch(searchtag:String): Observable<APIData> {
+    return this.http.get<APIData>( APIService.apiUrl + 'user/Search/'+ searchtag).catch(this.errorHandler);
   }
 
   addCandidate( sessionData : CandicateSession ): Observable<APIData> {
@@ -131,11 +142,6 @@ export class APIService {
   changeUserStatus(user: User): Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'auth/changeUserStatus', user).catch(this.errorHandler);
   };
-
-  editSpeciality(Tags:Tags,speciality): Observable<APIData> {
-    return this.http.delete<APIData>(APIService.apiUrl + 'expert/editSpeciality/'+Tags._id)
-    .catch(this.errorHandler);
-  }
 
   updateSessionCandidates( sessionData : CandicateSession ): Observable<APIData> {
     return this.http.post<APIData>(  APIService.apiUrl + 'session/updateCandidate', sessionData)
@@ -155,8 +161,13 @@ export class APIService {
     return this.http.post<APIData>( APIService.apiUrl+ 'user/upgradeToExpert', requestData).catch(this.errorHandler);
   }
 
-  addSpeciality(speciality): Observable<APIData> {
-    return this.http.post<APIData>( APIService.apiUrl + 'expert/addSpeciality',{speciality:speciality})
+  addSpeciality( tag : Tag ): Observable<APIData> {
+    return this.http.patch<APIData>( APIService.apiUrl + 'expert/addSpeciality/' + tag._id , tag )
+    .catch(this.errorHandler);
+  }
+
+  editSpeciality( tag : Tag ): Observable<APIData> {
+    return this.http.delete<APIData>(APIService.apiUrl + 'expert/editSpeciality/' + tag._id)
     .catch(this.errorHandler);
   }
 
@@ -164,23 +175,20 @@ export class APIService {
     return this.http.get<APIData>( APIService.apiUrl + 'user/getOfferedSlots').catch(this.errorHandler);
   }
   reserve(offeredSlots:OfferedSlots): Observable<APIData> {
-    return this.http.post<OfferedSlots>( APIService.apiUrl + 'user/reserveSlot',offeredSlots).catch(this.errorHandler);
+    return this.http.post<APIData>( APIService.apiUrl + 'user/reserveSlot' , offeredSlots).catch(this.errorHandler);
   }
 
-  viewSuggestedExperts(tag:Tags):Observable<APIData>{
-    return this.http.get<Tags>( APIService.apiUrl + 'user/viewSuggestedExperts/'+ tag.name).catch(this.errorHandler);
+  viewSuggestedExperts( tag : Tag ):Observable<APIData>{
+    return this.http.get<APIData>( APIService.apiUrl + 'user/viewSuggestedExperts/' + tag.name).catch(this.errorHandler);
   }
-
-  
 
   blockUser(Users:User):Observable<APIData>{
-    return this.http.patch<APIData>( APIService.apiUrl + '/User/blockUser/'+Users._id,Users)
+    return this.http.patch<APIData>( APIService.apiUrl + '/User/blockUser/' + Users._id,Users)
     .catch(this.errorHandler);
   }
+
   downgradeExpert(Users:User):Observable<APIData>{
-    return this.http.patch<APIData>( APIService.apiUrl + '/User/downgradeExpert/'+Users._id,Users)
+    return this.http.patch<APIData>( APIService.apiUrl + '/User/downgradeExpert/' + Users._id , Users )
     .catch(this.errorHandler);
   }
-
-
 }

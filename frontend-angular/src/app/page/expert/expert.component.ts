@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {APIService} from '../../@core/service/api.service';
-import {APIData,Tags} from '../../@core/service/models/api.data.structure';
+// import {APIData,Tags} from '../../@core/service/models/api.data.structure';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -8,16 +8,12 @@ import { Observable } from 'rxjs/Observable';
   selector: 'app-request',
   templateUrl: './template/expert.component.html',
   styleUrls: ['./template/expert.component.css'],
- // providers:[APIService]
 })
 export class ExpertComponent implements OnInit {
-  //speciality='accounting';
  public speciality;
  public editspeciality;
  public tags;
-
-
-  requests: any;
+ public requests: any;
   constructor(private apiService:APIService ) { }
 
   ngOnInit() {
@@ -32,18 +28,18 @@ export class ExpertComponent implements OnInit {
   addSpeciality(){
   //this.apiService.addSpeciality().subscribe((apiresponse: APIData)=>{
    if(this.speciality!=null){ //email to be removed and token added
-    this.apiService.addSpeciality(this.speciality).subscribe((apiresponse: APIData)=>{
-      console.log(apiresponse);
-  });
+  //   this.apiService.addSpeciality(this.speciality).subscribe((apiresponse: APIData)=>{
+  //     console.log(apiresponse);
+  // });
  }
 }
 editSpeciality(){
   console.log(this.editspeciality);
-    let x = <Tags>{_id : this.editspeciality};
+    // let x = <Tags>{_id : this.editspeciality};
      if(this.editspeciality!=null){ 
-      this.apiService.editSpeciality(x,this.speciality).subscribe((apiresponse: APIData)=>{
-        console.log(apiresponse);
-    });
+    //   this.apiService.editSpeciality(x,this.speciality).subscribe((apiresponse: APIData)=>{
+    //     console.log(apiresponse);
+    // });
    }
   }
 }

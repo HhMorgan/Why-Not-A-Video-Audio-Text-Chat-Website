@@ -99,6 +99,8 @@ module.exports.signup = function(req, res, next) {
         req.body.img = {};
         req.body.img.contentType = 'image/png';
         req.body.img.data = fs.readFileSync('./images/default-Profile-Pic.png');
+        req.body.CoverImg.contentType = 'image/jpg';
+        req.body.CoverImg.data = fs.readFileSync('../assets/img/fabio-mangione.jpg');
         /*---------------------------------------------------*/ 
         console.log(req.body.img);
         User.create(req.body, function(err, newUser) {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { APIService } from '../../@core/service/api.service';
-import { APIData  , User , Tags } from '../../@core/service/models/api.data.structure'
+import { APIData  , User , Tag } from '../../@core/service/models/api.data.structure'
 
 @Component({
     selector: 'app-expertsList',
@@ -21,7 +21,7 @@ export class ExpertsListComponent implements OnInit {
         this.tagSearch();
     }
     tagSearch(){
-        const tag = <Tags>{};
+        const tag = <Tag>{};
         tag.name = this.tagName;
         this.apiService.viewSuggestedExperts(tag).subscribe((response:APIData)=>{
             console.log(response);

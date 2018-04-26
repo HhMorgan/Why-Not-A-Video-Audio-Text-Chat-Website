@@ -12,6 +12,10 @@ moment = require('moment');
 var Binary = require('mongodb').Binary;
 var fs = require('fs');
 var bcrypt = require('bcryptjs');
+Tag = mongoose.model('Tag');
+var RegExp = require('mongodb').RegExp;
+
+
 
 
 module.exports.changeUserStatus = function(req, res, next) {
@@ -29,6 +33,67 @@ module.exports.changeUserStatus = function(req, res, next) {
     });
   });
 };
+
+module.exports.getSearchResultsTagUser = function(req, res, next)
+ {
+
+  
+   User.find( { username:{ $regex: req.params.searchtag,$options:'i' } }).exec (function(err, user) {
+   
+      if (err) {
+        return next(err);
+      }
+   /*  else{
+     return res.status(201).json({
+        err: null ,
+        msg: null ,
+        data: user
+     });
+   } */
+
+/*    Tags.find({ blocked:{$eq: "false" } }).exec(function(err, tags) {
+    if (err) {
+      return next(err);
+    }
+    else if(!user || !tag){
+      return res.status(404).json({
+        err: null ,
+        msg: 'user not found' ,
+        data: null
+     });
+    }
+    else if(user && tag){
+    return res.status(200).json({
+      err: null,
+      msg: 'Users/Tags retrieved successfully.',
+      data: [tag,user]
+    });
+  }; */
+
+   
+   Tag.find( { name: {$regex: req.params.searchtag, $options: "$i"},blocked:{$eq: "false" }}).exec(function(err, tag) {
+    if (err) {
+      return next(err);
+    }
+    else if(!user || !tag){
+      return res.status(404).json({
+        err: null ,
+        msg: 'user not found' ,
+        data: null
+     });
+    }
+    else if(user && tag){
+    return res.status(200).json({
+      err: null,
+      msg: 'Users/Tags retrieved successfully.',
+      data: [tag,user]
+    });
+  }
+  });
+    });
+ };
+
+ 
 
 module.exports.loadStatus = function(req, res) {
   User.findById(req.decodedToken.user._id).exec (function(err, User) {
@@ -138,6 +203,23 @@ module.exports.uploadimage = function(req, res) {
        err: null,
        msg: 'image got updated.',
        data: { buffer : updatedUser.img.data , contentType : updatedUser.img.contentType } /* Hnn3ml load el new Image From El Browser B3d El Checks 
+       Only Confirmation Message Is Needed*/ 
+     });
+   });
+  
+};
+
+module.exports.uploadCoverPic = function(req, res) {
+  User.findByIdAndUpdate(req.decodedToken.user._id,{ $set: { CoverImg: { data : req.file.buffer , contentType: req.file.mimetype } } } , 
+    { new: true } ).exec ( function(err, updatedUser) {
+      /* Checks For File Type */
+    if (err) {
+       return next(err);
+     }
+     return res.status(201).json({
+       err: null,
+       msg: 'Cover Pic got updated.',
+       data: { buffer : updatedUser.CoverImg.data , contentType : updatedUser.CoverImg.contentType } /* Hnn3ml load el new Image From El Browser B3d El Checks 
        Only Confirmation Message Is Needed*/ 
      });
    });

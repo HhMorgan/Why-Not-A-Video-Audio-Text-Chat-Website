@@ -74,10 +74,10 @@ router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescript
 //-----------------------------User Role Expert Routes-------------------------
 router.post('/expert/chooseSlot',expert.chooseSlot);
 router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests);
-router.get('/expert/getTagById/:Tags_ids' , expert.findTagbyid);
+router.post('/expert/getTagById' , isAuthenticated , expert.findTagbyid);
 router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
-router.post('/expert/addSpeciality', isAuthenticated , expert.addSpeciality); 
-router.delete('/expert/editSpeciality/:tagId',isAuthenticated,expert.editSpeciality);
+router.patch('/expert/addSpeciality/:tagId', isAuthenticated , expert.addSpeciality); 
+router.delete('/expert/editSpeciality/:tagId', isAuthenticated , expert.editSpeciality);
 //-------------------------------------------------------------------
 router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
 router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);
@@ -85,6 +85,7 @@ router.post('/session/updateCandidate' , isNotAuthenticated, sessionCtrl.updateC
 router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sessionCtrl.getCandidatesRTCDes);
 
 router.post('/photo', isAuthenticated , userCtrl.uploadimage);
+router.post('/CoverImgUpload', isAuthenticated , userCtrl.uploadCoverPic);
 router.get('/getphoto', isAuthenticated , userCtrl.getimage);
 router.get('/getusername', isAuthenticated , userCtrl.getusername);
 router.get('/user/getUserData', isAuthenticated , userCtrl.getUserData);
@@ -92,6 +93,7 @@ router.get('/user/getpassword', isAuthenticated , userCtrl.getpassword);
 router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
 router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
 router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUserProfile);
+router.get('/user/Search/:searchtag', userCtrl.getSearchResultsTagUser);
 
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
