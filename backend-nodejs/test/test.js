@@ -94,7 +94,7 @@ for (var i = 0 ; i < res.body.data ; i++ ){
    //res.body.length.should.be.eql(0);
    done();
    });
-   });
+   }).timeout(3000);
    it('it should add a user', (done) => {
     chai.request(app).post('/api/auth/signup')
    .send({ username: "tarekk",email:"tarek@gmail.com" , password: "tarek12356",}).end((err, res) => {
