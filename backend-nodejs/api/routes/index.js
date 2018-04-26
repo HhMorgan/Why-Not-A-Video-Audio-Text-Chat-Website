@@ -65,7 +65,10 @@ router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
 router.patch('/User/blockUser/:userId', AdminController.blockUser);
 router.patch('/User/downgradeExpert/:userId', AdminController.downgradeExpertToUser);
 router.get('/User/getUsers',AdminController.getUsers);
-router.get('/getUsers',isAuthenticated, AdminController.getUsers);  
+router.get('/getUsers',isAuthenticated, AdminController.getUsers); 
+router.post('/CreateAColor' , AdminController.AddColor);
+router.post('/addColorToTag' , AdminController.AddColorToTag); 
+router.get('/getColors' , AdminController.getColors);  
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);

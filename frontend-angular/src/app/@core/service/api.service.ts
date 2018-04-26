@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots } from '../service/models/api.data.structure';
+import { APIData , SlotData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots , Color } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
@@ -33,6 +33,20 @@ export class APIService {
   signup(user:User):Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'auth/signup', user).catch(this.errorHandler);
   }
+
+  AddColor(Color:Color): Observable<APIData> {
+      return this.http.post<APIData>( APIService.apiUrl + 'CreateAColor', Color).catch(this.errorHandler);
+     }
+  
+    getColors(): Observable<APIData> {
+        return this.http.get<APIData>( APIService.apiUrl + 'getColors').catch(this.errorHandler);
+     }
+    
+    
+     addColorToTag(Color:Color,Tags:Tag): Observable<APIData> {
+      return this.http.post<APIData>( APIService.apiUrl + 'addColorToTag',[Color,Tags])
+      .catch(this.errorHandler);
+    }
 
   
   AddTag( tag : Tag ): Observable<APIData> {

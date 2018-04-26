@@ -20,8 +20,9 @@ var TagsSchema = mongoose.Schema({
   },
 
   color: {
-    type:  String,
+    name:{type:  String,
     default: '#b5e7a0'
+    }
   },
 
 }, { collection: 'Tags' }

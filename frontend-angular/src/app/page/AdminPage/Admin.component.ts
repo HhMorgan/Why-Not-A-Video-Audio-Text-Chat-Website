@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
  import {APIService } from '../../@core/service/api.service';
- import {APIData , Tag } from '../../@core/service/models/api.data.structure';
+ import {APIData , Tag ,Color} from '../../@core/service/models/api.data.structure';
  import { LocalDataSource } from 'ng2-smart-table';
  import { Ng2SmartTableModule } from 'ng2-smart-table';
  import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-
+ import {NgxPaginationModule} from 'ngx-pagination';
  @Component({
   selector: 'app-AdminPage',
   templateUrl: './Admin.component.html',
@@ -15,6 +15,12 @@ import { Component, OnInit } from '@angular/core';
 export class AdminComponent implements OnInit {
   private tagswithColors:Tag[];
     private colors:string[];
+    ptags: number = 1;
+       pagedItems: any[];
+      p: number = 1;
+    
+       pagedItemstags: any[];
+    
   ngOnInit() {
    // we call refresh to load data on entery of the page
     this.refresh();
@@ -119,19 +125,52 @@ export class AdminComponent implements OnInit {
 // ng2smarttable
 refresh(): void {
   this.tagswithColors = new Array();
-    this.colors= new Array();
+  this.colors= new Array();
 // we call the method getTags through the api.service and then loop on all the 
 // recived data and add it to the ng2smarttable
   this._apiService.getTags().subscribe((apiresponse: APIData)=>{
     for (var i = 0 ; i < apiresponse.data.length ; i++ ){
-           this.tagswithColors.push(apiresponse.data[i]);
-           this.colors.push(apiresponse.data[i].color);
-          }
-      //apiresponse.data[i].id = (i+1);
+      this.tagswithColors.push(apiresponse.data[i]);
+     // this.colors.push(apiresponse.data[i].color);
+    }
+       
       console.log(apiresponse.data);
     this.source.load(apiresponse.data);
   });
+
+  this._apiService.getColors().subscribe((apiresponse: APIData)=>{
+    for (var i = 0 ; i < apiresponse.data.length ; i++ ){
+      console.log(apiresponse.data[i]);
+      this.colors.push(apiresponse.data[i].name);
+    }
+       
+      console.log(apiresponse.data);
+  });
 }
+
+refreshColorTags(){
+  this.tagswithColors = new Array();
+  this.colors= new Array();
+// we call the method getTags through the api.service and then loop on all the 
+// recived data and add it to the ng2smarttable
+  this._apiService.getTags().subscribe((apiresponse: APIData)=>{
+    for (var i = 0 ; i < apiresponse.data.length ; i++ ){
+      this.tagswithColors.push(apiresponse.data[i]);
+     // this.colors.push(apiresponse.data[i].color);
+    }
+       
+  });
+
+  this._apiService.getColors().subscribe((apiresponse: APIData)=>{
+    for (var i = 0 ; i < apiresponse.data.length ; i++ ){
+      console.log(apiresponse.data[i]);
+      this.colors.push(apiresponse.data[i].name);
+    }
+       
+  });
+}
+
+
 // this initializes custom events for the buttons that we added in the ng2smarttable 
 custom(event):void{
   if(event.action == 'accept'){
@@ -210,5 +249,70 @@ OnUnblock(event): void {
       console.log("This Tag is Already Rejected")
     }
   }
-}
+
+  AddColor() {
+    var Color = <Color>{};
+    console.log(((document.getElementById("colorcode") as HTMLInputElement).value));
+    Color.name = ((document.getElementById("colorcode") as HTMLInputElement).value);
+  // we check if the tag is not accepted if it is not we change it's status through edit tags
+  //to accepted otherwise we say the tag is already accepted and we don't change the data   
+  this.refreshColorTags();
+      this._apiService.AddColor(Color).subscribe((apiresponse: APIData)=>{
+        this.triggernotifications("#34A853",apiresponse.msg);
+     console.log(apiresponse);
+     this.refresh();
+      });
+  }
+  
+  
+  AddColorToTag(){
+   
+    var Color = <Color>{};
+    var Tags = <Tag>{};
+    var select=event.target as HTMLElement
+    var Colorname = select.lastElementChild as HTMLElement;
+  console.log(event.target);
+  var dropdown_item =event.target as HTMLElement
+  var parentDiv = dropdown_item.parentElement as HTMLElement
+  var parentngDropDown =parentDiv.parentElement as HTMLElement
+  var ParentDropDownBtn =parentngDropDown.parentElement as HTMLElement
+  var ParentRowClass1 =ParentDropDownBtn.parentElement as HTMLElement
+  var ParentRowClass2 =ParentRowClass1.parentElement as HTMLElement
+  var ParentRowClass3 =ParentRowClass2.parentElement as HTMLElement
+  var ChildRowClass =ParentRowClass3.firstElementChild as HTMLElement
+  var TagBtn2 =ChildRowClass.firstElementChild as HTMLElement
+  Tags.name=TagBtn2.textContent;
+    Color.name= Colorname.textContent;
+    console.log( Colorname.textContent);
+   // console.log( TagBtn);
+    console.log( parentDiv);
+    console.log( TagBtn2);
+    
+  
+    this._apiService.addColorToTag(Color,Tags).subscribe((apiresponse: APIData)=>{
+      console.log(apiresponse);
+     this.refreshColorTags();
+       this.triggernotifications("#34A853",apiresponse.msg);
+       });
+   // event.target
+  }
+  
+  triggernotifications(color,text) {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar");
+    x.style.backgroundColor=color;
+    x.textContent=text;
+    // Add the "show" class to DIV
+    x.className = "show";
+  
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
+  
+  
+  //onDeleteConfirm(event): void {
+    //  event.confirm.resolve();
+  //}
+  }
+
 

@@ -162,8 +162,8 @@ export class ProfileComponent implements OnInit {
               // Tag.classList.add("btn-danger");
               Tag.classList.add("btn-round");
 
-              Tag.style.backgroundColor = specialities_names[l].color.toString();
-              Tag.style.borderColor = specialities_names[l].color.toString();
+              Tag.style.backgroundColor =specialities_names[l].color.name.toString();
+            Tag.style.borderColor =specialities_names[l].color.name.toString();
               Tag.classList.add("btn-sm");
               Tag.appendChild(t);
               TagsContainer.appendChild(Tag);
