@@ -9,10 +9,11 @@ import { AppRoutingModule } from './app.routing';
 @Component({
   selector: 'app-root',
   template: `
+  
   <app-navbar></app-navbar>
     <router-outlet></router-outlet>
     <app-footer *ngIf="removeFooter()"></app-footer>
-  `,
+    `,
 })
 export class AppComponent {
   title = 'app';
@@ -73,9 +74,10 @@ export class AppComponent {
 }
   removeFooter() {
       var titlee = this.location.prepareExternalUrl(this.location.path());
-      titlee = titlee.slice( 7 );
+      titlee = titlee.slice( 7 ).split("/",1)[0];
+     // console.log(titlee);
       if(titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'video' || this.title === 'videotest'
-       ||   titlee=== 'chat'  || titlee === 'login') {
+       ||   titlee=== 'chat'  || titlee === 'login' || titlee==='about'|| titlee==='search-user') {
           return false;
       }
       else {

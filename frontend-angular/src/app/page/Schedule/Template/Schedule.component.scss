@@ -1,5 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
-
+.parlox{
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 html, body { height: 100%; margin: 0px; }
 @media (min-width: 600px) {
 .container{
@@ -102,7 +107,7 @@ html, body { height: 100%; margin: 0px; }
   width: 12%;
   height: auto;
   float: left;
-  background-color: rgba(49, 49, 49, 0.4);
+  background-color: rgba(231, 231, 231, 0.5);
   background-image: linear-gradient(rgba(0,0,0,.08) 50%, transparent 50%);
   background-size: 0.5px 10%;
   
@@ -189,11 +194,25 @@ html, body { height: 100%; margin: 0px; }
     font-size: 600%;
 }
 .tableCenter{
+  position: relative;
   margin-left: 5%;
   width: 100%;
+  z-index: 0;
 }
 
-
+.windowPop{
+  position: absolute;
+  z-index: 1;
+  margin: auto;
+  top: 0;
+  bottom:0;
+  right: 0;
+  left: 0;
+  width:50%;
+  height:50%;
+  border-radius: 2%;
+  background-color: rgba(24, 24, 24, 0.397);
+}
 .class.short { height: 5.2vh; line-height: 5.2vh; } /* 45min class */
 .class.b15 { margin-top: 2.5vh; } /* after 15 min break */
 .class.b45 { margin-top: 7.5vh; } /* after 45 min break */

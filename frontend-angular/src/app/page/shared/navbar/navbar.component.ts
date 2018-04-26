@@ -6,6 +6,7 @@ import { APIData , User  } from '../../../@core/service/models/api.data.structur
 import { Buffer } from 'buffer';
 import { Routes,Router } from '@angular/router';
 import { NavBarService } from '../../../@core/service/shared.service';
+import { SearchUserComponent } from '../../../search-user/search-user.component';
 
 @Component({
     selector: 'app-navbar',
@@ -77,7 +78,9 @@ export class NavbarComponent implements OnInit {
            }, false);
         });      
     }
-
+    refresh(): void {
+        window.location.reload();
+    }
     getusername(){
         this.apiServ.getusername().subscribe((apires : APIData) =>{
             this.username = apires.data;  
@@ -136,5 +139,14 @@ export class NavbarComponent implements OnInit {
         this.navbarservice.setUserLoggedin(false);
     }
 
+
+/*    TextFieldSearch()
+    {
+        var userTextField = document.getElementById("userTextField");
+        userTextField.addEventListener("keyup",function(addEventListener)
+        {
+            
+        })
+    }*/
     
 }

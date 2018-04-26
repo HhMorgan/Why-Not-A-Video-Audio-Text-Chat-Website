@@ -8,7 +8,7 @@ import { APIData , SlotData , Tags , Session , Request , CandicateSession , Prof
 
 @Injectable()
 export class APIService {
-  public static apiUrl = 'http://127.0.0.1:3000/api/';
+  public static apiUrl = 'https://192.168.1.199:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login','auth/signup'];
   constructor(private http: HttpClient) {}
 
@@ -80,6 +80,10 @@ export class APIService {
 
   getUserProfile(user:User): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'user/getUserProfile/'+user.username).catch(this.errorHandler);
+  }
+
+  getMatchingUsers(searchtag:String): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'user/getMatchingUsers/'+ searchtag).catch(this.errorHandler);
   }
   
   login(user:User):Observable<APIData> {

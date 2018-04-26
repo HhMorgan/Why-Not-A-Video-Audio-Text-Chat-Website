@@ -64,7 +64,7 @@
            <!--  -->
         <div *ngIf = "scheduleFlag">
             
-        <div class="container ">       
+        <div class="container ">   
                 <div class="week-number">
                     {{getRange()}}
                         <!-- {{ yourDate | week }} <br> -->
@@ -78,7 +78,13 @@
                             <div class="col-md-1 positionArrow">
                                     <i (click)="onAdd()" class="fa fa-chevron-left"></i>
                             </div>
-                            <div class="col-md-10">
+            <div class="col-md-10">
+                <div *ngIf="popout" id="popout">
+                    <div class="windowPop">
+                            <p>hello man</p>
+                            <button class="btn btn-danger" (click)="popoutOff()">close</button>
+                    </div>
+                </div>
                <div id="table" class="tableCenter">
        <!-- <p><button class="w3-button w3-block" (click)="book();">This is the expert's schedule , if you would like to book a session with the expert at another time please press here</button></p> -->
        
@@ -121,7 +127,7 @@
 
                 <div *ngFor="let number of numbers">
                         <div *ngIf="avilableFlag" class="class gray" data-tooltip="Click to reserve slot" (click)="Reserve(0 , number);"></div>
-                        <div *ngIf="!avilableFlag" class="class spacing" data-tooltip="Cannot be reserved" (click)="Reserve(0 , number);"></div>
+                        <div *ngIf="!avilableFlag" (click)="popoutOn()" class="class spacing" data-tooltip="Cannot be reserved"></div>
 
                 </div>
     

@@ -72,7 +72,13 @@ body {
     right:0;
     left:0;
 }
-
+.searchArea{
+  background-color: rgba(255, 255, 255, 0);
+  margin-top: 15px !important;
+  padding: 4px;
+  border-radius: 50% !important;
+  max-width: 100%;
+}
 .positionProfileImage
 {
     position: absolute;
@@ -80,7 +86,23 @@ body {
     bottom: 0%;
     cursor: pointer;
 }
-
+#userTextField {
+  font-size: 16px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  background: none;
+  background-image: none;
+  border: 1px solid #a0b3b0;
+  border-radius: 2%;
+  color: #a0a0a0;
+  border-radius: 0;
+  -webkit-transition: border-color .25s ease, -webkit-box-shadow .25s ease;
+  transition: border-color .25s ease, -webkit-box-shadow .25s ease;
+  transition: border-color .25s ease, box-shadow .25s ease;
+  transition: border-color .25s ease, box-shadow .25s ease, -webkit-box-shadow .25s ease;
+}
 .positionUsername
 {
   position: relative;
@@ -96,3 +118,27 @@ body {
   border-radius: 50% !important;
   max-width: 100%;
 }
+
+
+  @media (max-width: 600px) {
+    .positionProfileImage{
+      height: auto;
+      position: absolute;
+      margin: auto;
+      top: 50%;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .positionUsername
+    {
+        height: auto;
+        position: absolute;
+        margin: auto;
+        top: 50%;
+        bottom: 0;
+        left: 30%;
+        right: 0; 
+    }
+  }
