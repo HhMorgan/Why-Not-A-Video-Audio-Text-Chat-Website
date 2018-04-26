@@ -75,7 +75,7 @@ router.get('/expert/viewScheduledSlots',expert.viewScheduledSlots);
 router.get('/expert/viewRequestedSlots',expert.viewRequestedSlots);
 router.post('/expert/acceptRequest',isAuthenticated,expert.acceptRequest);
 router.post('/expert/rejectRequest',isAuthenticated,expert.rejectRequest);
-router.post('/expert/rejectallRequest',isAuthenticated,expert.rejectAllRequests);
+//router.post('/expert/rejectallRequest',isAuthenticated,expert.rejectAllRequests);
 //-------------------------------------------------------------------
 router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
 router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);
@@ -90,7 +90,7 @@ router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStat
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
 
-router.get('/getExpertSchedule/:expertID', isAuthenticated, userCtrl.getExpertSchedule);
+router.get('/getExpertSchedule/:expertEmail', isAuthenticated, userCtrl.getExpertSchedule);
 
 router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert);
 

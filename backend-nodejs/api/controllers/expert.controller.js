@@ -11,6 +11,15 @@ var mongoose = require('mongoose'),
   Session = mongoose.model('Session'),
   Validations = require('../utils/validations'),
   moment = require('moment');
+  var nodemailer = require('nodemailer');
+// authenticating sender email
+var transporter = nodemailer.createTransport({
+  service: 'hotmail',
+  auth: {
+    user: 'riseuptest@hotmail.com',
+    pass: 'Test123456789'
+  }
+});
 
 
 //This function is responsible for adding a speciality for the expert,only if it exists in the tag table
@@ -259,17 +268,7 @@ module.exports.viewSchedule = function(req, res, next) {
 
 
 module.exports.createSchedule = function(req, res, next) {
-  // Check that the body keys are in the expected format and the required fields are there
-  var valid = req.body.userId && Validations.isObjectId(req.body.userId);
-  if (!valid) {
-    return res.status(422).json({
-      err: null,
-      msg: 'userId is Not Valid',
-      data: null
-    });
-  } else
   
-  { 
 
    // User.findById('5ae08b74a843343a90abbf3c').exec(function(err, user) {
      User.findById(req.decodedToken.user._id).exec(function(err, user) {
@@ -336,43 +335,63 @@ module.exports.createSchedule = function(req, res, next) {
               });
   }  
   
-}
-
-     )}
+});
 };
 
 
 
 
 module.exports.acceptRequest =  function(req, res, next) {
-
-  Session.create({createdById : req.decodedToken.user._id,
-    }, function(err,Session) {
+User.findOne({email:req.body.userName}).exec(function(err, user) {
+  
+  if (err) 
+  return next(err);
+  if(!user){
+    return res.status(409).json({
+      err: null ,
+      msg: 'Failed to find a user with this email.',
+      data: null
+  });
+  }
+  req.body.createdById=req.decodedToken.user._id;
+  req.body.candidates =  {id: user._id} ; 
+ Session.create(req.body, function(err,Session) {
       if(err)
       return next(err);
 
       if(!Session){
         return res.status(409).json({
           err: null ,
-          msg: 'Failed to accept the slot reservation.',
+          msg: 'Failed to create a session.',
           data: null
       });
 
       }
     Schedule.findOneAndUpdate(  
-    {$and:[{ expertID : req.decodedToken.user._id }  , 
-    { 'slots.Date' : req.body.Date  },
-    {'slots.usersAccepted': []}]},
-    {$addToSet: {'slots.$.usersAccepted': req.body.userName} ,
-    $pull: {'slots.$.usersRequested': req.body.userName },
-    $push: {'slots.sessionId' : Session._id  } }  ,{new:true}
+    {$and:[{ expertEmail : req.decodedToken.user.email}  , 
+    { 'slots.Date' : req.body.Date  }]},
+    {$push: {'slots.$.usersAccepted': req.body.userName},
+    $set :{'slots.$.sessionId':Session._id},
+     $pull: {'slots.$.usersRequested':req.body.userName} }  ,{new:true}
   ).exec(function(err, schedule) {
-  
     if (err) 
         return next(err);
     if(schedule) {
-          
-         
+          //send confirmation email
+          let confirmationUrl = 'http://localhost:4200/#/page' + `/session/${Session._id}`;
+          var expert = req.decodedToken.user.email;
+           //contents of email
+           var mailOptions = {
+             from: 'riseuptest@hotmail.com',
+             to: user.email, expert,
+             subject: 'Session Confirmation',
+             html: 'This is a confirmation email to confirm you session reservation.</p>'+'Expert : '+ expert+ 
+             '</p> User : ' + user.email + '</p> Session url : ' + confirmationUrl + "</p> Timing : " + req.body.Date , 
+            };
+            transporter.sendMail(mailOptions, function (err) {
+              if (err) {
+                  }
+          });
               return res.status(200).json({
                 err: null ,
                 msg: 'Accepted the slot reservation Successfully.' ,
@@ -390,8 +409,9 @@ module.exports.acceptRequest =  function(req, res, next) {
         });
          }
 });
+   
     });
-
+  });
 };
 
 
@@ -399,15 +419,7 @@ module.exports.acceptRequest =  function(req, res, next) {
 
 module.exports.rejectRequest = function(req, res, next) {
 
-  if (!Validations.isObjectId(req.body.userID)) {
-    return res.status(422).json({
-      err: null,
-      msg: 'The userID entered is not valid',
-      data: null
-      });
-    }
-
-    User.findById(req.body.userID).exec(function(err, user) {
+    User.find({email:req.body.userEmail}).exec(function(err, requestingUser) {
   
       if (err) 
           return next(err);
@@ -415,29 +427,19 @@ module.exports.rejectRequest = function(req, res, next) {
 
 
       //remove from usersRequested array
-      Schedule.findOne(  
-        {$and:[{ expertID : req.decodedToken.user._id }  , 
-        { 'slots.Date' : req.body.Date  },
-        {'slots.usersRequested': req.body.userID}]}
-      ).exec(function(err, schedule) {
-      
-        if (err) 
-            return next(err);
-        if(schedule) {
           Schedule.findOneAndUpdate(  
-            {$and:[{ expertID : req.decodedToken.user._id }  , 
+            {$and:[{ expertEmail : req.decodedToken.user.email }  , 
             { 'slots.Date' : req.body.Date  }]},
-            {$pull: {'slots.$.usersRequested': req.body.userID }},{new:true}
+            {$pull: {'slots.$.usersRequested': req.body.userEmail }},{new:true}
           ).exec(function(err, schedule) {
           
             if (err) 
                 return next(err);
-                console.log(schedule);
             if(schedule) {
             
                   return res.status(200).json({
                     err: null ,
-                    msg: user.email+' got rejected Successfully' ,
+                    msg: req.body.userEmail+' got rejected Successfully' ,
                     data: schedule
                 });
                 
@@ -449,19 +451,12 @@ module.exports.rejectRequest = function(req, res, next) {
                 });
                  }
         });
-        } else {
-            return res.status(409).json({
-                err: null ,
-                msg: 'Record not found.' ,
-                data: null
-            });
-             }
-        });
+        
     });
 
 };
 
-module.exports.rejectAllRequests = function(req, res, next) {
+/*module.exports.rejectAllRequests = function(req, res, next) {
 
   Schedule.findOne({$and:[{ expertID : req.decodedToken.user._id }  , 
     { 'slots.Date' : req.body.Date  }]}, ).exec(function(err, schedule) {
@@ -494,4 +489,4 @@ module.exports.rejectAllRequests = function(req, res, next) {
           
       }
     });
-};
+};*/

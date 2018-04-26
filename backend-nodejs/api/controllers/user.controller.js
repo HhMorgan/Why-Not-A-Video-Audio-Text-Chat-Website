@@ -232,11 +232,10 @@ module.exports.getExpertSchedule = function(req, res, next) {
     }
   //  console.log(req.decodedToken.user._id);
     //console.log(req);
-    console.log(req.params.expertID);
+   // console.log(req.params.expertID);
     schedule.find({
     //  expertID:'5ad5bee364a0b6360cee111b',
-        expertID: req.params.expertID,
-        'slots.usersAccepted': []  
+        expertEmail: req.params.expertEmail 
     
     }).exec(function(err, slots) {
       if (err) {
