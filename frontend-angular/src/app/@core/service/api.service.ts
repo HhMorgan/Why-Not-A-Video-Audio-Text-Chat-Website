@@ -4,11 +4,11 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData , Tags , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots, ReserveSlotBody } from '../service/models/api.data.structure';
+import { APIData , SlotData , Tags , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots, ReserveSlotBody, OfferSlotBody } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
-  public static apiUrl = 'http://127.0.0.1:3000/api/';
+  public static apiUrl = 'http://localhost:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login','auth/signup'];
   constructor(private http: HttpClient) {}
 
@@ -85,7 +85,7 @@ export class APIService {
   getMatchingUsers(searchtag:String): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'user/getMatchingUsers/'+ searchtag).catch(this.errorHandler);
   }
-  
+
   login(user:User):Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'auth/login', user).catch(this.errorHandler);
   }
@@ -116,6 +116,10 @@ export class APIService {
 
   getusername(): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'getusername').catch(this.errorHandler);
+  }
+  getUsernameOfUser(id:String): Observable<APIData> {
+    console.log(id);
+    return this.http.get<APIData>(APIService.apiUrl + 'getUsernameOfUser/'+id).catch(this.errorHandler);
   }
   chooseSlot(slotData:SlotData): Observable<APIData>{
     console.log(slotData);
@@ -186,5 +190,8 @@ export class APIService {
 
   userReserveSlot( reserveSlotBody : ReserveSlotBody ) :Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'schedule/userReserveSlot' , reserveSlotBody ).catch(this.errorHandler);
+  }
+  expertOfferSlot( offerSlotBody : OfferSlotBody ) :Observable<APIData> {
+    return this.http.post<APIData>( APIService.apiUrl + 'schedule/expertOfferSlot' , offerSlotBody ).catch(this.errorHandler);
   }
 }

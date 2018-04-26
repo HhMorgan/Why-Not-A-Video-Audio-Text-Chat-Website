@@ -93,3 +93,7 @@ export interface ReserveSlotBody {
     dayNo : String ,
     slotNo : String
 }
+export interface OfferSlotBody {
+    dayNo : String ,
+    slotNo : String
+}
