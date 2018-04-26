@@ -71,11 +71,11 @@ router.delete('/expert/editSpeciality/:tagId',isAuthenticated,expert.editSpecial
 
 router.post('/expert/createSchedule',isAuthenticated,expert.createSchedule);
 router.get('/expert/viewSchedule',expert.viewSchedule);
-router.get('/expert/viewScheduledSlots',expert.viewScheduledSlots);
-router.get('/expert/viewRequestedSlots',expert.viewRequestedSlots);
+router.get('/expert/viewScheduledSlots',isAuthenticated,expert.viewScheduledSlots);
+router.get('/expert/viewRequestedSlots',isAuthenticated,expert.viewRequestedSlots);
 router.post('/expert/acceptRequest',isAuthenticated,expert.acceptRequest);
 router.post('/expert/rejectRequest',isAuthenticated,expert.rejectRequest);
-//router.post('/expert/rejectallRequest',isAuthenticated,expert.rejectAllRequests);
+router.post('/expert/rejectallRequest',isAuthenticated,expert.rejectAllRequests);
 //-------------------------------------------------------------------
 router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
 router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);

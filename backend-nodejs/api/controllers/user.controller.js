@@ -235,8 +235,8 @@ module.exports.getExpertSchedule = function(req, res, next) {
    // console.log(req.params.expertID);
     schedule.find({
     //  expertID:'5ad5bee364a0b6360cee111b',
-        expertEmail: req.params.expertEmail 
-    
+        expertEmail: req.params.expertEmail ,
+      
     }).exec(function(err, slots) {
       if (err) {
         return next(err);

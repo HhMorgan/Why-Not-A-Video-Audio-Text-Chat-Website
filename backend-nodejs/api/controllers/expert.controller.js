@@ -342,7 +342,24 @@ module.exports.createSchedule = function(req, res, next) {
 
 
 module.exports.acceptRequest =  function(req, res, next) {
-User.findOne({email:req.body.userName}).exec(function(err, user) {
+
+
+  Schedule.findOne({ expertEmail : req.decodedToken.user.email , 
+    "slots.Date":req.body.Date} ,
+    {"slots.$": 1} ).exec(function(err, schedule) {
+  
+      if (err) 
+          return next(err);
+      if(schedule.slots[0].usersAccepted.length >0){
+        return res.status(409).json({
+          err: null ,
+          msg: 'This slot is already assigned to another user.' ,
+          data: null
+      });
+      }
+
+
+  User.findOne({email:req.body.userName}).exec(function(err, user) {
   
   if (err) 
   return next(err);
@@ -388,15 +405,11 @@ User.findOne({email:req.body.userName}).exec(function(err, user) {
              html: 'This is a confirmation email to confirm you session reservation.</p>'+'Expert : '+ expert+ 
              '</p> User : ' + user.email + '</p> Session url : ' + confirmationUrl + "</p> Timing : " + req.body.Date , 
             };
-            transporter.sendMail(mailOptions, function (err) {
+            /*transporter.sendMail(mailOptions, function (err) {
               if (err) {
                   }
-          });
-              return res.status(200).json({
-                err: null ,
-                msg: 'Accepted the slot reservation Successfully.' ,
-                data: schedule
-            });
+          });*/
+             module.exports.rejectAllRequests(req,res,next);
             
            
     
@@ -412,6 +425,8 @@ User.findOne({email:req.body.userName}).exec(function(err, user) {
    
     });
   });
+});
+
 };
 
 
@@ -436,12 +451,24 @@ module.exports.rejectRequest = function(req, res, next) {
             if (err) 
                 return next(err);
             if(schedule) {
+              Schedule.aggregate([
+                { $match : { "expertEmail" : req.decodedToken.user.email } },
+                  {$addFields : {"slots":{$filter:{ // We override the existing field!
+                  input: "$slots",
+                  as: "slots",
+                  cond: { $gt:[ {$size : "$$slots.usersRequested"} , 0 ] } 
+                }}}}
+              ]).exec(function(err, newschedule) {
+      
+                  if (err) 
+                      return next(err);
+                return res.status(200).json({
+                  err: null ,
+                  msg: req.body.userEmail+' got rejected Successfully' ,
+                  data: newschedule
+              });
+            });
             
-                  return res.status(200).json({
-                    err: null ,
-                    msg: req.body.userEmail+' got rejected Successfully' ,
-                    data: schedule
-                });
                 
             } else {
                 return res.status(409).json({
@@ -456,37 +483,49 @@ module.exports.rejectRequest = function(req, res, next) {
 
 };
 
-/*module.exports.rejectAllRequests = function(req, res, next) {
+module.exports.rejectAllRequests = function(req, res, next) {
 
-  Schedule.findOne({$and:[{ expertID : req.decodedToken.user._id }  , 
-    { 'slots.Date' : req.body.Date  }]}, ).exec(function(err, schedule) {
+  Schedule.findOne({ expertEmail : req.decodedToken.user.email , 
+    "slots.Date":req.body.Date} ,
+    {"slots.$": 1} ).exec(function(err, schedule) {
   
       if (err) 
           return next(err);
       if(schedule) {
-        var schedule1 = schedule ;
-        for(var i = 0; i < schedule.slots.length;i++){
-          for(var j = 0; j < schedule.slots[i].usersAccepted.length;j++){
-            req.body.userID =  schedule.slots[i].usersAccepted[j];
+          for(var j = 0; j < schedule.slots[0].usersRequested.length;j++){
+           //console.log(schedule.slots[0].usersRequested.length);
+            req.body.userEmail =  schedule.slots[0].usersRequested[j];
             Schedule.findOneAndUpdate(  
-              {$and:[{ expertID : req.decodedToken.user._id }  , 
+              {$and:[{ expertEmail : req.decodedToken.user.email}  , 
               { 'slots.Date' : req.body.Date  }]},
-              {$pull: {'slots.$.usersAccepted': req.body.userID }},{new:true}
+              {$pull: {'slots.$.usersRequested': req.body.userEmail }},{new:true}
             ).exec(function(err, schedule2) {
             
               if (err) 
                   return next(err);
-              schedule1 = schedule2;
+
+                  //Add notfication to user rejected
             });
           }
-          }
-      
+          
+          Schedule.aggregate([
+            { $match : { "expertEmail" : req.decodedToken.user.email } },
+              {$addFields : {"slots":{$filter:{ // We override the existing field!
+              input: "$slots",
+              as: "slots",
+              cond: { $gt:[ {$size : "$$slots.usersRequested"} , 0 ] } 
+            }}}}
+          ]).exec(function(err, newschedule) {
+  
+              if (err) 
+                  return next(err);
             return res.status(200).json({
               err: null ,
-              msg: 'Adding slot to Schedule Completed Successfully' ,
-              data: schedule1
+              msg: 'Successfully accepted slot reservation.' ,
+              data: newschedule
           });
+        });
           
       }
     });
-};*/
+};
