@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { NgModule, Component, OnInit, Inject, Renderer, ElementRef, ViewChild} from '@angular/core';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import {NgxPaginationModule} from 'ngx-pagination';
 /* Our Components
 ---------------------------------------------------*/
 import { NavbarComponent } from './shared/navbar/navbar.component';
@@ -68,7 +69,8 @@ import { SearchUserComponent } from './search-user/search-user.component';
     AngularFontAwesomeModule,
     JWBootstrapSwitchModule,
     AmazingTimePickerModule,
-    WeekModule  
+    WeekModule ,
+    NgxPaginationModule 
   ],
   declarations: [
     AdminComponent,

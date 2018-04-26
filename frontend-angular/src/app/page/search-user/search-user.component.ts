@@ -6,7 +6,7 @@ import { IAlert } from '../../@core/service/models/frontend.data.structure';
 import { Routes, Router } from '@angular/router';
 import { NotificationComponent } from '../components/notification/notification.component';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 @Component({
   selector: 'app-search-user',
   templateUrl: './search-user.component.html',
@@ -18,11 +18,9 @@ export class SearchUserComponent implements OnInit {
   private tags: Tag[];
   public alerts: Array<IAlert> = [];
   closeResult: string;
-
-  itemsPerPage: number;
-  totalItems: any;
-  page: any;
-  previousPage: any;
+  // paged items
+ pagedItems: any[];
+   p: number = 1;
 
 
 
@@ -41,7 +39,6 @@ export class SearchUserComponent implements OnInit {
       message: 'lolypop',
     });
 
-    console.log('loly');
 
     var i, j;
 
@@ -72,53 +69,7 @@ export class SearchUserComponent implements OnInit {
 
 
   }
-  /* 
-    loadPage(page: number) {
-      if (page !== this.previousPage) {
-        this.previousPage = page;
-        this.loadData1();
-      }
-    }
-   */
-
-  /*   loadData1() {
-     
-      var i,j;  
-      this.apiServ.getMatchingSearch(this.searchtag).subscribe((apires : APIData)=>
-      { 
-        page: this.page - 1;
-        size: this.itemsPerPage;
-        this.users=new Array();
-        this.tags=new Array();
-      // var UsersData = new Array(apires.data[1]);
-        console.log(apires);
-        for(i=0;i<apires.data[1].length;i++){
-          this.users.push((apires.data[1])[i]);
-          this.getimageuser( (apires.data[1])[i].username ,( apires.data[1])[i].img );
-        }
   
-  
-        for(j=0;j<apires.data[0].length;j++){
-          this.tags.push((apires.data[0])[j]);
-          var Tag = document.getElementById(((apires.data[0])[j])._id) as HTMLImageElement;
-        } 
-      })
-  
-  
-    }
-   */
-
-  /*  loadData() {
-     this.apiServ.getMatchingSearch({
-       page: this.page - 1,
-       size: this.itemsPerPage,
-     }).subscribe(
-       (res: Response) => this.onSuccess(res.json(), res.headers),
-       (res: Response) => this.onError(res.json())
-       )
-   } */
-
-
   open(content) {
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

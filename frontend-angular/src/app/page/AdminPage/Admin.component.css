@@ -50,3 +50,12 @@
 :host /deep/ ng2-smart-table ng2-smart-table-pager .pagination {
    margin-left: 40px
 }
+
+#TagsResults {
+    position:auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.20);
+    width:50%;
+    margin-left:25%;
+    background-color:white
+}

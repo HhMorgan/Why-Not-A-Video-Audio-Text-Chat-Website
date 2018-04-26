@@ -7,4 +7,46 @@
       </ng2-smart-table>
     </div>
 
+        <div id="TagsResults">
+                             
+              <br>
+           <div class="row following" id="follows">
+                   <div class="col-md-6 ml-auto mr-auto">
+                       <ul class="list-unstyled follows">
+                         <div *ngFor="let tag of tagswithColors">
+                           <li>
+                               <div class="row">
+                                   <div class="col-md-2 col- ml-auto mr-auto">
+                                           <button style=" margin-right:75%"id="{{tag._id}}" type="button" [style.border-color]= "tag.color" [style.background-color]= "tag.color"  class="btn btn-sm btn-info btn-round">{{tag.name}}</button>
+                                   </div>
+                                   <div class="col-md-7 col-sm-4 ml-auto">
+                                    
+                                   </div>
+                                   <div class="col-md-3 col-sm-2 ml-auto mr-auto">
+                                      <div ngbDropdown class="d-inline-block dropdown">
+                                          <a class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle><i class="fa fa-square" [ngStyle]="{'color': tag.color}"></i></a>
+                                          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
+                                             <a class="dropdown-header">Choose a color</a>
+                                             <div *ngFor="let color of colors">
+                                                <a class="dropdown-item">   <i class="fa fa-square" [ngStyle]="{'color': color}"></i> <p>{{color}}</p> </a>
+                                             </div>
+                                             <a class="dropdown-item">Another action</a>
+                                             <a class="dropdown-item">Something else here</a>
+                                             <div class="dropdown-divider"></div>
+                                             <a class="dropdown-item">Separated link</a>
+                                             <div class="dropdown-divider"></div>
+                                             <a class="dropdown-item">Another separated link</a>
+                                          </div>
+                                      </div>
+                                           
+                                   </div>
+                               </div>
+                           </li>
+                           <hr />
+                         </div>
+                       </ul>
+                   </div>
+               </div>  
+           </div>
+
 </div>

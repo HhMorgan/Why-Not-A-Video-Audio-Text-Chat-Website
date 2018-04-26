@@ -13,7 +13,8 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class AdminComponent implements OnInit {
-  
+  private tagswithColors:Tag[];
+    private colors:string[];
   ngOnInit() {
    // we call refresh to load data on entery of the page
     this.refresh();
@@ -117,10 +118,15 @@ export class AdminComponent implements OnInit {
 // the refresh method loads all the data from the database and inserts it into the 
 // ng2smarttable
 refresh(): void {
+  this.tagswithColors = new Array();
+    this.colors= new Array();
 // we call the method getTags through the api.service and then loop on all the 
 // recived data and add it to the ng2smarttable
   this._apiService.getTags().subscribe((apiresponse: APIData)=>{
-    for (var i = 0 ; i < apiresponse.data.length ; i++ )
+    for (var i = 0 ; i < apiresponse.data.length ; i++ ){
+           this.tagswithColors.push(apiresponse.data[i]);
+           this.colors.push(apiresponse.data[i].color);
+          }
       //apiresponse.data[i].id = (i+1);
       console.log(apiresponse.data);
     this.source.load(apiresponse.data);

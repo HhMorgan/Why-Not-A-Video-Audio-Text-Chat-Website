@@ -71,7 +71,7 @@ module.exports.getSearchResultsTagUser = function(req, res, next)
   }; */
 
    
-   Tag.find( { name: {$regex: req.params.searchtag, $options: "$i"},blocked:{$eq: "false" }}).exec(function(err, tag) {
+  Tag.find( { name: {$regex: req.params.searchtag, $options: "$i"},blocked:{$eq: "false" } ,status:{$eq: "Accepted" }}).exec(function(err, tag)  {
     if (err) {
       return next(err);
     }
