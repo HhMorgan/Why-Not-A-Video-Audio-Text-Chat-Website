@@ -163,6 +163,29 @@ module.exports.chooseSlot = function (req, res, next) {
   }
 };
 
+module.exports.findTagbyname = function (req, res, next) {
+  console.log(req.body);
+  console.log(req.params);
+  Tag.find({ name: req.body  }).exec(function (err, tag) {
+    if (err) {
+      return next(err);
+    }
+    if (!tag) {
+      return res.status(404).json({
+        err: null,
+        msg: 'This Tag is not found ',
+        data: null
+      });
+    }
+
+    return res.status(201).json({
+      err: null,
+      msg: 'Succesfully retrieved the Tag',
+      data: tag
+    });
+  })
+};
+
 module.exports.findTagbyid = function (req, res, next) {
   Tag.find({ _id: req.body , blocked : { $eq : false } }).exec(function (err, tag) {
     if (err) {

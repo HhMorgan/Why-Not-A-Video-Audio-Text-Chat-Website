@@ -78,6 +78,7 @@ router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescript
 router.post('/expert/chooseSlot',expert.chooseSlot);
 router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests);
 router.post('/expert/getTagById' , isAuthenticated , expert.findTagbyid);
+router.post('/expert/getTagByname' , isAuthenticated , expert.findTagbyname);   
 router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
 router.patch('/expert/addSpeciality/:tagId', isAuthenticated , expert.addSpeciality); 
 router.delete('/expert/editSpeciality/:tagId', isAuthenticated , expert.editSpeciality);

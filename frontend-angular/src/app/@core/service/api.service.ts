@@ -63,6 +63,12 @@ export class APIService {
     return this.http.post<APIData>( APIService.apiUrl + 'expert/getTagById',Tags_ids)
     .catch(this.errorHandler);
   }
+  
+  getTagbyName(tname: String):Observable<APIData> {
+     console.log(tname);
+    return this.http.post<APIData>( APIService.apiUrl + 'expert/getTagByname',tname)
+    .catch(this.errorHandler);
+  }
 
   deleteTags( tag : Tag ):Observable<APIData> {
     return this.http.delete<APIData>( APIService.apiUrl + '/Tags/deleteTags/' + tag._id)

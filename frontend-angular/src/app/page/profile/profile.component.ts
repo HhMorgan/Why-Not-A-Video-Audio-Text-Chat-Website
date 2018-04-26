@@ -146,12 +146,18 @@ export class ProfileComponent implements OnInit {
                   ParentTag.style.display = "none";
                 }
               });
-              DeleteTag.addEventListener("click", function () {
+
+              DeleteTag.addEventListener("click", () => { 
+
+                console.log('parentBtn.textContent');
                 var iElementX = event.target as HTMLElement;
                 var parentBtn = iElementX.parentNode as HTMLElement
                 console.log(iElementX.parentNode);
                 console.log(parentBtn.textContent);
-                // to be implemented
+              var Tag  = <Tag>{};
+              Tag.name=parentBtn.textContent;
+               this.editSpecs(Tag);
+
               });
 
 
@@ -198,6 +204,30 @@ export class ProfileComponent implements OnInit {
 
 
   }
+
+  deletetagclick(){
+    console.log('parentBtn.textContent');
+    var iElementX = event.target as HTMLElement;
+    var parentBtn = iElementX.parentNode as HTMLElement
+    console.log(iElementX.parentNode);
+    console.log(parentBtn.textContent);
+  var Tag  = <Tag>{};
+  Tag.name=parentBtn.textContent;
+   this.editSpecs(Tag);
+  }
+
+   editSpecs(tag ){
+
+    this.apiServ.getTagbyName(tag.name).subscribe((apiresponse: APIData)=>{
+      this.apiServ.editSpeciality(apiresponse.data).subscribe((apiresponse: APIData)=>{
+        console.log(apiresponse);  
+                 });
+               });
+      
+   
+
+   }
+  
 
   //this method takes the data(ratings) of the user from ngOnIt
   showrating(datain) {
