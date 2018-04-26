@@ -99,6 +99,9 @@ for (var i = 0 ; i < res.body.data ; i++ ){
     chai.request(app).post('/api/auth/signup')
    .send({ username: "tarekk",email:"tarek@gmail.com" , password: "tarek12356",}).end((err, res) => {
            res.should.have.status(201);
+           res.body.should.have.property('msg');
+           res.body.msg.should.be.eql('Registration successful, you can now login to your account.');
+
            res.body.data.should.have.property('username');
            res.body.data.should.have.property('email');
            res.body.data.should.have.property('username').eql('tarekk');
@@ -106,17 +109,41 @@ for (var i = 0 ; i < res.body.data ; i++ ){
    done();
    });
    });
+   //this checks if signup will fail if user tried to add a profile that already exists
+   it('it should not add a user', (done) => {
+    chai.request(app).post('/api/auth/signup')
+   .send({ username: "tarekk",email:"tarek@abdoscience.com" , password: "tarek123",}).end((err, res) => {
+           res.should.have.status(209);
+           res.body.should.have.property('msg');
+           res.body.msg.should.be.eql('Registration Failed');
+           
+   done();
+   });
+   });
+  //this tests if a user can login successfully
    it('it should login a user', (done) => {
-    //console.log(v);
+    
 
     chai.request(app).post('/api/auth/login')
    .send({email: "tarek@abdocience.com" , password: "tarek123",}).end((err, res) => {
            res.should.have.status(200);
-           //res.body.data.should.have.property(');
-           res.body.should.be.a('object');
-           //res.body.should.have.property('Welcome');
-           //res.body.msg.should.have.property.eql('Welcome');
-   done();
+           res.body.should.have.property("msg");
+           res.body.msg.should.be.eql("Welcome");
+           res.body.should.have.property("data");
+           done();
+   });
+   });
+   //this tests if a user will not be logged in if he entered a wrong password
+   it('it should not login a user', (done) => {
+    
+
+    chai.request(app).post('/api/auth/login')
+   .send({email: "tarek@abdocience.com" , password: "tarek1223",}).end((err, res) => {
+           res.should.have.status(401);
+           res.body.should.have.property("msg");
+           res.body.msg.should.be.eql("Password is incorrect.");
+           
+           done();
    });
    });
   // });
