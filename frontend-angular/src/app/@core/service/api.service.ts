@@ -175,12 +175,12 @@ export class APIService {
     return this.http.get<Tags>( APIService.apiUrl + 'user/viewSuggestedExperts/'+ tag.name).catch(this.errorHandler);
   }
 
-  blockUser(Users:User):Observable<APIData>{
-    return this.http.patch<APIData>( APIService.apiUrl + 'User/blockUser/'+Users._id,Users)
+  BlockAndUnblock(Users:User):Observable<APIData>{
+    return this.http.patch<APIData>( APIService.apiUrl + 'User/BlockAndUnblock/'+Users._id,Users)
     .catch(this.errorHandler);
   }
-  downgradeExpert(Users:User):Observable<APIData>{
-    return this.http.patch<APIData>( APIService.apiUrl + 'User/downgradeExpert/'+Users._id,Users)
+  ChangeRole(Users:User):Observable<APIData>{
+    return this.http.patch<APIData>( APIService.apiUrl + 'User/ChangeRole/'+Users._id,Users)
     .catch(this.errorHandler);
   }
 

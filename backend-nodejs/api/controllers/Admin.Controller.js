@@ -137,7 +137,7 @@ module.exports.deleteTags = function(req, res, next) {
   });
 };
 
-module.exports.blockUser = function(req, res, next) {
+module.exports.BlockAndUnblock = function(req, res, next) {
   if (!Validations.isObjectId(req.params.userId)) {
     return res.status(422).json({
       err: null,
@@ -149,7 +149,8 @@ module.exports.blockUser = function(req, res, next) {
   User.findByIdAndUpdate(
     req.params.userId,
     {
-      $set: {blocked: true}
+      $set: req.body
+   
     },
     { new: true }
   ).exec(function(err, blockeduser) {
@@ -163,13 +164,13 @@ module.exports.blockUser = function(req, res, next) {
     }
     res.status(200).json({
       err: null,
-      msg: 'User was blocked successfully.',
+      msg: 'User was blocked/Unblocked successfully.',
       data: blockeduser
     });
   });
 };
 
-module.exports.downgradeExpertToUser = function(req, res, next) {
+module.exports.ChangeRole = function(req, res, next) {
   if (!Validations.isObjectId(req.params.userId)) {
     return res.status(422).json({
       err: null,
@@ -179,9 +180,11 @@ module.exports.downgradeExpertToUser = function(req, res, next) {
   }
   
   User.findByIdAndUpdate(
+    
     req.params.userId,
     {
-      $set: {role: 'regular'}
+      $set: req.body
+   
     },
     { new: true }
   ).exec(function(err, blockeduser) {
@@ -195,11 +198,13 @@ module.exports.downgradeExpertToUser = function(req, res, next) {
     }
     res.status(200).json({
       err: null ,
-      msg: 'User was downgraded successfully.',
+      msg: 'User status change was successful.',
       data: { _id : blockeduser._id , username : blockeduser.username , role : blockeduser.role }
     });
   });
-};
+
+
+}
 
 module.exports.getUsers = function(req, res, next) {
   User.find({} , { _id : 1 , username : 1 , email : 1  , role : 1 , blocked : 1 } ).exec(function(err, user) {
