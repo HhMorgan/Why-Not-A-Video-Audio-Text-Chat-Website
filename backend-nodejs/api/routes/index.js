@@ -90,7 +90,7 @@ router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStat
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
 
-router.get('/getExpertSchedule/:expertID',isAuthenticated,  userCtrl.getExpertSchedule);
+router.get('/getExpertSchedule/:expertID', isAuthenticated, userCtrl.getExpertSchedule);
 
 router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert);
 
@@ -100,5 +100,7 @@ router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
 router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
 
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
+
+router.get('/user/userViewScheduledSlots',isAuthenticated, userCtrl.userViewScheduledSlots);
 
 module.exports = router;
