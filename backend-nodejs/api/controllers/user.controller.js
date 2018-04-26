@@ -231,11 +231,12 @@ module.exports.getExpertSchedule = function(req, res, next) {
       return res.status(404).json({ err: null, msg: 'User not found.', data: null });
     }
   //  console.log(req.decodedToken.user._id);
-    console.log(req);
+    //console.log(req);
     console.log(req.params.expertID);
     schedule.find({
     //  expertID:'5ad5bee364a0b6360cee111b',
         expertID: req.params.expertID,
+        'slots.usersAccepted': []  
     
     }).exec(function(err, slots) {
       if (err) {
