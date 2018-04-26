@@ -69,10 +69,10 @@ router.post('/expert/addSpeciality', isAuthenticated , expert.addSpeciality);
 router.delete('/expert/editSpeciality/:tagId',isAuthenticated,expert.editSpeciality);
 
 
-router.post('/expert/createSchedule',expert.createSchedule);
-router.get('/expert/viewSchedule',expert.viewSchedule);
-router.get('/expert/viewScheduledSlots',expert.viewScheduledSlots);
-router.get('/expert/viewRequestedSlots',expert.viewRequestedSlots);
+router.post('/expert/createSchedule',isAuthenticated,expert.createSchedule);
+router.get('/expert/viewSchedule',isAuthenticated,expert.viewSchedule);
+router.get('/expert/viewScheduledSlots',isAuthenticated,expert.viewScheduledSlots);
+router.get('/expert/viewRequestedSlots',isAuthenticated,expert.viewRequestedSlots);
 
 //-------------------------------------------------------------------
 router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
@@ -88,7 +88,7 @@ router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStat
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
 
-router.get('/getExpertSchedule/:expertID',  userCtrl.getExpertSchedule);
+router.get('/getExpertSchedule/:expertID', isAuthenticated, userCtrl.getExpertSchedule);
 
 router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert);
 
@@ -98,5 +98,7 @@ router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
 router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
 
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
+
+router.get('/user/userViewScheduledSlots',isAuthenticated, userCtrl.userViewScheduledSlots);
 
 module.exports = router;

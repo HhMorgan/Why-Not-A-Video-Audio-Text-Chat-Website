@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 var slotsSchema = mongoose.Schema({
     
-    expertID: {
-        type: mongoose.Schema.Types.ObjectId ,
-        ref: 'User',
+    expertEmail: {
+        type: String ,
+      
         required: true
     },
   // Date: String,
@@ -11,11 +11,11 @@ var slotsSchema = mongoose.Schema({
     
     slots: [ new mongoose.Schema(
         {
-            Date:{  type:String, required:true},
+            Date:{ type:String, required:true},
          sessionId: { type: mongoose.Schema.Types.ObjectId , ref: 'Session' } 
-     , usersAccepted:{ type: [mongoose.Schema.Types.ObjectId] , ref: 'User'} ,
-      usersRequested:{ type: [mongoose.Schema.Types.ObjectId] , ref: 'User'} } , { _id: false })],
+     , usersAccepted:{ type: [String] } ,
+      usersRequested:{ type: [String] } } , { _id: false })],
 
-},{ collection: 'Schedule'} );
+},{ collection: 'Schedule'} ) ;
 
 mongoose.model('Schedule', slotsSchema);

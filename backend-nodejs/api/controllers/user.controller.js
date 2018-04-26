@@ -349,3 +349,97 @@ module.exports.viewSuggestedExperts = function(req, res, next) {
   });
 });
 };
+
+
+module.exports.userViewScheduledSlots = function(req, res, next) {
+  // Check that the body keys are in the expected format and the required fields are there
+
+  var valid = req.body.userId && Validations.isObjectId(req.body.userId);
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'userId is Not Valid',
+      data: null
+    });
+  } else
+  
+  
+  { 
+
+
+      User.findById(req.decodedToken.user._id).exec(function(err, user) {
+          if (err) 
+              return next(err);
+          if(user){
+              req.body.expertID = user._id;
+
+         console.log("hena");
+              Request.find({sender: user.email,}).exec(function(err,request){
+
+                if (! request){
+                 
+                  
+                    if(err)
+                        return next(err);
+                    return res.status(201).json({
+                      err: null ,
+                       msg: 'no request slots sent by this user id' ,
+                       data: null
+                      });    
+                
+              }
+
+                 else{ 
+                  console.log("found a request");
+
+                  User.find({email: request.recipient}).exec(function(err, User) {
+                    if (err) {
+                      return next(err);
+                    }   
+                    const expert = User._id;
+
+                    res.status(200).json({
+                      err: null,
+                      msg: 'Experts retrieved successfully.',
+                      data: User
+                    });
+                  });
+                  
+
+
+
+      Schedule.find(  
+        { expertID : { $eq : expert } }  ,  
+
+         { slots :{ Date : req.body.Date } } 
+    ).exec(function(err, slots) {
+      
+        if (err) 
+            return next(err);
+        if(slots) {
+            return res.status(201).json({
+                err: null ,
+                msg: 'slots retrieved Successfully' ,
+                data: schedule
+            });
+        } else {
+            return res.status(409).json({
+                err: null ,
+                msg: 'retrieving slots Failed' ,
+                data: null
+            });
+             }
+    });
+                  }    })
+                          
+              } 
+
+        //if not a user
+        else {
+              return res.status(404).json({
+                  err: null,
+                  msg: 'Unable to locate userWithId :' + req.body.userId,
+                  data: null
+              });
+  }  } )};
+};

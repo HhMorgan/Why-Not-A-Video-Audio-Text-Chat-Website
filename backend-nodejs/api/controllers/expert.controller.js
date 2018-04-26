@@ -136,7 +136,7 @@ module.exports.editSlotRequest =function(req, res, next) {
 
 module.exports.viewRequestedSlots = function(req, res, next) {
   // Finds authenticated user info 
-  User.findById('5ad5bee364a0b6360cee111b').exec(function(err, user) {
+  User.findById(req.decodedToken.user._id).exec(function(err, user) {
     if (err) {
       return next(err);
     }
@@ -148,12 +148,14 @@ module.exports.viewRequestedSlots = function(req, res, next) {
     /* Requests is found by matching recipient to the expert's email, status should be
        pending and type is slotRequest.
      */
-    Schedule.find({
-      expertID: user._id,
-      //condition to display records with requested users only
-       $expr : { $gt:[ {$size : "$slots.usersRequested"} , 0 ] } 
-       
-    }).exec(function(err, slots) {
+    Schedule.aggregate([
+      { $match : { "expertEmail" : email } },
+        {$addFields : {"slots":{$filter:{ // We override the existing field!
+        input: "$slots",
+        as: "slots",
+        cond: { $gt:[ {$size : "$$slots.usersRequested"} , 0 ] } 
+      }}}}
+    ]).exec(function(err, slots) {
       if (err) {
         return next(err);
       }
@@ -179,12 +181,15 @@ module.exports.viewRequestedSlots = function(req, res, next) {
       /* Requests is found by matching recipient to the expert's email, status should be
          pending and type is slotRequest.
        */
-      Schedule.find({
-        expertID: user._id,
-        //condition to display records with requested users only
-         $expr : { $gt:[{$size : "$slots.usersAccepted"} , 0 ] }  
-        
-      }).exec(function(err, slots) {
+      
+      Schedule.aggregate([
+        { $match : { "expertEmail" : email } },
+        	{$addFields : {"slots":{$filter:{ // We override the existing field!
+          input: "$slots",
+          as: "slots",
+          cond: { $gt:[ {$size : "$$slots.usersAccepted"} , 0 ] } 
+        }}}}
+      ]).exec(function(err, slots) {
         if (err) {
           return next(err);
         }
@@ -225,7 +230,7 @@ module.exports.chooseSlot = function(req,res,next){
 
 module.exports.viewSchedule = function(req, res, next) {
   // Finds authenticated user info 
-  User.findById('5ad5bee364a0b6360cee111b').exec(function(err, user) {
+  User.findById(req.decodedToken.user._id).exec(function(err, user) {
     if (err) {
       return next(err);
     }
@@ -234,7 +239,7 @@ module.exports.viewSchedule = function(req, res, next) {
     }
  
     Schedule.findOne({
-      expertID: user._id,
+      expertEmail: user.email,
     
     }).exec(function(err, slots) {
       if (err) {
@@ -253,27 +258,34 @@ module.exports.viewSchedule = function(req, res, next) {
 
 module.exports.createSchedule = function(req, res, next) {
   // Check that the body keys are in the expected format and the required fields are there
-  var valid = req.body.userId && Validations.isObjectId(req.body.userId);
+ /* var valid = req.body.userId && Validations.isObjectId(req.body.userId);
   if (!valid) {
     return res.status(422).json({
       err: null,
       msg: 'userId is Not Valid',
       data: null
     });
-  } else { 
+  } else
+  */
+  { 
 
-
-
-      User.findById(req.body.userId).exec(function(err, user) {
+   // User.findById('5ae08b74a843343a90abbf3c').exec(function(err, user) {
+     User.findById(req.decodedToken.user._id).exec(function(err, user) {
           if (err) 
               return next(err);
           if(user){
               req.body.expertID = user._id;
+              var email = user.email;
+              
 
-              Schedule.find(req.body.userId).exec(function(err,schedule){
+              Schedule.findOne(  { expertEmail : { $eq : email } }  ).exec(function(err,schedule){
 
-                if (! schedule){
+                if (!schedule){
+
+                
+                  req.body.expertEmail=email;
                   req.body.slots =  {Date: req.body.Date} ; 
+                 
                   Schedule.create( req.body , function(err,slots) {
                     if(err)
                         return next(err);
@@ -287,9 +299,11 @@ module.exports.createSchedule = function(req, res, next) {
   
               }
 
-                 else{ 
+                 else{
+                   
+                
       Schedule.findOneAndUpdate(  
-        { expertID : { $eq : req.body.userId } }  ,  
+        { expertEmail : { $eq :email } }  ,  
 
        { $push: { slots :{ Date : req.body.Date } } } , {new: true}
     ).exec(function(err, schedule) {
@@ -321,14 +335,9 @@ module.exports.createSchedule = function(req, res, next) {
                   msg: 'Unable to locate userWithId :' + req.body.userId,
                   data: null
               });
-  }  } )};
+  }  } )}
+  ;
 
-
-
-      
-
-
-  
 };
 
 
