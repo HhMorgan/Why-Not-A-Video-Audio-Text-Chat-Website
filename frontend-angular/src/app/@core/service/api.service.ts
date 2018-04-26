@@ -64,9 +64,9 @@ export class APIService {
     .catch(this.errorHandler);
   }
   
-  getTagbyName(tname: String):Observable<APIData> {
-     console.log(tname);
-    return this.http.post<APIData>( APIService.apiUrl + 'expert/getTagByname',tname)
+  getTagbyName(tag: Tag):Observable<APIData> {
+  //   console.log(tname);
+    return this.http.post<APIData>( APIService.apiUrl + 'expert/getTagByName',tag)
     .catch(this.errorHandler);
   }
 

@@ -156,7 +156,9 @@ export class ProfileComponent implements OnInit {
                 console.log(parentBtn.textContent);
               var Tag  = <Tag>{};
               Tag.name=parentBtn.textContent;
-               this.editSpecs(Tag);
+              // console.log( );
+              this.editSpecs(Tag,parentBtn)
+              
 
               });
 
@@ -205,24 +207,22 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  deletetagclick(){
-    console.log('parentBtn.textContent');
-    var iElementX = event.target as HTMLElement;
-    var parentBtn = iElementX.parentNode as HTMLElement
-    console.log(iElementX.parentNode);
-    console.log(parentBtn.textContent);
-  var Tag  = <Tag>{};
-  Tag.name=parentBtn.textContent;
-   this.editSpecs(Tag);
-  }
 
-   editSpecs(tag ){
+   editSpecs(tag,button ){
 
-    this.apiServ.getTagbyName(tag.name).subscribe((apiresponse: APIData)=>{
-      this.apiServ.editSpeciality(apiresponse.data).subscribe((apiresponse: APIData)=>{
-        console.log(apiresponse);  
-                 });
+    this.apiServ.getTagbyName(tag).subscribe((apiresponse: APIData)=>{
+      console.log(apiresponse);
+      var Tag  = <Tag>{};  
+      Tag=apiresponse.data ;
+       this.apiServ.editSpeciality(Tag).subscribe((apiresponse: APIData)=>{
+        if(apiresponse.msg == "Speciality removed"){
+          button.remove();
+        }
+       // console.log(apiresponse);  
+                 }); 
                });
+
+              
       
    
 

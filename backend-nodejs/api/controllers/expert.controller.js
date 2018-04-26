@@ -164,9 +164,8 @@ module.exports.chooseSlot = function (req, res, next) {
 };
 
 module.exports.findTagbyname = function (req, res, next) {
-  console.log(req.body);
-  console.log(req.params);
-  Tag.find({ name: req.body  }).exec(function (err, tag) {
+
+  Tag.findOne({ name: req.body.name  }).exec(function (err, tag) {
     if (err) {
       return next(err);
     }
@@ -184,9 +183,12 @@ module.exports.findTagbyname = function (req, res, next) {
       data: tag
     });
   })
+
+  console.log(req.body);
 };
 
 module.exports.findTagbyid = function (req, res, next) {
+  console.log(req.body);
   Tag.find({ _id: req.body , blocked : { $eq : false } }).exec(function (err, tag) {
     if (err) {
       return next(err);
