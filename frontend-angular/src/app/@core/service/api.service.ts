@@ -174,13 +174,15 @@ export class APIService {
   
 
   blockUser(Users:User):Observable<APIData>{
-    return this.http.patch<APIData>( APIService.apiUrl + '/User/blockUser/'+Users._id,Users)
+    return this.http.patch<APIData>( APIService.apiUrl + 'User/blockUser/'+Users._id,Users)
     .catch(this.errorHandler);
   }
   downgradeExpert(Users:User):Observable<APIData>{
-    return this.http.patch<APIData>( APIService.apiUrl + '/User/downgradeExpert/'+Users._id,Users)
+    return this.http.patch<APIData>( APIService.apiUrl + 'User/downgradeExpert/'+Users._id,Users)
     .catch(this.errorHandler);
   }
 
-
+  getSchedule( user : User ) : Observable<APIData> {
+    return this.http.get<APIData>( APIService.apiUrl + 'schedule/' + user._id )
+  }
 }

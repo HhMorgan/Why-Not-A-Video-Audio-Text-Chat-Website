@@ -28,12 +28,17 @@ export class ScheduleComponent implements OnInit {
   modifiedWeek=[]
   slots: String []=['Reserved']; 
 
-  constructor(){
-
-
+  constructor( private apiService : APIService ){
     // this.assignslots();
-    
-     }
+    var user = <User>{};
+    user._id = "5adb060b97f3c418780a2119";
+    this.apiService.getSchedule( user ).subscribe( ( apiresponse : APIData ) => {
+      console.log(apiresponse.data);
+    })
+  }
+
+
+
   randomNumberGenerator(){
     this.randomNumber=Math.random();
    }

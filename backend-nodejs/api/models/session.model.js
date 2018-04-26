@@ -1,14 +1,13 @@
 var mongoose = require('mongoose');
 var sessionSchema = mongoose.Schema({
-    
+
     createdById: {
         type: mongoose.Schema.Types.ObjectId ,
         ref: 'User',
         required: true
     },
+    users : [{ type: mongoose.Schema.Types.ObjectId , ref: 'User' , _id : false }],
     
-    candidates: [ new mongoose.Schema({ id: { type: mongoose.Schema.Types.ObjectId , ref: 'User' } , rtcDes:{type: String} } , { _id: false })],
-
 },{ collection: 'Sessions'} );
 
 mongoose.model('Session', sessionSchema);

@@ -19,11 +19,13 @@ var ScheduleSchema = mongoose.Schema({
     },
     slots:[
         {
-            users: [{ type: mongoose.Schema.Types.ObjectId , ref: 'User' }],
+            users: [ { type: mongoose.Schema.Types.ObjectId , ref: 'User' , _id : false } ],
             day : Number,
             time : Number,
-            status: String,
-            _id: false 
+            session : {
+                type: mongoose.Schema.Types.ObjectId , ref: 'Session',
+            },
+            _id: false ,
         }
     ]
 

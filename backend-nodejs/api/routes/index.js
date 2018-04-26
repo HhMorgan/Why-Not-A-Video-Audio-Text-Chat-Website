@@ -106,9 +106,11 @@ router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.view
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
 router.get('/user/viewBookmarks', isAuthenticated , userCtrl.viewBookmarks);
 
-router.post('/schedule/fuck' , scheduleController.fuck);
-router.post('/schedule/fuck2' , scheduleController.fuck2);
-router.post('/schedule/fuck3' , scheduleController.fuck3);
+router.get('/schedule/:expertID' , isAuthenticated , scheduleController.getSlots )
+router.post('/schedule/userReserveSlot' , isAuthenticated , scheduleController.userReserveSlot);
+
+router.post('/schedule/offerSlot' , isAuthenticated , isExpert , scheduleController.expertOfferSlot);
+router.post('/schedule/expertAcceptSlot' , isAuthenticated , isExpert , scheduleController.expertAcceptUserInSlot);
 
 
 
