@@ -8,6 +8,7 @@ var mongoose = require('mongoose'),
   Tag = mongoose.model('Tag'),
   Slot = mongoose.model('ReservedSlot'),
   Schedule = mongoose.model('Schedule'),
+  Session = mongoose.model('Session'),
   Validations = require('../utils/validations'),
   moment = require('moment');
 
@@ -295,37 +296,52 @@ module.exports.createSchedule = function(req, res, next) {
 };
 
 module.exports.acceptRequest =  function(req, res, next) {
-  Schedule.findOneAndUpdate(  
+
+  Session.create({createdById : req.decodedToken.user._id,
+    }, function(err,Session) {
+      if(err)
+      return next(err);
+
+      if(!Session){
+        return res.status(409).json({
+          err: null ,
+          msg: 'Failed to accept the slot reservation.',
+          data: null
+      });
+
+      }
+    Schedule.findOneAndUpdate(  
     {$and:[{ expertID : req.decodedToken.user._id }  , 
-    { 'slots.Date' : req.body.Date  }]},
-    {$push: {'slots.$.usersAccepted': req.body.userName }},{new:true}
+    { 'slots.Date' : req.body.Date  },
+    {'slots.usersAccepted': []}]},
+    {$addToSet: {'slots.$.usersAccepted': req.body.userName} ,
+    $pull: {'slots.$.usersRequested': req.body.userName },
+    $push: {'slots.sessionId' : Session._id  } }  ,{new:true}
   ).exec(function(err, schedule) {
   
     if (err) 
         return next(err);
     if(schedule) {
-      console.log(schedule.slots[0].usersAccepted);
-
-      for(var i = 0; i < schedule.slots.length;i++){
-        for(var j = 0; j < schedule.slots[i].usersRequested.length;j++){
-        console.log(schedule.slots[i].usersRequested[j]);
-        }
-        }
+          
+         
+              return res.status(200).json({
+                err: null ,
+                msg: 'Accepted the slot reservation Successfully.' ,
+                data: schedule
+            });
+            
+           
     
-          return res.status(200).json({
-            err: null ,
-            msg: 'Adding slot to Schedule Completed Successfully' ,
-            data: schedule
-        });
-        
+          
     } else {
         return res.status(409).json({
             err: null ,
-            msg: 'Adding slot to Schedule Failed' ,
+            msg: 'Failed to accept the slot reservation.',
             data: null
         });
          }
 });
+    });
 
 };
 
