@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
 .custom-file-upload {
     border: 1px solid #ccc;
     display: inline-block;
@@ -25,10 +26,6 @@
   color: orange;
 }
 
-
-
-
-
 #mydivheader {
 
     cursor: move;
@@ -42,7 +39,6 @@
     left:0;
 }
 
-@import url(https://fonts.googleapis.com/css?family=Ubuntu);
 body {
   text-align: center;
   padding: 10% 50px;

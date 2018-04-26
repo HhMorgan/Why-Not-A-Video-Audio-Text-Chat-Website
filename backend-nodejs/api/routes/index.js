@@ -110,7 +110,7 @@ router.get('/user/viewBookmarks', isAuthenticated , userCtrl.viewBookmarks);
 router.get('/schedule/:expertID' , isAuthenticated , scheduleController.getSlots )
 router.post('/schedule/userReserveSlot' , isAuthenticated , scheduleController.userReserveSlot);
 
-router.post('/schedule/offerSlot' , isAuthenticated , isExpert , scheduleController.expertOfferSlot);
+router.post('/schedule/expertOfferSlot' , isAuthenticated , isExpert , scheduleController.expertOfferSlot);
 router.post('/schedule/expertAcceptSlot' , isAuthenticated , isExpert , scheduleController.expertAcceptUserInSlot);
 
 

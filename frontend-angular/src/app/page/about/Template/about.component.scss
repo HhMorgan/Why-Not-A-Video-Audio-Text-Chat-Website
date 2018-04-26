@@ -1,4 +1,4 @@
-
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans:400,700);
 html, body {
   margin: 0;
    height: 100%;
@@ -15,7 +15,7 @@ body {
   background-color: #333;
   background: -webkit-linear-gradient(bottom left, #111, #222);
   background: -moz-linear-gradient(bottom left, #111, #222);
-  background: linear-gradient(bottom left, #111, #222);
+  background: linear-gradient(to bottom left, #111, #222);
   margin: 0;
 }
 
@@ -96,19 +96,10 @@ body {
   position: absolute;
   background: -webkit-linear-gradient(top, #111, #333);
   background: -moz-linear-gradient(top, #111, #333);
-  background: linear-gradient(top, #111, #333);
+  background: linear-gradient(to top, #111, #333);
   -webkit-animation: rotateDiscoBallMiddle 18s linear infinite;
   animation: rotateDiscoBallMiddle 18s linear infinite;
 }
-
-
-
-////
-
-
-
-@import url(https://fonts.googleapis.com/css?family=Droid+Sans:400,700);
-
 * { padding: 0; margin: 0; }
 
 body, html
@@ -265,7 +256,7 @@ h1 sub
 	background-image: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
 	background-image: -ms-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
 	background-image: -o-linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
-	background-image: linear-gradient(top, rgba(0,0,0,1) 0%, transparent 100%);
+	background-image: linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 100%);
 	pointer-events: none;
 }
 

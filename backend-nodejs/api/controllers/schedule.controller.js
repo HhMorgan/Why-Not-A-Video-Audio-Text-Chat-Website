@@ -58,6 +58,7 @@ module.exports.expertOfferSlot = function(req, res, next) {
       data: null
     });
   } else {
+    req.body.expertID = req.decodedToken.user._id;
     req.body.slots = { day : req.body.dayNo , time : req.body.slotNo }
     delete req.body.dayNo
     delete req.body.slotNo
@@ -99,6 +100,7 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
   req.body.dayNo && Validations.isNumber(req.body.dayNo) && 
   req.body.slotNo && Validations.isNumber(req.body.slotNo) &&
   req.body.userid && Validations.isObjectId(req.body.userid)
+
   if (!valid) {
     return res.status(422).json({
       err: null,
@@ -186,14 +188,17 @@ module.exports.userReserveSlot = function(req, res, next) {
   req.body.dayNo && Validations.isNumber(req.body.dayNo) && 
   req.body.slotNo && Validations.isNumber(req.body.slotNo) &&
   req.decodedToken.user._id && Validations.isObjectId(req.decodedToken.user._id)
+  console.log(valid);
+  console.log(req.body);
+
   if (!valid) {
     return res.status(422).json({
       err: null,
-      msg: 'userId | dayNo | slotNo | userid is Not Valid',
+      msg: 'userId | dayNo | slotNo is Not Valid',
       data: null
     });
   } else {
-      Schedule.findOneAndUpdate({ $and : [ { expertID : { $eq : req.body.expertID } } , { slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , users : { $not : { $elemMatch : { userid : { $eq : req.decodedToken.user._id } } } } } } } ]
+      Schedule.findOneAndUpdate({ $and : [ { expertID : { $eq : req.body.expertID } } , { slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , users : { $ne : req.decodedToken.user._id } } } } ]
       },{ $push : { "slots.$.users" : req.decodedToken.user._id } } , {new: true}).exec( function( err , schedule ) {
         if (err) {
           return next(err);

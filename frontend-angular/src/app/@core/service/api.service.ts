@@ -4,11 +4,11 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData , Tags , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots } from '../service/models/api.data.structure';
+import { APIData , SlotData , Tags , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots, ReserveSlotBody } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
-  public static apiUrl = 'https://192.168.1.199:3000/api/';
+  public static apiUrl = 'http://127.0.0.1:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login','auth/signup'];
   constructor(private http: HttpClient) {}
 
@@ -151,10 +151,6 @@ export class APIService {
     .catch(this.errorHandler);
   }
 
-  viewSchedule(): Observable<APIData> {
-    return this.http.get<APIData>( APIService.apiUrl + 'getExpertSchedule/5ac202a3205bd50e64b47ea9').catch(this.errorHandler);
-  }
-
   upgradeToExpert(requestData: RequestData): Observable <APIData> {
     return this.http.post<APIData>( APIService.apiUrl+ 'user/upgradeToExpert', requestData).catch(this.errorHandler);
   }
@@ -175,8 +171,6 @@ export class APIService {
     return this.http.get<Tags>( APIService.apiUrl + 'user/viewSuggestedExperts/'+ tag.name).catch(this.errorHandler);
   }
 
-  
-
   blockUser(Users:User):Observable<APIData>{
     return this.http.patch<APIData>( APIService.apiUrl + 'User/blockUser/'+Users._id,Users)
     .catch(this.errorHandler);
@@ -187,6 +181,10 @@ export class APIService {
   }
 
   getSchedule( user : User ) : Observable<APIData> {
-    return this.http.get<APIData>( APIService.apiUrl + 'schedule/' + user._id )
+    return this.http.get<APIData>( APIService.apiUrl + 'schedule/' + user._id ).catch(this.errorHandler);
+  }
+
+  userReserveSlot( reserveSlotBody : ReserveSlotBody ) :Observable<APIData> {
+    return this.http.post<APIData>( APIService.apiUrl + 'schedule/userReserveSlot' , reserveSlotBody ).catch(this.errorHandler);
   }
 }

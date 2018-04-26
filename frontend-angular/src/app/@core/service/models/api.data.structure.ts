@@ -79,11 +79,17 @@ export interface RequestData{
     createdAt: String;
     viewed:Boolean;
     type: String;   
-  }
+}
   
-  export interface OfferedSlots{
+export interface OfferedSlots {
     user_email: String;  
     expert_email: String;
     slots: [String];
     status: String;
-  }
+}
+
+export interface ReserveSlotBody {
+    expertID : String;
+    dayNo : String ,
+    slotNo : String
+}

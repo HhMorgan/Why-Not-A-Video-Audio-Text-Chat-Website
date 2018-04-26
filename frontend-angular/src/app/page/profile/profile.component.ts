@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../@core/service/api.service';
-import { APIData  , User ,FileData,Tags} from '../../@core/service/models/api.data.structure'
+import { APIData  , User , FileData , Tags} from '../../@core/service/models/api.data.structure'
 import {Buffer} from 'buffer';
 import { ActivatedRoute } from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
