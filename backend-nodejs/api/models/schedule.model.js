@@ -16,6 +16,6 @@ var slotsSchema = mongoose.Schema({
      , usersAccepted:{ type: [mongoose.Schema.Types.ObjectId] , ref: 'User'} ,
       usersRequested:{ type: [mongoose.Schema.Types.ObjectId] , ref: 'User'} } , { _id: false })],
 
-},{ collection: 'Schedule'} );
+},{ collection: 'Schedules'} );
 
 mongoose.model('Schedule', slotsSchema);

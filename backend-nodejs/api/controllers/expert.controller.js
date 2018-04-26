@@ -11,6 +11,7 @@ var mongoose = require('mongoose'),
   Validations = require('../utils/validations'),
   moment = require('moment');
 
+
 //This function is responsible for adding a speciality for the expert,only if it exists in the tag table
 module.exports.addSpeciality = function(req, res, next) {
   var valid = req.body.speciality && Validations.isString(req.body.speciality);
@@ -136,7 +137,7 @@ module.exports.editSlotRequest =function(req, res, next) {
 
 module.exports.viewRequestedSlots = function(req, res, next) {
   // Finds authenticated user info 
-  User.findById('5ad5bee364a0b6360cee111b').exec(function(err, user) {
+  User.findById('5ad92a3eb1e18d0564773622').exec(function(err, user) {
     if (err) {
       return next(err);
     }
@@ -151,7 +152,7 @@ module.exports.viewRequestedSlots = function(req, res, next) {
     Schedule.find({
       expertID: user._id,
       //condition to display records with requested users only
-       $expr : { $gt:[ {$size : "$slots.usersRequested"} , 0 ] } 
+       $expr : { $gt:[ {$size : "$slots.usersRequested"} , 1 ] } 
        
     }).exec(function(err, slots) {
       if (err) {
@@ -182,7 +183,7 @@ module.exports.viewRequestedSlots = function(req, res, next) {
       Schedule.find({
         expertID: user._id,
         //condition to display records with requested users only
-         $expr : { $gt:[{$size : "$slots.usersAccepted"} , 0 ] }  
+         $expr : { $gt:[{$size : "$slots.usersAccepted"} , 1 ] }  
         
       }).exec(function(err, slots) {
         if (err) {
@@ -253,43 +254,23 @@ module.exports.viewSchedule = function(req, res, next) {
 
 module.exports.createSchedule = function(req, res, next) {
   // Check that the body keys are in the expected format and the required fields are there
-  var valid = req.body.userId && Validations.isObjectId(req.body.userId);
-  if (!valid) {
-    return res.status(422).json({
-      err: null,
-      msg: 'userId is Not Valid',
-      data: null
-    });
-  } else { 
-
-
-
-      User.findById(req.body.userId).exec(function(err, user) {
-          if (err) 
-              return next(err);
-          if(user){
-              req.body.expertID = user._id;
-
-              Schedule.find(req.body.userId).exec(function(err,schedule){
-
-                if (! schedule){
-                  req.body.slots =  {Date: req.body.Date} ; 
-                  Schedule.create( req.body , function(err,slots) {
-                    if(err)
-                        return next(err);
-                    return res.status(201).json({
-                      err: null ,
-                       msg: 'Adding slot to a new created Schedule Completed Successfully' ,
-                       data: slots
-                      });    
-                
-                });
   
-              }
-
-                 else{ 
+  Schedule.find( req.decodedToken.user._id ).exec(function(err,schedule){
+    if (!schedule){
+      req.body.expertID = req.decodedToken.user._id ;
+       req.body.slots =  {Date: req.body.Date} ; 
+        Schedule.create( req.body , function(err,slots) {
+        if(err)
+        return next(err);
+        return res.status(200).json({
+         err: null ,
+         msg: 'Adding slot to a new created Schedule Completed Successfully' ,
+         data: slots
+        });    
+        });}
+    else{ 
       Schedule.findOneAndUpdate(  
-        { expertID : { $eq : req.body.userId } }  ,  
+        { expertID : { $eq : req.decodedToken.user._id } }  ,  
 
        { $push: { slots :{ Date : req.body.Date } } } , {new: true}
     ).exec(function(err, schedule) {
@@ -309,27 +290,143 @@ module.exports.createSchedule = function(req, res, next) {
                 data: null
             });
              }
-    });
-                  }    })
-                          
-              } 
+    });}   });
 
-        //if not a user
-        else {
-              return res.status(404).json({
-                  err: null,
-                  msg: 'Unable to locate userWithId :' + req.body.userId,
-                  data: null
-              });
-  }  } )};
+};
 
-
-
-      
-
-
+module.exports.acceptRequest =  function(req, res, next) {
+  Schedule.findOneAndUpdate(  
+    {$and:[{ expertID : req.decodedToken.user._id }  , 
+    { 'slots.Date' : req.body.Date  }]},
+    {$push: {'slots.$.usersAccepted': req.body.userName }},{new:true}
+  ).exec(function(err, schedule) {
   
+    if (err) 
+        return next(err);
+    if(schedule) {
+      console.log(schedule.slots[0].usersAccepted);
+
+      for(var i = 0; i < schedule.slots.length;i++){
+        for(var j = 0; j < schedule.slots[i].usersRequested.length;j++){
+        console.log(schedule.slots[i].usersRequested[j]);
+        }
+        }
+    
+          return res.status(200).json({
+            err: null ,
+            msg: 'Adding slot to Schedule Completed Successfully' ,
+            data: schedule
+        });
+        
+    } else {
+        return res.status(409).json({
+            err: null ,
+            msg: 'Adding slot to Schedule Failed' ,
+            data: null
+        });
+         }
+});
+
 };
 
 
 
+
+module.exports.rejectRequest = function(req, res, next) {
+
+  if (!Validations.isObjectId(req.body.userID)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'The userID entered is not valid',
+      data: null
+      });
+    }
+
+    User.findById(req.body.userID).exec(function(err, user) {
+  
+      if (err) 
+          return next(err);
+      //Add notfication that he got rejected
+
+
+      //remove from usersRequested array
+      Schedule.findOne(  
+        {$and:[{ expertID : req.decodedToken.user._id }  , 
+        { 'slots.Date' : req.body.Date  },
+        {'slots.usersRequested': req.body.userID}]}
+      ).exec(function(err, schedule) {
+      
+        if (err) 
+            return next(err);
+        if(schedule) {
+          Schedule.findOneAndUpdate(  
+            {$and:[{ expertID : req.decodedToken.user._id }  , 
+            { 'slots.Date' : req.body.Date  }]},
+            {$pull: {'slots.$.usersRequested': req.body.userID }},{new:true}
+          ).exec(function(err, schedule) {
+          
+            if (err) 
+                return next(err);
+                console.log(schedule);
+            if(schedule) {
+            
+                  return res.status(200).json({
+                    err: null ,
+                    msg: user.email+' got rejected Successfully' ,
+                    data: schedule
+                });
+                
+            } else {
+                return res.status(409).json({
+                    err: null ,
+                    msg: 'Failed to remove user.' ,
+                    data: null
+                });
+                 }
+        });
+        } else {
+            return res.status(409).json({
+                err: null ,
+                msg: 'Record not found.' ,
+                data: null
+            });
+             }
+        });
+    });
+
+};
+
+module.exports.rejectAllRequests = function(req, res, next) {
+
+  Schedule.findOne({$and:[{ expertID : req.decodedToken.user._id }  , 
+    { 'slots.Date' : req.body.Date  }]}, ).exec(function(err, schedule) {
+  
+      if (err) 
+          return next(err);
+      if(schedule) {
+        var schedule1 = schedule ;
+        for(var i = 0; i < schedule.slots.length;i++){
+          for(var j = 0; j < schedule.slots[i].usersAccepted.length;j++){
+            req.body.userID =  schedule.slots[i].usersAccepted[j];
+            Schedule.findOneAndUpdate(  
+              {$and:[{ expertID : req.decodedToken.user._id }  , 
+              { 'slots.Date' : req.body.Date  }]},
+              {$pull: {'slots.$.usersAccepted': req.body.userID }},{new:true}
+            ).exec(function(err, schedule2) {
+            
+              if (err) 
+                  return next(err);
+              schedule1 = schedule2;
+            });
+          }
+          }
+      
+            return res.status(200).json({
+              err: null ,
+              msg: 'Adding slot to Schedule Completed Successfully' ,
+              data: schedule1
+          });
+          
+      }
+    });
+};
