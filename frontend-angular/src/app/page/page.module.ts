@@ -52,9 +52,9 @@ import { SettingsPageComponent } from './profile/settings-page/settings-page.com
 import { ScheduleComponent } from './Schedule/Schedule.component';
 import { WeekModule } from './Schedule/week.module';
 import { AboutComponent } from './about/about.component';
-
+import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
 import { SearchUserComponent } from '../search-user/search-user.component';
-
+//C:\uni\SE OfficeHours\Why-Not\frontend-angular\src\app\page\notification\notification.component.ts
 @NgModule({
   imports: [
     NgbModule,
@@ -105,6 +105,7 @@ import { SearchUserComponent } from '../search-user/search-user.component';
     ScheduleComponent,
     AboutComponent,
     SearchUserComponent,
+    notificationPageComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

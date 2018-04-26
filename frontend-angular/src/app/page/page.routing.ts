@@ -25,6 +25,7 @@ import { ScheduleComponent } from './Schedule/Schedule.component';
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
 import { AboutComponent } from './about/about.component';
 import { SearchUserComponent } from '../search-user/search-user.component';
+import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
 
 const routes: Routes = [
   { path: 'session/:sessionid', component: SessionComponent },
@@ -54,7 +55,7 @@ const routes: Routes = [
   { path: 'rating', component: RatingComponent },
   { path: 'schedule', component: ScheduleComponent },
   { path: 'admin-rating', component:AdminRatingComponent },
-
+  { path: 'notificationPage', component:notificationPageComponent },  
  
 
 // { path: 'date-picker', component: DatePickerComponent },

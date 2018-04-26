@@ -93,3 +93,14 @@ export interface ReserveSlotBody {
     dayNo : String ,
     slotNo : String
 }
+export interface Notification{
+    sender: String,
+       
+      recipient: String,
+       
+      status :String,
+        
+         type: String,
+        createdAt : Date
+        
+}

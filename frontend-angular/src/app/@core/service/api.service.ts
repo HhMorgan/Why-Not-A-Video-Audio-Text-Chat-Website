@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData , Tags , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots, ReserveSlotBody } from '../service/models/api.data.structure';
+import { APIData , SlotData , Tags , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots, ReserveSlotBody, Notification } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
