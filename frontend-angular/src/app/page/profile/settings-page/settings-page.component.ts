@@ -284,7 +284,9 @@ export class SettingsPageComponent implements OnInit {
   }
 
   search(){
+
     
+    (document.getElementById("searchComp") as HTMLInputElement).style.display="block";
     this.NavBarService.search(((document.getElementById("inputsearch") as HTMLInputElement).value));
 
   }

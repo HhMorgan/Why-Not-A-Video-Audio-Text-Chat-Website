@@ -18,6 +18,8 @@ export class ProfileComponent implements OnInit {
   private Tag = <Tag>{};
   private CoverImgOfUser;
   public usernameOfProfile: string;
+  private rating: number;
+  private ratingwidth: number;
   public currusername: string;
   public description: string;
   public profileInfo = true;
@@ -193,7 +195,7 @@ export class ProfileComponent implements OnInit {
         this.usernameOfProfile = apires.data.username; //getting the username of showed profile
         this.description = apires.data.description; //getting the desc. of showed profile
         this.getimageuser(apires.data.img); //this method gets/views the image of the user 
-        this.showrating(apires.data.rating); //this method gets/views the ratings of the user 
+        this.showrating(apires.data.rating) ;//this method gets/views the ratings of the user 
         console.log(apires.data);
         this.CoverImgOfUser = apires.data.CoverImg;
         this.getCoverImgUser(apires.data.CoverImg);
@@ -238,14 +240,18 @@ export class ProfileComponent implements OnInit {
 
   //this method takes the data(ratings) of the user from ngOnIt
   showrating(datain) {
-    var stars = document.querySelectorAll('[id^=star]');
+    this.rating=datain;
+    var widthofStars = document.getElementById("widthofStars") as HTMLElement
+    
+    widthofStars.style.width=  'calc(100% * ('+ this.rating +'/ 5))';
+   /*  var stars = document.querySelectorAll('[id^=star]');
     var textToWrite;
     var i;
     for (i in stars) {
       if (i < datain) {
         stars[i].classList.add('checked');
       }
-    }
+    } */
   }
 
   //this method gets username of the loggedin user
