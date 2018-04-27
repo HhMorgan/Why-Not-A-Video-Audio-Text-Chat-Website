@@ -6,7 +6,8 @@
   sessionCtrl = require('../controllers/session.controller'),
   expert = require('../controllers/expert.controller'),
   AdminController = require('../controllers/Admin.Controller'),
-  scheduleController = require('../controllers/schedule.controller');
+  scheduleController = require('../controllers/schedule.controller')
+  NotificationController = require('../controllers/notification.Controller');
  
 var isAuthenticated = function(req, res, next) {
   // Check that the request has the JWT in the authorization header
@@ -95,6 +96,9 @@ router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
 router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
 router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUserProfile);
 router.get('/user/getMatchingUsers/:searchtag', userCtrl.getMatchingUsers);
+
+router.get('/Notification/getNotifications', isAuthenticated, NotificationController.getNotifications);
+router.get('/Notification/AddNotifications', isAuthenticated, NotificationController.AddNotification);
 
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
