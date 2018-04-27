@@ -4,7 +4,7 @@ import { APIData, User, FileData, Profile, Tag } from '../../../@core/service/mo
 import { ProfileComponent } from '../../profile/profile.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { LocalDataSource } from 'ng2-smart-table';
-
+import { NavBarService } from '../../../@core/service/shared.service';
 
 @Component({
   selector: 'app-settings-page',
@@ -20,9 +20,11 @@ export class SettingsPageComponent implements OnInit {
   public description: string;
   public password: string;
   private profile = <Profile>{};
+  private searchtag:string;
+  private tags:Tag[];
 
 
-  constructor(private apiServ: APIService) { }
+  constructor(private apiServ: APIService, private NavBarService:NavBarService ) { }
   source: LocalDataSource = new LocalDataSource();
   settings = {
     pager: {
@@ -56,6 +58,7 @@ export class SettingsPageComponent implements OnInit {
   ngOnInit() {
     this.getData();
     this.refresh();
+
 
   }
 
@@ -173,6 +176,29 @@ export class SettingsPageComponent implements OnInit {
 
   }
 
+  AddTag() {
+    var tag = <Tag>{};
+    var icon = event.target as HTMLElement
+    var parentDiv = icon.parentElement as HTMLElement
+    var parentDirowClass = parentDiv.parentElement as HTMLElement
+    var parentDirowClass2 = parentDirowClass.parentElement as HTMLElement
+    var firstDivOfRows = parentDirowClass.firstElementChild as HTMLElement
+    var TagBtn = firstDivOfRows.firstElementChild as HTMLElement
+    for( let currentTag of this.tags ){
+      if(TagBtn.textContent == currentTag.name ){
+        tag._id = currentTag._id;
+        break;
+      }
+    }
+    tag.name = TagBtn.textContent;
+    //sends the tag name through addSpeciality which is later used to search for the tag and add it
+    this.apiServ.addSpeciality(tag).subscribe((apiresponse: APIData) => {
+     // this.triggernotifications("#34A853", apiresponse.msg);
+    }, (err) => {
+    //  this.triggernotifications("#EA4335", err.msg);
+    });
+  }
+
   closeSetting() {
     this.settingClose.emit("nothing");
   }
@@ -252,5 +278,14 @@ export class SettingsPageComponent implements OnInit {
       this.password = apires.data.password;
       this.username = apires.data.username;
     })
+
+   
+
+  }
+
+  search(){
+    
+    this.NavBarService.search(((document.getElementById("inputsearch") as HTMLInputElement).value));
+
   }
 }

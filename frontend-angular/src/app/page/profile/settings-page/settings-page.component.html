@@ -82,6 +82,53 @@
         </ng-template>
       </ngb-tab>
 
+      <ngb-tab title="Add Tags/Speciality">
+        <ng-template ngbTabContent>
+       <!--    <div id="TagsResults">
+                         
+            <br>
+         <div class="row following" id="follows">
+                 <div class="col-md-6 ml-auto mr-auto">
+                     <ul class="list-unstyled follows">
+                       <div *ngFor="let tag of tags">
+                         <li>
+                             <div class="row">
+                                 <div class="col-md-2 col- ml-auto mr-auto"> 
+                                         <button style=" margin-right:75%"id="{{tag._id}}" type="button" [style.border-color]= "tag.color.name" [style.background-color]= "tag.color.name" class="btn btn-sm btn-info btn-round">{{tag.name}}</button>
+                                 </div>
+                                 <div class="col-md-7 col-sm-4 ml-auto">
+                                  
+                                 </div>
+                                 <div class="col-md-3 col-sm-2 ml-auto mr-auto">
+                                         <button (click)="AddTag()" type="button" class="btn btn-success"> ADD</button>
+                                         
+                                 </div>
+                             </div>
+                         </li>
+                         <hr />
+                       </div>
+ //   <pagination-controls (pageChange)="p = $event"></pagination-controls>  | paginate: { itemsPerPage: 5, currentPage: p }
+                     </ul>
+                 </div>
+             </div>  
+         </div>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <br> -->
+         <div style="width:30%;left:35%;" class="input-group">
+          <input style="width:30%;" id="inputsearch" type="text" class="form-control" placeholder="Search by Tag" aria-describedby="basic-addon1">
+          <button (click)="search()" type="button" class="btn btn-default">Search</button>
+      </div>
+       <app-search-user  [showCover]="false" [showUsers]="false"></app-search-user>
+        </ng-template>
+      </ngb-tab>
+
       <ngb-tab>
         <ng-template ngbTabTitle>
           <i (click)=closeSetting() class="fa fa-times" onSubmit="return false" style="font-size:24px"></i>

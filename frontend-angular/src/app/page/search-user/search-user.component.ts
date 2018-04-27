@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output,EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { APIService } from '../../@core/service/api.service';
+import { NavBarService } from '../../@core/service/shared.service';
 import { APIData, User, Tag } from '../../@core/service/models/api.data.structure';
 import { IAlert } from '../../@core/service/models/frontend.data.structure';
 import { Routes, Router } from '@angular/router';
@@ -13,54 +14,57 @@ import {NgxPaginationModule} from 'ngx-pagination';
   styleUrls: ['./search-user.component.css'],
 })
 export class SearchUserComponent implements OnInit {
-  private searchtag;
+ // private searchtag;
   private users: User[];
   private tags: Tag[];
   public alerts: Array<IAlert> = [];
   closeResult: string;
+
   // paged items
  pagedItems: any[];
    p: number = 1;
 
+   @Input() showUsers:boolean ;
+   @Input() showCover:boolean  ;
+   @Input() searchtag:string ;
 
 
 
-
-  constructor(private apiServ: APIService, private route: ActivatedRoute, private router: Router, private modalService: NgbModal) {
+  constructor(private apiServ: APIService, private route: ActivatedRoute, private router: Router, private modalService: NgbModal, private  NavBarService:NavBarService) {
   }
+
 
 
 
 
   ngOnInit() {
-    this.alerts.push({
-      id: 1,
-      type: 'success',
-      message: 'lolypop',
-    });
+    console.log(this.showCover);
 
-
-    var i, j;
-
+    if(this.showUsers != false && this.showCover != false ){
+      this.showUsers=true;
+      this.showCover=true;
+    }
+   
+   
+   
     this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
-      this.searchtag = params['searchtag'];
-
-      this.apiServ.getMatchingSearch(this.searchtag).subscribe((apires: APIData) => {
-        this.users = new Array();
-        this.tags = new Array();
-        // var UsersData = new Array(apires.data[1]);
-        console.log(apires);
-        for (i = 0; i < apires.data[1].length; i++) {
-          this.users.push((apires.data[1])[i]);
-          this.getimageuser((apires.data[1])[i].username, (apires.data[1])[i].img);
+   
+      if(params['searchtag']==null){
+        this.NavBarService.searchevent.subscribe((m:any) => {
+          //   console.log("lolololo");
+           //  console.log(m);
+             this.searchtag=m;
+            this.SearchByTag( this.searchtag);
+             
+         })
+        }
+        else{
+          this.searchtag = params['searchtag'];
+          this.search( this.searchtag);
         }
 
-
-        for (j = 0; j < apires.data[0].length; j++) {
-          this.tags.push((apires.data[0])[j]);
-          var Tag = document.getElementById(((apires.data[0])[j])._id) as HTMLImageElement;
-        }
-      })
+   
+    
 
     });
 
@@ -69,6 +73,40 @@ export class SearchUserComponent implements OnInit {
 
 
   }
+
+  search(seathtag){
+    var i, j;
+    this.apiServ.getMatchingSearch(seathtag).subscribe((apires: APIData) => {
+      this.users = new Array();
+      this.tags = new Array();
+      // var UsersData = new Array(apires.data[1]);
+      console.log(apires);
+      for (i = 0; i < apires.data[1].length; i++) {
+        this.users.push((apires.data[1])[i]);
+        this.getimageuser((apires.data[1])[i].username, (apires.data[1])[i].img);
+      }
+
+
+      for (j = 0; j < apires.data[0].length; j++) {
+        this.tags.push((apires.data[0])[j]);
+        var Tag = document.getElementById(((apires.data[0])[j])._id) as HTMLImageElement;
+      }
+    })
+
+  }
+
+  SearchByTag(seathtag){
+    var i, j;
+    this.apiServ.getMatchingSearch(seathtag).subscribe((apires: APIData) => {
+      this.tags = new Array();
+      for (j = 0; j < apires.data[0].length; j++) {
+        this.tags.push((apires.data[0])[j]);
+        var Tag = document.getElementById(((apires.data[0])[j])._id) as HTMLImageElement;
+      }
+    })
+
+  }
+
   
   open(content) {
     this.modalService.open(content).result.then((result) => {
@@ -117,9 +155,9 @@ export class SearchUserComponent implements OnInit {
     tag.name = TagBtn.textContent;
     //sends the tag name through addSpeciality which is later used to search for the tag and add it
     this.apiServ.addSpeciality(tag).subscribe((apiresponse: APIData) => {
-      this.triggernotifications("#34A853", apiresponse.msg);
+      this.NavBarService.triggernotifcations("#34A853", apiresponse.msg.toString());
     }, (err) => {
-      this.triggernotifications("#EA4335", err.msg);
+      this.NavBarService.triggernotifcations("#EA4335", err.msg);
     });
   }
   refresh() {

@@ -12,8 +12,8 @@
                <div class="col-md-6 ml-auto mr-auto">
                    <ul class="list-unstyled follows">
                       <p class="dropdown-item" >Add color by Hexa/rgb/name</p>
-                                         <input id="colorcode" type="text" class="form-control" placeholder="'INDIANRED','#CD5C5C','RGB(205, 92, 92)'">
-                                         <button (click)="AddColor()" type="button" class="btn btn-info btn-just-icon"><i class="fa fa-plus"></i></button>
+                                         <div> <input id="colorcode" type="text" class="form-control" placeholder="'INDIANRED','#CD5C5C','RGB(205, 92, 92)'">
+                                          <button (click)="AddColor()" type="button" class="btn btn-info btn-just-icon"><i class="fa fa-plus"></i></button></div>
                      <div *ngFor="let tag of tagswithColors | paginate: { itemsPerPage: 3, currentPage: ptags, id:'tagspages' } ">
                        <li>
                            <div class="row">
@@ -43,9 +43,10 @@
                    </ul>
                   
                </div>
-           </div>  
+           </div> 
+           <pagination-controls style="margin-left:80%;" id="tagspages" (pageChange)="ptags = $event"></pagination-controls>  
        </div>
-        <pagination-controls id="tagspages" (pageChange)="ptags = $event"></pagination-controls> 
+      
        <br>
        <br>
        <br>

@@ -53,6 +53,7 @@ import { SettingsPageComponent } from './profile/settings-page/settings-page.com
 import { ScheduleComponent } from './Schedule/Schedule.component';
 import { WeekModule } from './Schedule/week.module';
 import { SearchUserComponent } from './search-user/search-user.component';
+import { SnackbarCompComponent } from './components/snackbar-comp/snackbar-comp.component';
 
 
 
@@ -106,6 +107,7 @@ import { SearchUserComponent } from './search-user/search-user.component';
     SettingsPageComponent,
     ScheduleComponent,
     SearchUserComponent,
+    SnackbarCompComponent
   ],
   entryComponents: [NgbdModalContent]
 })

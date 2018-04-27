@@ -1,13 +1,13 @@
 <div class="wrapper">
-    <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
+    <div   *ngIf="showCover"  class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
         <div class="filter"></div>
     </div>
-    <!-- <app-notification  [alerts]=alerts></app-notification>   -->
+    <app-snackbar-comp ></app-snackbar-comp> 
   <div class="nav-tabs-navigation">
   <div class="nav-tabs-wrapper">
       <ngb-tabset [justify]="'center'" (tabChange)="refresh()">
-          <ngb-tab  title="Users">
-              <ng-template ngbTabContent >
+          <ngb-tab *ngIf="showUsers"  title="Users" style="display:none;">
+              <ng-template  ngbTabContent  >
                   <div class="row following" id="follows">
                       <div class="col-md-6 ml-auto mr-auto">
                           <ul class="list-unstyled follows">
@@ -103,4 +103,4 @@
     
   </div>
   
-  <div  id="snackbar" >Some text some message..</div>
+<!--   <div  id="snackbar" >Some text some message..</div> -->

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../@core/service/api.service';
+import { NavBarService } from '../../@core/service/shared.service';
 import { APIData, User, FileData, Tag } from '../../@core/service/models/api.data.structure'
 import { Buffer } from 'buffer';
 import { ActivatedRoute } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { NotificationComponent } from '../components/notification/notification.component';
 
 @Component({
   selector: 'app-profile',
@@ -25,7 +27,7 @@ export class ProfileComponent implements OnInit {
   public editable: boolean = true; // intially just for testing
 
 
-  constructor(private apiServ: APIService, private route: ActivatedRoute) { };
+  constructor(private apiServ: APIService, private route: ActivatedRoute,private  NavBarService:NavBarService) { };
   //this method changes the user's current status if it's online to offlne and vice versa
 
   changeUserStatus() {
@@ -74,6 +76,7 @@ export class ProfileComponent implements OnInit {
   //this method gets called everytime the page is reloaded
   
   ngOnInit() {
+   
     this.getcurrusername();
     this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
       this.user.username = params['username'];
@@ -217,9 +220,13 @@ export class ProfileComponent implements OnInit {
        this.apiServ.editSpeciality(Tag).subscribe((apiresponse: APIData)=>{
         if(apiresponse.msg == "Speciality removed"){
           button.remove();
+          this.NavBarService.triggernotifcations("#34A853", apiresponse.msg.toString());
         }
        // console.log(apiresponse);  
-                 }); 
+   
+      }, (err) => {
+        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      }); 
                });
 
               
@@ -366,4 +373,19 @@ export class ProfileComponent implements OnInit {
     this.profilesettings = false;
     // document.getElementById("settings-page").style.display = "none";
   }
+
+  
+  triggernotifications(color, text) {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar");
+    x.style.backgroundColor = color;
+    x.textContent = text;
+    // Add the "show" class to DIV
+    x.className = "show";
+
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+  }
+
+
 }
