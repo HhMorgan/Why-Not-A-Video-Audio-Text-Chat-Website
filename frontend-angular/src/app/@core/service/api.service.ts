@@ -211,4 +211,14 @@ export class APIService {
     return this.http.patch<APIData>( APIService.apiUrl + '/User/downgradeExpert/' + Users._id , Users )
     .catch(this.errorHandler);
   }
+
+  addtoToBookmark( User : User ): Observable<APIData> {
+    return this.http.post<APIData>( APIService.apiUrl + '/user/addToBookmarks/' + User._id,User._id )
+    .catch(this.errorHandler);
+  }
+
+  getUserbyIds(Users_ids: String[]):Observable<APIData> {
+    return this.http.post<APIData>( APIService.apiUrl + '/user/getUserById',Users_ids)
+    .catch(this.errorHandler);
+  }
 }

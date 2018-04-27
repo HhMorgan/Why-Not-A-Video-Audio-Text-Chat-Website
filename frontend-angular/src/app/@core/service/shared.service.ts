@@ -8,18 +8,12 @@ export class NavBarService {
   @Output() change: EventEmitter<boolean> = new EventEmitter();
   @Output() changenotifications: EventEmitter<Object> = new EventEmitter();
   @Output() searchevent: EventEmitter<string> = new EventEmitter();
-  private _listners = new Subject<any>();
-
-  listen(): Observable<any> {
-     return this._listners.asObservable();
-  }
 
   triggernotifcations(color: string,text:string) {
      this.changenotifications.emit({color,text});
   }
 
   search(searchtag: string) {
-    console.log(searchtag);
     this.searchevent.emit(searchtag);
  }
 

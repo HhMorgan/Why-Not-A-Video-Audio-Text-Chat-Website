@@ -2,7 +2,7 @@
     <div   *ngIf="showCover"  class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
         <div class="filter"></div>
     </div>
-    <app-snackbar-comp ></app-snackbar-comp> 
+    
   <div class="nav-tabs-navigation">
   <div class="nav-tabs-wrapper">
       <ngb-tabset [justify]="'center'" (tabChange)="refresh()">
@@ -15,14 +15,14 @@
                               <li>
                                   <div class="row">
                                       <div class="col-md-2 col-sm-2 ml-auto mr-auto">
-                                          <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture">
+                                          <!-- <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle" title="change profile picture"> -->
+                                          <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                       </div>
                                       <div class="col-md-7 col-sm-4 ml-auto">
-                                          <h6><a [routerLink]="['/page/profile',user.username]">{{user.username}}</a><br/><small>Client</small></h6>
+                                          <h6><a [routerLink]="['/page/profile',user.username]">{{user.username}}</a><br/><small>{{user.role}}</small></h6>
                                       </div>
                                       <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                          <div class="form-check">
-                                          </div>
+                                        <button (click)="addtobookmark()" type="button" class="btn btn-info btn-round"><i class="fa fa-heart"></i>bookmark</button>
                                       </div>
                                   </div>
                               </li>
@@ -102,5 +102,6 @@
   </div>
     
   </div>
+  <app-snackbar-comp  ></app-snackbar-comp> 
   
 <!--   <div  id="snackbar" >Some text some message..</div> -->

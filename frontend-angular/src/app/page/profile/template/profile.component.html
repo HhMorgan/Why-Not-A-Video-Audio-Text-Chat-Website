@@ -88,66 +88,40 @@
             <div class="nav-tabs-navigation">
                 <div class="nav-tabs-wrapper">
                     <ngb-tabset [justify]="'center'">
-                        <ngb-tab title="Follows">
-                            <ng-template ngbTabContent>
+                        <ngb-tab   title="Bookmarked" >
+                            <ng-template  ngbTabContent  >
                                 <div class="row following" id="follows">
                                     <div class="col-md-6 ml-auto mr-auto">
                                         <ul class="list-unstyled follows">
+                                          <div *ngFor="let user of BookmarkedUsers">
                                             <li>
                                                 <div class="row">
                                                     <div class="col-md-2 col-sm-2 ml-auto mr-auto">
-                                                        <img src="../assets/img/faces/clem-onojeghuo-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                        <!-- <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle" title="change profile picture"> -->
+                                                        <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                                     </div>
                                                     <div class="col-md-7 col-sm-4 ml-auto">
-                                                        <h6>Flume
-                                                            <br/>
-                                                            <small>Musical Producer</small>
-                                                        </h6>
+                                                        <h6><a [routerLink]="['/page/profile',user.username]">{{user.username}}</a><br/><small>{{user.role}}</small></h6>
                                                     </div>
                                                     <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                                        <div class="form-check" onSubmit="return false">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="checkbox" value="" checked="">
-                                                                <span class="form-check-sign"></span>
-                                                            </label>
-                                                        </div>
+                                                      <button *ngIf="isloggeduser()" type="button" class="btn  btn-danger btn-round">remove</button>
                                                     </div>
                                                 </div>
                                             </li>
                                             <hr />
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2 ml-auto mr-auto">
-                                                        <img src="../assets/img/faces/ayo-ogunseinde-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                                    </div>
-                                                    <div class="col-md-7 col-sm-4 ml-auto">
-                                                        <h6>Banks
-                                                            <br />
-                                                            <small>Singer</small>
-                                                        </h6>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                                        <div class="form-check">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="checkbox" value="" checked="">
-                                                                <span class="form-check-sign"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                          </div>
                                         </ul>
                                     </div>
                                 </div>
                             </ng-template>
                         </ngb-tab>
-                        <ngb-tab title="Following">
+                      <!--   <ngb-tab title="Following">
                             <ng-template ngbTabContent>
                                 <h3 class="text-muted">Not following anyone yet :(</h3>
                                 <br>
                                 <button class="btn btn-warning btn-round">Find artists</button>
                             </ng-template>
-                        </ngb-tab>
+                        </ngb-tab> -->
                     </ngb-tabset>
 
 

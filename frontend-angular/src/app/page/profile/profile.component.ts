@@ -15,6 +15,7 @@ import { NotificationComponent } from '../components/notification/notification.c
 
 export class ProfileComponent implements OnInit {
   private user = <User>{};
+  private BookmarkedUsers : User[];
   private Tag = <Tag>{};
   private CoverImgOfUser;
   public usernameOfProfile: string;
@@ -85,6 +86,7 @@ export class ProfileComponent implements OnInit {
       this.apiServ.getUserProfile(this.user).subscribe((apires: APIData) => { //this method gets all the info of current profile 
         var specialities_ids = apires.data.speciality; //getting the speciality array of the user in terms of Object_id
         var specialities_names: Tag[] = new Array(); //array to hold the names of the specs
+        this.BookmarkedUsers= new Array();
         var Tags_ids: String[] = new Array();
         var i, j, l = 0, Tags_names_length;
         var specsElem = document.getElementById("specs"); //specs div
@@ -99,75 +101,75 @@ export class ProfileComponent implements OnInit {
             specialities_names.push(apires.data[i]);
           }
 
-          Tags_names_length = specialities_names.length;
+          
+          var Tagsdiv = document.getElementById("tagsdiv");
+        while (Tagsdiv.firstChild) {
+          Tagsdiv.removeChild(Tagsdiv.firstChild);
+              }
 
           for (i = 0; i < specialities_names.length / 4; i++) {
             var TagsContainer = document.createElement("div");
             TagsContainer.setAttribute("id", "TagsSmallContainer" + i);
             for (j = 0; j < 4 && l < specialities_names.length; j++) {
               var Tag = document.createElement("button");
-
-              var DeleteTag = document.createElement("i");
-              Tag.appendChild(DeleteTag);
+              var DeleteTag = document.createElement("i");  
               DeleteTag.classList.add('fa');
               DeleteTag.classList.add('fa-close');
-              var f;
-              //f=false;
               DeleteTag.style.display = "none";
+  
+           if(this.isloggeduser()){
+            Tag.appendChild(DeleteTag);
+            DeleteTag.addEventListener("mouseover", function () {
               var ParentTag = event.target as HTMLElement;
               var x = ParentTag.firstChild as HTMLElement;
+              if (ParentTag != null) {
+                ParentTag.style.display = "inline-block";
+                // x.style.zIndex="block";
+              }
+            });
 
-              Tag.addEventListener("mouseover", function () {
-                var ParentTag = event.target as HTMLElement;
-                var x = ParentTag.firstChild as HTMLElement;
-                if (x != null) {
-                  x.style.display = "inline-block";
-                  // x.style.zIndex="block";
-                }
-              });
-              Tag.addEventListener("mouseout", function () {
-                var ParentTag = event.target as HTMLElement;
-                var x = ParentTag.firstChild as HTMLElement;
-                if (x != null) {
-                  x.style.display = "none";
-                }
-              });
+            DeleteTag.addEventListener("mouseout", function () {
+              var ParentTag = event.target as HTMLElement;
+              var x = ParentTag.firstChild as HTMLElement;
+              if (ParentTag != null) {
+                ParentTag.style.display = "none";
+              }
+            });
 
-              /////
-
-              DeleteTag.addEventListener("mouseover", function () {
-                var ParentTag = event.target as HTMLElement;
-                var x = ParentTag.firstChild as HTMLElement;
-                if (ParentTag != null) {
-                  ParentTag.style.display = "inline-block";
-                  // x.style.zIndex="block";
-                }
-              });
-
-              DeleteTag.addEventListener("mouseout", function () {
-                var ParentTag = event.target as HTMLElement;
-                var x = ParentTag.firstChild as HTMLElement;
-                if (ParentTag != null) {
-                  ParentTag.style.display = "none";
-                }
-              });
-
-              DeleteTag.addEventListener("click", () => { 
-
-                console.log('parentBtn.textContent');
-                var iElementX = event.target as HTMLElement;
-                var parentBtn = iElementX.parentNode as HTMLElement
-                console.log(iElementX.parentNode);
-                console.log(parentBtn.textContent);
-              var Tag  = <Tag>{};
-              Tag.name=parentBtn.textContent;
-              // console.log( );
-              this.editSpecs(Tag,parentBtn)
-              
-
-              });
+            DeleteTag.addEventListener("click", () => { 
 
 
+              var iElementX = event.target as HTMLElement;
+              var parentBtn = iElementX.parentNode as HTMLElement
+            var Tag  = <Tag>{};
+            Tag.name=parentBtn.textContent;
+            this.editSpecs(Tag,parentBtn)
+            
+
+            });
+
+            var ParentTag = event.target as HTMLElement;
+            var x = ParentTag.firstChild as HTMLElement;
+
+            Tag.addEventListener("mouseover", function () {
+              var ParentTag = event.target as HTMLElement;
+              var x = ParentTag.firstChild as HTMLElement;
+              if (x != null) {
+                x.style.display = "inline-block";
+                // x.style.zIndex="block";
+              }
+            });
+            Tag.addEventListener("mouseout", function () {
+              var ParentTag = event.target as HTMLElement;
+              var x = ParentTag.firstChild as HTMLElement;
+              if (x != null) {
+                x.style.display = "none";
+              }
+            });
+
+          
+           }     
+            
               var divider = document.createElement("div");
               divider.classList.add("divider");
               var t = document.createTextNode(specialities_names[l].name + "");
@@ -196,9 +198,9 @@ export class ProfileComponent implements OnInit {
         this.description = apires.data.description; //getting the desc. of showed profile
         this.getimageuser(apires.data.img); //this method gets/views the image of the user 
         this.showrating(apires.data.rating) ;//this method gets/views the ratings of the user 
-        console.log(apires.data);
         this.CoverImgOfUser = apires.data.CoverImg;
         this.getCoverImgUser(apires.data.CoverImg);
+        this.getBookmarks(apires.data.bookmarks);
         this.role = apires.data.role;
         if (this.role == 'user') {
           this.role = '';
@@ -212,11 +214,37 @@ export class ProfileComponent implements OnInit {
 
   }
 
+  getimageBookmarked(name, datain) {
+    var reader: FileReader = new FileReader();
+    reader.readAsDataURL(new Blob([new Buffer(datain.data)], { type: datain.data.contentType }))
+    reader.addEventListener("load", function () {
+      var profileimg = document.getElementById(name) as HTMLImageElement;
+      if (profileimg != null) {
+        profileimg.src = reader.result;
+      }
+
+      // navbarimg.src = reader.result;
+    }, false);
+  }
+
+  getBookmarks(datain){
+    var Users_ids: String[] = new Array();
+    this.BookmarkedUsers= new Array();
+    Users_ids=datain;
+    var i;
+    this.apiServ.getUserbyIds(Users_ids).subscribe((apiresponse: APIData)=>{
+      for( i=0;i<apiresponse.data.length;i++){
+        this.BookmarkedUsers.push(apiresponse.data[i]);
+        this.getimageBookmarked(apiresponse.data[i].username, apiresponse.data[i].img);
+      }
+    });
+  }
+
 
    editSpecs(tag,button ){
 
     this.apiServ.getTagbyName(tag).subscribe((apiresponse: APIData)=>{
-      console.log(apiresponse);
+
       var Tag  = <Tag>{};  
       Tag=apiresponse.data ;
        this.apiServ.editSpeciality(Tag).subscribe((apiresponse: APIData)=>{
@@ -224,7 +252,6 @@ export class ProfileComponent implements OnInit {
           button.remove();
           this.NavBarService.triggernotifcations("#34A853", apiresponse.msg.toString());
         }
-       // console.log(apiresponse);  
    
       }, (err) => {
         this.NavBarService.triggernotifcations("#EA4335", err.msg);
@@ -345,7 +372,7 @@ export class ProfileComponent implements OnInit {
     // var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
     var reader: FileReader = new FileReader();
     reader.readAsDataURL(new Blob([new Buffer(datain.data)], { type: datain.data.contentType }))
-    console.log(reader.result);
+
     reader.addEventListener("load", function () {
       profileimg.src = reader.result;
       // navbarimg.src = reader.result;
@@ -354,12 +381,10 @@ export class ProfileComponent implements OnInit {
   }
 
   getCoverImgUser(datain) {
-    console.log(datain);
     var profileimg = document.getElementById("coverImg") as HTMLImageElement
     // var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
     var reader2: FileReader = new FileReader();
     reader2.readAsDataURL(new Blob([new Buffer(datain.data)], { type: datain.data.contentType }))
-    console.log((reader2.result));
     //var holder=;
     reader2.addEventListener("load", function () {
       profileimg.style.backgroundImage = 'url(' + reader2.result + ')';

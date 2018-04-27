@@ -513,6 +513,9 @@ module.exports.viewSuggestedExperts = function(req, res, next) {
 };
 
 
+
+
+
 //adding an expert to the array of bookmarks of a certain user
 module.exports.addToBookmarks = function (req, res, next){
 
@@ -546,8 +549,7 @@ module.exports.addToBookmarks = function (req, res, next){
           data: null });
       }
 
-      User.findOneAndUpdate({ 
-        _id : { $eq : req.decodedToken.user._id}},
+      User.findOneAndUpdate({ _id : { $eq : req.decodedToken.user._id} , bookmarks: { $ne: req.params.expertId }},
         { $push: { bookmarks: req.params.expertId } }, { new : true } , function (err, user) {
 
           if (err) {
@@ -556,8 +558,8 @@ module.exports.addToBookmarks = function (req, res, next){
           if (!user) {
             return res.status(404).json({ 
               err: null , 
-              msg: 'The expert could not be added to your bookmarks because you are not a user '
-                   + 'or he/she is already added to your bookmarks.', 
+              msg: 'The expert could not be added to your bookmarks because '
+                   + ' he/she is already added to your bookmarks.', 
               data: null 
             });
           }
@@ -607,3 +609,25 @@ module.exports.removeFromBookmarks = function (req, res, next){
   });
 
 }
+
+module.exports.findUserbyId = function (req, res, next) {
+  console.log(req.body);
+  User.find({ _id: req.body  }).exec(function (err, User) {
+    if (err) {
+      return next(err);
+    }
+    if (!User) {
+      return res.status(404).json({
+        err: null,
+        msg: 'This Tag is not found ',
+        data: null
+      });
+    }
+
+    return res.status(201).json({
+      err: null,
+      msg: 'Succesfully retrieved Users',
+      data: User
+    });
+  })
+};

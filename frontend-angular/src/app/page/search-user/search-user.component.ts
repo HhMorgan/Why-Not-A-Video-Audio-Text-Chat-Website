@@ -74,6 +74,24 @@ export class SearchUserComponent implements OnInit {
 
   }
 
+  addtobookmark(){
+    var icon = event.target as HTMLElement
+    var parentDiv = icon.parentElement as HTMLElement
+    var parentDirowClass = parentDiv.parentElement as HTMLElement
+    var childdiv = parentDirowClass.childNodes[3] as HTMLElement
+    var firstChildDiv = childdiv.firstElementChild as HTMLElement
+    var name = firstChildDiv.firstElementChild as HTMLElement
+    var user = <User>{};
+    user.username=name.innerText.toLowerCase();
+    this.apiServ.getUserProfile(user).subscribe((apires: APIData) => {
+      this.apiServ.addtoToBookmark(apires.data).subscribe((apires: APIData) => {
+        this.NavBarService.triggernotifcations("#34A853", apires.msg.toString());
+      }, (err) => {
+        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      })
+    });
+  }
+
   search(seathtag){
     var i, j;
     this.apiServ.getMatchingSearch(seathtag).subscribe((apires: APIData) => {
