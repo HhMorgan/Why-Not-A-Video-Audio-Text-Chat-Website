@@ -234,9 +234,30 @@ export class ProfileComponent implements OnInit {
     var i;
     this.apiServ.getUserbyIds(Users_ids).subscribe((apiresponse: APIData)=>{
       for( i=0;i<apiresponse.data.length;i++){
+        console.log(apiresponse.data);
         this.BookmarkedUsers.push(apiresponse.data[i]);
         this.getimageBookmarked(apiresponse.data[i].username, apiresponse.data[i].img);
       }
+    });
+  }
+
+  removeBookmarked(){
+    var icon = event.target as HTMLElement
+    var parentDiv = icon.parentElement as HTMLElement
+    var parentDirowClass = parentDiv.parentElement as HTMLElement
+    var childdiv = parentDirowClass.childNodes[3] as HTMLElement
+    var firstChildDiv = childdiv.firstElementChild as HTMLElement
+    var name = firstChildDiv.firstElementChild as HTMLElement
+    var user = <User>{};
+    user.username=name.innerText.toLowerCase();
+    console.log(user.username);
+    this.apiServ.getUserProfile(user).subscribe((apires: APIData) => {
+      this.apiServ.removeFromBookmark(apires.data).subscribe((apires: APIData) => {
+        this.NavBarService.triggernotifcations("#34A853", apires.msg.toString());
+        childdiv.parentElement.remove();
+      }, (err) => {
+        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      })
     });
   }
 

@@ -109,6 +109,7 @@ router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
 router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
+router.delete('/user/removeFromBookmarks/:expertId', isAuthenticated, userCtrl.removeFromBookmarks);
 router.get('/user/viewBookmarks', isAuthenticated , userCtrl.viewBookmarks);
 router.post('/user/getUserById', isAuthenticated , userCtrl.findUserbyId);
 

@@ -217,6 +217,11 @@ export class APIService {
     .catch(this.errorHandler);
   }
 
+  removeFromBookmark( User : User ): Observable<APIData> {
+    return this.http.delete<APIData>( APIService.apiUrl + '/user/removeFromBookmarks/' + User._id )
+    .catch(this.errorHandler);
+  }
+
   getUserbyIds(Users_ids: String[]):Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + '/user/getUserById',Users_ids)
     .catch(this.errorHandler);

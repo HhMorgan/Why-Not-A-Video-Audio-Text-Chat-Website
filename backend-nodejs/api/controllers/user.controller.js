@@ -597,7 +597,7 @@ module.exports.viewBookmarks = function (req, res, next){
   });
 }
 
-module.exports.removeFromBookmarks = function (req, res, next){
+/* module.exports.removeFromBookmarks = function (req, res, next){
 
   User.findById(req.decodedToken.user._id).exec(function(err, user) {
     if (err) {
@@ -608,7 +608,32 @@ module.exports.removeFromBookmarks = function (req, res, next){
     }
   });
 
-}
+} */
+
+
+module.exports.removeFromBookmarks = function (req, res, next) {
+  User.findOneAndUpdate({
+    _id: { $eq: req.decodedToken.user._id },
+    //search for the tag id that should be removed in the array of specialities with its id
+    bookmarks: { $eq: req.params.expertId }
+  }, { $pull: { bookmarks: req.params.expertId } }, { new: true }, function (err, updateduser) {
+    if (err) {
+      return next(err);
+    }
+    if (!bookmarks) {
+      return res.status(404).json({
+        err: null,
+        msg: 'bookmark could not be found',
+        data: null
+      });
+    }
+    return res.status(201).json({
+      err: null,
+      msg: 'bookmark removed',
+      data: updateduser.bookmarks
+    });
+  });
+};
 
 module.exports.findUserbyId = function (req, res, next) {
   console.log(req.body);

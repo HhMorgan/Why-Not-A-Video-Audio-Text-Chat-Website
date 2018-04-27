@@ -104,7 +104,7 @@
                                                         <h6><a [routerLink]="['/page/profile',user.username]">{{user.username}}</a><br/><small>{{user.role}}</small></h6>
                                                     </div>
                                                     <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                                      <button *ngIf="isloggeduser()" type="button" class="btn  btn-danger btn-round">remove</button>
+                                                      <button *ngIf="isloggeduser()" (click)="removeBookmarked()" type="button" class="btn  btn-danger btn-round">remove</button>
                                                     </div>
                                                 </div>
                                             </li>
