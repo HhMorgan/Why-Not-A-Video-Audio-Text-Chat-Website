@@ -50,7 +50,8 @@ var isExpert = function(req,res,next){
     return res.status(403).json({
        err: null,
        msg: 'Unauthorized.',
-       data: null });
+       data: null 
+    });
   }
   next();
 };
@@ -116,7 +117,9 @@ router.get('/schedule/:expertID' , isAuthenticated , scheduleController.getSlots
 router.post('/schedule/userReserveSlot' , isAuthenticated , scheduleController.userReserveSlot);
 
 router.post('/schedule/expertOfferSlot' , isAuthenticated , isExpert , scheduleController.expertOfferSlot);
+router.post('/schedule/expertCancelSlot' , isAuthenticated , isExpert , scheduleController.expertCancelSlot);
 router.post('/schedule/expertAcceptSlot' , isAuthenticated , isExpert , scheduleController.expertAcceptUserInSlot);
+
 
 
 
