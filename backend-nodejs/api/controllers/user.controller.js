@@ -38,7 +38,7 @@ module.exports.getSearchResultsTagUser = function(req, res, next)
  {
 
   
-   User.find( { username:{ $regex: req.params.searchtag,$options:'i' } }).exec (function(err, user) {
+   User.find( { username:{ $regex: req.params.searchtag,$options:'i' },role:{$eq: "expert" } }).exec (function(err, user) {
    
       if (err) {
         return next(err);

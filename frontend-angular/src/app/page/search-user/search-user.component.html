@@ -11,7 +11,9 @@
                   <div class="row following" id="follows">
                       <div class="col-md-6 ml-auto mr-auto">
                           <ul class="list-unstyled follows">
-                            <div *ngFor="let user of users">
+                               
+                            <div *ngFor="let user of users  | paginate: { itemsPerPage: 5, currentPage: p2, id:users}">
+                                 
                               <li>
                                   <div class="row">
                                       <div class="col-md-2 col-sm-2 ml-auto mr-auto">
@@ -28,6 +30,7 @@
                               </li>
                               <hr />
                             </div>
+                            <pagination-controls id="users" (pageChange)="p2 = $event"></pagination-controls>
                           </ul>
                       </div>
                   </div>
