@@ -194,4 +194,8 @@ export class APIService {
   expertOfferSlot( offerSlotBody : OfferSlotBody ) :Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'schedule/expertOfferSlot' , offerSlotBody ).catch(this.errorHandler);
   }
+  expertAcceptSlot(user:String): Observable<APIData>{
+    return this.http.get<APIData>(APIService.apiUrl+'schedule/expertAcceptSlot/'+user).catch(this.errorHandler);
+  }
+  //notification()
 }

@@ -55,7 +55,7 @@ const routes: Routes = [
   { path: 'rating', component: RatingComponent },
   { path: 'schedule', component: ScheduleComponent },
   { path: 'admin-rating', component:AdminRatingComponent },
-  { path: 'notificationPage', component:notificationPageComponent },  
+  { path: 'notification', component:notificationPageComponent },  
  
 
 // { path: 'date-picker', component: DatePickerComponent },

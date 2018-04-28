@@ -71,7 +71,7 @@ export class ScheduleComponent implements OnInit {
       for(let user of slot.users){      
         this.apiService.getUsernameOfUser(user).subscribe((apires : APIData) =>{
           //console.log(apires);
-          this.usersRequestedSlot.push(apires.data); 
+          this.usersRequestedSlot.push({ id : user , username : apires.data }); 
           //console.log(this.usersRequestedSlot);    
           this.lateSub=true;        
  }); 
@@ -224,6 +224,14 @@ export class ScheduleComponent implements OnInit {
       console.log(err);
     });
     console.log(this.schedule[day].indexOf(slot))
+  }
+  AcceptUser(user : String){
+
+    this.apiService.expertAcceptSlot(user).subscribe((apiresponse: APIData) => {
+      console.log(apiresponse.msg)
+    }, (err) =>{
+      console.log(err);
+    });  
   }
   //users
   Offer(day, slot) {

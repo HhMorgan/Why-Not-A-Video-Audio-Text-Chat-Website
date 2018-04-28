@@ -95,7 +95,11 @@
                                 <div class="windowPop">
                                     <p>hi man</p>
                                     <div *ngIf="lateSub">
-                                    {{usersRequestedSlot}}
+                                        <div *ngFor="let user of usersRequestedSlot">
+                                            {{user.username}}
+                                            <button (click)="AcceptUser(user.id)" class="btn btn-success">Accept</button>
+                                        </div>
+                                   
                                     </div>
                                     <button class="btn btn-danger" (click)="popoutExpertOff()">close</button>
                                 </div>
