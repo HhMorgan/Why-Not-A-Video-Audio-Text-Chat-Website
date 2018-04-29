@@ -15,6 +15,10 @@ chai.use(chaiHttp);
 let v;
 let Tag ;
 let User;
+let Userblocked;
+let usedForUser;
+let usedForExpert;
+let usedForAdmin;
 let Expert;
 //describe('...', function() {
 //	it("...", function(done) {
@@ -57,9 +61,32 @@ describe('Admin tests: ', () =>  {
     Tag.save((err, Tag) => {
     });
 
-    User = new Users({username: "Jimmy" ,email:"Mahmoud@gmail.com" ,password: "9194591945" ,});
+    User = new Users({username: "Jimmy" ,email:"Mahmoud@gmail.com" ,password: "9194591945" });
     User.save((err, User) => {
     });
+    User.blocked = true;
+
+    Userblocked = new Users({username: "Jimmy2" ,email:"Mahmoud2@gmail.com" ,password: "9194591945",blocked:true });
+    Userblocked.save((err, User) => {
+    });
+    Userblocked.blocked = false;
+
+
+    usedForUser = new Users({username: "1" ,email:"1@gmail.com" ,password: "9194591945",role: "expert" });
+    usedForUser.save((err, User) => {
+    });
+    usedForUser.role = 'user';
+
+    usedForExpert = new Users({username: "2" ,email:"2@gmail.com" ,password: "9194591945" });
+    usedForExpert.save((err, User) => {
+    });
+    usedForExpert.role= 'expert';
+
+    usedForAdmin = new Users({username: "3" ,email:"3@gmail.com" ,password: "9194591945" });
+    usedForAdmin.save((err, User) => {
+    });
+    usedForAdmin.role= 'admin';
+
 
     Expert = new Users({username: "Mahmoud" ,email:"mahmoudgamal@gmail.com" ,password: "9194591945" ,role: "expert" ,});
     User.save((err, User) => {
@@ -97,58 +124,7 @@ for (var i = 0 ; i < res.body.data ; i++ ){
    done();
    });
    }).timeout(3000);
-   it('it should add a user', (done) => {
-    chai.request(app).post('/api/auth/signup')
-   .send({ username: "tarekk",email:"tarek@gmail.com" , password: "tarek12356",}).end((err, res) => {
-           res.should.have.status(201);
-           res.body.should.have.property('msg');
-           res.body.msg.should.be.eql('Registration successful, you can now login to your account.');
-
-           res.body.data.should.have.property('username');
-           res.body.data.should.have.property('email');
-           res.body.data.should.have.property('username').eql('tarekk');
-           res.body.data.should.have.property('email').eql('tarek@gmail.com');
-   done();
-   });
-   });
-   //this checks if signup will fail if user tried to add a profile that already exists
-   it('it should not add a user', (done) => {
-    chai.request(app).post('/api/auth/signup')
-   .send({ username: "tarekk",email:"tarek@abdoscience.com" , password: "tarek123",}).end((err, res) => {
-           res.should.have.status(209);
-           res.body.should.have.property('msg');
-           res.body.msg.should.be.eql('Registration Failed');
-           
-   done();
-   });
-   });
-  //this tests if a user can login successfully
-   it('it should login a user', (done) => {
-    
-
-    chai.request(app).post('/api/auth/login')
-   .send({email: "tarek@abdocience.com" , password: "tarek123",}).end((err, res) => {
-           res.should.have.status(200);
-           res.body.should.have.property("msg");
-           res.body.msg.should.be.eql("Welcome");
-           res.body.should.have.property("data");
-           done();
-   });
-   });
-   //this tests if a user will not be logged in if he entered a wrong password
-   it('it should not login a user', (done) => {
-    
-
-    chai.request(app).post('/api/auth/login')
-   .send({email: "tarek@abdocience.com" , password: "tarek1223",}).end((err, res) => {
-           res.should.have.status(401);
-           res.body.should.have.property("msg");
-           res.body.msg.should.be.eql("Password is incorrect.");
-           
-           done();
-   });
-   });
-  // });
+   // });
   it('it should UPDATE a Tag given the id on /api//Tag/editTags/ PATCH' , (done) => {
      chai.request(app).patch('/api//Tag/editTags/' + Tag.id)
      .send({name: "ana" , status: "Pending", blocked:false,}).end((err, res) => {
@@ -186,22 +162,6 @@ it('it should delete a Tag DELETE /api//Tags/deleteTags/' , (done) => {
 });
 });
 
-it('it should Block a User given the User_id on /User/blockUser/ PATCH' , (done) => {
-     chai.request(app).patch('/api//User/blockUser/' + User.id)
-     .end((err, res) => {
-      res.should.have.status(200);     
-        res.body.data.should.have.property('username');
-        res.body.data.should.have.property('email');
-        //res.body.data.should.have.property('password');
-   
-        res.body.data.should.have.property('username').eql('Jimmy');
-        res.body.data.should.have.property('email').eql('mahmoud@gmail.com');
-        res.body.data.should.have.property('blocked').eql(true);   
-
-     done();    
-  });
-});
-
 it('it should GET all the Users with their ratings', (done) => {
   chai.request(app)
   .get('/api//User/getUsers')
@@ -221,53 +181,138 @@ for (var i = 0 ; i < res.body.data ; i++ ){
   done();
   });
   });
-   });
+  
+it('it should Block a User given the User_id on /User/BlockAndUnblock/ PATCH' , (done) => {
+     chai.request(app).patch('/api//User/BlockAndUnblock/' + User.id)
+     .end((err, res) => {
+       res.should.have.status(200);     
+        res.body.data.should.have.property('username');
+        res.body.data.should.have.property('email');
+        //res.body.data.should.have.property('password');
+   
+        res.body.data.should.have.property('username').eql('Jimmy');
+        res.body.data.should.have.property('email').eql('mahmoud@gmail.com');
+        res.body.data.should.have.property('blocked').eql(true);   
 
-//    after(function(done) {
-// //    Tag.remove();
-// // mockgoose.reset(function() {
-// //   done();
-// // });
-// mongoose.disconnect(done);
-    
-//   });
-after(function(done) {
-   Tags.remove({}, (err) => {
-   });
-   Users.remove({}, (err) => {
+     done();    
   });
-  // mockgoose.helper.reset().then(() => {
-  // });
-     
-  // mongoose.disconnect(done);
-done();
 });
 
-   //mockoose.disconnect(done);
-  //  after(function(done) {
-  //   mockgoose.
+it('it should UnBlock a User given the User_id on /User/BlockAndUnblock/ PATCH' , (done) => {
+  chai.request(app).patch('/api//User/BlockAndUnblock/' + Userblocked.id)
+  .end((err, res) => {
+    res.should.have.status(200);     
+     res.body.data.should.have.property('username');
+     res.body.data.should.have.property('email');
+     //res.body.data.should.have.property('password');
 
-  // });
+     res.body.data.should.have.property('username').eql('Jimmy2');
+     res.body.data.should.have.property('email').eql('mahmoud2@gmail.com');
+     res.body.data.should.have.property('blocked').eql(false);   
 
-// describe('/api//Tag/editTags/:tagId PATCH' , () => {
-//   it('it should UPDATE a Tag given the id on /api//Tag/editTags/ PATCH' , (done) => {
-//      let Tag = new Tags({name: "Tarek" ,status:"Pending" ,blocked: false,})
-//      Tag.save((err, Tag) => {
-//      chai.request(app).put('/api//Tag/editTags/' + Tag.id)
-//      .send({name: "ana" , status: "Pending", blocked:false,}).end((err, res) => {
-//      res.should.have.status(200);
-//      //res.body.should.be.a('object');
-//      //res.body.should.have.property('message').eql('Book updated!' );
-//      //res.body.book.should.have.property('year').eql(1950);
-//      done();});});});});
-    // let Tag = new Tags({name: "Dola" ,status:"Pending" ,blocked: false,})
-    // Tag.save((err, Tag) => {
-//       });
-//     });
+  done();    
+});
+});
 
-    
-    
-    
-     
+
+  
+   it('it should change the role of the given user to an expert /api/User/ChangeRole/ PATCH' , (done) => {
+    chai.request(app).patch('/api/User/ChangeRole/' + usedForExpert.id)
+    .end((err, res) => {
+       res.should.have.status(200);     
+       res.body.data.should.have.property('role').eql('expert'); 
+    done();    
+  });
+  });
+
+  it('it should change the role of the given user to an admin /api/User/ChangeRole/ PATCH' , (done) => {
+    chai.request(app).patch('/api/User/ChangeRole/' + usedForAdmin.id)
+    .end((err, res) => {
+       res.should.have.status(200);     
+       res.body.data.should.have.property('username');
+    done();    
+  });
+  });
+
+  it('it should change the role of the given user to a user /api/User/ChangeRole/ PATCH' , (done) => {
+    chai.request(app).patch('/api/User/ChangeRole/' + usedForUser.id)
+    .end((err, res) => {
+       res.should.have.status(200);     
+       res.body.data.should.have.property('role').eql('user'); 
+    done();    
+  });
+  });
+
+   });
+
+describe('Auth tests: ', () =>  {
+  //this tests if a user can login successfully
+   it('it should login a user', (done) => {
     
 
+    chai.request(app).post('/api/auth/login')
+   .send({email: "tarek@abdocience.com" , password: "tarek123",}).end((err, res) => {
+           res.should.have.status(200);
+           res.body.should.have.property("msg");
+           res.body.msg.should.be.eql("Welcome");
+           res.body.should.have.property("data");
+           done();
+   });
+   });
+   //this tests if a user will not be logged in if he entered a wrong password
+   it('it should not login a user', (done) => {
+    
+
+    chai.request(app).post('/api/auth/login')
+   .send({email: "tarek@abdocience.com" , password: "tarek1223",}).end((err, res) => {
+           res.should.have.status(401);
+           res.body.should.have.property("msg");
+           res.body.msg.should.be.eql("Password is incorrect.");
+           
+           done();
+   });
+   });
+   it('it should add a user', (done) => {
+    chai.request(app).post('/api/auth/signup')
+   .send({ username: "tarekk",email:"tarek@gmail.com" , password: "tarek12356",}).end((err, res) => {
+           res.should.have.status(201);
+           res.body.should.have.property('msg');
+           res.body.msg.should.be.eql('Registration successful, you can now login to your account.');
+
+           res.body.data.should.have.property('username');
+           res.body.data.should.have.property('email');
+           res.body.data.should.have.property('username').eql('tarekk');
+           res.body.data.should.have.property('email').eql('tarek@gmail.com');
+   done();
+   });
+   });
+   //this checks if signup will fail if user tried to add a profile that already exists
+   it('it should not add a user', (done) => {
+    chai.request(app).post('/api/auth/signup')
+   .send({ username: "tarekk",email:"tarek@abdoscience.com" , password: "tarek123",}).end((err, res) => {
+           res.should.have.status(209);
+           res.body.should.have.property('msg');
+           res.body.msg.should.be.eql('Registration Failed');
+           
+   done();
+   });
+   });
+
+});
+
+describe('User tests: ', () =>  {
+
+});
+    
+
+after(function(done) {
+  Tags.remove({}, (err) => {
+  });
+  Users.remove({}, (err) => {
+ });
+ // mockgoose.helper.reset().then(() => {
+ // });
+    
+ // mongoose.disconnect(done);
+done();
+});
