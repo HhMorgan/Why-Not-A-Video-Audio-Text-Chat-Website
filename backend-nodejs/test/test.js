@@ -317,8 +317,13 @@ describe('Auth tests: ', () => {
 });
 
 describe('User tests: ', () => {
-  it('it should find tag by id GET /api/expert/getTagById/:Tags_ids', (done) => {
-    chai.request(app).get('/api/expert/getTagById/:Tag.id').end((err, res) => {
+  /*it('it should find tag by id GET /api/expert/getTagById', (done) => {
+    Tag1 = new Tags({ name: "Tarek1", status: "Pending", blocked: false, });
+    Tag1.save((err, Tag1) => {
+    });
+
+    chai.request(app).post('/api/expert/expert/getTagById'+Tag1.id)
+    .send({id: Tag1.id,}).set('authorization', token).end((err, res) => {
       res.should.have.status(201);
       res.body.data.should.be.a('array');
       for (var i = 0; i < res.body.data; i++) {
@@ -329,10 +334,55 @@ describe('User tests: ', () => {
       res.body.msg.should.be.eql('Succesfully retrieved the Tag');
       done();
     });
-  });
+  });*/
+  it('it should load user status  /api//loadStatus' , (done) => {
+  
+  chai.request(app).get('/api/loadStatus').set('authorization', token).end((err, res) => {
+   res.should.have.status(201);
+   res.body.should.have.property('msg');
+   res.body.msg.should.be.eql('i.');
+   res.body.data.should.be.eql(true);
+   
+      done();    
+});
+});
+it('it should not load user status  /api//loadStatus' , (done) => {
+  
+  chai.request(app).get('/api/loadStatus').set('authorization', 0).end((err, res) => {
+   res.should.have.status(401);
+   res.body.should.have.property('msg');
+   res.body.msg.should.be.eql('Login timed out, please login again.');
+   
+   
+      done();    
+});
+});
+ it('it should toggle online status  /api/auth/changeUserStatu' , (done) => {
+  
+  chai.request(app).post('/api/auth/changeUserStatus').set('authorization', token).end((err, res) => {
+   res.should.have.status(201);
+   res.body.should.have.property('msg');
+   res.body.msg.should.be.eql('Online Status Successfully Toggled.');
+   res.body.data.should.have.property('onlineStatus').equal(true);
+   
+      done();    
+ });
+ });
+ it('it should not toggle online status /api/auth/changeUserStatus' , (done) => {
+  
+  chai.request(app).post('/api/auth/changeUserStatus').set('authorization', 0).end((err, res) => {
+    res.should.have.status(401);
+   res.body.should.have.property('msg');
+   res.body.msg.should.be.eql('Login timed out, please login again.');
+   
+   
+      done();    
+ });
+ });
   it('it should not find tag by id GET /api//expert/getTagById', (done) => {
 
-    chai.request(app).get('/api//expert/getTagById/').end((err, res) => {
+    chai.request(app).post('/api/expert/expert/getTagById').send({ })
+    .set('authorization', token).end((err, res) => {
       res.should.have.status(404);
       res.body.msg.should.be.eql('404 Not Found');
 
