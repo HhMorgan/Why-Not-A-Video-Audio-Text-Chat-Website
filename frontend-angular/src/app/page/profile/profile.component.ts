@@ -55,6 +55,18 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  addtobookmark(){
+    var user = <User>{};
+    user.username=this.usernameOfProfile;
+    this.apiServ.getUserProfile(user).subscribe((apires: APIData) => {
+      this.apiServ.addtoToBookmark(apires.data).subscribe((apires: APIData) => {
+        this.NavBarService.triggernotifcations("#34A853", apires.msg.toString());
+      }, (err) => {
+        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      })
+    });
+  }
+
   //this method loads the user's current status
   //connects to th backend using loadStatus() method wchich is implemented in the service file
   loadStatus(datain) {
@@ -362,8 +374,9 @@ export class ProfileComponent implements OnInit {
     this.apiServ.postCoverImg(fy).subscribe(data => {
       this.apiServ.getUserProfile(this.user).subscribe((apires: APIData) => {
         this.CoverImgOfUser = apires.data.CoverImg;
+        this.getCoverImgUser(this.CoverImgOfUser);
       });
-      this.getCoverImgUser(this.CoverImgOfUser);
+     
     }, error => {
       console.log(error);
     });

@@ -17,6 +17,7 @@ export class SettingsPageComponent implements OnInit {
 
   public email: string;
   public username: string;
+  public role: string;
   public description: string;
   public password: string;
   private profile = <Profile>{};
@@ -277,10 +278,21 @@ export class SettingsPageComponent implements OnInit {
       this.description = apires.data.description;
       this.password = apires.data.password;
       this.username = apires.data.username;
+      this.role=apires.data.role;
     })
 
    
 
+  }
+
+  isExpert(){
+    if(this.role=="expert"){
+        return true;
+    }
+
+    else{
+      false;
+    }
   }
 
   search(){

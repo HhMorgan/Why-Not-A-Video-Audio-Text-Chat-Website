@@ -18,30 +18,36 @@ export class SearchUserComponent implements OnInit {
   private tags: Tag[];
   public alerts: Array<IAlert> = [];
   closeResult: string;
-
+  private searchBy: string;
   // paged items
  pagedItems: any[];
    p: number = 1;
+   p2: number = 1;
 
    @Input() showUsers:boolean ;
    @Input() showCover:boolean  ;
    @Input() searchtag:string ;
-
+   @Input() showTags:boolean ;
 
 
   constructor(private apiServ: APIService, private route: ActivatedRoute, private router: Router, private modalService: NgbModal, private  NavBarService:NavBarService) {
   }
 
 
-
-
-
   ngOnInit() {
+    
+    this.searchByValue();
+    this.NavBarService.refreshsearch.subscribe((m:any) => {
+      console.log(m);
+      this.ngOnInit();       
+  })
+   if (this.searchBy===undefined)
+   this.searchBy="UserTags";
     console.log(this.showCover);
-
-    if(this.showUsers != false && this.showCover != false ){
+    if(this.showUsers != false && this.showCover != false && this.showTags != true ){
       this.showUsers=true;
       this.showCover=true;
+      this.showTags=false;
     }
    
    
@@ -51,7 +57,7 @@ export class SearchUserComponent implements OnInit {
       if(params['searchtag']==null){
         this.NavBarService.searchevent.subscribe((m:any) => {
           //   console.log("lolololo");
-           //  console.log(m);
+           //console.log(m);
              this.searchtag=m;
             this.SearchByTag( this.searchtag);
              
@@ -73,6 +79,21 @@ export class SearchUserComponent implements OnInit {
 
   }
 
+  refreshsearch(){
+    this.NavBarService.refreshsearch.subscribe((m:any) => {
+         this.ngOnInit();       
+     })
+  }
+
+  searchByValue(){
+    this.NavBarService.searcheventBy.subscribe((m:any) => {
+      console.log(m);
+      var searchBy="";
+      this.searchBy=m;
+
+    })
+}
+
   addtobookmark(){
     var icon = event.target as HTMLElement
     var parentDiv = icon.parentElement as HTMLElement
@@ -93,32 +114,66 @@ export class SearchUserComponent implements OnInit {
 
   search(seathtag){
     var i, j;
-    this.apiServ.getMatchingSearch(seathtag).subscribe((apires: APIData) => {
-      this.users = new Array();
-      this.tags = new Array();
-      // var UsersData = new Array(apires.data[1]);
-      console.log(apires);
-      for (i = 0; i < apires.data[1].length; i++) {
-        this.users.push((apires.data[1])[i]);
-        this.getimageuser((apires.data[1])[i].username, (apires.data[1])[i].img);
-      }
+    console.log(this.searchBy);
+    if( this.searchBy=="UserTags"){
+      this.apiServ.searchUserbyTags(seathtag).subscribe((apires: APIData) => {
+        this.users = new Array();
+        this.tags = new Array();
+        // var UsersData = new Array(apires.data[1]);
+        console.log(apires);
 
+        for (i = 0; i < apires.data.length; i++) {
+          this.users.push((apires.data)[i]);
+          this.getimageuser((apires.data)[i].username, (apires.data)[i].img);
+        }
+      }, (err) => {
+        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      })
 
-      for (j = 0; j < apires.data[0].length; j++) {
-        this.tags.push((apires.data[0])[j]);
-        var Tag = document.getElementById(((apires.data[0])[j])._id) as HTMLImageElement;
-      }
-    })
+    }
+
+    else if( this.searchBy=="User"){
+      this.apiServ.searchbyUser(seathtag).subscribe((apires: APIData) => {
+        this.users = new Array();
+        this.tags = new Array();
+        // var UsersData = new Array(apires.data[1]);
+        console.log(apires);
+        for (i = 0; i < apires.data.length; i++) {
+          this.users.push((apires.data)[i]);
+          this.getimageuser((apires.data)[i].username, (apires.data)[i].img);
+        }
+      }, (err) => {
+        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      })
+
+    }
+
+    else if( this.searchBy=="Tags"){
+      this.apiServ.searchbyTags(seathtag).subscribe((apires: APIData) => {
+        this.users = new Array();
+        this.tags = new Array();
+        // var UsersData = new Array(apires.data[1]);
+        console.log(apires);
+        for (j = 0; j < apires.data.length; j++) {
+          this.tags.push((apires.data)[j]);
+          var Tag = document.getElementById(((apires.data)[j])._id) as HTMLImageElement;
+        }
+      }, (err) => {
+        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      })
+
+    }
+  
 
   }
 
   SearchByTag(seathtag){
     var i, j;
-    this.apiServ.getMatchingSearch(seathtag).subscribe((apires: APIData) => {
+    this.apiServ.searchbyTags(seathtag).subscribe((apires: APIData) => {
       this.tags = new Array();
-      for (j = 0; j < apires.data[0].length; j++) {
-        this.tags.push((apires.data[0])[j]);
-        var Tag = document.getElementById(((apires.data[0])[j])._id) as HTMLImageElement;
+      for (j = 0; j < apires.data.length; j++) {
+        this.tags.push((apires.data)[j]);
+        var Tag = document.getElementById(((apires.data)[j])._id) as HTMLImageElement;
       }
     })
 
@@ -179,10 +234,15 @@ export class SearchUserComponent implements OnInit {
   }
   refresh() {
     if (this.users != null) {
-      this.ngOnInit();
+      this.route.params.subscribe(params => {
+      this.searchtag = params['searchtag'];
+      this.search( this.searchtag);
+      });
     }
 
   }
+
+
 
   RequestTag() {
     // to be implemented

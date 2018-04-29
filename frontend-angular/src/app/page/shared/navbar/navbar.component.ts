@@ -142,9 +142,31 @@ export class NavbarComponent implements OnInit {
         }
     }
 
+    
+
     logout() {
         localStorage.clear();
         this.navbarservice.setUserLoggedin(false);
+    }
+
+    searchbyTags(){
+        this.navbarservice.searchBy("Tags");
+        var dropdownSearch = (document.getElementById("dropdownBasic2") as HTMLElement).innerHTML="Search By Tags";
+      //  this.navbarservice.refreshsearchevent(true);
+      
+    }
+    searchbyUser(){
+        this.navbarservice.searchBy("User");
+        var dropdownSearch = (document.getElementById("dropdownBasic2") as HTMLElement).innerHTML="Search by User";
+       // this.navbarservice.refreshsearchevent(true);
+     
+    }
+    searchbyUserTags(){
+        this.navbarservice.searchBy("UserTags");
+        var dropdownSearch = (document.getElementById("dropdownBasic2") as HTMLElement).innerHTML="Search by User's Tags";
+      //  this.navbarservice.refreshsearchevent(true);
+     
+
     }
 
 

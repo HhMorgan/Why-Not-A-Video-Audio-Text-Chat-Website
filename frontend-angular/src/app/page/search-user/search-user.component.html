@@ -6,13 +6,13 @@
   <div class="nav-tabs-navigation">
   <div class="nav-tabs-wrapper">
       <ngb-tabset [justify]="'center'" (tabChange)="refresh()">
-          <ngb-tab *ngIf="showUsers"  title="Users" style="display:none;">
+          <ngb-tab id="Users" *ngIf="showUsers"  title="Users" style="display:none;">
               <ng-template  ngbTabContent  >
                   <div class="row following" id="follows">
                       <div class="col-md-6 ml-auto mr-auto">
                           <ul class="list-unstyled follows">
                                
-                            <div *ngFor="let user of users  | paginate: { itemsPerPage: 5, currentPage: p2, id:users}">
+                            <div *ngFor="let user of users  | paginate: { itemsPerPage: 5, currentPage: p2, id:'p2'}">
                                  
                               <li>
                                   <div class="row">
@@ -30,13 +30,13 @@
                               </li>
                               <hr />
                             </div>
-                            <pagination-controls id="users" (pageChange)="p2 = $event"></pagination-controls>
+                            <pagination-controls id="p2" (pageChange)="p2 = $event"></pagination-controls>
                           </ul>
                       </div>
                   </div>
               </ng-template>
           </ngb-tab>
-          <ngb-tab title="Tags">
+          <ngb-tab *ngIf="showTags" id="Tags" title="Tags">
               <ng-template ngbTabContent>
                       <ng-template #content let-c="close" let-d="dismiss">
                               <div class="modal-header">

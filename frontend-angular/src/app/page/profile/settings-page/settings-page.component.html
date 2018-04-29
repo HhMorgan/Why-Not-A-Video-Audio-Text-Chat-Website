@@ -88,13 +88,13 @@
           <input style="width:30%;" id="inputsearch" type="text" class="form-control" placeholder="Search by Tag" aria-describedby="basic-addon1">
           <button (click)="search()" type="button" class="btn btn-default">Search</button>
       </div>
-       <app-search-user id="searchComp" style="display:none;"  [showCover]="false" [showUsers]="false"></app-search-user>
+       <app-search-user id="searchComp" style="display:none;"  [showCover]="false" [showUsers]="false" [showTags]="true"></app-search-user>
         </ng-template>
       </ngb-tab>
 
       <ngb-tab>
         <ng-template ngbTabTitle>
-          <i (click)=closeSetting() class="fa fa-times" onSubmit="return false" style="font-size:24px"></i>
+          <i *ngIf="isExpert()" (click)=closeSetting() class="fa fa-times" onSubmit="return false" style="font-size:24px"></i>
         </ng-template>
       </ngb-tab>
 

@@ -102,8 +102,19 @@ export class APIService {
     return this.http.get<APIData>(APIService.apiUrl + 'user/getUserProfile/'+user.username).catch(this.errorHandler);
   }
 
-  getMatchingUsers(searchtag:String): Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'user/getMatchingUsers/'+ searchtag).catch(this.errorHandler);
+  searchUserbyTags(searchtag:String): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'user/searchUserbyTags/'+ searchtag).catch(this.errorHandler);
+  }
+
+  searchbyTags(searchtag:String): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'user/searchbyTags/'+ searchtag).catch(this.errorHandler);
+  }
+
+
+
+  
+  searchbyUser(searchtag:String): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'user/searchbyUser/'+ searchtag).catch(this.errorHandler);
   }
 
   login(user:User):Observable<APIData> {
