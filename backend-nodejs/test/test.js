@@ -361,6 +361,20 @@ describe('User tests: ', () => {
       done();    
 });
 });
+it('it should not add speciality  /api/expert/addSpeciality/:tagId' , (done) => {
+  
+ 
+  chai.request(app).patch('/api//expert/addSpeciality/'+  Tag.id)
+  .set('authorization', token)
+  .end((err, res) => {
+   res.should.have.status(404);
+   res.body.should.have.property('msg');
+   res.body.msg.should.be.eql('This Tag is not found or is blocked. + Please request this tag first then add it as speciality');
+   
+   
+      done();    
+});
+});
 it('it should not load user status  /api//loadStatus' , (done) => {
   
   chai.request(app).get('/api/loadStatus').set('authorization', 0).end((err, res) => {
