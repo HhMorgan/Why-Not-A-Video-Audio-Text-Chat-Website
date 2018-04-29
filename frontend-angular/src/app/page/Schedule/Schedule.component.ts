@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,ElementRef,ViewChild } from "@angular/core";
 import { APIData, User, ReserveSlotBody, OfferSlotBody, ExpertAcceptSlotBody } from '../../@core/service/models/api.data.structure';
 import { APIService } from "../../@core/service/api.service";
 import * as moment from 'moment';
@@ -32,7 +32,10 @@ export class ScheduleComponent implements OnInit {
   public popout = false;
   public popoutExpert = false;
   public lateSub = false;
-
+  public popoutExpertConfirmation=false;
+  public popoutUserConfirmation=false;
+  public dayOffer;
+  public slotOffer;
   private id = "5ad0c0fbee0ffd38e0549a5a";
 
   constructor(private apiService: APIService, private route: ActivatedRoute) {
@@ -88,6 +91,25 @@ export class ScheduleComponent implements OnInit {
   popoutExpertOff() {
     this.popoutExpert = false;
   }
+
+  popoutExpertConfirmationOn(day,slot) {
+    this.slotOffer=slot;
+    this.dayOffer=day;
+    this.popoutExpertConfirmation = true;
+  }
+  popoutExpertConfirmationOff() {
+    this.popoutExpertConfirmation = false;
+  }
+
+  popoutUserConfirmationOn(day,slot) {
+    this.slotOffer=slot;
+    this.dayOffer=day;
+    this.popoutUserConfirmation = true;
+  }
+  popoutUserConfirmationOff() {
+    this.popoutUserConfirmation = false;
+  }
+
 
   AcceptUser(userid: String , day : number , slot : any ) {
     this.apiService.expertAcceptSlot(<ExpertAcceptSlotBody> { userid : userid , 
@@ -245,11 +267,10 @@ export class ScheduleComponent implements OnInit {
     }, (err) => {
       console.log(err);
     });
-    console.log(this.schedule[day].indexOf(slot))
+    console.log(this.schedule[day].indexOf(slot));
+    this.popoutExpertConfirmation = false;
   }
-  book() {
-    alert("Thank you. You will be notified with slots that suit the expert");
-  }
+ 
 }
 
 

@@ -213,6 +213,19 @@ html, body { height: 100%; margin: 0px; }
   border-radius: 2%;
   background-color: rgba(24, 24, 24, 0.397);
 }
+.windowPopConfirmation{
+  position: absolute;
+  z-index: 1;
+  margin: auto;
+  top: 0;
+  bottom:0;
+  right: 0;
+  left: 0;
+  width:35%;
+  height:35%;
+  border-radius: 2%;
+  background-color: rgba(24, 24, 24, 0.8);
+}
 .class.short { height: 5.2vh; line-height: 5.2vh; } /* 45min class */
 .class.b15 { margin-top: 2.5vh; } /* after 15 min break */
 .class.b45 { margin-top: 7.5vh; } /* after 45 min break */
@@ -285,4 +298,62 @@ html, body { height: 100%; margin: 0px; }
 [data-tooltip]:hover:after {
   visibility: visible;
   bottom: 90%;
+}
+
+
+.btnPosition{
+  position: absolute;
+  margin: auto;
+  top: 85%;
+  bottom: 0%;
+  left: 0%;
+  right: 0%;
+}
+.btnPositionConfirmation{
+  position: absolute;
+  margin: auto;
+  top: 75%;
+  bottom: 0%;
+  left: 0%;
+  right: 0%;
+}
+.userName{
+  //margin-right: 20%;
+}
+.acceptBtn{
+  //margin-left: 20%;
+}
+.userBlock{
+  padding: 5%;
+}
+.scrollBoxUsers{
+  overflow-y: scroll;
+  overflow-x: hidden;
+    height: 15em;
+}
+
+
+#windowScroll::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    background-color: rgba(245, 245, 245,0);
+}
+#windowScroll::-webkit-scrollbar
+{
+    width: 5px;
+    background-color: rgba(255, 251, 251, 0.644);
+}
+
+#windowScroll::-webkit-scrollbar-thumb
+{
+    background-color: rgba(0, 0, 0,0.5);
+    border: 1px solid rgba(85, 85, 85,0.5);
+}
+.confirmationPopout{
+  position: absolute;
+  margin: auto;
+  top: 9%;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
