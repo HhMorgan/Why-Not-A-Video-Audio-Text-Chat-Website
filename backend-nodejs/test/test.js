@@ -185,7 +185,42 @@ it('it should delete a Tag DELETE /api//Tags/deleteTags/' , (done) => {
       done();    
 });
 });
-
+it('it should find tag by id GET /api//expert/getTagById/:Tags_ids' , (done) => {
+  chai.request(app).get('/api//expert/getTagById/:Tag.id').end((err, res) => {
+   res.should.have.status(201);
+   res.body.data.should.be.a('array');
+   for (var i = 0 ; i < res.body.data ; i++ ){
+    res.body.data[i].should.have.property('name');
+    res.body.data[i].should.have.property('status');
+    res.body.data[i].should.have.property('blocked');
+ }
+    res.body.msg.should.be.eql('Succesfully retrieved the Tag');
+      done();    
+});
+});
+it('it should not find tag by id GET /api//expert/getTagById' , (done) => {
+  
+  chai.request(app).get('/api//expert/getTagById/').end((err, res) => {
+   res.should.have.status(404);
+   res.body.msg.should.be.eql('404 Not Found');
+   
+      done();    
+});
+});
+it('it should  find a user  /api//user/getMatchingUsers/:searchtag' , (done) => {
+  
+  chai.request(app).get('/api//user/getMatchingUsers/User').end((err, res) => {
+   res.should.have.status(201);
+   res.body.data.should.be.a('array');
+   for (var i = 0 ; i < res.body.data ; i++ ){
+    res.body.data[i].should.have.property('name');
+    res.body.data[i].should.have.property('email');
+    
+ }
+   
+      done();    
+});
+});
 it('it should Block a User given the User_id on /User/blockUser/ PATCH' , (done) => {
      chai.request(app).patch('/api//User/blockUser/' + User.id)
      .end((err, res) => {
