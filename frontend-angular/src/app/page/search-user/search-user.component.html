@@ -46,7 +46,7 @@
                                 </button>
                               </div> 
                               <div class="modal-body">
-                                      <input (click)="RequestTag()" type="text" class="form-control" placeholder="Tag name"> <button type="button" class="btn btn-warning">Request</button>
+                                      <input  type="text" class="form-control" placeholder="Tag name" id ="RequestingTag"> <button  type="button" (click)="RequestTag()" class="btn btn-warning">Request</button>
                               </div>  
                            <!--    <div class="modal-footer">
                               
@@ -56,7 +56,6 @@
                            <p>Can't find your Tag ? <a href="javascript:;" (click)="open(content)" > Request it Here </a></p> 
                          <!--   <button (click)="triggernotifications()">Show Snackbar</button> --> 
                            <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
-  
                             <hr>
                      <div id="TagsResults">
                          
