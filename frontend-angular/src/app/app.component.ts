@@ -77,7 +77,7 @@ export class AppComponent {
       titlee = titlee.slice( 7 ).split("/",1)[0];
      // console.log(titlee);
       if(titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'video' || this.title === 'videotest'
-       ||   titlee=== 'chat'  || titlee === 'login' || titlee==='about'|| titlee==='search-user') {
+       ||   titlee=== 'chat'  || titlee === 'login' || titlee==='about'|| titlee==='search') {
           return false;
       }
       else {
