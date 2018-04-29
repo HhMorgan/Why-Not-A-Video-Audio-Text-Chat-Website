@@ -245,7 +245,6 @@ export class ProfileComponent implements OnInit {
     var i;
     this.apiServ.getUserbyIds(Users_ids).subscribe((apiresponse: APIData)=>{
       for( i=0;i<apiresponse.data.length;i++){
-        console.log(apiresponse.data);
         this.BookmarkedUsers.push(apiresponse.data[i]);
         this.getimageBookmarked(apiresponse.data[i].username, apiresponse.data[i].img);
       }
@@ -261,7 +260,6 @@ export class ProfileComponent implements OnInit {
     var name = firstChildDiv.firstElementChild as HTMLElement
     var user = <User>{};
     user.username=name.innerText.toLowerCase();
-    console.log(user.username);
     this.apiServ.getUserProfile(user).subscribe((apires: APIData) => {
       this.apiServ.removeFromBookmark(apires.data).subscribe((apires: APIData) => {
         this.NavBarService.triggernotifcations("#34A853", apires.msg.toString());
@@ -289,11 +287,6 @@ export class ProfileComponent implements OnInit {
         this.NavBarService.triggernotifcations("#EA4335", err.msg);
       }); 
                });
-
-              
-      
-   
-
    }
   
 
@@ -303,14 +296,6 @@ export class ProfileComponent implements OnInit {
     var widthofStars = document.getElementById("widthofStars") as HTMLElement
     
     widthofStars.style.width=  'calc(100% * ('+ this.rating +'/ 5))';
-   /*  var stars = document.querySelectorAll('[id^=star]');
-    var textToWrite;
-    var i;
-    for (i in stars) {
-      if (i < datain) {
-        stars[i].classList.add('checked');
-      }
-    } */
   }
 
   //this method gets username of the loggedin user
@@ -354,20 +339,17 @@ export class ProfileComponent implements OnInit {
   //this method basically disables the profile page and views the settings page
 
   handleFileInput(files: FileList) {
-    //console.log(files.item(0));
     this.fileToUpload = files.item(0);
     let fy: FileData = { file: files.item(0) };
     this.apiServ.postFile(fy).subscribe(data => {
-      // do something, if upload success
       this.getimage();
     }, error => {
-      console.log(error);
+
     });
 
   }
 
   handleFileInputCoverImg(files: FileList) {
-    //console.log(files.item(0));
     this.fileToUpload = files.item(0);
     let fy: FileData = { file: files.item(0) };
 
@@ -378,7 +360,6 @@ export class ProfileComponent implements OnInit {
       });
      
     }, error => {
-      console.log(error);
     });
 
 
@@ -425,31 +406,20 @@ export class ProfileComponent implements OnInit {
     }, false);
 
   }
-
+//this method is responsible for altering the view of the settings/profile
   public profilesettingsbtn() {
     this.profileInfo = false;
     this.profilesettings = true;
     // document.getElementById("settings-page").style.display = "block";
   }
-
+//this method is responsible for altering the view of the settings/profile
   settingsComponentClose($event){
     this.profileInfo = true;
     this.profilesettings = false;
     // document.getElementById("settings-page").style.display = "none";
   }
 
-  
-  triggernotifications(color, text) {
-    // Get the snackbar DIV
-    var x = document.getElementById("snackbar");
-    x.style.backgroundColor = color;
-    x.textContent = text;
-    // Add the "show" class to DIV
-    x.className = "show";
 
-    // After 3 seconds, remove the show class from DIV
-    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-  }
 
 
 }
