@@ -12,7 +12,6 @@ moment = require('moment');
 
 module.exports.getSlots = function(req , res , next){
   var valid = req.params.expertID && Validations.isObjectId(req.params.expertID)
-
   if(!valid){
     return res.status(422).json({
       err: null,
@@ -22,7 +21,9 @@ module.exports.getSlots = function(req , res , next){
   } else {
     var start_date = moment(new Date()).startOf('week').isoWeekday(6).format('D-MMMM-YY')
     var end_date = moment(new Date()).startOf('week').isoWeekday(6 + 6).format('D-MMMM-YY')
-    Schedule.findOne({ $and : [ { expertID : { $eq : req.params.expertID } , startDate : { $eq : start_date } , endDate : { $eq : end_date } } ] }).exec(function( err,schedule ){
+    Schedule.findOne({ $and : [ { expertID : { $eq : req.params.expertID } , 
+      startDate : { $eq : start_date } , endDate : { $eq : end_date } } ] }).
+      populate('slots.users','username').exec(function( err,schedule ){
       if(schedule){
         return res.status(200).json({
           err: null,
@@ -52,25 +53,28 @@ module.exports.expertOfferSlot = function(req, res, next) {
       data: null
     });
   } else {
-    req.body.slots = { day : req.body.dayNo , time : req.body.slotNo }
+    req.body.slots = { day : req.body.dayNo , time : req.body.slotNo , status : "Opened" }
     delete req.body.dayNo
     delete req.body.slotNo
     var start_date = ScheduleHelper.weekdayWithStartWeekday( 0 , 6 ).format('D-MMMM-YY')
     var end_date = ScheduleHelper.weekdayWithStartWeekday( 6 , 6 ).format('D-MMMM-YY')
-    Schedule.findOneAndUpdate( { $and : [ { expertID : { $eq : req.decodedToken.user._id } , startDate : { $eq : start_date } , endDate : { $eq : end_date } , slots : { $not : { $elemMatch : { day : { $eq : req.body.slots.day } , time : { $eq : req.body.slots.time } } } } } ] } , { $push : { slots : req.body.slots } } , { new : true } ).exec(function( err , updatedSchedule ) {
+    Schedule.findOneAndUpdate( { $and : [ { expertID : { $eq : req.decodedToken.user._id } , startDate : { $eq : start_date } , 
+      endDate : { $eq : end_date } , slots : { $not : { $elemMatch : { day : { $eq : req.body.slots.day } , time : { $eq : req.body.slots.time } } } } } ] } , 
+      { $push : { slots : req.body.slots } } , { new : true } ).populate('slots.users','username').exec(function( err , updatedSchedule ) {
       if(updatedSchedule) {
         return res.status(201).json({
           err: null ,
           msg: 'Slot Created Sucessfully',
-          data: updatedSchedule
+          data: updatedSchedule.slots
         });
       } else {
-        Schedule.findOne({ $and : [ { expertID : { $eq : req.decodedToken.user._id } , startDate : { $eq : start_date } , endDate : { $eq : end_date } } ] }).exec(function( err , schedule ){
+        Schedule.findOne({ $and : [ { expertID : { $eq : req.decodedToken.user._id } , startDate : { $eq : start_date } , endDate : { $eq : end_date } } ] })
+        .populate('slots.users','username').exec(function( err , schedule ){
           if(schedule) {
             return res.status(403).json({
               err: null ,
               msg: 'Slot Creation Failed',
-              data: schedule
+              data: schedule.slots
             });
           } else {
             req.body.expertID = req.decodedToken.user._id
@@ -78,7 +82,7 @@ module.exports.expertOfferSlot = function(req, res, next) {
               return res.status(201).json({
                 err: null ,
                 msg: 'Schedule & Slot Created Successfuly',
-                data: createdSchedule
+                data: createdSchedule.slots
               });
             })
           }
@@ -103,8 +107,8 @@ module.exports.expertCancelSlot = function(req, res, next) {
     var start_date = ScheduleHelper.weekdayWithStartWeekday( 0 , 6 ).format('D-MMMM-YY')
     var end_date = ScheduleHelper.weekdayWithStartWeekday( 6 , 6 ).format('D-MMMM-YY')
     Schedule.findOneAndUpdate( { $and : [ { expertID : { $eq : req.decodedToken.user._id } , startDate : { $eq : start_date } , endDate : { $eq : end_date } , 
-      slots : { $elemMatch : { day : { $eq : req.body.slots.day } , time : { $eq : req.body.slots.time } } } } ] } , 
-      { $pull : { slots : req.body.slots } } ).exec(function( err , updatedSchedule ) {
+      slots : { $elemMatch : { day : { $eq : req.body.slots.day } , time : { $eq : req.body.slots.time } , status : { $eq : "Opened" } } } } ] } , 
+      { $pull : { slots : req.body.slots } } ).populate('slots.users','username').exec(function( err , updatedSchedule ) {
       if(updatedSchedule){
         var scheduleSlotUsers = updatedSchedule.slots[ ScheduleHelper.getSlotIndex( updatedSchedule.slots , req.body.dayNo , req.body.slotNo ) ].users ;
         NotificationController.createNotificationMuitiple( req.decodedToken.user._id , scheduleSlotUsers  , "User : " + req.decodedToken.user.username + " Cancelled The Slot" , "Slot-Canceled" , 0 , function(done) {
@@ -112,7 +116,7 @@ module.exports.expertCancelSlot = function(req, res, next) {
           return res.status(200).json({
             err: null,
             msg: 'Slot Canceled Successfuly',
-            data: updatedSchedule
+            data: updatedSchedule.slots
           })
         })
       } else {
@@ -142,8 +146,9 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
   } else { /* Userid != ExpertId Check */
     var start_date = ScheduleHelper.weekdayWithStartWeekday( 0 , 6 ).format('D-MMMM-YY')
     var end_date = ScheduleHelper.weekdayWithStartWeekday( 6 , 6 ).format('D-MMMM-YY')
-    Schedule.findOneAndUpdate({ $and : [ { expertID : { $eq : req.decodedToken.user._id } , startDate : { $eq : start_date } , endDate : { $eq : end_date } , slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , users : { $eq : req.body.userid } } } } ]
-    },{ $pull : { "slots.$.users" : req.body.userid  } } , { new: true }).exec( function( err , schedule ) {
+    Schedule.findOneAndUpdate({ $and : [ { expertID : { $eq : req.decodedToken.user._id } , startDate : { $eq : start_date } , endDate : { $eq : end_date } , 
+      slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , users : { $eq : req.body.userid } , status : { $eq : "Opened" } } } } ]
+    },{ $pull : { "slots.$.users" : req.body.userid  } } , { new: true }).populate('slots.users','username').exec( function( err , schedule ) {
       if (err) {
         return next(err);
       }
@@ -155,7 +160,8 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
               return next(err);
             }
             if(session){
-              Schedule.findOneAndUpdate(  { _id : schedule._id , slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } } } } , { $set : { "slots.$.session" : session._id } } , { new : true }).exec( function( err , scheduleSessionUpdated ) {
+              Schedule.findOneAndUpdate(  { _id : schedule._id , slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , status : { $eq : "Opened" } } } } , 
+                { $set : { "slots.$.session" : session._id } } , { new : true }).populate('slots.users','username').exec( function( err , scheduleSessionUpdated ) {
                 if (err) {
                   return next(err);
                 }
@@ -165,7 +171,7 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
                       return res.status(201).json({
                         err: null,
                         msg: 'Session '+ session._id + " Added",
-                        data: scheduleSessionUpdated
+                        data: scheduleSessionUpdated.slots
                       })
                     }
                   })
@@ -188,7 +194,7 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
         } else {
           var maxNoUsers = 2;
           Session.findOneAndUpdate( { _id : scheduleSession , users : { $ne : req.body.userid } , $expr : { $lt:[ { $size : "$users" } , maxNoUsers ] }  } , 
-            { $push : { users : req.body.userid } } , { new : true } ).exec( function( err , updatedSession ) {
+            { $push : { users : req.body.userid } } , { new : true } ).populate('slots.users','username').exec( function( err , updatedSession ) {
             if (err) {
               return next(err);
             }
@@ -202,8 +208,8 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
                         if(done){
                           req.body.slots = { day : req.body.dayNo , time : req.body.slotNo }
                           Schedule.findOneAndUpdate({ $and : [ { _id : schedule._id , 
-                            slots : { $elemMatch : { day : { $eq : req.body.slots.day } , time : { $eq : req.body.slots.time } } } } ] } , 
-                            { $pull : { slots : req.body.slots } } , { new : true } ).exec(
+                            slots : { $elemMatch : { day : { $eq : req.body.slots.day } , time : { $eq : req.body.slots.time } , status : { $eq : "Opened" } } } } ] } , 
+                            { $set : { "slots.$.users" : [] , "slots.$.status" : "Closed" } } , { new : true } ).populate('slots.users','username').exec(
                             function( err , updatedSchedule ) {
                               return res.status(200).json({
                                 err: null,
@@ -260,8 +266,9 @@ module.exports.userReserveSlot = function(req, res, next) {
   } else {
     var start_date = ScheduleHelper.weekdayWithStartWeekday( 0 , 6 ).format('D-MMMM-YY')
     var end_date = ScheduleHelper.weekdayWithStartWeekday( 6 , 6 ).format('D-MMMM-YY')
-    Schedule.findOneAndUpdate({ $and : [ { expertID : { $eq : req.body.expertID } } , { startDate : { $eq : start_date } } , { endDate : { $eq : end_date } } , { slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , users : { $ne : req.decodedToken.user._id } } } } ]
-    },{ $push : { "slots.$.users" : req.decodedToken.user._id } } , {new: true}).exec( function( err , schedule ) {
+    Schedule.findOneAndUpdate({ $and : [ { expertID : { $eq : req.body.expertID } } , { startDate : { $eq : start_date } } , 
+      { endDate : { $eq : end_date } } , { slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , status : { $eq : "Opened" } , users : { $ne : req.decodedToken.user._id } } } } ]
+    },{ $push : { "slots.$.users" : req.decodedToken.user._id } } , {new: true}).populate('slots.users','username').exec( function( err , schedule ) {
       if (err) {
         return next(err);
       }

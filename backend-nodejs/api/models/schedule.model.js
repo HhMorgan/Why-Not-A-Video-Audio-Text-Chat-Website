@@ -25,6 +25,7 @@ var ScheduleSchema = mongoose.Schema({
             session : {
                 type: mongoose.Schema.Types.ObjectId , ref: 'Session',
             },
+            status : String,
             _id: false ,
         }
     ]

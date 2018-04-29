@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , Color , OfferedSlots , ReserveSlotBody , OfferSlotBody , Notification } from '../service/models/api.data.structure';
+import { APIData , SlotData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , Color , OfferedSlots , ReserveSlotBody , OfferSlotBody , Notification, ExpertAcceptSlotBody } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
@@ -239,12 +239,12 @@ export class APIService {
     return this.http.post<APIData>( APIService.apiUrl + 'schedule/expertOfferSlot' , offerSlotBody ).catch(this.errorHandler);
   }
 
-  expertAcceptSlot(user:String): Observable<APIData>{
-    return this.http.get<APIData>( APIService.apiUrl + 'schedule/expertAcceptSlot/'+user).catch(this.errorHandler);
+  expertAcceptSlot( expertAcceptSlotBody : ExpertAcceptSlotBody ): Observable<APIData>{
+    return this.http.post<APIData>( APIService.apiUrl + 'schedule/expertAcceptSlot' , expertAcceptSlotBody).catch(this.errorHandler);
   }
 
   addtoToBookmark( User : User ): Observable<APIData> {
-    return this.http.post<APIData>( APIService.apiUrl + '/user/addToBookmarks/' + User._id,User._id )
+    return this.http.post<APIData>( APIService.apiUrl + '/user/addToBookmarks/' + User._id , User._id )
     .catch(this.errorHandler);
   }
 

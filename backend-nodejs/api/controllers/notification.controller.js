@@ -55,7 +55,7 @@ module.exports.createNotificationMuitiple = function( sender , recipients , mess
   if(i == recipients.length){
     return done(true);
   } else {
-    Notification.create( { sender : sender , recipient : recipients[i] , 
+    Notification.create( { sender : sender , recipient : recipients[i]._id , 
       message : message , type :type } , function ( err , notification ) {
         return module.exports.createNotificationMuitiple( sender , recipients , message , type , i + 1 , done )
     })

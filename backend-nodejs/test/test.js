@@ -22,12 +22,6 @@ let usedForExpert;
 let usedForAdmin;
 let Expert;
 let token;
-//describe('...', function() {
-//	it("...", function(done) {
-// ...
-//		done();
-//	});
-//});
 
 
 
