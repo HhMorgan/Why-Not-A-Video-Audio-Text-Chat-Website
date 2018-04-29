@@ -33,7 +33,6 @@ export class SearchUserComponent implements OnInit {
   constructor(private apiServ: APIService, private route: ActivatedRoute, private router: Router, private modalService: NgbModal, private  NavBarService:NavBarService) {
   }
 
-
   ngOnInit() {
     
     this.searchByValue();
@@ -51,9 +50,11 @@ export class SearchUserComponent implements OnInit {
     }
    
    
-   
+   //uses the search parameter in the url to search
     this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
-   
+      //as i'm using this in the add/edit speciality in the profile 
+      // user doesn't actually search from the url so the searchtag is always null if it's from the profile
+      //using the service i can communicate with the comp. (navbar)
       if(params['searchtag']==null){
         this.NavBarService.searchevent.subscribe((m:any) => {
           //   console.log("lolololo");
@@ -64,27 +65,14 @@ export class SearchUserComponent implements OnInit {
          })
         }
         else{
+          // else he's searching by the url
           this.searchtag = params['searchtag'];
           this.search( this.searchtag);
         }
-
-   
-    
-
     });
-
-
-
-
-
   }
 
-  refreshsearch(){
-    this.NavBarService.refreshsearch.subscribe((m:any) => {
-         this.ngOnInit();       
-     })
-  }
-
+//gets the value of the dropdown from the navbar component
   searchByValue(){
     this.NavBarService.searcheventBy.subscribe((m:any) => {
       console.log(m);
@@ -94,9 +82,13 @@ export class SearchUserComponent implements OnInit {
     })
 }
 
+//this function is responsible for adding the user to bookmarks
+// firstly i get the event target which is the button that it's clicked
+// then gets the username by moving back and forth between children and parents to get the element
+// lastly cnnect to database and show a pop up
   addtobookmark(){
-    var icon = event.target as HTMLElement
-    var parentDiv = icon.parentElement as HTMLElement
+    var button = event.target as HTMLElement
+    var parentDiv = button.parentElement as HTMLElement
     var parentDirowClass = parentDiv.parentElement as HTMLElement
     var childdiv = parentDirowClass.childNodes[3] as HTMLElement
     var firstChildDiv = childdiv.firstElementChild as HTMLElement
@@ -111,17 +103,15 @@ export class SearchUserComponent implements OnInit {
       })
     });
   }
-
+//takes a paramater searchtag to see which tag type i search for
   search(seathtag){
     var i, j;
     console.log(this.searchBy);
+    //every if is almost the same iteration over the data and push to an array that later used to show the users/tags
     if( this.searchBy=="UserTags"){
       this.apiServ.searchUserbyTags(seathtag).subscribe((apires: APIData) => {
         this.users = new Array();
         this.tags = new Array();
-        // var UsersData = new Array(apires.data[1]);
-        console.log(apires);
-
         for (i = 0; i < apires.data.length; i++) {
           this.users.push((apires.data)[i]);
           this.getimageuser((apires.data)[i].username, (apires.data)[i].img);
@@ -136,8 +126,6 @@ export class SearchUserComponent implements OnInit {
       this.apiServ.searchbyUser(seathtag).subscribe((apires: APIData) => {
         this.users = new Array();
         this.tags = new Array();
-        // var UsersData = new Array(apires.data[1]);
-        console.log(apires);
         for (i = 0; i < apires.data.length; i++) {
           this.users.push((apires.data)[i]);
           this.getimageuser((apires.data)[i].username, (apires.data)[i].img);
@@ -152,8 +140,6 @@ export class SearchUserComponent implements OnInit {
       this.apiServ.searchbyTags(seathtag).subscribe((apires: APIData) => {
         this.users = new Array();
         this.tags = new Array();
-        // var UsersData = new Array(apires.data[1]);
-        console.log(apires);
         for (j = 0; j < apires.data.length; j++) {
           this.tags.push((apires.data)[j]);
           var Tag = document.getElementById(((apires.data)[j])._id) as HTMLImageElement;
@@ -166,7 +152,8 @@ export class SearchUserComponent implements OnInit {
   
 
   }
-
+ 
+  //search by tag,iteration over the data and push to an array that later used to show the users/tags
   SearchByTag(seathtag){
     var i, j;
     this.apiServ.searchbyTags(seathtag).subscribe((apires: APIData) => {
@@ -179,7 +166,7 @@ export class SearchUserComponent implements OnInit {
 
   }
 
-  
+  //this method is used to open the mobal (from it's service)
   open(content) {
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -187,7 +174,7 @@ export class SearchUserComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-
+ //this method is used to open the getDismissReason (from it's service)
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -197,7 +184,9 @@ export class SearchUserComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-
+// this method it's called whenever you search for users
+// takes name the id of the user and datain which is the buffer of the image
+// converts the buffer and datatype to a url that can be used to show the img
   getimageuser(name, datain) {
     var reader: FileReader = new FileReader();
     reader.readAsDataURL(new Blob([new Buffer(datain.data)], { type: datain.data.contentType }))
@@ -210,6 +199,11 @@ export class SearchUserComponent implements OnInit {
       // navbarimg.src = reader.result;
     }, false);
   }
+
+//this function is responsible for adding the user to tags to the expert
+// firstly i get the event target which is the button that it's clicked
+// then gets the tag's name by moving back and forth between children and parents to get the element
+// lastly cnnect to database and show a pop up
   AddTag() {
     var tag = <Tag>{};
     var icon = event.target as HTMLElement
@@ -259,18 +253,6 @@ export class SearchUserComponent implements OnInit {
   
     
   }
-  triggernotifications(color, text) {
-    // Get the snackbar DIV
-    var x = document.getElementById("snackbar");
-    x.style.backgroundColor = color;
-    x.textContent = text;
-    // Add the "show" class to DIV
-    x.className = "show";
-
-    // After 3 seconds, remove the show class from DIV
-    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-  }
-
 
 
 

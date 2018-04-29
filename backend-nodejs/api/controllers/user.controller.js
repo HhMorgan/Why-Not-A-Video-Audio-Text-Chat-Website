@@ -15,7 +15,9 @@ var fs = require('fs');
 var bcrypt = require('bcryptjs');
 Tag = mongoose.model('Tag');
 var RegExp = require('mongodb').RegExp;
+ 
 
+//this function searches for the user that has tags which are the similar to the searchtag parameter
 module.exports.searchUserbyTags = function (req, res, next) {
   Tag.find({ name: {$regex: req.params.searchtag, $options: "$i"},blocked:{$eq: "false" } ,status:{$eq: "Accepted" }}).exec (function(err, Tags) {
    
@@ -30,9 +32,6 @@ module.exports.searchUserbyTags = function (req, res, next) {
         data: null
       });
     }
- 
-
-
 
 User.find({ speciality: { $in: Tags },role:{$eq:"expert"},blocked:{$eq:"false"}  }).populate('speciality').exec (function(err, User) {
   if (err) {
@@ -52,7 +51,6 @@ User.find({ speciality: { $in: Tags },role:{$eq:"expert"},blocked:{$eq:"false"} 
    });
    //res.end();
  });
-
 });
 };
 
@@ -71,6 +69,8 @@ module.exports.changeUserStatus = function (req, res, next) {
     });
   });
 };
+
+//this function searches for tags which are the similar to the searchtag parameter
 
 module.exports.searchbyTags = function (req, res, next) {
 
@@ -205,7 +205,7 @@ module.exports.getusername = function (req, res) {
     });
   });
 };
-
+//this function is used to upload an image (buffer) to the database
 module.exports.uploadimage = function (req, res) {
   User.findByIdAndUpdate(req.decodedToken.user._id, { $set: { img: { data: req.file.buffer, contentType: req.file.mimetype } } },
     { new: true }).exec(function (err, updatedUser) {
@@ -223,6 +223,7 @@ module.exports.uploadimage = function (req, res) {
 
 };
 
+//this function is used to upload an image (buffer) to the database
 module.exports.uploadCoverPic = function (req, res) {
   User.findByIdAndUpdate(req.decodedToken.user._id, { $set: { CoverImg: { data: req.file.buffer, contentType: req.file.mimetype } } },
     { new: true }).exec(function (err, updatedUser) {
