@@ -24,7 +24,7 @@ import { ScheduleComponent } from './Schedule/Schedule.component';
 
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
 import { AboutComponent } from './about/about.component';
-import { SearchUserComponent } from '../search-user/search-user.component';
+import { SearchUserComponent } from '../page/search-user/search-user.component';
 import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
 
 const routes: Routes = [
@@ -36,7 +36,6 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'profile' , component:ProfileComponent},
   { path: 'profile/:username' , component:ProfileComponent},
-  { path: 'search-user/:searchtag' , component:SearchUserComponent},
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
   { path: 'viewSchedule', component: viewScheduleComponent },

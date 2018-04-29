@@ -18,11 +18,6 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
 import { PopOutComponent } from './page/components/pop-out/pop-out.component';
 import { NavBarService } from './@core/service/shared.service';
 
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,

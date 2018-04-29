@@ -6,7 +6,7 @@ import { APIData , User  } from '../../../@core/service/models/api.data.structur
 import { Buffer } from 'buffer';
 import { Routes,Router } from '@angular/router';
 import { NavBarService } from '../../../@core/service/shared.service';
-import { SearchUserComponent } from '../../../search-user/search-user.component';
+import { SearchUserComponent } from '../../search-user/search-user.component';
 
 @Component({
     selector: 'app-navbar',

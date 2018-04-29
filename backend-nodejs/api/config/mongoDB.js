@@ -11,6 +11,7 @@ var mongoose = require('mongoose'),
   require('../models/slotsOffered.model');
   require('../models/schedule.model');
   require('../models/notification.model');
+  require('../models/color.model');
 
 // CAPTURE APP TERMINATION / RESTART EVENTS
 // To be called when process is restarted or terminated

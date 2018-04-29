@@ -163,6 +163,7 @@ module.exports.viewSLotRequests = function (req, res, next) {
     });
   });
 }
+
 module.exports.viewScheduledSlots = function (req, res, next) {
   // Finds authenticated user info 
   User.findById(req.decodedToken.user._id).exec(function (err, user) {
@@ -204,24 +205,28 @@ module.exports.viewScheduledSlots = function (req, res, next) {
   });
 };
 
-module.exports.chooseSlot = function (req, res, next) {
-  console.log(req.body);
-  if (req.body == null) {
-    return res.status(422).json({
-      err: null,
-      msg: 'date is required',
-      data: null
-    });
-  } else {
-    req.body.expert = "boudi";
-    Slot.create(req.body, function (err, chosenSlot) {
-      res.status(201).json({
+module.exports.findTagbyname = function (req, res, next) {
+
+  Tag.findOne({ name: req.body.name  }).exec(function (err, tag) {
+    if (err) {
+      return next(err);
+    }
+    if (!tag) {
+      return res.status(404).json({
         err: null,
-        msg: 'Slot chosen',
-        data: chosenSlot
+        msg: 'This Tag is not found ',
+        data: null
       });
+    }
+
+    return res.status(201).json({
+      err: null,
+      msg: 'Succesfully retrieved the Tag',
+      data: tag
     });
-  }
+  })
+
+  console.log(req.body);
 };
 
 module.exports.findTagbyid = function (req, res, next) {

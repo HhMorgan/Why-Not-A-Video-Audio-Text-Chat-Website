@@ -3,6 +3,7 @@ import { APIData, User, ReserveSlotBody, OfferSlotBody } from '../../@core/servi
 import { APIService } from "../../@core/service/api.service";
 import * as moment from 'moment';
 import { error } from "util";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -32,13 +33,16 @@ export class ScheduleComponent implements OnInit {
   public popoutExpert=false;
   public lateSub=false;
 
-  private id = "5ad0c0fbee0ffd38e0549a5a";
+  private id = "5ad16feac6fa3a04f0a7540b";
 
-  constructor(private apiService: APIService) {
+  constructor(private apiService: APIService  , private route: ActivatedRoute ) {
     var user = <User>{};
     user._id = this.id;
-    
-    
+    this.route.params.subscribe(params => {
+      console.log('-----------------------------------------')
+      console.log(params);
+      console.log('-----------------------------------------')
+    });
     this.apiService.getSchedule(user).subscribe((apiresponse: APIData) => {
       for (let slot of apiresponse.data) {
         this.schedule[slot.day][slot.time].offered = true;
@@ -48,6 +52,8 @@ export class ScheduleComponent implements OnInit {
     })
   }
   ngOnInit() {
+
+
     for (var i = 0; i < 7; i++) {
       this.schedule[i] = []
       for (var j = 0; j < 15; j++) {

@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { NgModule, Component, OnInit, Inject, Renderer, ElementRef, ViewChild} from '@angular/core';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { NgxPaginationModule } from 'ngx-pagination';
 /* Our Components
 ---------------------------------------------------*/
 import { NavbarComponent } from './shared/navbar/navbar.component';
@@ -53,8 +54,9 @@ import { ScheduleComponent } from './Schedule/Schedule.component';
 import { WeekModule } from './Schedule/week.module';
 import { AboutComponent } from './about/about.component';
 import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
-import { SearchUserComponent } from '../search-user/search-user.component';
-//C:\uni\SE OfficeHours\Why-Not\frontend-angular\src\app\page\notification\notification.component.ts
+import { SearchUserComponent } from '../page/search-user/search-user.component';
+import { SnackbarCompComponent } from './components/snackbar-comp/snackbar-comp.component';
+
 @NgModule({
   imports: [
     NgbModule,
@@ -68,7 +70,8 @@ import { SearchUserComponent } from '../search-user/search-user.component';
     AngularFontAwesomeModule,
     JWBootstrapSwitchModule,
     AmazingTimePickerModule,
-    WeekModule  
+    WeekModule ,
+    NgxPaginationModule 
   ],
   declarations: [
     AdminComponent,
@@ -105,8 +108,8 @@ import { SearchUserComponent } from '../search-user/search-user.component';
     ScheduleComponent,
     SearchUserComponent,
     AboutComponent,
-    SearchUserComponent,
     notificationPageComponent,
+    SnackbarCompComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

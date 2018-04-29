@@ -3,6 +3,88 @@ var mongoose = require('mongoose'),
   Validations = require('../utils/validations'),
   Tags = mongoose.model('Tag');
   User = mongoose.model('User');
+  Color = mongoose.model('Color');
+
+
+  module.exports.getColors = function(req, res, next) {
+         Color.find({}).exec(function(err, Color) {
+           if (err) {
+             return next(err);
+           }
+           res.status(200).json({
+             err: null,
+             msg: 'Colors retrieved successfully.',
+             data: Color
+           });
+         });
+       };
+     
+     
+       module.exports.AddColor = function(req, res, next) {
+      /*      if (!valid) {
+           return res.status(422).json({
+             err: null,
+             msg: 'name (String) should be in hexadecimal.',
+             data: null
+           });
+         }    */
+     // Security Check
+     //delete req.body.createdAt;
+     //delete req.body.updatedAt;
+     // the method below creates the requred Tag in the backend and returns 201 if successful
+     Color.create(req.body, function(err, Color) {
+       if (err) {
+         return next(err);
+       }
+       res.status(201).json({
+         err: null,
+         msg: 'Color was added Sucessfully.',
+         data: Color
+       });
+     });
+     };
+     
+     module.exports.AddColorToTag = function(req, res, next) {
+       
+       Color.findOne({
+         name : { $eq : req.body[0].name } , 
+       },function(err,Color){
+         if (err){
+           return next(err);
+         }
+         if (!Color) {
+           return res.status(404).json({ 
+              err: null, 
+              msg:  'This Color is not found or is blocked.   Please request this Color first then add it as speciality',
+              data: null 
+             });
+         }
+         //need to check on role first before adding the speciality
+         // If Tag was found in tag table then add it in user table
+         Tag.findOneAndUpdate( 
+           // email : {$eq: req.body.email } , 
+          { name : { $eq : req.body[1].name}} ,
+         {$set:{color:Color} } ,
+          { new : true } , function (err, Tag) {
+             if (err) {
+               return next(err);
+             }
+             if (!Tag) {
+               return res.status(404).json({ 
+                 err: null , 
+                 msg: 'Speciality could not be added either it already exists or u are not an expert or a user', 
+                 data: null 
+               });
+             }
+         return res.status(201).json({
+           err: null,
+           msg: 'Color added',
+           data: Tag.color
+         });
+       });
+     });
+     console.log(req.body);
+     };
 
   module.exports.getUsers = function(req, res, next) {
     User.find({}).exec(function(err, User) {

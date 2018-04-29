@@ -23,7 +23,11 @@ export interface Tag {
     name: String;
     status: String;
     blocked: Boolean;
-    color: String;
+    color: {name:string};
+  }
+
+  export interface Color {
+      name:string
   }
 
 export interface Profile {

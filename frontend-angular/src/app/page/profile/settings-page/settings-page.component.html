@@ -82,6 +82,16 @@
         </ng-template>
       </ngb-tab>
 
+      <ngb-tab title="Add Tags/Speciality">
+        <ng-template ngbTabContent>
+         <div style="width:30%;left:35%;" class="input-group">
+          <input style="width:30%;" id="inputsearch" type="text" class="form-control" placeholder="Search by Tag" aria-describedby="basic-addon1">
+          <button (click)="search()" type="button" class="btn btn-default">Search</button>
+      </div>
+       <app-search-user id="searchComp" style="display:none;"  [showCover]="false" [showUsers]="false"></app-search-user>
+        </ng-template>
+      </ngb-tab>
+
       <ngb-tab>
         <ng-template ngbTabTitle>
           <i (click)=closeSetting() class="fa fa-times" onSubmit="return false" style="font-size:24px"></i>

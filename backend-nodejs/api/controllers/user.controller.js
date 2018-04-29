@@ -56,8 +56,7 @@ module.exports.changeUserStatus = function (req, res, next) {
 
 module.exports.getSearchResultsTagUser = function (req, res, next) {
 
-
-  User.find({ username: { $regex: req.params.searchtag, $options: 'i' } }).exec(function (err, user) {
+  User.find({ username: { $regex: req.params.searchtag, $options: 'i' } , role : { $eq: "expert" } }).exec(function (err, user) {
 
     if (err) {
       return next(err);
@@ -108,19 +107,6 @@ module.exports.getimage = function (req, res) {
       err: null,
       msg: null,
       data: { buffer: user.img.data, contentType: user.img.contentType }
-    });
-  });
-};
-
-module.exports.getpassword = function (req, res) {
-  User.findById(req.decodedToken.user._id).exec(function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    return res.status(201).json({
-      err: null,
-      msg: null,
-      data: user.password
     });
   });
 };
@@ -212,8 +198,7 @@ module.exports.uploadCoverPic = function (req, res) {
         data: { buffer: updatedUser.CoverImg.data, contentType: updatedUser.CoverImg.contentType } /* Hnn3ml load el new Image From El Browser B3d El Checks 
        Only Confirmation Message Is Needed*/
       });
-    });
-
+  });
 };
 
 module.exports.updateEmail = function (req, res, next) {
@@ -234,7 +219,6 @@ module.exports.updateEmail = function (req, res, next) {
     if (!user) {
       return res.status(404).json({ err: null, msg: 'User not found.', data: null });
     }
-
     //exec method returns the matched text if it finds a match, otherwise it returns null.
 
     User.findOne({ email: req.body.email.trim().toLowerCase() }).exec(function (err, updatedUser) {
@@ -361,13 +345,7 @@ module.exports.updateDescription = function (req, res, next) {
 };
 
 module.exports.updateRating = function (req, res, next) {
-  // console.log("hi")
-  //  console.log(req.body);
-  //  console.log(req.email);
-  //  console.log(req.decodedToken);
-  // console.log("hi1");
   User.findByIdAndUpdate(req.decodedToken.user._id, { $set: req.body }, { new: true }).exec(function (err, updatedUser) {
-    console.log("hi2");
     delete updatedUser.img;
     return res.status(201).json({
       err: null,
@@ -378,15 +356,6 @@ module.exports.updateRating = function (req, res, next) {
 };
 
 module.exports.getExpertSchedule = function (req, res, next) {
-  /* if (!Validations.isObjectId(req.params.userId)) {
-    return res.status(422).json({
-      err: null,
-      msg: 'user parameter must be a valid ObjectId.',
-      data: null
-    });
-  }  */
-
-  // User.findById('5ad66d9564a0b6360cee1120').exec(function(err, user) {
   User.findById(req.decodedToken.user._id).exec(function (err, user) {
     if (err) {
       return next(err);
@@ -394,11 +363,7 @@ module.exports.getExpertSchedule = function (req, res, next) {
     if (!user) {
       return res.status(404).json({ err: null, msg: 'User not found.', data: null });
     }
-    //  console.log(req.decodedToken.user._id);
-    //console.log(req);
-    // console.log(req.params.expertID);
     schedule.find({
-      //  expertID:'5ad5bee364a0b6360cee111b',
       expertEmail: req.params.expertEmail,
 
     }).exec(function (err, slots) {
@@ -411,26 +376,7 @@ module.exports.getExpertSchedule = function (req, res, next) {
         data: slots
       });
     });
-
-
   });
-  // dummy data for testing to display a schedule 
-
-  /*
-  const schedule = ["Monday: 12pm - 1pm",
-  "Tuesday: 2pm - 3pm",
-  ,
-  "Friday: 9am - 10am",
-  "Sunday: 10pm - 11pm"];
-  
-  
-  res.status(200).json({
-    err: null,
-    msg: 'Schedule retrieved successfully.',
-    data: schedule
-  });
-  
-  */
 };
 
 module.exports.upgradeToExpert = function (req, res, next) {
@@ -523,7 +469,6 @@ module.exports.addToBookmarks = function (req, res, next) {
       data: null
     });
   }
-
   User.findById(req.decodedToken.user._id).exec(function (err, user) {
 
     if (err) {
@@ -532,9 +477,6 @@ module.exports.addToBookmarks = function (req, res, next) {
     if (!user) {
       return res.status(404).json({ err: null, msg: 'User not found.', data: null });
     }
-
-
-
     User.find({ _id: req.params.expertId, role: 'expert' }).exec(function (err, expert) {
       if (err) {
         return next(err);
@@ -547,20 +489,18 @@ module.exports.addToBookmarks = function (req, res, next) {
         });
       }
 
-      User.findOneAndUpdate({
-        _id: { $eq: req.decodedToken.user._id }
-      },
-        { $push: { bookmarks: req.params.expertId } }, { new: true }, function (err, user) {
+      User.findOneAndUpdate({ _id : { $eq : req.decodedToken.user._id} , bookmarks: { $ne: req.params.expertId }},
+        { $push: { bookmarks: req.params.expertId } }, { new : true } , function (err, user) {
 
           if (err) {
             return next(err);
           }
           if (!user) {
-            return res.status(404).json({
-              err: null,
-              msg: 'The expert could not be added to your bookmarks because you are not a user '
-                + 'or he/she is already added to your bookmarks.',
-              data: null
+            return res.status(404).json({ 
+              err: null , 
+              msg: 'The expert could not be added to your bookmarks because '
+                   + ' he/she is already added to your bookmarks.', 
+              data: null 
             });
           }
           return res.status(201).json({
@@ -598,123 +538,47 @@ module.exports.viewBookmarks = function (req, res, next) {
 };
 
 module.exports.removeFromBookmarks = function (req, res, next) {
-
-  User.findById(req.decodedToken.user._id).exec(function (err, user) {
+  User.findOneAndUpdate({
+    _id: { $eq: req.decodedToken.user._id },
+    //search for the tag id that should be removed in the array of specialities with its id
+    bookmarks: { $eq: req.params.expertId }
+  }, { $pull: { bookmarks: req.params.expertId } }, { new: true }, function (err, updateduser) {
     if (err) {
       return next(err);
     }
-    if (!user) {
-      return res.status(404).json({ err: null, msg: 'User not found.', data: null });
+    if (!bookmarks) {
+      return res.status(404).json({
+        err: null,
+        msg: 'bookmark could not be found',
+        data: null
+      });
     }
-  });
-
-};
-
-module.exports.userViewScheduledSlots = function (req, res, next) {
-  // Check that the body keys are in the expected format and the required fields are there
-
-  var valid = req.body.userId && Validations.isObjectId(req.body.userId);
-  if (!valid) {
-    return res.status(422).json({
+    return res.status(201).json({
       err: null,
-      msg: 'userId is Not Valid',
-      data: null
+      msg: 'bookmark removed',
+      data: updateduser.bookmarks
     });
-  } else {
-
-
-    User.findById(req.decodedToken.user._id).exec(function (err, user) {
-      if (err)
-        return next(err);
-      if (user) {
-        req.body.expertID = user._id;
-
-        console.log("hena");
-        Request.find({ sender: user.email, }).exec(function (err, request) {
-
-          if (!request) {
-
-
-            if (err)
-              return next(err);
-            return res.status(201).json({
-              err: null,
-              msg: 'no request slots sent by this user id',
-              data: null
-            });
-
-          }
-
-          else {
-            console.log("found a request");
-
-            User.find({ email: request.recipient }).exec(function (err, User) {
-              if (err) {
-                return next(err);
-              }
-              const expert = User._id;
-
-              res.status(200).json({
-                err: null,
-                msg: 'Experts retrieved successfully.',
-                data: User
-              });
-            });
-
-
-
-
-            Schedule.find(
-              { expertID: { $eq: expert } },
-
-              { slots: { Date: req.body.Date } }
-            ).exec(function (err, slots) {
-
-              if (err)
-                return next(err);
-              if (slots) {
-                return res.status(201).json({
-                  err: null,
-                  msg: 'slots retrieved Successfully',
-                  data: schedule
-                });
-              } else {
-                return res.status(409).json({
-                  err: null,
-                  msg: 'retrieving slots Failed',
-                  data: null
-                });
-              }
-            });
-          }
-        })
-
-      }
-
-      //if not a user
-      else {
-        return res.status(404).json({
-          err: null,
-          msg: 'Unable to locate userWithId :' + req.body.userId,
-          data: null
-        });
-      }
-    })
-  };
+  });
 };
 
-module.exports.chooseSlot = function (req, res, next) {
-  schedule.findOneAndUpdate({ expertEmail: req.params.expertEmail, 'slots.sessionId': req.body.sessionId }, { $push: { 'slots.$.usersRequested': req.decodedToken.user.email } }, function (err, updatedTable) {
+module.exports.findUserbyId = function (req, res, next) {
+  console.log(req.body);
+  User.find({ _id: req.body  }).exec(function (err, User) {
     if (err) {
       return next(err);
     }
-    if (!updatedTable) {
-      return res.status(404).json({ err: null, msg: "Not able to request to attend this session.", data: null });
+    if (!User) {
+      return res.status(404).json({
+        err: null,
+        msg: 'This Tag is not found ',
+        data: null
+      });
     }
-    return res.status(200).json({
+
+    return res.status(201).json({
       err: null,
-      msg: 'Successfully requested to reserve this slot.',
-      data: updatedTable
+      msg: 'Succesfully retrieved Users',
+      data: User
     });
-  });
+  })
 };

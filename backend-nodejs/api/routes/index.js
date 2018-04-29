@@ -68,29 +68,27 @@ router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
 router.patch('/User/BlockAndUnblock/:userId', AdminController.BlockAndUnblock);
 router.patch('/User/ChangeRole/:userId', AdminController.ChangeRole);
 router.get('/User/getUsers',AdminController.getUsers);
-router.get('/getUsers',isAuthenticated, AdminController.getUsers);  
+router.get('/getUsers',isAuthenticated, AdminController.getUsers); 
+router.post('/CreateAColor' , AdminController.AddColor);
+router.post('/addColorToTag' , AdminController.AddColorToTag); 
+router.get('/getColors' , AdminController.getColors);  
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);
 router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescription);
 
 //-----------------------------User Role Expert Routes-------------------------
-router.post('/expert/chooseSlot',expert.chooseSlot);
 router.post('/expert/getTagById' , isAuthenticated , expert.findTagbyid);
+router.post('/expert/getTagByName', isAuthenticated , expert.findTagbyname);   
 router.patch('/expert/addSpeciality/:tagId', isAuthenticated , expert.addSpeciality); 
 router.delete('/expert/editSpeciality/:tagId', isAuthenticated , expert.editSpeciality);
 //-------------------------------------------------------------------
-router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
-router.post('/session/addCandidate' , isNotAuthenticated, sessionCtrl.addCandidate);
-router.post('/session/updateCandidate' , isNotAuthenticated, sessionCtrl.updateCandidate);
-router.post('/session/getCandidatesRTCDes/:sessionId' , isNotAuthenticated, sessionCtrl.getCandidatesRTCDes);
 
 router.post('/photo', isAuthenticated , userCtrl.uploadimage);
 router.post('/CoverImgUpload', isAuthenticated , userCtrl.uploadCoverPic);
 router.get('/getphoto', isAuthenticated , userCtrl.getimage);
 router.get('/getusername', isAuthenticated , userCtrl.getusername);
 router.get('/user/getUserData', isAuthenticated , userCtrl.getUserData);
-router.get('/user/getpassword', isAuthenticated , userCtrl.getpassword);
 router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
 router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
 router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUserProfile);
@@ -111,10 +109,11 @@ router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert)
 router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
 //to choose slot
 router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
-router.post('/user/chooseSlot/:expertEmail', isAuthenticated, userCtrl.chooseSlot)
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
+router.delete('/user/removeFromBookmarks/:expertId', isAuthenticated, userCtrl.removeFromBookmarks);
 router.get('/user/viewBookmarks', isAuthenticated , userCtrl.viewBookmarks);
+router.post('/user/getUserById', isAuthenticated , userCtrl.findUserbyId);
 
 //----------------------------------------------------------------------------------------------------------------
 router.get('/schedule/:expertID' , isAuthenticated , scheduleController.getSlots );

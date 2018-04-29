@@ -42,6 +42,7 @@
     "ng2-nouislider": "^1.7.7",
     "ng2-opd-popup": "^1.1.21",
     "ng2-smart-table": "^1.2.2",
+    "ngx-pagination": "^3.1.1",
     "ngx-perfect-scrollbar": "^5.3.5",
     "nouislider": "^11.1.0",
     "npm": "^5.8.0",

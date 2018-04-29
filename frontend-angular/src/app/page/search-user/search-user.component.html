@@ -1,97 +1,110 @@
 <div class="wrapper">
-  <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
-      <div class="filter"></div>
-  </div>
-  <!-- <app-notification  [alerts]=alerts></app-notification>   -->
-<div class="nav-tabs-navigation">
-<div class="nav-tabs-wrapper">
-    <ngb-tabset [justify]="'center'" (tabChange)="refresh()">
-        <ngb-tab  title="Users">
-            <ng-template ngbTabContent >
-                <div class="row following" id="follows">
-                    <div class="col-md-6 ml-auto mr-auto">
-                        <ul class="list-unstyled follows">
-                          <div *ngFor="let user of users">
-                            <li>
-                                <div class="row">
-                                    <div class="col-md-2 col-sm-2 ml-auto mr-auto">
-                                        <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture">
-                                    </div>
-                                    <div class="col-md-7 col-sm-4 ml-auto">
-                                        <h6><a [routerLink]="['/page/profile',user.username]">{{user.username}}</a><br/><small>Client</small></h6>
-                                    </div>
-                                    <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                        <div class="form-check">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <hr />
-                          </div>
-                        </ul>
-                    </div>
-                </div>
-            </ng-template>
-        </ngb-tab>
-        <ngb-tab title="Tags">
-            <ng-template ngbTabContent>
-                    <ng-template #content let-c="close" let-d="dismiss">
-                            <div class="modal-header">
-                              <h4 class="modal-title">Request a Tag</h4>
-                              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div> 
-                            <div class="modal-body">
-                                    <input (click)="RequestTag()" type="text" class="form-control" placeholder="Tag name"> <button type="button" class="btn btn-warning">Request</button>
-                            </div>  
-                         <!--    <div class="modal-footer">
-                            
-                            </div> -->
-                          </ng-template>
-                          
-                         <p>Can't find your Tag ? <a href="javascript:;" (click)="open(content)" > Request it Here </a></p> 
-                         <button (click)="triggernotifications()">Show Snackbar</button>
-                         <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
-
-                          <hr>
-                   <div id="TagsResults">
-                       
-                       <br>
-                    <div class="row following" id="follows">
-                            <div class="col-md-6 ml-auto mr-auto">
-                                <ul class="list-unstyled follows">
-                                  <div *ngFor="let tag of tags">
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-md-2 col- ml-auto mr-auto">
-                                                    <button style=" margin-right:75%"id="{{tag._id}}" type="button"  class="btn btn-sm btn-info btn-round">{{tag.name}}</button>
-                                            </div>
-                                            <div class="col-md-7 col-sm-4 ml-auto">
-                                             
-                                            </div>
-                                            <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                                    <button (click)="AddTag()" type="button" class="btn btn-success"> ADD</button>
-                                                    
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <hr />
+    <div   *ngIf="showCover"  class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
+        <div class="filter"></div>
+    </div>
+    
+  <div class="nav-tabs-navigation">
+  <div class="nav-tabs-wrapper">
+      <ngb-tabset [justify]="'center'" (tabChange)="refresh()">
+          <ngb-tab *ngIf="showUsers"  title="Users" style="display:none;">
+              <ng-template  ngbTabContent  >
+                  <div class="row following" id="follows">
+                      <div class="col-md-6 ml-auto mr-auto">
+                          <ul class="list-unstyled follows">
+                               
+                            <div *ngFor="let user of users  | paginate: { itemsPerPage: 5, currentPage: p2, id:users}">
+                                 
+                              <li>
+                                  <div class="row">
+                                      <div class="col-md-2 col-sm-2 ml-auto mr-auto">
+                                          <!-- <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle" title="change profile picture"> -->
+                                          <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                      </div>
+                                      <div class="col-md-7 col-sm-4 ml-auto">
+                                          <h6><a [routerLink]="['/page/profile',user.username]">{{user.username}}</a><br/><small>{{user.role}}</small></h6>
+                                      </div>
+                                      <div class="col-md-3 col-sm-2 ml-auto mr-auto">
+                                        <button (click)="addtobookmark()" type="button" class="btn btn-info btn-round"><i class="fa fa-heart"></i>bookmark</button>
+                                      </div>
                                   </div>
-                                </ul>
+                              </li>
+                              <hr />
                             </div>
-                        </div>  
-                    </div>
-                <!--     <ngb-pagination [collectionSize]="totalItems" [pageSize]="itemsPerPage" [(page)]="tags" [maxSize]="2" [rotate]="true" (pageChange)="loadPage($event)"></ngb-pagination> -->
-                    <br>
-            </ng-template>
-        </ngb-tab>
-    </ngb-tabset>
-
-
-</div>
+                            <pagination-controls id="users" (pageChange)="p2 = $event"></pagination-controls>
+                          </ul>
+                      </div>
+                  </div>
+              </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Tags">
+              <ng-template ngbTabContent>
+                      <ng-template #content let-c="close" let-d="dismiss">
+                              <div class="modal-header">
+                                <h4 class="modal-title">Request a Tag</h4>
+                                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div> 
+                              <div class="modal-body">
+                                      <input (click)="RequestTag()" type="text" class="form-control" placeholder="Tag name"> <button type="button" class="btn btn-warning">Request</button>
+                              </div>  
+                           <!--    <div class="modal-footer">
+                              
+                              </div> -->
+                            </ng-template>
+                            
+                           <p>Can't find your Tag ? <a href="javascript:;" (click)="open(content)" > Request it Here </a></p> 
+                         <!--   <button (click)="triggernotifications()">Show Snackbar</button> --> 
+                           <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button> -->
   
-</div>
-
-<div  id="snackbar" >Some text some message..</div>
-
+                            <hr>
+                     <div id="TagsResults">
+                         
+                         <br>
+                      <div class="row following" id="follows">
+                              <div class="col-md-6 ml-auto mr-auto">
+                                  <ul class="list-unstyled follows">
+                                    <div *ngFor="let tag of tags | paginate: { itemsPerPage: 5, currentPage: p }">
+                                      <li>
+                                          <div class="row">
+                                              <div class="col-md-2 col- ml-auto mr-auto"> 
+                                                      <button style=" margin-right:75%"id="{{tag._id}}" type="button" [style.border-color]= "tag.color.name" [style.background-color]= "tag.color.name" class="btn btn-sm btn-info btn-round">{{tag.name}}</button>
+                                              </div>
+                                              <div class="col-md-7 col-sm-4 ml-auto">
+                                               
+                                              </div>
+                                              <div class="col-md-3 col-sm-2 ml-auto mr-auto">
+                                                      <button (click)="AddTag()" type="button" class="btn btn-success"> ADD</button>
+                                                      
+                                              </div>
+                                          </div>
+                                      </li>
+                                      <hr />
+                                    </div>
+                                    <!-- pager -->
+                                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                                  </ul>
+                              </div>
+                          </div>  
+                      </div>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      <br>
+                      
+              </ng-template>
+          </ngb-tab>
+      </ngb-tabset>
+  
+  
+  </div>
+    
+  </div>
+  <app-snackbar-comp  ></app-snackbar-comp> 
+  
+<!--   <div  id="snackbar" >Some text some message..</div> -->

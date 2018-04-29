@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots , ReserveSlotBody , OfferSlotBody , Notification } from '../service/models/api.data.structure';
+import { APIData , SlotData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , Color , OfferedSlots , ReserveSlotBody , OfferSlotBody , Notification } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
@@ -34,6 +34,20 @@ export class APIService {
     return this.http.post<APIData>( APIService.apiUrl + 'auth/signup', user).catch(this.errorHandler);
   }
 
+  AddColor(Color:Color): Observable<APIData> {
+      return this.http.post<APIData>( APIService.apiUrl + 'CreateAColor', Color).catch(this.errorHandler);
+     }
+  
+    getColors(): Observable<APIData> {
+        return this.http.get<APIData>( APIService.apiUrl + 'getColors').catch(this.errorHandler);
+     }
+    
+    
+     addColorToTag(Color:Color,Tags:Tag): Observable<APIData> {
+      return this.http.post<APIData>( APIService.apiUrl + 'addColorToTag',[Color,Tags])
+      .catch(this.errorHandler);
+    }
+
   
   AddTag( tag : Tag ): Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'Tags/AddTag', tag).catch(this.errorHandler);
@@ -47,6 +61,12 @@ export class APIService {
   getTagbyId(Tags_ids: String[]):Observable<APIData> {
     console.log(Tags_ids);
     return this.http.post<APIData>( APIService.apiUrl + 'expert/getTagById',Tags_ids)
+    .catch(this.errorHandler);
+  }
+  
+  getTagbyName(tag: Tag):Observable<APIData> {
+  //   console.log(tname);
+    return this.http.post<APIData>( APIService.apiUrl + 'expert/getTagByName',tag)
     .catch(this.errorHandler);
   }
 
@@ -178,6 +198,7 @@ export class APIService {
   getOfferedSlots(): Observable<APIData> {
     return this.http.get<APIData>( APIService.apiUrl + 'user/getOfferedSlots').catch(this.errorHandler);
   }
+
   reserve(offeredSlots:OfferedSlots): Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'user/reserveSlot' , offeredSlots).catch(this.errorHandler);
   }
@@ -195,10 +216,12 @@ export class APIService {
     return this.http.patch<APIData>( APIService.apiUrl + '/User/downgradeExpert/' + Users._id , Users )
     .catch(this.errorHandler);
   }
+
   BlockAndUnblock(Users:User):Observable<APIData>{
     return this.http.patch<APIData>( APIService.apiUrl + 'User/BlockAndUnblock/'+Users._id,Users)
     .catch(this.errorHandler);
   }
+
   ChangeRole(Users:User):Observable<APIData>{
     return this.http.patch<APIData>( APIService.apiUrl + 'User/ChangeRole/'+Users._id,Users)
     .catch(this.errorHandler);
@@ -211,10 +234,27 @@ export class APIService {
   userReserveSlot( reserveSlotBody : ReserveSlotBody ) :Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'schedule/userReserveSlot' , reserveSlotBody ).catch(this.errorHandler);
   }
+
   expertOfferSlot( offerSlotBody : OfferSlotBody ) :Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'schedule/expertOfferSlot' , offerSlotBody ).catch(this.errorHandler);
   }
+
   expertAcceptSlot(user:String): Observable<APIData>{
     return this.http.get<APIData>( APIService.apiUrl + 'schedule/expertAcceptSlot/'+user).catch(this.errorHandler);
+  }
+
+  addtoToBookmark( User : User ): Observable<APIData> {
+    return this.http.post<APIData>( APIService.apiUrl + '/user/addToBookmarks/' + User._id,User._id )
+    .catch(this.errorHandler);
+  }
+
+  removeFromBookmark( User : User ): Observable<APIData> {
+    return this.http.delete<APIData>( APIService.apiUrl + '/user/removeFromBookmarks/' + User._id )
+    .catch(this.errorHandler);
+  }
+
+  getUserbyIds(Users_ids: String[]):Observable<APIData> {
+    return this.http.post<APIData>( APIService.apiUrl + '/user/getUserById',Users_ids)
+    .catch(this.errorHandler);
   }
 }
