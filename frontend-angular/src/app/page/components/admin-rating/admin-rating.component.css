@@ -1,8 +1,8 @@
 :host /deep/ ng2-smart-table table { 
-  position: static;
-  width:1100px ;
-  margin-left: 40px;
-  top: -30px;
+  position: absolute;
+  width:90% ;
+  margin: auto;
+  top:0;
   bottom: 0;
   left: 0;
   right:0; 
@@ -48,5 +48,6 @@
    color: yellow;
    background-color: #fff;}
 :host /deep/ ng2-smart-table ng2-smart-table-pager .pagination {
-   margin-left: 40px
+  margin-left: 40%;
+  margin-top: 250%;
 }

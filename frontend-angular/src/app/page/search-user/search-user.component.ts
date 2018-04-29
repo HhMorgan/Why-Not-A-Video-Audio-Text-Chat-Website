@@ -245,9 +245,20 @@ export class SearchUserComponent implements OnInit {
 
 
   RequestTag() {
-    // to be implemented
+  var Rtag =<Tag>{};
+  Rtag.name = (document.getElementById("RequestingTag") as HTMLInputElement).value; 
+  Rtag.status = 'Pending';
+  Rtag.blocked = false;  
+ 
+ 
+  this.apiServ.AddTag(Rtag).subscribe((apiresponse: APIData)=>{
+    console.log(apiresponse.msg);
+    console.log(Rtag);
+    this.NavBarService.triggernotifcations("#34A853","Your request was sent sucessfully");
+  });
+  
+    
   }
-
   triggernotifications(color, text) {
     // Get the snackbar DIV
     var x = document.getElementById("snackbar");

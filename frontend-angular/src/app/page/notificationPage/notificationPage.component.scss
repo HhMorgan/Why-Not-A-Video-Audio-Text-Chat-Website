@@ -6,3 +6,56 @@
     left: 0;
     right:0;
   }
+
+  :host /deep/ ng2-smart-table table { 
+    position: absolute;
+    width:80% ;
+    margin: auto;
+    border-radius: 5%;
+    left: 0;
+    right:0; 
+    background:rgba(0, 0, 0, 0.6);
+    
+  }
+  
+  :host /deep/ ng2-smart-table table > tbody > tr > td{ 
+     padding: 8px;
+     text-align: left;
+    
+     color: rgb(255, 255, 255);
+  }
+  :host /deep/ ng2-smart-table table > thead > tr > th:first-child{ 
+      color: rgb(255, 255, 255);
+  }
+  :host /deep/ ng2-smart-table a { color:rgb(255, 255, 255); }
+  :host /deep/ ng2-smart-table a:link { color:rgb(255, 255, 255); }
+  :host /deep/ ng2-smart-table a:hover { color:rgb(255, 255, 255); }
+  :host /deep/ ng2-smart-table a:focus { color:rgb(255, 255, 255); }
+  
+  :host /deep/ tr.ng2-smart-row a { color: rgb(255, 255, 255); }
+  :host /deep/ tr.ng2-smart-row a:link { color: rgb(255, 255, 255); }
+  :host /deep/ tr.ng2-smart-row a:hover { color:rgb(255, 255, 255); }
+  :host /deep/ tr.ng2-smart-row a:focus { color:rgb(255, 255, 255); }
+  
+  :host /deep/ ng2-smart-table table > tbody > tr:hover {background-color:rgb(61, 61, 60);} 
+  :host /deep/ ng2-smart-table ng2-smart-table-pager .pagination > .page-item > .page-link, .pagination > .page-item > span, .pagination > .page-item:first-child > .page-link, .pagination > .page-item:first-child > span, .pagination > .page-item:last-child > .page-link, .pagination > .page-item:last-child > span {     background-color: transparent;
+     border: 0px;
+     color: rgb(255, 255, 255);
+     height: 25px;
+     margin: 0 2px;
+     min-width: 10px;
+     font-weight: 600;
+     
+  }
+  :host /deep/ ng2-smart-table ng2-smart-table-pager .page-link {
+     position: relative;
+     display: block;
+     padding: .2rem .5rem;
+     margin-left: -1px;
+     line-height: 0.75;
+     color: rgb(255, 255, 255);
+     background-color: #fff;}
+  :host /deep/ ng2-smart-table ng2-smart-table-pager .pagination {
+     margin-left: 40px
+  }
+  
