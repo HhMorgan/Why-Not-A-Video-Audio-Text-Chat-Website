@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 var Mongoose = require('mongoose').Mongoose;
 var mongoose = new Mongoose();
 var Mockgoose = require('mockgoose').Mockgoose;
@@ -23,14 +25,14 @@ let Expert;
 
 
 
-process.env.NODE_ENV = 'test';
+
 const base = process.env.PWDF;
 var app = require('../app');
 
 before(function(done) {
   this.timeout(2800000);
 	mockgoose.prepareStorage().then(function() {
-		mongoose.connect('mongodb://localhost:27017/StartUp-Connect-Database', function(err) {
+		mongoose.connect('mongodb://localhost:27017/StartUp-Connect-Database-test', function(err) {
 //s      connection.name = connection.db.databaseNam
             
     done(err);
