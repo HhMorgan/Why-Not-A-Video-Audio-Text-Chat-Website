@@ -17,6 +17,8 @@ export class NavbarComponent implements OnInit {
     public username: string;
     public toggleButton: any;
     public sidebarVisible: boolean;
+    public searchtext;
+    public searchtag : string;
 
     constructor( public location: Location , private element : ElementRef , private apiServ:APIService , private router: Router , 
         private navbarservice : NavBarService ) {
@@ -31,8 +33,14 @@ export class NavbarComponent implements OnInit {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
         this.isloggedin();
+       
     }
-
+    
+    appendSearchTag(){       
+        this.searchtext  =(document.getElementById("textInput") as HTMLInputElement).value;
+        this.router.navigate(['page/search',this.searchtext]);
+    }
+    
     sidebarOpen() {
         const toggleButton = this.toggleButton;
         const html = document.getElementsByTagName('html')[0];
@@ -40,12 +48,10 @@ export class NavbarComponent implements OnInit {
             toggleButton.classList.add('toggled');
         }, 500);
         html.classList.add('nav-open');
-
         this.sidebarVisible = true;
     };
     sidebarClose() {
         const html = document.getElementsByTagName('html')[0];
-        // console.log(html);
         this.toggleButton.classList.remove('toggled');
         this.sidebarVisible = false;
         html.classList.remove('nav-open');

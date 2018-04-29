@@ -7,7 +7,6 @@ var sessionSchema = mongoose.Schema({
         required: true
     },
     users : [{ type: mongoose.Schema.Types.ObjectId , ref: 'User' , _id : false }],
-    
 },{ collection: 'Sessions'} );
 
 mongoose.model('Session', sessionSchema);

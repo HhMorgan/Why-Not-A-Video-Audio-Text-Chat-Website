@@ -4,13 +4,6 @@ export interface APIData {
     data;
 }
 
-export interface Tags {
-  _id:String;
-  name: String;
-  status: String;
-  blocked: Boolean;
-}
-
 export interface User {
     _id:String;
     username : any,
@@ -20,15 +13,17 @@ export interface User {
     rating:any,
     numberofsessions:any,
     img:Blob,
-    onlineStatus: Boolean;
+    onlineStatus: Boolean,
+    CoverImg:Blob,
     blocked: Boolean;
 
 }
-export interface Tags {
+export interface Tag {
     _id:String;
     name: String;
     status: String;
     blocked: Boolean;
+    color: String;
   }
 
 export interface Profile {
@@ -59,6 +54,21 @@ export interface Session {
 
 export interface CandicateSession extends Session {
     rtcDes : String;
+}
+
+
+export interface Slots {
+    expertId : String;
+    date : Date;
+    slots: [oneSlot]
+}
+
+export interface oneSlot extends Slots {
+    sessionId : String;
+    date: Date;
+    usersAccepted: [User];
+    usersRequested: [User]
+
 }
 
 export interface SlotData{

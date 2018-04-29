@@ -28,40 +28,30 @@ import { SearchUserComponent } from '../search-user/search-user.component';
 import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
 
 const routes: Routes = [
-  { path: 'session/:sessionid', component: SessionComponent },
+  { path: 'home' , component:HomeComponent},
   { path: 'login' , component:LoginComponent},
   { path: 'signup' , component: SignupComponent},
+  { path: 'session/:sessionid', component: SessionComponent },
   { path: 'dashboard', component:DashboardComponent},
   { path: 'admin', component: AdminComponent },
-  { path: 'home' , component:HomeComponent},
-  { path: 'video' , component:VideoViewComponent},
-  { path: 'videotest/:sessionid' , component:SessionVideoComponent},
   { path: 'profile' , component:ProfileComponent},
   { path: 'profile/:username' , component:ProfileComponent},
-  {path: 'search-user/:searchtag' , component:SearchUserComponent},
+  { path: 'search-user/:searchtag' , component:SearchUserComponent},
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
   { path: 'viewSchedule', component: viewScheduleComponent },
-  { path: 'upgradeToExpert', component: upgradeToExpertComponent },
   { path: 'expert', component: ExpertComponent },
   { path: 'expertsList', component: ExpertsListComponent },
-  {path:'tagSearch',component: TagSearchComponent},
-  {path:'adminPage', component:AdminPageUserComponent},
-  {path:'chat',component: SessionChatMobileComponent},
-  {path:'about',component:AboutComponent},
-  //{ path: 'session', component: SessionComponent },
-//  { path: 'editProfile', component: ProfileComponent },
+  { path: 'tagSearch',component: TagSearchComponent},
+  { path: 'adminPage', component:AdminPageUserComponent},
+  { path: 'chat', component: SessionChatMobileComponent},
+  { path: 'search/:searchtag' , component:SearchUserComponent},
+  { path: 'about', component:AboutComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
   { path: 'schedule', component: ScheduleComponent },
   { path: 'admin-rating', component:AdminRatingComponent },
-  { path: 'notification', component:notificationPageComponent },  
- 
-
-// { path: 'date-picker', component: DatePickerComponent },
-
-//{ path: '', pathMatch: 'full', redirectTo: 'login' },
-
+  { path: 'notification', component:notificationPageComponent },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 

@@ -44,11 +44,6 @@ var userSchema = mongoose.Schema( {
   },
 
   speciality: [ { type: mongoose.Schema.Types.ObjectId , ref: 'Tag'  }  ],
-  
-  schedule: { /* Must Change */
-    type: [String],
-    required: true,
-  },
 
   updatedAt: Date ,
  
@@ -67,7 +62,8 @@ var userSchema = mongoose.Schema( {
     default: true
   },
 
-  bookmarks: [{ type: mongoose.Schema.Types.ObjectId , ref: 'User'  }],
+ //array containing all the experts id the user bookmarked
+ bookmarks: [{ type: mongoose.Schema.Types.ObjectId , ref: 'User'  }],
 
   blocked: {
     type: Boolean,
@@ -75,17 +71,19 @@ var userSchema = mongoose.Schema( {
     default: false
   },
 
+  updatedAt: Date,
+
   img: { 
+    data: Buffer , 
+    contentType: String ,
+  } ,  
+
+  CoverImg: { 
     data: Buffer , 
     contentType: String ,
   } ,
 
-  updatedAt: Date,
-  
-},
-
-
-{ collection: 'Users' } );
+}, { collection: 'Users' } );
 // Override the transform function of the schema to delete the password before it returns the object
 if (!userSchema.options.toObject) {
   userSchema.options.toObject = {};

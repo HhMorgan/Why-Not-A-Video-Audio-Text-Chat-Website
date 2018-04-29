@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
  import {APIService } from '../../@core/service/api.service';
- import {APIData,Tags } from '../../@core/service/models/api.data.structure';
+ import {APIData , Tag } from '../../@core/service/models/api.data.structure';
  import { LocalDataSource } from 'ng2-smart-table';
  import { Ng2SmartTableModule } from 'ng2-smart-table';
  import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
@@ -82,33 +82,33 @@ export class AdminComponent implements OnInit {
   // this is a constructor for all the APIServices in the pages
   constructor(private _apiService: APIService) {
     //onAdded is called when some 1 adds a tag using the ng2smarttable 
-    this.source.onAdded().subscribe((Tags :Tags)=>{
+    this.source.onAdded().subscribe((tag :Tag)=>{
       // we intilialize status to accepted and blocked to false as the admin is 
       // the one adding the tag so he doesn't need to write these himself 
-      Tags.status = 'Accepted';
-      Tags.blocked = false;
+      tag.status = 'Accepted';
+      tag.blocked = false;
       //Then we send APIData to the method named AddTag through the api.service then we 
       //refresh after the database has been updated to get the new tag
-      this._apiService.AddTag(Tags).subscribe((apiresponse: APIData)=>{
+      this._apiService.AddTag(tag).subscribe((apiresponse: APIData)=>{
         console.log(apiresponse.msg);
-        console.log(Tags);
+        console.log(tag);
         this.refresh();  
       });
       this.refresh();  
     });
     //This is called when the user removes a tag using ng2smarttable
-    this.source.onRemoved().subscribe((Tags :Tags)=>{
+    this.source.onRemoved().subscribe((tags :Tag)=>{
       //Then we send APIData to the method named deleteTags through the api.service then we 
       //refresh after the database has been updated to get the tags without the delete tag
-      this._apiService.deleteTags(Tags).subscribe((apiresponse: APIData)=>{
+      this._apiService.deleteTags(tags).subscribe((apiresponse: APIData)=>{
         this.refresh();
       });
     });
     //This is called when the user edits a tag using ng2smarttable      
-    this.source.onUpdated().subscribe((Tags :Tags)=>{
+    this.source.onUpdated().subscribe((tag :Tag)=>{
       //Then we send APIData to the method named editTag through the api.service then we 
       //refresh after the database has been updated to get the tags without the updated tag
-      this._apiService.editTag(Tags).subscribe((apiresponse: APIData)=>{
+      this._apiService.editTag(tag).subscribe((apiresponse: APIData)=>{
         // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
         this.refresh();
       });
@@ -143,13 +143,13 @@ custom(event):void{
 }
 //this method is invoked when the user presses the custom made button Block
 OnBlock(event): void {
-  var Tags = <Tags>{};
-  Tags = event.data;
+  var tag = <Tag>{};
+  tag = event.data;
 // we check if the tag is not accepted if it is not we change it's status through edit tags
 //to accepted otherwise we say the tag is already accepted and we don't change the data   
-  if(Tags.blocked != true){
-    Tags.blocked = true;
-    this._apiService.editTag(Tags).subscribe((apiresponse: APIData)=>{
+  if(tag.blocked != true){
+    tag.blocked = true;
+    this._apiService.editTag(tag).subscribe((apiresponse: APIData)=>{
     // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
       this.refresh();
     });
@@ -158,13 +158,13 @@ OnBlock(event): void {
   }
 }
 OnUnblock(event): void {
-  var Tags = <Tags>{};
-  Tags = event.data;
+  var tag = <Tag>{};
+  tag = event.data;
 // we check if the tag is not accepted if it is not we change it's status through edit tags
 //to accepted otherwise we say the tag is already accepted and we don't change the data   
-  if(Tags.blocked != false){
-    Tags.blocked = false;
-    this._apiService.editTag(Tags).subscribe((apiresponse: APIData)=>{
+  if(tag.blocked != false){
+    tag.blocked = false;
+    this._apiService.editTag(tag).subscribe((apiresponse: APIData)=>{
     // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
       this.refresh();
     });
@@ -174,13 +174,13 @@ OnUnblock(event): void {
 }
   //this method is invoked when the user presses the custom made button Accept
   OnAccept(event): void {
-    var Tags = <Tags>{};
-    Tags = event.data
+    var tag = <Tag>{};
+    tag = event.data
     // we check if the tag is not accepted if it is not we change it's status through edit tags
     //to accepted otherwise we say the tag is already accepted and we don't change the data   
-    if(Tags.status != 'Accepted'){
-      Tags.status = 'Accepted';
-      this._apiService.editTag(Tags).subscribe((apiresponse: APIData)=>{
+    if(tag.status != 'Accepted'){
+      tag.status = 'Accepted';
+      this._apiService.editTag(tag).subscribe((apiresponse: APIData)=>{
         // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
         this.refresh();
       });
@@ -190,13 +190,13 @@ OnUnblock(event): void {
   }
   //this method is invoked when the user presses the custom made button Reject
   OnReject(event): void {
-    var Tags = <Tags>{};
-    Tags = event.data;
+    var tags = <Tag>{};
+    tags = event.data;
     // we check if the tag is not accepted if it is not we change it's status through edit tags
     //to rejected otherwise we say the tag is already Rejected and we don't change the data   
-    if(Tags.status != 'Rejected'){
-      Tags.status = 'Rejected';
-      this._apiService.editTag(Tags).subscribe((apiresponse: APIData)=>{
+    if(tags.status != 'Rejected'){
+      tags.status = 'Rejected';
+      this._apiService.editTag(tags).subscribe((apiresponse: APIData)=>{
         // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
         this.refresh();
       });

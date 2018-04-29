@@ -103,6 +103,7 @@ import { SearchUserComponent } from '../search-user/search-user.component';
     AdminRatingComponent,
     SettingsPageComponent,
     ScheduleComponent,
+    SearchUserComponent,
     AboutComponent,
     SearchUserComponent,
     notificationPageComponent,
