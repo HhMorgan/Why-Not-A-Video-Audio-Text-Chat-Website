@@ -56,6 +56,7 @@ import { AboutComponent } from './about/about.component';
 import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
 import { SearchUserComponent } from '../page/search-user/search-user.component';
 import { SnackbarCompComponent } from './components/snackbar-comp/snackbar-comp.component';
+import { ColorTagComponent } from './colorTag/colorTag.component';
 
 @NgModule({
   imports: [
@@ -110,6 +111,7 @@ import { SnackbarCompComponent } from './components/snackbar-comp/snackbar-comp.
     AboutComponent,
     notificationPageComponent,
     SnackbarCompComponent,
+    ColorTagComponent,
   ],
   entryComponents: [NgbdModalContent]
 })
