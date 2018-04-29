@@ -73,9 +73,7 @@ router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescript
 
 //-----------------------------User Role Expert Routes-------------------------
 router.post('/expert/chooseSlot',expert.chooseSlot);
-router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests);
 router.post('/expert/getTagById' , isAuthenticated , expert.findTagbyid);
-router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
 router.patch('/expert/addSpeciality/:tagId', isAuthenticated , expert.addSpeciality); 
 router.delete('/expert/editSpeciality/:tagId', isAuthenticated , expert.editSpeciality);
 //-------------------------------------------------------------------
@@ -103,8 +101,11 @@ router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert)
 router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
 //to choose slot
 router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
+router.post('/user/chooseSlot/:expertEmail', isAuthenticated, userCtrl.chooseSlot)
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
 router.get('/user/viewBookmarks', isAuthenticated , userCtrl.viewBookmarks);
+
+router.get('/user/userViewScheduledSlots',isAuthenticated, userCtrl.userViewScheduledSlots);
 
 module.exports = router;

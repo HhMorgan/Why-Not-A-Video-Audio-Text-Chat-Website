@@ -44,11 +44,6 @@ var userSchema = mongoose.Schema( {
   },
 
   speciality: [ { type: mongoose.Schema.Types.ObjectId , ref: 'Tag'  }  ],
-  
-  schedule: { /* Must Change */
-    type: [String],
-    required: true,
-  },
 
   updatedAt: Date ,
  

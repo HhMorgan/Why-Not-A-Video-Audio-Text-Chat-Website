@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { APIService } from '../../@core/service/api.service';
-import { APIData, User, FileData, Tag } from '../../@core/service/models/api.data.structure'
 import { Buffer } from 'buffer';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { APIService } from '../../@core/service/api.service';
+import { APIData, User, FileData, Tag } from '../../@core/service/models/api.data.structure'
 
 @Component({
   selector: 'app-profile',
@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
     //after that send the user with the new user status value
     //connects to th backend using changeUserStatus() method wchich is implemented in the service file
     this.apiServ.changeUserStatus(this.user).subscribe((apiresponse: APIData) => {
-
+      
     })
   }
 

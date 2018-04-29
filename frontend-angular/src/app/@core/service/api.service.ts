@@ -15,7 +15,7 @@ export class APIService {
   public static getToken() : string {
     return localStorage.getItem('token');
   }
-
+  
   errorHandler(apiResponse: HttpErrorResponse) {
     return Observable.throw(apiResponse.error);
   }
