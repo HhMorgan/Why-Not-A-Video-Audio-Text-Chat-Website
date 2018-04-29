@@ -79,6 +79,11 @@ body {
   border-radius: 50% !important;
   max-width: 100%;
 }
+.btn-background{
+  background-color: rgba(255, 255, 255, 0);
+  border-color:  rgba(255, 255, 255, 0);
+  color: #b4b4b4 !important;
+}
 .positionProfileImage
 {
     position: absolute;
@@ -103,6 +108,7 @@ body {
   transition: border-color .25s ease, box-shadow .25s ease;
   transition: border-color .25s ease, box-shadow .25s ease, -webkit-box-shadow .25s ease;
 }
+
 .positionUsername
 {
   position: relative;
