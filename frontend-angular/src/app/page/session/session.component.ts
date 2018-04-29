@@ -88,6 +88,12 @@ export class SessionComponent implements OnInit {
               )
             break;
 
+            case "disconnected":
+              if(this.checkIsUserConnected(js.userid)){
+                this.connectedUsers.splice(this.connectedUsers.indexOf(js.userid),1)
+              }
+            break;
+
             case "connectedUsers":
               this.connectedUsers = js.data;
               for(var i = 0 ; i < this.connectedUsers.length ; i++){
@@ -122,11 +128,22 @@ export class SessionComponent implements OnInit {
             break;
 
             case "answer" :
-              this.peerConnections[this.connectedUsers.indexOf(js.from)].setRemoteDescription(js.answer).then()
+              if(this.checkIsUserConnected(js.from)){
+                this.peerConnections[this.connectedUsers.indexOf(js.from)].setRemoteDescription(js.answer).then()
+              }
             break;
             
             case "candidate":
-              this.peerConnections[this.connectedUsers.indexOf(js.from)].addIceCandidate(js.candidate).then();
+              if(this.checkIsUserConnected(js.from)){
+                this.peerConnections[this.connectedUsers.indexOf(js.from)].addIceCandidate(js.candidate).then();
+              }
+            break;
+
+            case "close" :
+              if(this.checkIsUserConnected(js.from)){
+                this.peerConnections[this.connectedUsers.indexOf(js.from)].close()
+                this.peerConnections.splice(this.peerConnections.indexOf(js.userid),1)
+              }
             break;
 
             case "message" :
@@ -138,6 +155,10 @@ export class SessionComponent implements OnInit {
         });
       }
     );
+  }
+
+  checkIsUserConnected(user:String){
+    return this.connectedUsers.includes(user);
   }
 
   preparePeerConnection( peerConnection : RTCPeerConnection , userid : String ){
@@ -179,6 +200,18 @@ export class SessionComponent implements OnInit {
             })
           );
         }
+      )
+    }
+  }
+
+  public closeCall(){
+    for(var i = 0 ; i < this.connectedUsers.length ; i++) {
+      this.ioService.sendMessage(JSON.stringify(
+        {
+          room : this.sessionid ,
+          type : "close" ,
+          userid : this.connectedUsers[i]
+        })
       )
     }
   }

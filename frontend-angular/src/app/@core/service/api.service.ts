@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders  , HttpErrorResponse } from '@angular/common/http';
-import { APIData , SlotData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots } from '../service/models/api.data.structure';
+import { APIData , SlotData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , OfferedSlots , ReserveSlotBody , OfferSlotBody , Notification } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
@@ -81,7 +81,11 @@ export class APIService {
   getUserProfile(user:User): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'user/getUserProfile/'+user.username).catch(this.errorHandler);
   }
-  
+
+  getMatchingUsers(searchtag:String): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'user/getMatchingUsers/'+ searchtag).catch(this.errorHandler);
+  }
+
   login(user:User):Observable<APIData> {
     return this.http.post<APIData>( APIService.apiUrl + 'auth/login', user).catch(this.errorHandler);
   }
@@ -120,6 +124,10 @@ export class APIService {
   getusername(): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'getusername').catch(this.errorHandler);
   }
+  getUsernameOfUser(id:String): Observable<APIData> {
+    console.log(id);
+    return this.http.get<APIData>(APIService.apiUrl + 'getUsernameOfUser/'+id).catch(this.errorHandler);
+  }
   chooseSlot(slotData:SlotData): Observable<APIData>{
     console.log(slotData);
    return this.http.post<APIData>( APIService.apiUrl + 'expert/chooseSlot' , slotData).catch(this.errorHandler);
@@ -151,10 +159,6 @@ export class APIService {
   getSessionCandidatesRTCDes( session : Session ) {
     return this.http.post<APIData>(  APIService.apiUrl + 'session/getCandidatesRTCDes/' + session.sessionId , session)
     .catch(this.errorHandler);
-  }
-
-  viewSchedule(): Observable<APIData> {
-    return this.http.get<APIData>( APIService.apiUrl + 'getExpertSchedule/5ac202a3205bd50e64b47ea9').catch(this.errorHandler);
   }
 
   upgradeToExpert(requestData: RequestData): Observable <APIData> {
@@ -190,5 +194,27 @@ export class APIService {
   downgradeExpert(Users:User):Observable<APIData>{
     return this.http.patch<APIData>( APIService.apiUrl + '/User/downgradeExpert/' + Users._id , Users )
     .catch(this.errorHandler);
+  }
+  BlockAndUnblock(Users:User):Observable<APIData>{
+    return this.http.patch<APIData>( APIService.apiUrl + 'User/BlockAndUnblock/'+Users._id,Users)
+    .catch(this.errorHandler);
+  }
+  ChangeRole(Users:User):Observable<APIData>{
+    return this.http.patch<APIData>( APIService.apiUrl + 'User/ChangeRole/'+Users._id,Users)
+    .catch(this.errorHandler);
+  }
+
+  getSchedule( user : User ) : Observable<APIData> {
+    return this.http.get<APIData>( APIService.apiUrl + 'schedule/' + user._id ).catch(this.errorHandler);
+  }
+
+  userReserveSlot( reserveSlotBody : ReserveSlotBody ) :Observable<APIData> {
+    return this.http.post<APIData>( APIService.apiUrl + 'schedule/userReserveSlot' , reserveSlotBody ).catch(this.errorHandler);
+  }
+  expertOfferSlot( offerSlotBody : OfferSlotBody ) :Observable<APIData> {
+    return this.http.post<APIData>( APIService.apiUrl + 'schedule/expertOfferSlot' , offerSlotBody ).catch(this.errorHandler);
+  }
+  expertAcceptSlot(user:String): Observable<APIData>{
+    return this.http.get<APIData>( APIService.apiUrl + 'schedule/expertAcceptSlot/'+user).catch(this.errorHandler);
   }
 }

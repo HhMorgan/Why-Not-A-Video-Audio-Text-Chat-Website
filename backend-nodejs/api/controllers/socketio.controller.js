@@ -81,9 +81,25 @@ module.exports = function (io) {
                         })
                     }
                 break;
+
+                case "close":
+                    if( isConnectioninRoom( connection , data.room ) ){
+                        send_To_Using_ID( connection , data.userid , data.room , {
+                            type: "close", 
+                            from: connection.request.decoded_token.user._id,
+                        })
+                    }
+                break;
                
             }
         })
+
+        connection.on('disconnect', function () {
+            console.log("disconnected " + connection.request.decoded_token.user._id)
+            // socket.emit('disconnected');
+            // online = online - 1;
+        });
+
         connection.send(JSON.stringify(
             {
                 type : "connected"

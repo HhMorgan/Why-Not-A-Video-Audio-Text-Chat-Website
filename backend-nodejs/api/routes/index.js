@@ -5,7 +5,9 @@
   userCtrl = require('../controllers/user.controller'),
   sessionCtrl = require('../controllers/session.controller'),
   expert = require('../controllers/expert.controller'),
-  AdminController = require('../controllers/Admin.Controller');
+  AdminController = require('../controllers/Admin.Controller'),
+  scheduleController = require('../controllers/schedule.controller')
+  NotificationController = require('../controllers/notification.Controller');
  
 var isAuthenticated = function(req, res, next) {
   // Check that the request has the JWT in the authorization header
@@ -48,7 +50,8 @@ var isExpert = function(req,res,next){
     return res.status(403).json({
        err: null,
        msg: 'Unauthorized.',
-       data: null });
+       data: null 
+    });
   }
   next();
 };
@@ -62,8 +65,8 @@ router.post('/Tags/AddTag', AdminController.AddTag);
 router.get('/Tags/getTags' , AdminController.getTags);
 router.patch('/Tag/editTags/:tagId', AdminController.editTag);
 router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
-router.patch('/User/blockUser/:userId', AdminController.blockUser);
-router.patch('/User/downgradeExpert/:userId', AdminController.downgradeExpertToUser);
+router.patch('/User/BlockAndUnblock/:userId', AdminController.BlockAndUnblock);
+router.patch('/User/ChangeRole/:userId', AdminController.ChangeRole);
 router.get('/User/getUsers',AdminController.getUsers);
 router.get('/getUsers',isAuthenticated, AdminController.getUsers);  
 //----------------------------User Routes -----------------------------------
@@ -91,7 +94,14 @@ router.get('/user/getpassword', isAuthenticated , userCtrl.getpassword);
 router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
 router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
 router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUserProfile);
+
+//----------------------------------------------------------------------------------------------------
 router.get('/user/Search/:searchtag', userCtrl.getSearchResultsTagUser);
+router.get('/user/getMatchingUsers/:searchtag', userCtrl.getMatchingUsers);
+router.get('/Notification/getNotifications', isAuthenticated, NotificationController.getNotifications);
+router.get('/Notification/AddNotifications', isAuthenticated, NotificationController.AddNotification);
+//-----------------------------------------------------------------------------------------------------
+
 
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
@@ -106,6 +116,12 @@ router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.view
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
 router.get('/user/viewBookmarks', isAuthenticated , userCtrl.viewBookmarks);
 
-router.get('/user/userViewScheduledSlots',isAuthenticated, userCtrl.userViewScheduledSlots);
+//----------------------------------------------------------------------------------------------------------------
+router.get('/schedule/:expertID' , isAuthenticated , scheduleController.getSlots );
+router.post('/schedule/userReserveSlot' , isAuthenticated , scheduleController.userReserveSlot);
+router.post('/schedule/expertOfferSlot' , isAuthenticated , isExpert , scheduleController.expertOfferSlot);
+router.post('/schedule/expertCancelSlot' , isAuthenticated , isExpert , scheduleController.expertCancelSlot);
+router.post('/schedule/expertAcceptSlot' , isAuthenticated , isExpert , scheduleController.expertAcceptUserInSlot);
+//----------------------------------------------------------------------------------------------------------------
 
 module.exports = router;

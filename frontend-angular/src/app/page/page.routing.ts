@@ -23,9 +23,9 @@ import { SessionChatMobileComponent } from './sessionChatMobile/session.componen
 import { ScheduleComponent } from './Schedule/Schedule.component';
 
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
-import { SearchUserComponent } from './search-user/search-user.component';
- 
- 
+import { AboutComponent } from './about/about.component';
+import { SearchUserComponent } from '../search-user/search-user.component';
+import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
 
 const routes: Routes = [
   { path: 'home' , component:HomeComponent},
@@ -36,6 +36,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'profile' , component:ProfileComponent},
   { path: 'profile/:username' , component:ProfileComponent},
+  { path: 'search-user/:searchtag' , component:SearchUserComponent},
   { path: 'template' , component:TemplateComponent},
   { path: 'date-picker' , component:DatePickerComponent},
   { path: 'viewSchedule', component: viewScheduleComponent },
@@ -43,12 +44,14 @@ const routes: Routes = [
   { path: 'expertsList', component: ExpertsListComponent },
   { path: 'tagSearch',component: TagSearchComponent},
   { path: 'adminPage', component:AdminPageUserComponent},
-  { path: 'chat',component: SessionChatMobileComponent},
+  { path: 'chat', component: SessionChatMobileComponent},
   { path: 'search/:searchtag' , component:SearchUserComponent},
+  { path: 'about', component:AboutComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },
   { path: 'schedule', component: ScheduleComponent },
   { path: 'admin-rating', component:AdminRatingComponent },
+  { path: 'notification', component:notificationPageComponent },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 

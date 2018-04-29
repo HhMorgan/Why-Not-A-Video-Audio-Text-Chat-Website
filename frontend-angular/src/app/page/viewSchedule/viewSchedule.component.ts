@@ -17,10 +17,10 @@ export class viewScheduleComponent implements OnInit {
   constructor(private apiService:APIService ) { }
 
   ngOnInit() {
-    this.apiService.viewSchedule().subscribe((response: APIData)=>{
-      console.log(response);
-      this.requests = response.data;
-    });
+    // this.apiService.viewSchedule().subscribe((response: APIData)=>{
+    //   console.log(response);
+    //   this.requests = response.data;
+    // });
   }
 
   

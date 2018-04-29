@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
     //after that send the user with the new user status value
     //connects to th backend using changeUserStatus() method wchich is implemented in the service file
     this.apiServ.changeUserStatus(this.user).subscribe((apiresponse: APIData) => {
-      
+
     })
   }
 

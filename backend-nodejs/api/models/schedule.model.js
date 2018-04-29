@@ -1,21 +1,35 @@
-var mongoose = require('mongoose');
-var slotsSchema = mongoose.Schema({
-    
-    expertEmail: {
-        type: String ,
-      
+var ScheduleHelper = require('../utils/schedule.helper'), 
+mongoose = require('mongoose'),
+moment = require('moment');
+
+var ScheduleSchema = mongoose.Schema({
+    expertID: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-  // Date: String,
-    
-    
-    slots: [ new mongoose.Schema(
+    startDate: {
+        type: String,
+        required: true,
+        default: ScheduleHelper.weekdayWithStartWeekday( 0 , 6 ).format('D-MMMM-YY')
+    },
+    endDate: {
+        type: String,
+        required: true,
+        default: ScheduleHelper.weekdayWithStartWeekday( 6 , 6 ).format('D-MMMM-YY')
+    },
+    slots:[
         {
-            Date:{ type:String, required:true},
-            sessionId: { type: mongoose.Schema.Types.ObjectId , ref: 'Session'} ,
-            usersAccepted:{ type: [String] } ,
-            usersRequested:{ type: [String] } } , { _id: false })],
+            users: [ { type: mongoose.Schema.Types.ObjectId , ref: 'User' , _id : false } ],
+            day : Number,
+            time : Number,
+            session : {
+                type: mongoose.Schema.Types.ObjectId , ref: 'Session',
+            },
+            _id: false ,
+        }
+    ]
 
-},{ collection: 'Schedule'} ) ;
+}, { collection: 'Schedule' }
+);
 
-mongoose.model('Schedule', slotsSchema);
+module.exports = mongoose.model('Schedule', ScheduleSchema);

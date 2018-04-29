@@ -46,10 +46,16 @@ export class AdminPageUserComponent implements OnInit {
         title: `<i class="fa fa-lock"></i>` ,
         
       } ,
+      {
+        name:'upgradeToAdmin', 
+        title: `<i class="fa fa-chevron-circle-down"></i>` ,
+        
+      } ,
        {name:'downgrade', 
        title: `<i class="fa fa-chevron-circle-down"></i>`}]
       
       },
+      
     columns: {
       email: {
         title: 'Email',
@@ -94,42 +100,64 @@ refresh(): void {
 public onCustom(event):void{
   
   if(event.action == 'block'){
-    this.OnBlock(event)
-  }else{
+    this.OnBlockAndUnblock(event)
+  }else if(event.action == 'upgradeToAdmin'){
+    this.upgradeToAdmin(event)
+  }
+  else {
    
-    this.OnDown(event)
+    this.OnChangeRole(event);
   }
 }
 
 
-OnBlock(event): void {
+OnBlockAndUnblock(event): void {
 
   var Users = <User>{};
   Users = event.data;
   if(Users.blocked != true){
     Users.blocked = true;
-    this._apiService.blockUser(Users).subscribe((apiresponse: APIData)=>{
+    this._apiService.BlockAndUnblock(Users).subscribe((apiresponse: APIData)=>{
     // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
       this.refresh();
     });
   }else{
-    console.log("This User is Already Blocked")
+    Users.blocked = false;
+    this._apiService.BlockAndUnblock(Users).subscribe((apiresponse: APIData)=>{
+    // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
+      this.refresh();
+    });
   }
 }
 
-OnDown(event): void {
+OnChangeRole(event): void {
   var Users = <User>{};
   Users = event.data;
   if(Users.role == 'expert'){
     Users.role = 'regular';
-    this._apiService.downgradeExpert(Users).subscribe((apiresponse: APIData)=>{
+    this._apiService.ChangeRole(Users).subscribe((apiresponse: APIData)=>{
     // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
       this.refresh();
     });
   }else{
-    console.log("This User is Already Regular")
-  }
+    Users.role = 'expert';
+    this._apiService.ChangeRole(Users).subscribe((apiresponse: APIData)=>{
+    // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
+      this.refresh();
+    });
+    }
+}
+upgradeToAdmin(event):void{
+  var Users = <User>{};
+  Users = event.data;
+
+  Users.role = 'admin';
+    this._apiService.ChangeRole(Users).subscribe((apiresponse: APIData)=>{
+    // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
+      this.refresh();
+    });
+    }
+  
 }
 
-}
 

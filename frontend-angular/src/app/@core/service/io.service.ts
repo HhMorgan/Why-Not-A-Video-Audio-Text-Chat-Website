@@ -17,7 +17,11 @@ export class IOService {
     console.log(this.url)
     let observable = new Observable(observer => {
         this.socket = io.connect(this.url, {
-          query: 'token=' + APIService.getToken()
+          query: 'token=' + APIService.getToken(),
+          reconnection: true,
+          reconnectionDelay: 1000,
+          reconnectionDelayMax : 5000,
+          reconnectionAttempts: Infinity
         });
         this.socket.on('message', (data) => {
             observer.next(data);

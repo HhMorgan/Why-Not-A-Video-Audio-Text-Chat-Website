@@ -6,6 +6,7 @@ import { APIData , User  } from '../../../@core/service/models/api.data.structur
 import { Buffer } from 'buffer';
 import { Routes,Router } from '@angular/router';
 import { NavBarService } from '../../../@core/service/shared.service';
+import { SearchUserComponent } from '../../../search-user/search-user.component';
 
 @Component({
     selector: 'app-navbar',
@@ -83,7 +84,9 @@ export class NavbarComponent implements OnInit {
            }, false);
         });      
     }
-
+    refresh(): void {
+        window.location.reload();
+    }
     getusername(){
         this.apiServ.getusername().subscribe((apires : APIData) =>{
             this.username = apires.data;  
@@ -125,6 +128,7 @@ export class NavbarComponent implements OnInit {
             document.getElementById("logout").style.display="block";
             document.getElementById("profile").style.display="block";
             document.getElementById("officeHours").style.display="block";
+            document.getElementById("userTextField").style.display="block";
             document.getElementById("dropdownBasic1").style.display="block";
             this.getimage();
             this.getusername();
@@ -133,6 +137,7 @@ export class NavbarComponent implements OnInit {
             document.getElementById("logout").style.display="none";
             document.getElementById("profile").style.display="none";
             document.getElementById("officeHours").style.display="none";
+            document.getElementById("userTextField").style.display="none";
             document.getElementById("dropdownBasic1").style.display="none";
         }
     }
@@ -140,5 +145,16 @@ export class NavbarComponent implements OnInit {
     logout() {
         localStorage.clear();
         this.navbarservice.setUserLoggedin(false);
-    }    
+    }
+
+
+/*    TextFieldSearch()
+    {
+        var userTextField = document.getElementById("userTextField");
+        userTextField.addEventListener("keyup",function(addEventListener)
+        {
+            
+        })
+    }*/
+    
 }
