@@ -15,27 +15,43 @@ var fs = require('fs');
 var bcrypt = require('bcryptjs');
 Tag = mongoose.model('Tag');
 var RegExp = require('mongodb').RegExp;
+ 
 
-module.exports.getMatchingUsers = function (req, res, next) {
-  User.find({ username: { $regex: req.params.searchtag } }).exec(function (err, user) {
-    if (!user) {
+//this function searches for the user that has tags which are the similar to the searchtag parameter
+module.exports.searchUserbyTags = function (req, res, next) {
+  Tag.find({ name: {$regex: req.params.searchtag, $options: "$i"},blocked:{$eq: "false" } ,status:{$eq: "Accepted" }}).exec (function(err, Tags) {
+   
+    if (err) {
+      return next(err);
+    }
+
+    else if (Tags.length==0) {
       return res.status(404).json({
         err: null,
-        msg: 'user not found',
+        msg: 'Tags not found',
         data: null
       });
     }
-    else if (err) {
-      return next(err);
-    }
-    else {
-      return res.status(201).json({
-        err: null,
-        msg: null,
-        data: user
-      });
-    }
-  });
+
+User.find({ speciality: { $in: Tags },role:{$eq:"expert"},blocked:{$eq:"false"}  }).populate('speciality').exec (function(err, User) {
+  if (err) {
+     return next(err);
+   }
+   else if ( User.length==0 ) {
+    return res.status(404).json({
+      err: null,
+      msg: 'no Users with such a Tag ',
+      data: null
+    });
+  }
+   res.status(201).json({
+     err: null,
+     msg: 'i.',
+     data: User
+   });
+   //res.end();
+ });
+});
 };
 
 module.exports.changeUserStatus = function (req, res, next) {
@@ -54,35 +70,57 @@ module.exports.changeUserStatus = function (req, res, next) {
   });
 };
 
-module.exports.getSearchResultsTagUser = function (req, res, next) {
+//this function searches for tags which are the similar to the searchtag parameter
 
-  User.find({ username: { $regex: req.params.searchtag, $options: 'i' } , role : { $eq: "expert" } }).exec(function (err, user) {
+module.exports.searchbyTags = function (req, res, next) {
 
-    if (err) {
-      return next(err);
-    }
-
-    Tag.find({ name: { $regex: req.params.searchtag, $options: "$i" }, blocked: { $eq: "false" } }).exec(function (err, tag) {
+    Tag.find({ name: { $regex: req.params.searchtag, $options: "$i" }, blocked: { $eq: "false" }, status:{$eq:"Accepted"} }).exec(function (err, tag) {
       if (err) {
         return next(err);
       }
-      else if (!user || !tag) {
+      else if ( tag.length==0) {
         return res.status(404).json({
           err: null,
-          msg: 'user not found',
+          msg: 'Tags not found',
           data: null
         });
       }
-      else if (user && tag) {
+      else if ( tag) {
         return res.status(200).json({
           err: null,
-          msg: 'Users/Tags retrieved successfully.',
-          data: [tag, user]
+          msg: 'Tags retrieved successfully.',
+          data: tag
         });
       }
     });
-  });
+
 };
+
+module.exports.searchbyUser = function (req, res, next) {
+    
+  User.find({ username: { $regex: req.params.searchtag, $options: "$i" }, role:{$eq:"expert"},blocked:{$eq:"false"} }).exec(function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    else if ( !user) {
+      return res.status(404).json({
+        err: null,
+        msg: 'user not found',
+        data: null
+      });
+    }
+    else if ( user) {
+      return res.status(200).json({
+        err: null,
+        msg: 'users retrieved successfully.',
+        data: user
+      });
+    }
+  });
+
+};
+
+
 
 module.exports.loadStatus = function (req, res) {
   User.findById(req.decodedToken.user._id).exec(function (err, User) {
@@ -167,7 +205,7 @@ module.exports.getusername = function (req, res) {
     });
   });
 };
-
+//this function is used to upload an image (buffer) to the database
 module.exports.uploadimage = function (req, res) {
   User.findByIdAndUpdate(req.decodedToken.user._id, { $set: { img: { data: req.file.buffer, contentType: req.file.mimetype } } },
     { new: true }).exec(function (err, updatedUser) {
@@ -185,6 +223,7 @@ module.exports.uploadimage = function (req, res) {
 
 };
 
+//this function is used to upload an image (buffer) to the database
 module.exports.uploadCoverPic = function (req, res) {
   User.findByIdAndUpdate(req.decodedToken.user._id, { $set: { CoverImg: { data: req.file.buffer, contentType: req.file.mimetype } } },
     { new: true }).exec(function (err, updatedUser) {
@@ -545,13 +584,6 @@ module.exports.removeFromBookmarks = function (req, res, next) {
   }, { $pull: { bookmarks: req.params.expertId } }, { new: true }, function (err, updateduser) {
     if (err) {
       return next(err);
-    }
-    if (!bookmarks) {
-      return res.status(404).json({
-        err: null,
-        msg: 'bookmark could not be found',
-        data: null
-      });
     }
     return res.status(201).json({
       err: null,

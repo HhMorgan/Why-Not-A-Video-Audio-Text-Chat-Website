@@ -18,64 +18,77 @@ export class SearchUserComponent implements OnInit {
   private tags: Tag[];
   public alerts: Array<IAlert> = [];
   closeResult: string;
-
+  private searchBy: string;
   // paged items
  pagedItems: any[];
    p: number = 1;
+   p2: number = 1;
 
    @Input() showUsers:boolean ;
    @Input() showCover:boolean  ;
    @Input() searchtag:string ;
-
+   @Input() showTags:boolean ;
 
 
   constructor(private apiServ: APIService, private route: ActivatedRoute, private router: Router, private modalService: NgbModal, private  NavBarService:NavBarService) {
   }
 
-
-
-
-
   ngOnInit() {
+    
+    this.searchByValue();
+    this.NavBarService.refreshsearch.subscribe((m:any) => {
+      console.log(m);
+      this.ngOnInit();       
+  })
+   if (this.searchBy===undefined)
+   this.searchBy="UserTags";
     console.log(this.showCover);
-
-    if(this.showUsers != false && this.showCover != false ){
+    if(this.showUsers != false && this.showCover != false && this.showTags != true ){
       this.showUsers=true;
       this.showCover=true;
+      this.showTags=false;
     }
    
    
-   
+   //uses the search parameter in the url to search
     this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
-   
+      //as i'm using this in the add/edit speciality in the profile 
+      // user doesn't actually search from the url so the searchtag is always null if it's from the profile
+      //using the service i can communicate with the comp. (navbar)
       if(params['searchtag']==null){
         this.NavBarService.searchevent.subscribe((m:any) => {
           //   console.log("lolololo");
-           //  console.log(m);
+           //console.log(m);
              this.searchtag=m;
             this.SearchByTag( this.searchtag);
              
          })
         }
         else{
+          // else he's searching by the url
           this.searchtag = params['searchtag'];
           this.search( this.searchtag);
         }
-
-   
-    
-
     });
-
-
-
-
-
   }
 
+//gets the value of the dropdown from the navbar component
+  searchByValue(){
+    this.NavBarService.searcheventBy.subscribe((m:any) => {
+      console.log(m);
+      var searchBy="";
+      this.searchBy=m;
+
+    })
+}
+
+//this function is responsible for adding the user to bookmarks
+// firstly i get the event target which is the button that it's clicked
+// then gets the username by moving back and forth between children and parents to get the element
+// lastly cnnect to database and show a pop up
   addtobookmark(){
-    var icon = event.target as HTMLElement
-    var parentDiv = icon.parentElement as HTMLElement
+    var button = event.target as HTMLElement
+    var parentDiv = button.parentElement as HTMLElement
     var parentDirowClass = parentDiv.parentElement as HTMLElement
     var childdiv = parentDirowClass.childNodes[3] as HTMLElement
     var firstChildDiv = childdiv.firstElementChild as HTMLElement
@@ -90,41 +103,70 @@ export class SearchUserComponent implements OnInit {
       })
     });
   }
-
+//takes a paramater searchtag to see which tag type i search for
   search(seathtag){
     var i, j;
-    this.apiServ.getMatchingSearch(seathtag).subscribe((apires: APIData) => {
-      this.users = new Array();
-      this.tags = new Array();
-      // var UsersData = new Array(apires.data[1]);
-      console.log(apires);
-      for (i = 0; i < apires.data[1].length; i++) {
-        this.users.push((apires.data[1])[i]);
-        this.getimageuser((apires.data[1])[i].username, (apires.data[1])[i].img);
-      }
+    console.log(this.searchBy);
+    //every if is almost the same iteration over the data and push to an array that later used to show the users/tags
+    if( this.searchBy=="UserTags"){
+      this.apiServ.searchUserbyTags(seathtag).subscribe((apires: APIData) => {
+        this.users = new Array();
+        this.tags = new Array();
+        for (i = 0; i < apires.data.length; i++) {
+          this.users.push((apires.data)[i]);
+          this.getimageuser((apires.data)[i].username, (apires.data)[i].img);
+        }
+      }, (err) => {
+        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      })
 
+    }
 
-      for (j = 0; j < apires.data[0].length; j++) {
-        this.tags.push((apires.data[0])[j]);
-        var Tag = document.getElementById(((apires.data[0])[j])._id) as HTMLImageElement;
-      }
-    })
+    else if( this.searchBy=="User"){
+      this.apiServ.searchbyUser(seathtag).subscribe((apires: APIData) => {
+        this.users = new Array();
+        this.tags = new Array();
+        for (i = 0; i < apires.data.length; i++) {
+          this.users.push((apires.data)[i]);
+          this.getimageuser((apires.data)[i].username, (apires.data)[i].img);
+        }
+      }, (err) => {
+        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      })
+
+    }
+
+    else if( this.searchBy=="Tags"){
+      this.apiServ.searchbyTags(seathtag).subscribe((apires: APIData) => {
+        this.users = new Array();
+        this.tags = new Array();
+        for (j = 0; j < apires.data.length; j++) {
+          this.tags.push((apires.data)[j]);
+          var Tag = document.getElementById(((apires.data)[j])._id) as HTMLImageElement;
+        }
+      }, (err) => {
+        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      })
+
+    }
+  
 
   }
-
+ 
+  //search by tag,iteration over the data and push to an array that later used to show the users/tags
   SearchByTag(seathtag){
     var i, j;
-    this.apiServ.getMatchingSearch(seathtag).subscribe((apires: APIData) => {
+    this.apiServ.searchbyTags(seathtag).subscribe((apires: APIData) => {
       this.tags = new Array();
-      for (j = 0; j < apires.data[0].length; j++) {
-        this.tags.push((apires.data[0])[j]);
-        var Tag = document.getElementById(((apires.data[0])[j])._id) as HTMLImageElement;
+      for (j = 0; j < apires.data.length; j++) {
+        this.tags.push((apires.data)[j]);
+        var Tag = document.getElementById(((apires.data)[j])._id) as HTMLImageElement;
       }
     })
 
   }
 
-  
+  //this method is used to open the mobal (from it's service)
   open(content) {
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -132,7 +174,7 @@ export class SearchUserComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-
+ //this method is used to open the getDismissReason (from it's service)
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -142,7 +184,9 @@ export class SearchUserComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-
+// this method it's called whenever you search for users
+// takes name the id of the user and datain which is the buffer of the image
+// converts the buffer and datatype to a url that can be used to show the img
   getimageuser(name, datain) {
     var reader: FileReader = new FileReader();
     reader.readAsDataURL(new Blob([new Buffer(datain.data)], { type: datain.data.contentType }))
@@ -155,6 +199,11 @@ export class SearchUserComponent implements OnInit {
       // navbarimg.src = reader.result;
     }, false);
   }
+
+//this function is responsible for adding the user to tags to the expert
+// firstly i get the event target which is the button that it's clicked
+// then gets the tag's name by moving back and forth between children and parents to get the element
+// lastly cnnect to database and show a pop up
   AddTag() {
     var tag = <Tag>{};
     var icon = event.target as HTMLElement
@@ -179,27 +228,31 @@ export class SearchUserComponent implements OnInit {
   }
   refresh() {
     if (this.users != null) {
-      this.ngOnInit();
+      this.route.params.subscribe(params => {
+      this.searchtag = params['searchtag'];
+      this.search( this.searchtag);
+      });
     }
 
   }
 
+
+
   RequestTag() {
-    // to be implemented
+  var Rtag =<Tag>{};
+  Rtag.name = (document.getElementById("RequestingTag") as HTMLInputElement).value; 
+  Rtag.status = 'Pending';
+  Rtag.blocked = false;  
+ 
+ 
+  this.apiServ.AddTag(Rtag).subscribe((apiresponse: APIData)=>{
+    console.log(apiresponse.msg);
+    console.log(Rtag);
+    this.NavBarService.triggernotifcations("#34A853","Your request was sent sucessfully");
+  });
+  
+    
   }
-
-  triggernotifications(color, text) {
-    // Get the snackbar DIV
-    var x = document.getElementById("snackbar");
-    x.style.backgroundColor = color;
-    x.textContent = text;
-    // Add the "show" class to DIV
-    x.className = "show";
-
-    // After 3 seconds, remove the show class from DIV
-    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-  }
-
 
 
 
