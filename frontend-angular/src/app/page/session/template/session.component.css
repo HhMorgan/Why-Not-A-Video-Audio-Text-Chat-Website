@@ -40,15 +40,27 @@
     background-color: rgba(0, 0, 0,0);
     border: 1px solid rgba(85, 85, 85,0);
 }
-
-.LeftBox{
-    position: absolute;
-    margin: auto;
-    top: 0;
-    bottom: 0;
-    right: 10%;
-    left: -10%;
+@media (min-width: 600px){
+    .LeftBox{
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        right: 10%;
+        left: -10%;
+    }
 }
+@media (max-width: 600px){
+    .LeftBox{
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        right:-2%;
+        left: 0;
+    }
+}
+
 .centeralizeVertical{
     margin-top: 5%;
     margin-bottom: 0;
