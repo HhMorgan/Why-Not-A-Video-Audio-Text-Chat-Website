@@ -18,13 +18,14 @@ export class ProfileComponent implements OnInit {
   private Tag = <Tag>{};
   private CoverImgOfUser;
   public usernameOfProfile: string;
-  private rating: number;
+  public usernameOfProfileRole:string;
+  public rating: number;
   private ratingwidth: number;
   public currusername: string;
   public description: string;
   public profileInfo = true;
   public profilesettings = false;
-  private role: string;
+  public role: string;
   public fileToUpload: File = null;
   public editable: boolean = true; // intially just for testing
 
@@ -206,6 +207,7 @@ export class ProfileComponent implements OnInit {
         });
 
         this.usernameOfProfile = apires.data.username; //getting the username of showed profile
+        this.usernameOfProfileRole=apires.data.role;//getting the role of the showed profile
         this.description = apires.data.description; //getting the desc. of showed profile
         this.getimageuser(apires.data.img); //this method gets/views the image of the user 
         this.showrating(apires.data.rating) ;//this method gets/views the ratings of the user 
@@ -314,6 +316,13 @@ export class ProfileComponent implements OnInit {
     else {
       return true;
     }
+  }
+//this method checks if the profile that's currently viewed is an expert
+  isUserExpert(){
+    if(this.usernameOfProfileRole=='expert'){
+      return true;
+    }
+    return false;
   }
 
   isExpert() {
