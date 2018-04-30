@@ -25,7 +25,7 @@
                     <label for="file">
                         <input *ngIf="isloggeduser()" class="custom-file-upload" type="file" id="file" style="display:none;" (change)="handleFileInput($event.target.files)">
                         <a>
-                            <img id="profileimg" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture">
+                            <img id="profileimg" src="../assets/img/default-Profile-Pic.png" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture">
                         </a>
                     </label>
 
@@ -46,7 +46,7 @@
                                 <button *ngIf="!isloggeduser()" (click)="addtobookmark()" type="button" class="btn btn-info btn-sm">
                                     <i class="fa fa-heart"></i>bookmark</button>
 
-                                <button *ngIf="!isloggeduser() && isUserExpert()" type="button" class="btn btn-success btn-sm">
+                                <button *ngIf="!isloggeduser() && isUserExpert()" (click)="goToSchedule()" type="button" class="btn btn-success btn-sm">
                                     <i class="fa fa-calendar-plus-o"></i>Schedule</button>
                             </div>
                             <div class="col-md-4"></div>
@@ -61,17 +61,8 @@
                             <span id="widthofStars" class="c-rating__stars"></span>
                         </div>
                     </div>
-                    <!--   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                 
-                    <span id="star" class="fa fa-star "></span>
-                    <span id="star" class="fa fa-star "></span>
-                    <span id="star" class="fa fa-star "></span>
-                    <span id="star" class="fa fa-star"></span>
-                    <span id="star" class="fa fa-star"></span> -->
                     <br />
                     <br />
-
-                    <!--  <h6 id="specs" class="description"></h6> -->
                     <div id="tagsdivouter">
                         <div id="tagsdiv"></div>
                     </div>

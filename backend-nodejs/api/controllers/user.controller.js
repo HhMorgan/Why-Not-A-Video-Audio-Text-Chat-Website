@@ -150,18 +150,18 @@ module.exports.getimage = function (req, res) {
 };
 
 module.exports.getUserProfile = function (req, res) {
-  User.findOne({ username: { $eq: req.params.username } }).exec(function (err, user) {
+  User.findOne({ username: { $eq: req.params.username } }).populate('speciality').exec(function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    
     if (!user) {
       return res.status(404).json({
         err: null,
         msg: 'user not found',
         data: null
       });
-    }
-    else if (err) {
-      return next(err);
-    }
-    else {
+    } else {
       return res.status(201).json({
         err: null,
         msg: null,

@@ -37,18 +37,18 @@ export class ScheduleComponent implements OnInit {
   public dayOffer;
   public slotOffer;
   private id = "5ad0c0fbee0ffd38e0549a5a";
+  private expertUser = <User>{};
 
   constructor(private apiService: APIService, private route: ActivatedRoute) {
-    var user = <User>{};
     this.route.params.subscribe(params => {
       if (!params.expertid) {
-        user._id = this.id;
+        this.expertUser._id = this.id;
         this.mySchedule = true;
       } else {
         this.mySchedule = false;
-        user._id = params.expertid;
+        this.expertUser._id = params.expertid;
       }
-      this.apiService.getSchedule(user).subscribe((apiresponse: APIData) => {
+      this.apiService.getSchedule(this.expertUser).subscribe((apiresponse: APIData) => {
         this.updateSchedule(apiresponse.data);
       })
     });
@@ -69,12 +69,15 @@ export class ScheduleComponent implements OnInit {
     }
     this.getData();
   }
+
   popoutOn() {
     this.popout = true;
   }
+
   popoutOff() {
     this.popout = false;
   }
+
   popoutExpertOn( day : Number , slot : any) {
     this.usersRequestedSlot = [];
     if (slot.users.length > 0) {
@@ -250,7 +253,7 @@ export class ScheduleComponent implements OnInit {
 
   Reserve(day, slot) {
     console.log("slot : " + this.schedule[day].indexOf(slot));
-    this.apiService.userReserveSlot(<ReserveSlotBody>{ expertID: this.id, dayNo: JSON.stringify(day), slotNo: JSON.stringify(this.schedule[day].indexOf(slot)) }).subscribe((apiresponse: APIData) => {
+    this.apiService.userReserveSlot(<ReserveSlotBody>{ expertID: this.expertUser._id , dayNo: JSON.stringify(day), slotNo: JSON.stringify(this.schedule[day].indexOf(slot)) }).subscribe((apiresponse: APIData) => {
       console.log(apiresponse.msg)
       this.updateSchedule(apiresponse.data);
     }, (err) => {

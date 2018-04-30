@@ -257,6 +257,8 @@ module.exports.userReserveSlot = function(req, res, next) {
   req.body.dayNo && Validations.isNumber(req.body.dayNo) && 
   req.body.slotNo && Validations.isNumber(req.body.slotNo) &&
   req.decodedToken.user._id && Validations.isObjectId(req.decodedToken.user._id)
+
+  console.log(req.body);
   if (!valid) {
     return res.status(422).json({
       err: null,
@@ -279,7 +281,7 @@ module.exports.userReserveSlot = function(req, res, next) {
               {
                 err: null ,
                 msg: 'Reserved Slot Successfully' ,
-                data: null
+                data: schedule.slots
               }
             )
           }

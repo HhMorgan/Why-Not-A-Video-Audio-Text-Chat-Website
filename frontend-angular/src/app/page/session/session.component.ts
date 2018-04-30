@@ -182,8 +182,6 @@ export class SessionComponent implements OnInit {
   }
 
   public joinClick() {
-    console.log(this.connectedUsers);
-    console.log(this.peerConnections.length);
     this.joinButtonflag=true;
     for(var i = 0 ; i < this.connectedUsers.length ; i++) {
       let userid : String = this.connectedUsers[i];

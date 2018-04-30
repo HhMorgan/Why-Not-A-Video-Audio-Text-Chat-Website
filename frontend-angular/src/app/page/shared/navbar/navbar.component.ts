@@ -78,10 +78,12 @@ export class NavbarComponent implements OnInit {
         this.apiServ.getimage().subscribe((apires : APIData) =>{
            var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
            var reader = new FileReader();
-           reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer)] , {type: apires.data.contentType}))
-           reader.addEventListener("load", function () {
-             navbarimg.src = reader.result;
-           }, false);
+           if(apires.data.buffer){
+            reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer)] , {type: apires.data.contentType}))
+            reader.addEventListener("load", function () {
+            navbarimg.src = reader.result;
+            }, false);
+           }
         });      
     }
     refresh(): void {
