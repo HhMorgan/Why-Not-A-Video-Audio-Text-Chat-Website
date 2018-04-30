@@ -13,7 +13,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 })
 
 export class ColorTagComponent implements OnInit {
-  private tagswithColors:Tag[];
+  public tagswithColors:Tag[];
   private colors:string[];
   ptags: number = 1;
      pagedItems: any[];

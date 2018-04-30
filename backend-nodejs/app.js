@@ -91,10 +91,10 @@ const options = {
   cert: fs.readFileSync(config.CERT_Path)
 };
 
-var secure = false;
+var secure = true;
 
 if(secure){
-  app.server = http.createServer(options,app);
+  app.server = https.createServer(options,app);
 } else {
   app.server = http.createServer(app);
 }

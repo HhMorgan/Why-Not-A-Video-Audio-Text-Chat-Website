@@ -4,7 +4,7 @@ import { ProfileComponent } from '../profile/profile.component';
 import { APIService } from '../../@core/service/api.service';
 import { APIData, User } from '../../@core/service/models/api.data.structure';
 import { IOService } from '../../@core/service/io.service';
-import {trigger, state, style, animate, transition, query,stagger} from '@angular/animations';
+import { trigger, state, style, animate, transition, query,stagger} from '@angular/animations';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -27,7 +27,7 @@ export class SessionComponent implements OnInit {
 
   public sessionid : String; 
   public format = 'video/webm';
-  public constrains = {video: true , audio: true };
+  public constrains = { video: true , audio: true };
   public mediaSource_local = null;
   public mediaSource_remote_list : any = [null];
   private peer_config = <RTCConfiguration>{iceServers: [{urls: 'stun:stun.l.google.com:19302'}
@@ -118,6 +118,7 @@ export class SessionComponent implements OnInit {
                               to : js.from
                             }
                           ));
+                          this.joinButtonflag = true;
                         }
                       );
                     }

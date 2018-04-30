@@ -42,11 +42,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { VideoViewComponent } from './videoView/videoView.component';
 import { SessionVideoComponent } from './sessionVideoVoice/sessionvideo.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
-import { DatePickerComponent } from './date-picker/date-picker.component';
 import { RatingComponent } from './rating/rating.component';
 import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
-import { TagSearchComponent } from './tagSearch/tagSearch.component';
 import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
 import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
@@ -96,12 +94,10 @@ import { ColorTagComponent } from './colorTag/colorTag.component';
     SessionVideoComponent,
     SlotRequestComponent, 
     RatingComponent,
-    DatePickerComponent,
     viewScheduleComponent,
     upgradeToExpertComponent,
     ExpertComponent,
     ExpertsListComponent,
-    TagSearchComponent,
     AdminPageUserComponent,
     SessionChatMobileComponent,
     AdminRatingComponent,

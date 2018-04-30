@@ -18,13 +18,13 @@ export class ProfileComponent implements OnInit {
   private Tag = <Tag>{};
   private CoverImgOfUser;
   public usernameOfProfile: string;
-  private rating: number;
+  public rating: number;
   private ratingwidth: number;
   public currusername: string;
   public description: string;
   public profileInfo = true;
   public profilesettings = false;
-  private role: string;
+  public role: string;
   public fileToUpload: File = null;
   public editable: boolean = true; // intially just for testing
 
