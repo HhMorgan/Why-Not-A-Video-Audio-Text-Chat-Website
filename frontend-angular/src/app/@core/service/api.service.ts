@@ -232,4 +232,9 @@ export class APIService {
     return this.http.post<APIData>(APIService.apiUrl + '/user/getUserById', Users_ids)
       .catch(this.errorHandler);
   }
+
+  confirmEmail(): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'auth/confirm/'+localStorage.getItem('confirmationToken')).catch(this.errorHandler);
+  }
+
 }

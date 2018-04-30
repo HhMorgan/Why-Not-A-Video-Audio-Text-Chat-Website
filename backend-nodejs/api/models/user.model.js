@@ -82,6 +82,13 @@ var userSchema = mongoose.Schema( {
     data: Buffer , 
     contentType: String ,
   } ,
+  isVerified: {
+    type: Boolean,
+    default: false 
+ } ,
+ verificationToken: {
+   type: String,
+ }
 
 }, { collection: 'Users' } );
 // Override the transform function of the schema to delete the password before it returns the object

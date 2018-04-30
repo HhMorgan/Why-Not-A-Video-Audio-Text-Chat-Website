@@ -23,6 +23,7 @@ import { AdminRatingComponent } from './components/admin-rating/admin-rating.com
 import { AboutComponent } from './about/about.component';
 import { SearchUserComponent } from '../page/search-user/search-user.component';
 import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
+import { ConfirmMailComponent } from './confirm-mail/confirm-mail.component';
 
 const routes: Routes = [
   { path: 'home' , component:HomeComponent},
@@ -46,6 +47,7 @@ const routes: Routes = [
   { path: 'schedule/:expertid', component: ScheduleComponent },
   { path: 'admin-rating', component:AdminRatingComponent },
   { path: 'notification', component:notificationPageComponent },
+  { path: 'confirm/:id', component:ConfirmMailComponent},
   { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 
