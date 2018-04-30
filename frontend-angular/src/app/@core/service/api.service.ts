@@ -26,12 +26,12 @@ export class APIService {
      return this.http.get<APIData>(this.apiUrl + 'Tags/getTags').catch(this.errorHandler);
   }
 
-  
+
   signup(user:User):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'auth/signup', user).catch(this.errorHandler);
   }
 
-  
+
   AddTag(Tags:Tags): Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'Tags/AddTag', Tags).catch(this.errorHandler);
   }
@@ -49,8 +49,8 @@ export class APIService {
   getSlotRequests(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'expert/viewSLotRequest').catch(this.errorHandler);
   }
- 
- 
+
+
  editSlotRequest(request: Request): Observable<APIData> {
   return this.http.patch<APIData>(this.apiUrl+'expert/editSlotRequest/'+request._id,request).catch(this.errorHandler);
  }
@@ -63,11 +63,11 @@ export class APIService {
   getUserData(): Observable<APIData> {
     return this.http.get<APIData>(this.apiUrl + 'user/getUserData').catch(this.errorHandler);
   }
-  
+
   login(user:User):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'auth/login', user).catch(this.errorHandler);
   }
-  
+
   update_Email(profile:Profile):Observable<APIData> {
     return this.http.post<APIData>(this.apiUrl + 'auth/updateEmail', profile).catch(this.errorHandler);
   }
@@ -89,7 +89,7 @@ export class APIService {
   chooseSlot(slotData:SlotData): Observable<APIData>{
     console.log(slotData);
    return this.http.post<APIData>(this.apiUrl + 'expert/chooseSlot' , slotData).catch(this.errorHandler);
- 
+
   }
 
   addCandidate( sessionData : CandicateSession ): Observable<APIData> {
@@ -156,6 +156,12 @@ export class APIService {
   downgradeExpert(Users:User):Observable<APIData>{
     return this.http.patch<APIData>(this.apiUrl + '/User/downgradeExpert/'+Users._id,Users)
     .catch(this.errorHandler);
+  }
+
+//-----------------------------------/getRequestsFromUsersToBeExpert api request/--------------------------
+
+  getRequestsFromUsersToBeExpert(): Observable<APIData> {
+    return this.http.get<APIData>(this.apiUrl + 'User/getUserRequestToBeExpert').catch(this.errorHandler);
   }
 
 

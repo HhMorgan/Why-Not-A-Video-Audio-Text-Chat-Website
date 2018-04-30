@@ -201,6 +201,8 @@ module.exports.getUsers = function(req, res, next) {
   });
 };
 
+// --------------------------/getting requests from user to be Expert and admin shows it/--------------------------------------------
+
 module.exports.getRequestsFromUsersToBeExpert = function(req, res, next) {
   Request.find({type : 'user to expert' , recipient : 'Admin'} , {recipient : 1, status : 1 , type : 1 }).exec(function(err,request) {
     if (err){

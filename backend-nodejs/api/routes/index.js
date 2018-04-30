@@ -6,7 +6,7 @@
   sessionCtrl = require('../controllers/session.controller'),
   expert = require('../controllers/expert.controller'),
   AdminController = require('../controllers/Admin.Controller');
- 
+
 var isAuthenticated = function(req, res, next) {
   // Check that the request has the JWT in the authorization header
   var token = req.headers['authorization'];
@@ -44,8 +44,8 @@ var isNotAuthenticated = function(req, res, next) {
   next();
 };
 
-// all the methods below are all routers where we specify a route for api.service to 
-// call and what method in the backend to go with the specefied route 
+// all the methods below are all routers where we specify a route for api.service to
+// call and what method in the backend to go with the specefied route
 //-----------------------------Authentication Routes-------------------------
 router.post('/auth/login' , isNotAuthenticated , authCtrl.login);
 router.post('/auth/signup' , isNotAuthenticated , authCtrl.signup);
@@ -57,6 +57,7 @@ router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
 router.patch('/User/blockUser/:userId', AdminController.blockUser);
 router.patch('/User/downgradeExpert/:userId', AdminController.downgradeExpertToUser);
 router.get('/User/getUsers',AdminController.getUsers);
+router.get('/User/getUserRequestToBeExpert',AdminController.getRequestsFromUsersToBeExpert);
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);
@@ -66,7 +67,7 @@ router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescript
 router.post('/expert/chooseSlot',expert.chooseSlot);
 router.get('/expert/viewSlotRequest', isAuthenticated , expert.viewSLotRequests);
 router.patch('/expert/editSlotRequest/:requestId', isAuthenticated , expert.editSlotRequest);
-router.post('/expert/addSpeciality', isAuthenticated , expert.addSpeciality); 
+router.post('/expert/addSpeciality', isAuthenticated , expert.addSpeciality);
 router.delete('/expert/editSpeciality/:tagId',isAuthenticated,expert.editSpeciality);
 //-------------------------------------------------------------------
 router.post('/session/create' , isNotAuthenticated, sessionCtrl.createSession);
