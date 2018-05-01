@@ -53,13 +53,12 @@ export class APIService {
       .catch(this.errorHandler);
   }
 
-
   AddTag(tag: Tag): Observable<APIData> {
     return this.http.post<APIData>(APIService.apiUrl + 'Tags/AddTag', tag).catch(this.errorHandler);
   }
 
   editTag(tag: Tag): Observable<APIData> {
-    return this.http.patch<APIData>(APIService.apiUrl + '/Tag/editTags/' + tag._id, tag)
+    return this.http.patch<APIData>(APIService.apiUrl + 'Tag/editTags/' + tag._id, tag)
       .catch(this.errorHandler);
   }
 
@@ -76,7 +75,7 @@ export class APIService {
   }
 
   deleteTags(tag: Tag): Observable<APIData> {
-    return this.http.delete<APIData>(APIService.apiUrl + '/Tags/deleteTags/' + tag._id)
+    return this.http.delete<APIData>(APIService.apiUrl + 'Tags/deleteTags/' + tag._id)
       .catch(this.errorHandler);
   }
 
@@ -160,7 +159,7 @@ export class APIService {
   }
 
   getNotification(): Observable<APIData>{
-    return this.http.get<APIData>(APIService.apiUrl + '/Notification/getNotifications').catch(this.errorHandler);
+    return this.http.get<APIData>(APIService.apiUrl + 'Notification/getNotifications').catch(this.errorHandler);
   }
 
   getMatchingSearch(searchtag: String): Observable<APIData> {
@@ -194,12 +193,12 @@ export class APIService {
   }
 
   blockUser(Users: User): Observable<APIData> {
-    return this.http.patch<APIData>(APIService.apiUrl + '/User/blockUser/' + Users._id, Users)
+    return this.http.patch<APIData>(APIService.apiUrl + 'User/blockUser/' + Users._id, Users)
       .catch(this.errorHandler);
   }
 
   downgradeExpert(Users: User): Observable<APIData> {
-    return this.http.patch<APIData>(APIService.apiUrl + '/User/downgradeExpert/' + Users._id, Users)
+    return this.http.patch<APIData>(APIService.apiUrl + 'User/downgradeExpert/' + Users._id, Users)
       .catch(this.errorHandler);
   }
 
@@ -230,17 +229,17 @@ export class APIService {
   }
 
   addtoToBookmark(User: User): Observable<APIData> {
-    return this.http.post<APIData>(APIService.apiUrl + '/user/addToBookmarks/' + User._id, User._id)
+    return this.http.post<APIData>(APIService.apiUrl + 'user/addToBookmarks/' + User._id, User._id)
       .catch(this.errorHandler);
   }
 
   removeFromBookmark(User: User): Observable<APIData> {
-    return this.http.delete<APIData>(APIService.apiUrl + '/user/removeFromBookmarks/' + User._id)
+    return this.http.delete<APIData>(APIService.apiUrl + 'user/removeFromBookmarks/' + User._id)
       .catch(this.errorHandler);
   }
 
   getUserbyIds(Users_ids: String[]): Observable<APIData> {
-    return this.http.post<APIData>(APIService.apiUrl + '/user/getUserById', Users_ids)
+    return this.http.post<APIData>(APIService.apiUrl + 'user/getUserById', Users_ids)
       .catch(this.errorHandler);
   }
 
