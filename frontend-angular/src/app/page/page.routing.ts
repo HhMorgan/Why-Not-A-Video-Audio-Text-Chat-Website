@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: 'schedule', component : ScheduleComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'expert' }  },
   { path: 'schedule/:expertid', component: ScheduleComponent , canActivate : [AuthGuard] , data : { checkRole : true } },
   { path: 'schedule2', component: Schedule2Component , canActivate : [AuthGuard]  , data : { checkRole : true }},
-  { path: 'requests', component: RequestsComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'expert'}},
+  { path: 'requests', component: RequestsComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'admin'}},
   { path: '', pathMatch: 'full', redirectTo: 'home' },  
 ];
 
