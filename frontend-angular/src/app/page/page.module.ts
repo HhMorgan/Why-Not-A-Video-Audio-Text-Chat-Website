@@ -55,6 +55,7 @@ import { SnackbarCompComponent } from './components/snackbar-comp/snackbar-comp.
 import { ColorTagComponent } from './colorTag/colorTag.component';
 import { ErrComponent } from './err/err.component';
 import { ErrTestComponent } from './errTest/errTest.component';
+import { Schedule2Component } from './schedule2/schedule2.component';
 
 @NgModule({
   imports: [
@@ -108,6 +109,7 @@ import { ErrTestComponent } from './errTest/errTest.component';
     ColorTagComponent,
     ErrComponent,
     ErrTestComponent,
+    Schedule2Component,
   ],
   entryComponents: [NgbdModalContent]
 })

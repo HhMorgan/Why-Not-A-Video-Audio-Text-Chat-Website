@@ -17,12 +17,12 @@ import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
 import { ScheduleComponent } from './Schedule/Schedule.component';
-
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
 import { AboutComponent } from './about/about.component';
 import { SearchComponent } from '../page/search/search.component';
 import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
 import { ErrTestComponent } from './errTest/errTest.component';
+import{Schedule2Component} from './schedule2/schedule2.component';
 
 const routes: Routes = [
   { path: 'home' , component:HomeComponent},
@@ -48,6 +48,8 @@ const routes: Routes = [
   { path: 'notification', component:notificationPageComponent },
   {path:'error',component:ErrTestComponent},
   { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'schedule2', component: Schedule2Component },
+  
 ];
 
 @NgModule({
