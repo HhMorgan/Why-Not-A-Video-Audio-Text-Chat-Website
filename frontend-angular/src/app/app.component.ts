@@ -94,7 +94,7 @@ export class AppComponent {
     if(!(titlee === 'signup' ||  titlee=='login' || titlee==='session')) {
     this.key = event.key;
     
-    console.log(this.key);
+    //console.log(this.key);
     this.keyArray.push(event.key);
     if(this.keyArray.length==9){
         var flag=true;
@@ -108,8 +108,13 @@ export class AppComponent {
            // console.log(flag);
             this.router.navigate(['page/about']);
         }
+        else{
+            this.keyArray.splice(0,1);
+        }
+        
         
     }
+    //console.log(this.keyArray);
   }
 }
 }
