@@ -43,7 +43,7 @@ var userSchema = mongoose.Schema( {
     default: Date.now
   },
 
-  speciality: [ { type: mongoose.Schema.Types.ObjectId , ref: 'Tag'  }  ],
+  speciality: [ { type: mongoose.Schema.Types.ObjectId , ref: 'Tag' }  ],
 
   updatedAt: Date ,
  
@@ -63,7 +63,7 @@ var userSchema = mongoose.Schema( {
   },
 
  //array containing all the experts id the user bookmarked
- bookmarks: [{ type: mongoose.Schema.Types.ObjectId , ref: 'User'  }],
+ bookmarks: [ { type: mongoose.Schema.Types.ObjectId , ref: 'User' } ],
 
   blocked: {
     type: Boolean,

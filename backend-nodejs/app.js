@@ -94,12 +94,14 @@ const options = {
 var secure = false;
 
 if(secure){
-  app.server = http.createServer(options,app);
+  app.server = https.createServer(options,app);
 } else {
   app.server = http.createServer(app);
 }
 
-app.io = io(app.server);
+app.io = io(app.server, {
+  path :'/api/socket.io'
+});
 require('./api/controllers/socketio.controller')(app.io);
 module.exports = app;
 

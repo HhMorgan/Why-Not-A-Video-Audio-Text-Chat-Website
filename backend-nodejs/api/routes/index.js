@@ -97,10 +97,9 @@ router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUser
 //router.get('/user/Search/:searchtag', userCtrl.getSearchResultsTagUser);
 router.get('/user/searchUserbyTags/:searchtag', userCtrl.searchUserbyTags);
 router.get('/user/searchbyTags/:searchtag', userCtrl.searchbyTags);
-
 router.get('/user/searchbyUser/:searchtag', userCtrl.searchbyUser);
 router.get('/Notification/getNotifications', isAuthenticated, NotificationController.getNotifications);
-router.get('/Notification/AddNotifications', isAuthenticated, NotificationController.AddNotification);
+// router.get('/Notification/AddNotifications', isAuthenticated, NotificationController.AddNotification);
 //-----------------------------------------------------------------------------------------------------
 
 

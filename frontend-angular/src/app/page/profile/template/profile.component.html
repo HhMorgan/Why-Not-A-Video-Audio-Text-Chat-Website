@@ -1,23 +1,23 @@
 <div class="wrapper">
-   
-        <!--  background-image: url('../assets/img/fabio-mangione.jpg'); -->
-        <div id="coverImg" class="page-header page-header-xs image" data-parallax="true" style="width:100%;">
 
-            <div class="middle">
+    <!--  background-image: url('../assets/img/fabio-mangione.jpg'); -->
+    <div id="coverImg" class="page-header page-header-xs image" data-parallax="true" style="width:100%;">
 
-                <div *ngIf="isloggeduser()" class="choose_file">
-                    <span *ngIf="isloggeduser()">Edit Cover Image</span>
-                    <input (change)="handleFileInputCoverImg($event.target.files)" *ngIf="isloggeduser()" name="Select File" type="file" />
-                </div>
+        <div class="middle">
 
+            <div *ngIf="isloggeduser()" class="choose_file">
+                <span *ngIf="isloggeduser()">Edit Cover Image</span>
+                <input (change)="handleFileInputCoverImg($event.target.files)" *ngIf="isloggeduser()" name="Select File" type="file" />
             </div>
-        </div>
 
-        <div class="filter"></div>
+        </div>
+    </div>
+
+    <div class="filter"></div>
 
     <div class="section profile-content">
-        <div [style.display]="profilesettings ? 'block' : 'none'"  id="settings-page">
-            <app-settings-page (settingClose) = "settingsComponentClose($event)"></app-settings-page>
+        <div [style.display]="profilesettings ? 'block' : 'none'" id="settings-page">
+            <app-settings-page (settingClose)="settingsComponentClose($event)"></app-settings-page>
         </div>
         <div id="profile-page" [style.display]="profileInfo ? 'block' : 'none'" class="container">
             <div class="owner">
@@ -25,7 +25,7 @@
                     <label for="file">
                         <input *ngIf="isloggeduser()" class="custom-file-upload" type="file" id="file" style="display:none;" (change)="handleFileInput($event.target.files)">
                         <a>
-                            <img id="profileimg" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture">
+                            <img id="profileimg" src="../assets/img/default-Profile-Pic.png" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture">
                         </a>
                     </label>
 
@@ -38,25 +38,31 @@
                             ngbTooltip="change status"></i>
                         <br />
                     </h4>
-                    <button *ngIf="!isloggeduser()" (click)="addtobookmark()" type="button" class="btn btn-info btn-round btn-sm"><i class="fa fa-heart"></i>bookmark</button>
 
-                    <app-snackbar-comp ></app-snackbar-comp> 
+                    <div class="paddingBtn">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <button *ngIf="!isloggeduser()" (click)="addtobookmark()" type="button" class="btn btn-info btn-sm">
+                                    <i class="fa fa-heart"></i>bookmark</button>
 
-                    <div  style="padding-left:44%;left:50%;"class="c-rating">
+                                <button *ngIf="!isloggeduser() && isUserExpert()" (click)="goToSchedule()" type="button" class="btn btn-success btn-sm">
+                                    <i class="fa fa-calendar-plus-o"></i>Schedule</button>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                    </div>
+                    <app-snackbar-comp></app-snackbar-comp>
+
+                    <div style="padding-left:44%;left:50%;" class="c-rating">
                         <div class="c-rating__badge">{{rating}}</div>
-                        <div class="c-rating__display" aria-hidden="true"><span class="c-rating__stars c-rating__stars--background"></span><span id="widthofStars"class="c-rating__stars" ></span></div>
-                      </div>
-                  <!--   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                 
-                    <span id="star" class="fa fa-star "></span>
-                    <span id="star" class="fa fa-star "></span>
-                    <span id="star" class="fa fa-star "></span>
-                    <span id="star" class="fa fa-star"></span>
-                    <span id="star" class="fa fa-star"></span> -->
+                        <div class="c-rating__display" aria-hidden="true">
+                            <span class="c-rating__stars c-rating__stars--background"></span>
+                            <span id="widthofStars" class="c-rating__stars"></span>
+                        </div>
+                    </div>
                     <br />
                     <br />
-
-                    <!--  <h6 id="specs" class="description"></h6> -->
                     <div id="tagsdivouter">
                         <div id="tagsdiv"></div>
                     </div>
@@ -69,7 +75,9 @@
 
             <div class="row">
                 <div class="col-md-6 ml-auto mr-auto text-center">
-                    <div class="flex-center"><p> {{description}}</p> </div>
+                    <div class="flex-center">
+                        <p> {{description}}</p>
+                    </div>
                     <br />
                     <button *ngIf="isloggeduser()" (click)=profilesettingsbtn() class="btn btn-outline-default btn-round">
                         <i class="fa fa-cog"></i> Edit Info</button>
@@ -89,35 +97,39 @@
             <div class="nav-tabs-navigation">
                 <div class="nav-tabs-wrapper">
                     <ngb-tabset [justify]="'center'">
-                        <ngb-tab   title="Bookmarked" >
-                            <ng-template  ngbTabContent  >
+                        <ngb-tab title="Bookmarked">
+                            <ng-template ngbTabContent>
                                 <div class="row following" id="follows">
                                     <div class="col-md-6 ml-auto mr-auto">
                                         <ul class="list-unstyled follows">
-                                          <div *ngFor="let user of BookmarkedUsers">
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2 ml-auto mr-auto">
-                                                        <!-- <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle" title="change profile picture"> -->
-                                                        <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                            <div *ngFor="let user of BookmarkedUsers">
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-md-2 col-sm-2 ml-auto mr-auto">
+                                                            <!-- <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle" title="change profile picture"> -->
+                                                            <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                        </div>
+                                                        <div class="col-md-7 col-sm-4 ml-auto">
+                                                            <h6>
+                                                                <a [routerLink]="['/page/profile',user.username]">{{user.username}}</a>
+                                                                <br/>
+                                                                <small>{{user.role}}</small>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div class="col-md-3 col-sm-2 ml-auto mr-auto">
+                                                            <button *ngIf="isloggeduser()" (click)="removeBookmarked()" type="button" class="btn  btn-danger btn-round">remove</button>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-7 col-sm-4 ml-auto">
-                                                        <h6><a [routerLink]="['/page/profile',user.username]">{{user.username}}</a><br/><small>{{user.role}}</small></h6>
-                                                    </div>
-                                                  
-                                                    <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                                      <button *ngIf="isloggeduser()" (click)="removeBookmarked()" type="button" class="btn  btn-danger btn-round">remove</button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <hr />
-                                          </div>
+                                                </li>
+                                                <hr />
+                                            </div>
                                         </ul>
                                     </div>
                                 </div>
                             </ng-template>
                         </ngb-tab>
-                      <!--   <ngb-tab title="Following">
+                        <!--   <ngb-tab title="Following">
                             <ng-template ngbTabContent>
                                 <h3 class="text-muted">Not following anyone yet :(</h3>
                                 <br>

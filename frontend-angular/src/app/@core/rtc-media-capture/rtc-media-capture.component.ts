@@ -18,13 +18,11 @@ export class RtcMediaCaptureComponent implements OnInit , OnChanges {
 
   @ViewChild('recVideo') recVideo: any;
 
-  format = 'video/webm';
-  _navigator = <any> navigator;
-  video;
-  mediaRecorder;
-  recordedBlobs = null;
-  hideStopBtn = true;
-
+  public format = 'video/webm';
+  public _navigator = <any> navigator;
+  public video;
+  public mediaRecorder;
+  public recordedBlobs = null;
   constructor() {}
 
   ngOnInit() {
@@ -33,8 +31,8 @@ export class RtcMediaCaptureComponent implements OnInit , OnChanges {
       if(!this.isRemote)
         this.recVideo.nativeElement.muted = true;
       this.recVideo.nativeElement.controls = false;
+      this.start();
     }
-
     this._navigator.getUserMedia = ( this._navigator.getUserMedia || this._navigator.webkitGetUserMedia || this._navigator.mozGetUserMedia 
       || this._navigator.msGetUserMedia );
   }
@@ -90,7 +88,6 @@ export class RtcMediaCaptureComponent implements OnInit , OnChanges {
           return;
         }
         // console.log('Created MediaRecorder', this.mediaRecorder, 'with options', this.format);
-        this.hideStopBtn = false;
         this.mediaRecorder.ondataavailable = (event) => {
           if (event.data && event.data.size > 0) {
             this.recordedBlobs.push(event.data);
@@ -101,8 +98,6 @@ export class RtcMediaCaptureComponent implements OnInit , OnChanges {
   }
 
   public stop() {
-    console.log('stop recording');
-    this.hideStopBtn = true;
     this._stopStream();
     this.mediaRecorder.stop();
   }

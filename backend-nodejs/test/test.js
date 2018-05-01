@@ -23,12 +23,8 @@ let usedForExpert;
 let usedForAdmin;
 let Expert;
 let token;
-//describe('...', function() {
-//	it("...", function(done) {
-// ...
-//		done();
-//	});
-//});
+
+let salmaTag,salmaExpert;
 
 
 
@@ -61,7 +57,8 @@ describe('Admin tests: ', () => {
     Tag1 = new Tags({ name: "Tarek1", status: "Accepted", blocked: false, });
     Tag1.save((err, Tag1) => {
     });
-      User = new Users({ username: "Jimmy", email: "Mahmoud@gmail.com", password: "9194591945" });
+    
+    User = new Users({ username: "Jimmy", email: "Mahmoud@gmail.com", password: "9194591945" });
     User.save((err, User) => {
     });
     User.role = 'expert';
@@ -382,20 +379,34 @@ describe('Auth tests: ', () => {
 });
 
 describe('User tests: ', () => {
-  /*it('it should find tag by id GET /api/expert/getTagById', (done) => {
-    chai.request(app).post('/api/expert/getTagById'+Tag1.id)
-   .set('authorization', token).end((err, res) => {
-      res.should.have.status(201);
-      res.body.data.should.be.a('array');
-      for (var i = 0; i < res.body.data; i++) {
-        res.body.data[i].should.have.property('name');
-        res.body.data[i].should.have.property('status');
-        res.body.data[i].should.have.property('blocked');
-      }
-      res.body.msg.should.be.eql('Succesfully retrieved the Tag');
+  before ( function(done) {
+    salmaTag = new Tags({ name: "Finance", status: "Accepted", blocked: false});
+    salmaTag.save((err, tag) => {
+      salmaExpert = new Users({ username: "Salma" , email: "salma@gmail.com" , password: "9" , 
+      role: "expert" , speciality : [tag._id] });
       done();
     });
-  });*/
+  })
+
+  it("Searching for a certain tag.", function(done){
+    var tag = {
+        'name' : 'Finance'
+    }
+    chai.request(app)
+        .get('/api/user/viewSuggestedExperts/'+ tag.name)
+        .set('authorization', token)
+        .end(function(err,res) {
+            res.status.should.be.eql(200);
+            res.body.should.have.property("msg");
+            res.body.msg.should.be.equal("Experts retrieved successfully.");        
+            res.body.should.have.property("data");
+            done();
+        })
+    });
+
+
+
+  
   it('it should load user status  /api//loadStatus' , (done) => {
   
     chai.request(app).get('/api/loadStatus').set('authorization', token).end((err, res) => {
@@ -493,6 +504,50 @@ it('it should not load user status  /api//loadStatus' , (done) => {
       done();
     });
   });
+
+  it('it should send a request to the admin to become an expert Post /api//user/upgradeToexpert' , (done) => {
+  
+  chai.request(app).post('/api//user/upgradeToexpert').send({sender: '', recipient: 'admin', type: 'upgradeToExpert', 
+  status: '', createdAt: '', viewed: false }).set('authorization', token).end((err, res) => {
+    console.log(token.user);
+   res.should.have.status(201);
+   res.body.should.have.property('msg');
+   res.body.data.should.have.property('recipient');
+   res.body.data.should.have.property('type');
+   res.body.msg.should.be.eql('Your request to being an expert has been sent to the admin.');
+   res.body.data.recipient.should.be.eql('admin');
+   res.body.data.type.should.be.eql('upgradeToExpert');
+   
+      done();    
+});
+});
+
+it('it should bookmark an expert Post api//user/addToBookmarks/' , (done) => {
+  
+  chai.request(app).post('/api//user/addToBookmarks/' + usedForExpert._id).send().set('authorization', token).end((err, res) => {
+    console.log(token.user);
+   res.should.have.status(201);
+   res.body.should.have.property('msg');
+   res.body.msg.should.be.eql('The expert was successfully added to your array of bookmarks.');
+   
+   
+      done();    
+});
+});
+
+it('it should ge all bookmarked experts GET /api//user/viewBookmarks' , (done) => {
+  
+  chai.request(app).get('/api//user/viewBookmarks').set('authorization', token).end((err, res) => {
+   res.should.have.status(200);
+   res.body.should.have.property('msg');
+   res.body.msg.should.be.eql('Bookmarks retrieved successfully.');
+   res.body.data.should.be.a('array');
+   
+   
+      done();    
+});
+});
+
 
 });
 

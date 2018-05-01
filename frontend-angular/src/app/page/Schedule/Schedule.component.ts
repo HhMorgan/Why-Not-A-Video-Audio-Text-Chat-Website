@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { APIData, User, ReserveSlotBody, OfferSlotBody } from '../../@core/service/models/api.data.structure';
+import { Component, OnInit,ElementRef,ViewChild } from "@angular/core";
+import { APIData, User, ReserveSlotBody, OfferSlotBody, ExpertAcceptSlotBody } from '../../@core/service/models/api.data.structure';
 import { APIService } from "../../@core/service/api.service";
 import * as moment from 'moment';
 import { error } from "util";
@@ -11,6 +11,7 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ['./template/Schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
+  public mySchedule: boolean;
   public yourDate: Date = new Date();
   public weekduration: String;
   scheduleFlag: boolean = false;
@@ -19,88 +20,116 @@ export class ScheduleComponent implements OnInit {
   monthValue;
   oldWeekValue = 1;
   weekValue = 1;
-  numbers;
   weekStart;
   weekEnd;
   rightArrow = false;
   leftArrow = false;
   role;
-  usersRequestedSlot=[];
+  usersRequestedSlot = [];
   public schedule: any[][] = [];
   daysOfTheWeek = ["Saturday", "Sunday", "Moday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   modifiedWeek = [];
   public popout = false;
-  public popoutExpert=false;
-  public lateSub=false;
-
+  public popoutExpert = false;
+  public lateSub = false;
+  public popoutExpertConfirmation=false;
+  public popoutUserConfirmation=false;
+  public dayOffer;
+  public slotOffer;
   private id = "5ad0c0fbee0ffd38e0549a5a";
+  private expertUser = <User>{};
 
-  constructor(private apiService: APIService  , private route: ActivatedRoute ) {
-    var user = <User>{};
-    user._id = this.id;
+  constructor(private apiService: APIService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
-      console.log('-----------------------------------------')
-      console.log(params);
-      console.log('-----------------------------------------')
-    });
-    this.apiService.getSchedule(user).subscribe((apiresponse: APIData) => {
-      for (let slot of apiresponse.data) {
-        this.schedule[slot.day][slot.time].offered = true;
-        this.schedule[slot.day][slot.time].users = slot.users;
+      if (!params.expertid) {
+        this.expertUser._id = this.id;
+        this.mySchedule = true;
+      } else {
+        this.mySchedule = false;
+        this.expertUser._id = params.expertid;
       }
-      console.log(this.schedule)
-    })
+      this.apiService.getSchedule(this.expertUser).subscribe((apiresponse: APIData) => {
+        this.updateSchedule(apiresponse.data);
+      })
+    });
+  }
+  updateSchedule( scheduleSlots : any ){
+    for (let slot of scheduleSlots) {
+      this.schedule[slot.day][slot.time].offered = true;
+      this.schedule[slot.day][slot.time].users = slot.users;
+      this.schedule[slot.day][slot.time].status = slot.status;
+    }
   }
   ngOnInit() {
-
-
     for (var i = 0; i < 7; i++) {
       this.schedule[i] = []
       for (var j = 0; j < 15; j++) {
-        this.schedule[i][j] = { offered: false, users: [] };
+        this.schedule[i][j] = { offered: false, users: [] , status : "Opened" };
       }
     }
-    this.numbers = Array(15).fill(0).map((x, i) => i);
     this.getData();
   }
+
   popoutOn() {
     this.popout = true;
   }
+
   popoutOff() {
     this.popout = false;
   }
-  popoutExpertOn(slot) {
-    //this.usersRequestedSlot.push(apires.data.username);
-    this.usersRequestedSlot=[];
-    //console.log(slot.users)
-    if(slot.users.length>0){
-      for(let user of slot.users){      
-        this.apiService.getUsernameOfUser(user).subscribe((apires : APIData) =>{
-          //console.log(apires);
-          this.usersRequestedSlot.push({ id : user , username : apires.data }); 
-          //console.log(this.usersRequestedSlot);    
-          this.lateSub=true;        
- }); 
+
+  popoutExpertOn( day : Number , slot : any) {
+    this.usersRequestedSlot = [];
+    if (slot.users.length > 0) {
+      for (let user of slot.users) {
+        this.usersRequestedSlot.push( { id : user._id , username : user.username , day : day , slot : slot } );
       }
-   
-  }
-  else{
-    console.log("not here");
-  }
+      console.log(this.usersRequestedSlot);
+    } else {
+      console.log("not here");
+    }
     this.popoutExpert = true;
-    //console.log('hi')
   }
+  
   popoutExpertOff() {
-    this.lateSub=false;
     this.popoutExpert = false;
   }
-  getData(){
-    this.apiService.getUserData().subscribe((apires : APIData) =>{
-      //console.log(apires.data);
-      this.role=apires.data.role;
+
+  popoutExpertConfirmationOn(day,slot) {
+    this.slotOffer=slot;
+    this.dayOffer=day;
+    this.popoutExpertConfirmation = true;
+  }
+  popoutExpertConfirmationOff() {
+    this.popoutExpertConfirmation = false;
+  }
+
+  popoutUserConfirmationOn(day,slot) {
+    this.slotOffer=slot;
+    this.dayOffer=day;
+    this.popoutUserConfirmation = true;
+  }
+  popoutUserConfirmationOff() {
+    this.popoutUserConfirmation = false;
+  }
+
+
+  AcceptUser(userid: String , day : number , slot : any ) {
+    this.apiService.expertAcceptSlot(<ExpertAcceptSlotBody> { userid : userid , 
+      dayNo : JSON.stringify(day) , slotNo : JSON.stringify( this.schedule[day].indexOf(slot) ) } ).subscribe((apiresponse: APIData) => {
+      console.log(apiresponse.msg)
+      this.updateSchedule(apiresponse.data);
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  getData() {
+    this.apiService.getUserData().subscribe((apires: APIData) => {
+      this.role = apires.data.role;
       console.log(this.role);
-  })
-    }
+    })
+  }
 
   modifyWeekArray(val) {
     for (let i = 0; i < this.daysOfTheWeek.length; i++) {
@@ -201,7 +230,7 @@ export class ScheduleComponent implements OnInit {
     //this.weekFlag=true;
     this.scheduleFlag = true;
   }
-  
+
   weekToSchedule() {
     this.weekFlag = false;
     this.scheduleFlag = true;
@@ -223,35 +252,29 @@ export class ScheduleComponent implements OnInit {
   }
 
   Reserve(day, slot) {
-    console.log("slot : "+this.schedule[day].indexOf(slot));
-    this.apiService.userReserveSlot( <ReserveSlotBody> { expertID : this.id , dayNo : JSON.stringify(day) , slotNo : JSON.stringify(this.schedule[day].indexOf(slot)) } ).subscribe((apiresponse: APIData) => {
+    console.log("slot : " + this.schedule[day].indexOf(slot));
+    this.apiService.userReserveSlot(<ReserveSlotBody>{ expertID: this.expertUser._id , dayNo: JSON.stringify(day), slotNo: JSON.stringify(this.schedule[day].indexOf(slot)) }).subscribe((apiresponse: APIData) => {
       console.log(apiresponse.msg)
-    }, (err) =>{
+      this.updateSchedule(apiresponse.data);
+    }, (err) => {
       console.log(err);
     });
-    console.log(this.schedule[day].indexOf(slot))
-  }
-  AcceptUser(user : String){
-
-    this.apiService.expertAcceptSlot(user).subscribe((apiresponse: APIData) => {
-      console.log(apiresponse.msg)
-    }, (err) =>{
-      console.log(err);
-    });  
+    console.log(this.schedule[day].indexOf(slot));
+    this.popoutUserConfirmation = false;
   }
   //users
   Offer(day, slot) {
-   // console.log(slot);
-    this.apiService.expertOfferSlot( <OfferSlotBody> { dayNo : JSON.stringify(day) , slotNo : JSON.stringify(this.schedule[day].indexOf(slot)) } ).subscribe((apiresponse: APIData) => {
+    // console.log(slot);
+    this.apiService.expertOfferSlot(<OfferSlotBody>{ dayNo: JSON.stringify(day), slotNo: JSON.stringify(this.schedule[day].indexOf(slot)) }).subscribe((apiresponse: APIData) => {
       console.log(apiresponse.msg)
-    }, (err) =>{
+      this.updateSchedule(apiresponse.data);
+    }, (err) => {
       console.log(err);
     });
-    console.log(this.schedule[day].indexOf(slot))
+    console.log(this.schedule[day].indexOf(slot));
+    this.popoutExpertConfirmation = false;
   }
-  book() {
-    alert("Thank you. You will be notified with slots that suit the expert");
-  }
+ 
 }
 
 

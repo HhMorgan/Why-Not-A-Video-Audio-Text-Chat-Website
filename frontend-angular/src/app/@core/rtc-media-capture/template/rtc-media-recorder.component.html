@@ -1,9 +1,5 @@
 <div class="rec-player">
   <video [ngClass]="{'hide-video-player': !showVideoPlayer}" class="video-rec" #recVideo autoplay muted controls></video>
   <div class="rec-actions">
-    <div *ngIf="hideStopBtn">
-      <button *ngIf="!isRemote"(click)="start()"> Start recording </button>
-    </div>
-    <button *ngIf="!hideStopBtn" (click)="stop()"> Stop </button>
   </div>
 </div>

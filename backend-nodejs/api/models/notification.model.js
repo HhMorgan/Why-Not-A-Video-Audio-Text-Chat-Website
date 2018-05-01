@@ -1,12 +1,11 @@
 var mongoose = require('mongoose');
 var NotificationSchema = mongoose.Schema( {
   sender: {                                 
-    type: String,
+    type: mongoose.Schema.Types.ObjectId , ref: 'User',
     required: true,
-    lowercase: true,
   },
   recipient: {                    
-    type: String,
+    type: mongoose.Schema.Types.ObjectId , ref: 'User',
     required: true,
   },
   message : {

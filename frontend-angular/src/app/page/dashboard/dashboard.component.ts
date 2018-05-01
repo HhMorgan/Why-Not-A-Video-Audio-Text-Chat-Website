@@ -4,7 +4,7 @@ declare var jquery:any;
 import * as $ from 'jquery';
 
 @Component({
-  selector: 'app-session',
+  selector: 'app-dashboard',
   templateUrl: './template/dashboard.component.html',
   styleUrls: ['./template/dashboard.component.scss']
 })

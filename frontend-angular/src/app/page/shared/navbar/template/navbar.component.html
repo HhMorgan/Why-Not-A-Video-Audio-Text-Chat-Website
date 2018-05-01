@@ -1,10 +1,12 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="500">
     <div class="container">
         <div class="navbar-translate">
-                <div class="header-logo">
-            <a class="navbar-brand" (click)="refresh()" href="#"><img src="assets/img/logo-footer.png">Riseup</a>
+            <div class="header-logo">
+                <a class="navbar-brand" (click)="refresh()" href="#">
+                    <img src="assets/img/logo-footer.png">Riseup</a>
             </div>
-            <button class="navbar-toggler navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation" (click)="sidebarToggle()">
+            <button class="navbar-toggler navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02"
+                aria-expanded="false" aria-label="Toggle navigation" (click)="sidebarToggle()">
                 <span class="navbar-toggler-bar"></span>
                 <span class="navbar-toggler-bar"></span>
                 <span class="navbar-toggler-bar"></span>
@@ -12,81 +14,78 @@
         </div>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ml-auto">
-                    <!-- <li class="nav-item positionSearch" *ngIf="!isDocumentation()">
+                <!-- <li class="nav-item positionSearch" *ngIf="!isDocumentation()">
                             <div class="input-group">
                                     <input id="textInput" type="text" class="form-control" placeholder="Search Tags,Users" aria-describedby="basic-addon1">
                                     <span class="input-group-addon" id="basic-addon1"><i (click)="appendSearchTag()"  class="fa fa-search" aria-hidden="true"></i></span>
                                 </div>
                                 </li> -->
 
-                
+
 
                 <li class="nav-item">
                     <div class="searchArea">
                         <form onsubmit=" location.href='#/page/search/' + document.getElementById('userTextField').value; return false;">
-                    <input id="userTextField" _ngcontent-c6="" class="form-control" placeholder="Search for User" type="text submit"> 
+                            <input id="userTextField" _ngcontent-c6="" class="form-control" placeholder="Search for User" type="text submit">
                         </form>
-                        </div>
-                      
+                    </div>
+
                 </li>
-                <li class="nav-item">
-                <div ngbDropdown class="d-inline-block dropdown">
-                        <a class="btn btn-primary" id="dropdownBasic2" ngbDropdownToggle>Search By</a>
+                <li id="userDropDown" class="nav-item">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                        <a class="btn  btn-background" id="dropdownBasic2" ngbDropdownToggle>Search By</a>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="dropdown-primary">
-                           <a (click)="searchbyUser()" class="dropdown-item">User</a>
-                           <a  (click)="searchbyUserTags()" class="dropdown-item">User Tags</a>
-                    </div>
+                            <!-- <a (click)="searchbyUser()" class="dropdown-item">User</a> -->
+                            <a (click)="searchbyUserTags()" class="dropdown-item">User Tags</a>
+                        </div>
                     </div>
                 </li>
-                
+
                 <li class="nav-item">
                     <!--http://pk2-angular.creative-tim.com/documentation/tutorial  -->
-                    <a id="officeHours" [routerLink]="['/page/schedule']" class="nav-link"><i class="nc-icon nc-book-bookmark"></i> Office Hours</a>
+                    <a id="officeHours" [routerLink]="['/page/schedule']" class="nav-link">
+                        <i class="nc-icon nc-book-bookmark"></i> Office Hours</a>
                 </li>
-                
-                
+
+
                 <li class="nav-item" *ngIf="!isHome()">
-                   
+
                     <a [routerLink]="['/home']" *ngIf="isDocumentation()" class="nav-link"></a>
-                    
-                   
+
+
                 </li>
 
-                <li class="nav-item"  >
-                <a  id="login" [routerLink] = "['/page/login']" class="nav-link" ><i  class="nc-icon nc-circle-10"></i>Login</a>
-            </li>
-            <li class="nav-item" >
-                <a (click)="logout()" id="logout" href="#" class="nav-link"><i  class="nc-icon nc-circle-10"></i>Logout</a>
-            </li>
-            <li class="nav-item" id="signup" >
-                <a [routerLink]="['/page/signup']"  class="nav-link"><i class="nc-icon nc-paper"></i>Signup</a>
-            </li>
-            
-            <li class="nav-item" >
-            <div ngbDropdown class="d-inline-block dropdown positionProfileImage">
-                <a id="dropdownBasic1" ngbDropdownToggle >
-                        <div class="notifier new"> <div class="badge">5</div></div>
-                        <img style="background-size:100% 100%;" id ="profileimgnavbar"class=" img-circle img-no-padding img-responsive" src="" width="45px" height="45px">
-                              </a>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
-                   <a class="dropdown-header">Notifications</a>
-                   <a class="dropdown-item">User wants to contact you</a>
-                   <a class="dropdown-item">you have got a new email</a>
-                   <a class="dropdown-item">you have an appointment at 8:00 AM </a>
-                   <div class="dropdown-divider"></div>
-                   <a class="dropdown-item">Separated link</a>
-                   <div class="dropdown-divider"></div>
-                   <a class="dropdown-item">Another separated link</a>
-                </div>
-            </div>
-            </li>
+                <li class="nav-item">
+                    <a id="login" [routerLink]="['/page/login']" class="nav-link">
+                        <i class="nc-icon nc-circle-10"></i>Login</a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="logout()" id="logout" href="#" class="nav-link">
+                        <i class="nc-icon nc-circle-10"></i>Logout</a>
+                </li>
+                <li class="nav-item" id="signup">
+                    <a [routerLink]="['/page/signup']" class="nav-link">
+                        <i class="nc-icon nc-paper"></i>Signup</a>
+                </li>
 
-            <li class="nav-item" id="profile">
-                    <div class="nav-link positionUsername">
-                            <div [routerLink]="['/page/profile',username]" > {{ username }}</div>
-                       
+                <li class="nav-item">
+                    <div ngbDropdown class="d-inline-block dropdown positionProfileImage">
+                        <a id="dropdownBasic1" ngbDropdownToggle>
+                            <div class="notifier new" *ngIf ="showNotification()" >
+                                <div class="badge"  (click) = "openNotifications()">{{ norificationCount }} </div>
+                            </div>
+                            <img style="background-size:100% 100%;" id="profileimgnavbar" class=" img-circle img-no-padding img-responsive" src="../assets/img/default-Profile-Pic.png" width="45px"
+                                height="45px">
+                        </a>
                     </div>
-            </li>
+                </li>
+
+                <li class="nav-item" id="profile">
+                    <div class="nav-link positionUsername">
+                        <div [routerLink]="['/page/profile',username]"> {{ username }}</div>
+
+                    </div>
+                </li>
                 <li class="nav-item" *ngIf="isDocumentation()">
                     <a href="https://github.com/creativetimofficial/pk-free-angular/issues?ref=pk2-free-local" target="_blank" class="nav-link">Have an issue</a>
                 </li>

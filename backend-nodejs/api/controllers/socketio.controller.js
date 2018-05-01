@@ -99,7 +99,6 @@ module.exports = function (io) {
             // socket.emit('disconnected');
             // online = online - 1;
         });
-
         connection.send(JSON.stringify(
             {
                 type : "connected"

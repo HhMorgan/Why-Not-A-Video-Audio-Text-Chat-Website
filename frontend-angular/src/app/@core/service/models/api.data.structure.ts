@@ -102,22 +102,23 @@ export interface OfferedSlots {
     status: String;
 }
 
-export interface ReserveSlotBody {
-    expertID : String;
-    dayNo : String ,
-    slotNo : String
-}
 export interface Notification{
-    sender: String,
-       
-      recipient: String,
-       
-      status :String,
-        
-         type: String,
-        createdAt : Date
-}  
+    sender: String, 
+    recipient: String, 
+    status :String,    
+    type: String,
+    createdAt : Date
+}
+
 export interface OfferSlotBody {
     dayNo : String ,
     slotNo : String
+}
+
+export interface ReserveSlotBody extends OfferSlotBody {
+    expertID : String;
+}
+
+export interface ExpertAcceptSlotBody extends OfferSlotBody {
+    userid : String;
 }

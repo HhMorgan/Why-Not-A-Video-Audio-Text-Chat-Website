@@ -6,14 +6,13 @@ import { APIData , User  } from '../../../@core/service/models/api.data.structur
 import { Buffer } from 'buffer';
 import { Routes,Router } from '@angular/router';
 import { NavBarService } from '../../../@core/service/shared.service';
-import { SearchUserComponent } from '../../search-user/search-user.component';
-
 @Component({
     selector: 'app-navbar',
     templateUrl: './template/navbar.component.html',
     styleUrls: ['./template/navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+    public norificationCount = 0;
     public username: string;
     public toggleButton: any;
     public sidebarVisible: boolean;
@@ -78,10 +77,12 @@ export class NavbarComponent implements OnInit {
         this.apiServ.getimage().subscribe((apires : APIData) =>{
            var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
            var reader = new FileReader();
-           reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer)] , {type: apires.data.contentType}))
-           reader.addEventListener("load", function () {
-             navbarimg.src = reader.result;
-           }, false);
+           if(apires.data.buffer){
+            reader.readAsDataURL(new Blob( [new Buffer(apires.data.buffer)] , {type: apires.data.contentType}))
+            reader.addEventListener("load", function () {
+            navbarimg.src = reader.result;
+            }, false);
+           }
         });      
     }
     refresh(): void {
@@ -89,7 +90,7 @@ export class NavbarComponent implements OnInit {
     }
     getusername(){
         this.apiServ.getusername().subscribe((apires : APIData) =>{
-            this.username = apires.data;  
+            this.username = apires.data;
         });      
     }
 
@@ -112,6 +113,13 @@ export class NavbarComponent implements OnInit {
         }
     }
 
+    showNotification() {
+        if(this.norificationCount == 0){
+            return false;
+        }
+        return true;
+    }
+
     isAuth(){
         var isAuth = !(localStorage.getItem('token')=="null")
         if (isAuth){
@@ -128,18 +136,31 @@ export class NavbarComponent implements OnInit {
             document.getElementById("logout").style.display="block";
             document.getElementById("profile").style.display="block";
             document.getElementById("officeHours").style.display="block";
+            document.getElementById("userDropDown").style.display="block";
             document.getElementById("userTextField").style.display="block";
             document.getElementById("dropdownBasic1").style.display="block";
             this.getimage();
             this.getusername();
+            this.getNotificationCount();
         } else {
             document.getElementById("login").style.display="block";
             document.getElementById("logout").style.display="none";
             document.getElementById("profile").style.display="none";
             document.getElementById("officeHours").style.display="none";
+            document.getElementById("userDropDown").style.display="none";
             document.getElementById("userTextField").style.display="none";
             document.getElementById("dropdownBasic1").style.display="none";
         }
+    }
+
+    getNotificationCount(){
+        this.apiServ.getNotification().subscribe((apiresponse: APIData)=> {
+            this.norificationCount = apiresponse.data.length;
+        });
+    }
+
+    openNotifications(){
+        this.router.navigate(['page/notification']); 
     }
 
     
