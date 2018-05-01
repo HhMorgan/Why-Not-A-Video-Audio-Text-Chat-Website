@@ -1,26 +1,16 @@
 /* The  controller that handles all the functionality that an expert can do.
 An expert can view the his/her pending slot requests created by another user --> "viewSlotRequests".
 An expert can accept/reject a slot request --> "editSlotRequest".
-*/var ObjectId = require('mongodb').ObjectID;
+*/
+var ObjectId = require('mongodb').ObjectID;
 var mongoose = require('mongoose'),
-  Request = mongoose.model('Request'),
-  User = mongoose.model('User'),
-  Tag = mongoose.model('Tag'),
-  Slot = mongoose.model('ReservedSlot'),
-  Schedule = mongoose.model('Schedule'),
-  Session = mongoose.model('Session'),
-  Validations = require('../utils/validations'),
-  moment = require('moment');
-var nodemailer = require('nodemailer');
-// authenticating sender email
-var transporter = nodemailer.createTransport({
-  service: 'hotmail',
-  auth: {
-    user: 'riseuptest@hotmail.com',
-    pass: 'Test123456789'
-  }
-});
-
+Request = mongoose.model('Request'),
+User = mongoose.model('User'),
+Tag = mongoose.model('Tag'),
+Slot = mongoose.model('ReservedSlot'),
+Schedule = mongoose.model('Schedule'),
+Session = mongoose.model('Session'),
+Validations = require('../utils/validations');
 
 module.exports.addSpeciality = function (req, res, next) {
   var valid = req.params.tagId && Validations.isObjectId(req.params.tagId);

@@ -1,11 +1,10 @@
 var mongoose = require('mongoose'),
   moment = require('moment'),
   jwt = require('jsonwebtoken'),
-  Validations = require('../utils/Validations'),
+  Validations = require('../utils/validations'),
   Encryption = require('../utils/encryption'),
   EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
   User = mongoose.model('User'),
-  User2 = mongoose.model('User'),
   Request = mongoose.model('Request'),
   OfferedSlot = mongoose.model('OfferedSlot'),
   schedule = mongoose.model('Schedule'),
@@ -150,7 +149,7 @@ module.exports.getimage = function (req, res) {
 };
 
 module.exports.getUserProfile = function (req, res) {
-  User.findOne({ username: { $eq: req.params.username } }).populate('speciality').exec(function (err, user) {
+  User.findOne({ username: { $eq: req.params.username } }).populate('speciality').populate('bookmarks' , 'username role img').exec(function (err, user) {
     if (err) {
       return next(err);
     }
@@ -334,8 +333,8 @@ module.exports.updatePassword = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        Encryption.comparePasswordToHash(req.body.oldPassword,
-          user.password, function (err, matches) {
+        Encryption.comparePasswordToHash( req.body.oldPassword , user.password , function (err, matches) {
+
             if (err) {
               return next(err);
             }
@@ -347,7 +346,7 @@ module.exports.updatePassword = function (req, res, next) {
               });
             }
             req.body.password = hash;
-            User2.findByIdAndUpdate(req.decodedToken.user._id, { $set: req.body }, { new: true }).exec(function (err, updatedUser) {
+            User.findByIdAndUpdate(req.decodedToken.user._id, { $set: req.body }, { new: true }).exec(function (err, updatedUser) {
               if (err) {
                 return next(err);
               }
@@ -357,7 +356,7 @@ module.exports.updatePassword = function (req, res, next) {
                 data: updatedUser
               });
             });
-          });
+        });
       });
     });
   });

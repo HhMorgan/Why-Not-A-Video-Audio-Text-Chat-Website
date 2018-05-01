@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
-import { ExpertComponent } from './expert/expert.component';
 import { HomeComponent } from './home/home.component';
 import { SessionComponent } from './session/session.component';
-import { SlotRequestComponent } from './slotRequest/slotRequest.component';
 import { LoginComponent } from './auth/login/login.component'
 import { AdminComponent } from './AdminPage/Admin.component'
 import { TemplateComponent } from './template/template.component';
@@ -13,42 +11,33 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { RatingComponent } from './rating/rating.component';
 import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
 import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
-import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
-import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
 import { ScheduleComponent } from './Schedule/Schedule.component';
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
+import { ConfirmMailComponent } from '../page/auth/confirm-mail/confirm-mail.component';
 import { AboutComponent } from './about/about.component';
 import { SearchComponent } from '../page/search/search.component';
-import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
+import { NotificationListComponent } from '../page/notification-list/notification.list.component';
+import { RoleGuardService as AuthGuard } from '../@core/service/role-guard.service';
 import { ErrTestComponent } from './errTest/errTest.component';
 import{Schedule2Component} from './schedule2/schedule2.component';
-
 const routes: Routes = [
-  { path: 'home' , component:HomeComponent},
-  { path: 'login' , component:LoginComponent},
-  { path: 'signup' , component: SignupComponent},
-  { path: 'session/:sessionid', component: SessionComponent },
-  { path: 'dashboard', component:DashboardComponent},
-  { path: 'admin', component: AdminComponent },
-  { path: 'profile' , component:ProfileComponent},
-  { path: 'profile/:username' , component:ProfileComponent},
-  { path: 'template' , component:TemplateComponent},
-  { path: 'expert', component: ExpertComponent },
-  { path: 'expertsList', component: ExpertsListComponent },
-  { path: 'adminPage', component:AdminPageUserComponent},
-  { path: 'chat', component: SessionChatMobileComponent},
-  { path: 'search/:searchtag' , component:SearchComponent},
-  { path: 'about', component:AboutComponent },
-  { path: 'slotRequest', component: SlotRequestComponent },
-  { path: 'rating', component: RatingComponent },
-  { path: 'schedule', component: ScheduleComponent },
-  { path: 'schedule/:expertid', component: ScheduleComponent },
-  { path: 'admin-rating', component:AdminRatingComponent },
-  { path: 'notification', component:notificationPageComponent },
-  {path:'error',component:ErrTestComponent},
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'home' , component : HomeComponent },
+  { path: 'about', component : AboutComponent },
+  { path: 'login' , component : LoginComponent },
+  { path: 'signup' , component : SignupComponent },
+  { path: 'confirm/:email/:token', component : ConfirmMailComponent},
+  { path: 'session/:sessionid', component: SessionComponent , canActivate : [AuthGuard]  , data : { checkRole : true } },
+  { path: 'dashboard', component : DashboardComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'admin' } },
+  { path: 'profile' , component : ProfileComponent , canActivate : [AuthGuard]  , data : { checkRole : true } },
+  { path: 'profile/:username' , component : ProfileComponent , canActivate : [AuthGuard] , data : { checkRole : true } },
+  { path: 'search/:searchtag' , component:SearchComponent , canActivate : [AuthGuard] , data : { checkRole : true }  },
+  { path: 'rating', component : RatingComponent , canActivate : [AuthGuard]  , data : { checkRole : true }},
+  { path: 'notification', component : NotificationListComponent , canActivate : [AuthGuard] , data : { checkRole : true } },
+  { path: 'schedule', component : ScheduleComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'expert' }  },
+  { path: 'schedule/:expertid', component: ScheduleComponent , canActivate : [AuthGuard] , data : { checkRole : true } },
   { path: 'schedule2', component: Schedule2Component },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
   
 ];
 

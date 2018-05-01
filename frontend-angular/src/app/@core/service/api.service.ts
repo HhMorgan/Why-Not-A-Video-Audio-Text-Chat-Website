@@ -3,18 +3,23 @@ import 'rxjs/add/observable/throw';
 import { Observable } from 'rxjs/Observable';
 
 import { Injectable } from '@angular/core';
+import { JwtHelper } from 'angular2-jwt';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { APIData, SlotData, Tag, Session, Request, CandicateSession, Profile, User, FileData, RequestData, Color, OfferedSlots, ReserveSlotBody, OfferSlotBody, Notification, ExpertAcceptSlotBody } from '../service/models/api.data.structure';
+import { APIData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , Color , OfferedSlots , ReserveSlotBody , OfferSlotBody , Notification , ExpertAcceptSlotBody } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
   // public static apiUrl = 'https://whatwhynot.net/api/';
   public static apiUrl = 'http://127.0.0.1:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup'];
-  constructor(private http: HttpClient) { }
+  constructor( private jwtHelper: JwtHelper , private http: HttpClient) { }
 
   public static getToken(): string {
     return localStorage.getItem('token');
+  }
+
+  public isAuthenticated(): boolean {
+    return !this.jwtHelper.isTokenExpired(APIService.getToken());
   }
 
   errorHandler(apiResponse: HttpErrorResponse) {
@@ -237,5 +242,9 @@ export class APIService {
   getUserbyIds(Users_ids: String[]): Observable<APIData> {
     return this.http.post<APIData>(APIService.apiUrl + '/user/getUserById', Users_ids)
       .catch(this.errorHandler);
+  }
+
+  confirmEmail( email : string , token : string ): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'auth/confirm/'+ email + '/' + token ).catch(this.errorHandler);
   }
 }

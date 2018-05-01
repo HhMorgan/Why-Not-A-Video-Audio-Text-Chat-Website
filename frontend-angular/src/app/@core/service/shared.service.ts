@@ -14,24 +14,40 @@ export class NavBarService {
   triggernotifcations(color: string,text:string) {
      this.changenotifications.emit({color,text});
   }
-
+  
   search(searchtag: string) {
     this.searchevent.emit(searchtag);
- }
-
-
-
- searchBy(searchtype: string) {
-  this.searcheventBy.emit(searchtype);
-}
-
-refreshsearchevent( refreshsearch:boolean ) {
-  this.refreshsearch.emit(refreshsearch);
-}
+  }
+  
+  searchBy(searchtype: string) {
+    this.searcheventBy.emit(searchtype);
+  }
+  
+  refreshsearchevent( refreshsearch:boolean ) {
+    this.refreshsearch.emit(refreshsearch);
+  }
 
   setUserLoggedin( isUserLoggedIn : boolean ) {
     this.isUserLoggedIn = isUserLoggedIn;
     this.change.emit(this.isUserLoggedIn);
   }
+}
 
+export class SharedFunctions {
+  public static loadImageBy(id , imgData , loadbyUrl ){
+    var reader: FileReader = new FileReader();
+    if(imgData){
+      reader.readAsDataURL(new Blob([new Buffer(imgData.data)], { type: imgData.data.contentType }))
+      reader.addEventListener("load", function () {
+        var htmlImg = document.getElementById(id) as HTMLImageElement;
+        if (htmlImg != null) {
+          if(!loadbyUrl){
+            htmlImg.src = reader.result;
+          } else {
+            htmlImg.style.backgroundImage = 'url(' + reader.result + ')';
+          }
+        }
+      }, false);
+    }
+  }
 }

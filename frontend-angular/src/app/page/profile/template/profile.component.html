@@ -25,7 +25,8 @@
                     <label for="file">
                         <input *ngIf="isloggeduser()" class="custom-file-upload" type="file" id="file" style="display:none;" (change)="handleFileInput($event.target.files)">
                         <a>
-                            <img id="profileimg" src="../assets/img/default-Profile-Pic.png" alt="Circle Image" class="img-circle img-no-padding img-responsive" title="change profile picture">
+                            <img id="profileimg" src="../assets/img/default-Profile-Pic.png" alt="Circle Image" class="img-circle img-no-padding img-responsive"
+                                title="change profile picture">
                         </a>
                     </label>
 
@@ -107,7 +108,7 @@
                                                     <div class="row">
                                                         <div class="col-md-2 col-sm-2 ml-auto mr-auto">
                                                             <!-- <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle" title="change profile picture"> -->
-                                                            <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                                            <img id="{{user.username}}" src="../assets/img/default-Profile-Pic.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                                         </div>
                                                         <div class="col-md-7 col-sm-4 ml-auto">
                                                             <h6>

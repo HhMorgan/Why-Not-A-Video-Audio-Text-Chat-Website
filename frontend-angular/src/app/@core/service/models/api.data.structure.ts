@@ -4,34 +4,40 @@ export interface APIData {
     data;
 }
 
-export interface User {
-    _id:String;
-    username : any,
-    email:any,
-    password:any,
-    role:any,
-    rating:any,
-    numberofsessions:any,
-    img:Blob,
-    onlineStatus: Boolean,
-    CoverImg:Blob,
-    blocked: Boolean;
-
+export interface Token {
+    _id: String,
+    username: String,
+    role: String,
 }
+
+export interface User {
+    _id: String;
+    username: any,
+    email: any,
+    password: any,
+    role: any,
+    rating: any,
+    numberofsessions: any,
+    img: Blob,
+    onlineStatus: Boolean,
+    CoverImg: Blob,
+    blocked: Boolean;
+}
+
 export interface Tag {
-    _id:String;
+    _id: String;
     name: String;
     status: String;
     blocked: Boolean;
-    color: {name:string};
-  }
+    color: { name: string };
+}
 
-  export interface Color {
-      name:string
-  }
+export interface Color {
+    name: string
+}
 
 export interface Profile {
-    email ,
+    email,
     description,
     password,
     rating,
@@ -39,12 +45,12 @@ export interface Profile {
     oldPassword
 }
 
-export interface Request{
-  _id:String;
-  user: String;
-  createdAt: String;
-  status: String;
-  viewed: boolean;
+export interface Request {
+    _id: String;
+    user: String;
+    createdAt: String;
+    status: String;
+    viewed: boolean;
 }
 
 export interface FileData {
@@ -52,73 +58,60 @@ export interface FileData {
 }
 
 export interface Session {
-    sessionId : String;
-    userId : String;
+    sessionId: String;
+    userId: String;
 }
 
 export interface CandicateSession extends Session {
-    rtcDes : String;
+    rtcDes: String;
 }
 
-
 export interface Slots {
-    expertId : String;
-    date : Date;
+    expertId: String;
+    date: Date;
     slots: [oneSlot]
 }
 
 export interface oneSlot extends Slots {
-    sessionId : String;
+    sessionId: String;
     date: Date;
     usersAccepted: [User];
     usersRequested: [User]
-
 }
 
-export interface SlotData{
-    user: String;
-    expert: String;
-    slotDate1: String;
-    slotTime1: String;
-    slotDate2: String;
-    slotTime2: String;
-    slotDate3: String;
-    slotTime3: String;
-}
-    
-export interface RequestData{
-    sender: String;  
+export interface RequestData {
+    sender: String;
     recipient: String;
     status: String;
     createdAt: String;
-    viewed:Boolean;
-    type: String;   
+    viewed: Boolean;
+    type: String;
 }
-  
+
+export interface Notification {
+    sender: String,
+    recipient: String,
+    status: String,
+    type: String,
+    createdAt: Date
+}
+
 export interface OfferedSlots {
-    user_email: String;  
+    user_email: String;
     expert_email: String;
     slots: [String];
     status: String;
 }
 
-export interface Notification{
-    sender: String, 
-    recipient: String, 
-    status :String,    
-    type: String,
-    createdAt : Date
-}
-
 export interface OfferSlotBody {
-    dayNo : String ,
-    slotNo : String
+    dayNo: String,
+    slotNo: String
 }
 
 export interface ReserveSlotBody extends OfferSlotBody {
-    expertID : String;
+    expertID: String;
 }
 
 export interface ExpertAcceptSlotBody extends OfferSlotBody {
-    userid : String;
+    userid: String;
 }

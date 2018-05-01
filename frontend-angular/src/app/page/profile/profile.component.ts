@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { APIService } from '../../@core/service/api.service';
-import { NavBarService } from '../../@core/service/shared.service';
+import { NavBarService, SharedFunctions } from '../../@core/service/shared.service';
 import { APIData , User , FileData , Tag } from '../../@core/service/models/api.data.structure'
 
 @Component({
@@ -182,11 +182,15 @@ export class ProfileComponent implements OnInit {
         this.usernameOfProfile = apires.data.username; //getting the username of showed profile
         this.usernameOfProfileRole = apires.data.role;//getting the role of the showed profile
         this.description = apires.data.description; //getting the desc. of showed profile
-        this.getimageuser(apires.data.img); //this method gets/views the image of the user 
-        this.showrating(apires.data.rating);//this method gets/views the ratings of the user 
+        SharedFunctions.loadImageBy('profileimg' , apires.data.img , false );
+        SharedFunctions.loadImageBy('coverImg' , apires.data.CoverImg , true);
+        this.BookmarkedUsers = new Array();
+        for( let bookmark of apires.data.bookmarks){
+          this.BookmarkedUsers.push(bookmark);
+          SharedFunctions.loadImageBy(bookmark.username , bookmark.img , false)
+        }
+        this.showrating(apires.data.rating);
         this.CoverImgOfUser = apires.data.CoverImg;
-        this.getCoverImgUser(apires.data.CoverImg);
-        this.getBookmarks(apires.data.bookmarks);
         this.role = apires.data.role;
         if (this.role == 'user') {
           this.role = '';
@@ -194,30 +198,6 @@ export class ProfileComponent implements OnInit {
         this.editstatus();
         this.loadStatus(apires.data.onlineStatus); //this method gets/views the status of the user
       })
-    });
-  }
-
-  getimageBookmarked(name, datain) {
-    var reader: FileReader = new FileReader();
-    reader.readAsDataURL(new Blob([new Buffer(datain.data)], { type: datain.data.contentType }))
-    reader.addEventListener("load", function () {
-      var profileimg = document.getElementById(name) as HTMLImageElement;
-      if (profileimg != null) {
-        profileimg.src = reader.result;
-      }
-    }, false);
-  }
-
-  getBookmarks(datain) {
-    var Users_ids: String[] = new Array();
-    this.BookmarkedUsers = new Array();
-    Users_ids = datain;
-    var i;
-    this.apiServ.getUserbyIds(Users_ids).subscribe((apiresponse: APIData) => {
-      for (i = 0; i < apiresponse.data.length; i++) {
-        this.BookmarkedUsers.push(apiresponse.data[i]);
-        this.getimageBookmarked(apiresponse.data[i].username, apiresponse.data[i].img);
-      }
     });
   }
 
@@ -326,58 +306,25 @@ export class ProfileComponent implements OnInit {
   handleFileInputCoverImg(files: FileList) {
     this.fileToUpload = files.item(0);
     let fy: FileData = { file: files.item(0) };
-
     this.apiServ.postCoverImg(fy).subscribe(data => {
       this.apiServ.getUserProfile(this.user).subscribe((apires: APIData) => {
-        this.CoverImgOfUser = apires.data.CoverImg;
-        this.getCoverImgUser(this.CoverImgOfUser);
+        console.log(apires);
+        SharedFunctions.loadImageBy('coverImg' , apires.data.CoverImg  , true);
       });
     }, error => {
+
     });
-
-
-
   }
 
   getimage() {
     this.apiServ.getimage().subscribe((apires: APIData) => {
-      var profileimg = document.getElementById("profileimg") as HTMLImageElement
-      var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
-      var reader: FileReader = new FileReader();
-      reader.readAsDataURL(new Blob([new Buffer(apires.data.buffer)], { type: apires.data.contentType }))
-      reader.addEventListener("load", function () {
-        profileimg.src = reader.result;
-        navbarimg.src = reader.result;
-      }, false);
+      SharedFunctions.loadImageBy('profileimg' , apires.data.img , false);
+      SharedFunctions.loadImageBy('profileimgnavbar' , apires.data.img  , false);
     }, (err) => {
       console.log(err);
     });
   }
 
-  getimageuser(datain) {
-    var profileimg = document.getElementById("profileimg") as HTMLImageElement
-    // var navbarimg = document.getElementById("profileimgnavbar") as HTMLImageElement
-    var reader: FileReader = new FileReader();
-    if(datain.data){
-      reader.readAsDataURL(new Blob([new Buffer(datain.data)], { type: datain.data.contentType }))
-      reader.addEventListener("load", function () {
-        profileimg.src = reader.result;
-        // navbarimg.src = reader.result;
-      }, false);
-    }
-  }
-
-  getCoverImgUser(datain) {
-    var profileimg = document.getElementById("coverImg") as HTMLImageElement
-    var reader2: FileReader = new FileReader();
-    if(datain){
-      reader2.readAsDataURL(new Blob([new Buffer(datain.data)], { type: datain.data.contentType }))
-      reader2.addEventListener("load", function () {
-        profileimg.style.backgroundImage = 'url(' + reader2.result + ')';
-        // profileimg.src = reader2.result;
-      }, false);
-    }
-  }
   //this method is responsible for altering the view of the settings/profile
   public profilesettingsbtn() {
     this.profileInfo = false;
