@@ -78,8 +78,8 @@ router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);
 router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescription);
 
 //-----------------------------User Role Expert Routes-------------------------
-router.post('/expert/getTagById' , isAuthenticated , expert.findTagbyid);
-router.post('/expert/getTagByName', isAuthenticated , expert.findTagbyname);   
+router.get('/expert/getTagById/:tagId' , isAuthenticated , expert.findTagbyid);
+router.get('/expert/getTagByName/:tagname', isAuthenticated , expert.findTagbyname);   
 router.patch('/expert/addSpeciality/:tagId', isAuthenticated , expert.addSpeciality); 
 router.delete('/expert/editSpeciality/:tagId', isAuthenticated , expert.editSpeciality);
 //-------------------------------------------------------------------

@@ -46,6 +46,11 @@ before(function (done) {
   });
 });
 
+// beforeEach(function(done) { 
+//   mockgoose.helper.reset().then(() => {
+//     done()
+//   });
+// });
 //when getting the the path used below for ease of use the frontend to get do the 
 // request and get the path
 describe('Admin tests: ', () => {
@@ -114,9 +119,6 @@ describe('Admin tests: ', () => {
     }).timeout(5000);
 
     //describe('/GET /api/Tags/getTags', () => {
-    
-    
-    
     it('it should GET all the Tags', (done) => {
 
       chai.request(app)
@@ -139,15 +141,7 @@ describe('Admin tests: ', () => {
           done();
         });
     }).timeout(3000);
-  
-    it('it should not UPDATE a Tag given the id on /api//Tag/editTags/ PATCH', (done) => {
-    chai.request(app).patch('/api/Tag/editTags/1'  )
-      .send({ name: "ana", status: "Pending", blocked: false, }).end((err, res) => {
-        res.should.have.status(422);
-        done();
-      });
-  });
-
+  // });
   it('it should UPDATE a Tag given the id on /api//Tag/editTags/ PATCH', (done) => {
     chai.request(app).patch('/api/Tag/editTags/' + Tag.id)
       .send({ name: "ana", status: "Pending", blocked: false, }).end((err, res) => {
@@ -163,15 +157,6 @@ describe('Admin tests: ', () => {
         done();
       });
   });
-
-  it('it should not add a Tag POST /api/Tags/AddTag', (done) => {
-    chai.request(app).post('/api/Tags/AddTag')
-      .send({  status: "Accepted", blocked: false, }).end((err, res) => {
-        res.should.have.status(422);
-        done();
-      });
-  });
-
   it('it should add a Tag POST /api/Tags/AddTag', (done) => {
     chai.request(app).post('/api/Tags/AddTag')
       .send({ name: "Mohamed", status: "Accepted", blocked: false, }).end((err, res) => {
@@ -187,14 +172,6 @@ describe('Admin tests: ', () => {
         done();
       });
   });
-
-  it('it should not delete a Tag DELETE /api//Tags/deleteTags/', (done) => {
-    chai.request(app).delete('/api/Tags/deleteTags/1').end((err, res) => {
-      res.should.have.status(422);
-      done();
-    });
-  });
-
   it('it should delete a Tag DELETE /api//Tags/deleteTags/', (done) => {
     chai.request(app).delete('/api/Tags/deleteTags/' + Tag.id).end((err, res) => {
       res.should.have.status(200);
@@ -222,14 +199,6 @@ describe('Admin tests: ', () => {
       });
   });
 
-  it('it should not Block a User given the User_id on /User/BlockAndUnblock/ PATCH', (done) => {
-    chai.request(app).patch('/api/User/BlockAndUnblock/1' )
-      .end((err, res) => {
-        res.should.have.status(422);
-        done();
-      });
-  });
-
   it('it should Block a User given the User_id on /User/BlockAndUnblock/ PATCH', (done) => {
     chai.request(app).patch('/api/User/BlockAndUnblock/' + User.id)
       .end((err, res) => {
@@ -242,14 +211,6 @@ describe('Admin tests: ', () => {
         res.body.data.should.have.property('email').eql('mahmoud@gmail.com');
         res.body.data.should.have.property('blocked').eql(true);
 
-        done();
-      });
-  });
-
-  it('it should not UnBlock a User given the User_id on /User/BlockAndUnblock/ PATCH', (done) => {
-    chai.request(app).patch('/api/User/BlockAndUnblock/1' )
-      .end((err, res) => {
-        res.should.have.status(422);
         done();
       });
   });
@@ -270,13 +231,7 @@ describe('Admin tests: ', () => {
       });
   });
 
-  it('it should not change the role of the given user to an expert /api/User/ChangeRole/ PATCH', (done) => {
-    chai.request(app).patch('/api/User/ChangeRole/1' )
-      .end((err, res) => {
-        res.should.have.status(422);
-        done();
-      });
-  });
+
 
   it('it should change the role of the given user to an expert /api/User/ChangeRole/ PATCH', (done) => {
     chai.request(app).patch('/api/User/ChangeRole/' + usedForExpert.id)
@@ -287,27 +242,11 @@ describe('Admin tests: ', () => {
       });
   });
 
-  it('it should not change the role of the given user to an admin /api/User/ChangeRole/ PATCH', (done) => {
-    chai.request(app).patch('/api/User/ChangeRole/1' )
-      .end((err, res) => {
-        res.should.have.status(422);
-        done();
-      });
-  });
-
   it('it should change the role of the given user to an admin /api/User/ChangeRole/ PATCH', (done) => {
     chai.request(app).patch('/api/User/ChangeRole/' + usedForAdmin.id)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.data.should.have.property('username');
-        done();
-      });
-  });
-
-  it('it should not change the role of the given user to a user /api/User/ChangeRole/ PATCH', (done) => {
-    chai.request(app).patch('/api/User/ChangeRole/1' )
-      .end((err, res) => {
-        res.should.have.status(422);
         done();
       });
   });
@@ -403,10 +342,76 @@ describe('User tests: ', () => {
             done();
         })
     });
-
-
-
+    it('it should load user profile  /api/user/getUserProfile/:username' , (done) => {
   
+      chai.request(app).get('/api/user/getUserProfile/'+User.username).set('authorization', token)
+      .end((err, res) => {
+       res.should.have.status(201);
+       res.body.should.have.property('msg');
+       res.body.data.should.have.property('username').eql(User.username);
+       res.body.data.should.have.property('email').eql(User.email);
+          done();    
+    });
+    });
+    it('it should find a tag using its name /api/expert/getTagByName/', function(done){
+      chai.request(app)
+          .get('/api/expert/getTagByName/'+ Tag1.name)
+          .set('authorization', token)
+          .end(function(err,res) {
+              res.should.have.status(201);
+              res.body.should.have.property("msg");
+              res.body.msg.should.be.equal("Succesfully retrieved the Tag");
+              res.body.data.should.have.property('blocked').eql(Tag1.blocked);
+              res.body.data.should.have.property('status').eql(Tag1.status);
+              done();
+          })
+      });
+    it('it should find a tag using its id /api/expert/getTagById/', function(done){
+        chai.request(app)
+            .get('/api/expert/getTagById/'+ Tag1.id)
+            .set('authorization', token)
+            .end(function(err,res) {
+                res.should.have.status(201);
+                res.body.should.have.property("msg");
+                res.body.msg.should.be.equal("Succesfully retrieved the Tag");
+                res.body.data.should.have.property('blocked').eql(Tag1.blocked);
+                res.body.data.should.have.property('status').eql(Tag1.status);    
+                done();
+            })
+        }); 
+    it('it should not find a tag using its name /api/expert/getTagByName/', function(done){
+        chai.request(app)
+            .get('/api/expert/getTagByName/'+ Tag.name)
+            .set('authorization', token)
+            .end(function(err,res) {
+                res.should.have.status(404);
+                res.body.should.have.property("msg");
+                res.body.msg.should.be.equal("This Tag is not found ");    
+                done();
+            })
+        });
+    it('it should not find a tag using its id /api/expert/getTagByid/', function(done){
+          chai.request(app)
+              .get('/api/expert/getTagById/'+ Tag.id)
+              .set('authorization', token)
+              .end(function(err,res) {
+                  res.should.have.status(404);
+                  res.body.should.have.property("msg");
+                  res.body.msg.should.be.equal("This Tag is not found ");    
+                  done();
+              })
+          });    
+    it('it should not  load user profile  /api/user/getUserProfile/:username' , (done) => {
+  
+      chai.request(app).get('/api/user/getUserProfile/'+Expert.username).set('authorization', token)
+      .end((err, res) => {
+       res.should.have.status(404);
+       res.body.should.have.property('msg');
+       res.body.msg.should.be.equal("user not found");      
+      
+          done();    
+    });
+    });
   it('it should load user status  /api//loadStatus' , (done) => {
   
     chai.request(app).get('/api/loadStatus').set('authorization', token).end((err, res) => {
@@ -480,31 +485,7 @@ it('it should not load user status  /api//loadStatus' , (done) => {
       done();    
  });
  });
-  it('it should not find tag by id GET /api//expert/getTagById', (done) => {
-
-    chai.request(app).post('/api/expert/expert/getTagById').send({ })
-    .set('authorization', token).end((err, res) => {
-      res.should.have.status(404);
-      res.body.msg.should.be.eql('404 Not Found');
-
-      done();
-    });
-  });
-  it('it should  find a user  /api//user/getMatchingUsers/:searchtag', (done) => {
-
-    chai.request(app).get('/api//user/getMatchingUsers/User').end((err, res) => {
-      res.should.have.status(201);
-      res.body.data.should.be.a('array');
-      for (var i = 0; i < res.body.data; i++) {
-        res.body.data[i].should.have.property('name');
-        res.body.data[i].should.have.property('email');
-
-      }
-
-      done();
-    });
-  });
-
+  
   it('it should send a request to the admin to become an expert Post /api//user/upgradeToexpert' , (done) => {
   
   chai.request(app).post('/api//user/upgradeToexpert').send({sender: '', recipient: 'admin', type: 'upgradeToExpert', 
