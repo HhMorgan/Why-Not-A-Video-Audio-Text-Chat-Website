@@ -50,11 +50,6 @@ before(function (done) {
   });
 });
 
-// beforeEach(function(done) { 
-//   mockgoose.helper.reset().then(() => {
-//     done()
-//   });
-// });
 //when getting the the path used below for ease of use the frontend to get do the 
 // request and get the path
 describe('Admin tests: ', () => {
@@ -122,6 +117,9 @@ describe('Admin tests: ', () => {
     }).timeout(5000);
 
     //describe('/GET /api/Tags/getTags', () => {
+    
+    
+    
     it('it should GET all the Tags', (done) => {
 
       chai.request(app)
@@ -144,7 +142,15 @@ describe('Admin tests: ', () => {
           done();
         });
     }).timeout(3000);
-  // });
+  
+    it('it should not UPDATE a Tag given the id on /api//Tag/editTags/ PATCH', (done) => {
+    chai.request(app).patch('/api/Tag/editTags/1'  )
+      .send({ name: "ana", status: "Pending", blocked: false, }).end((err, res) => {
+        res.should.have.status(422);
+        done();
+      });
+  });
+
   it('it should UPDATE a Tag given the id on /api//Tag/editTags/ PATCH', (done) => {
     chai.request(app).patch('/api/Tag/editTags/' + Tag.id)
       .send({ name: "ana", status: "Pending", blocked: false, }).end((err, res) => {
@@ -160,6 +166,15 @@ describe('Admin tests: ', () => {
         done();
       });
   });
+
+  it('it should not add a Tag POST /api/Tags/AddTag', (done) => {
+    chai.request(app).post('/api/Tags/AddTag')
+      .send({  status: "Accepted", blocked: false, }).end((err, res) => {
+        res.should.have.status(422);
+        done();
+      });
+  });
+
   it('it should add a Tag POST /api/Tags/AddTag', (done) => {
     chai.request(app).post('/api/Tags/AddTag')
       .send({ name: "Mohamed", status: "Accepted", blocked: false, }).end((err, res) => {
@@ -175,6 +190,14 @@ describe('Admin tests: ', () => {
         done();
       });
   });
+
+  it('it should not delete a Tag DELETE /api//Tags/deleteTags/', (done) => {
+    chai.request(app).delete('/api/Tags/deleteTags/1').end((err, res) => {
+      res.should.have.status(422);
+      done();
+    });
+  });
+
   it('it should delete a Tag DELETE /api//Tags/deleteTags/', (done) => {
     chai.request(app).delete('/api/Tags/deleteTags/' + Tag.id).end((err, res) => {
       res.should.have.status(200);
@@ -202,6 +225,14 @@ describe('Admin tests: ', () => {
       });
   });
 
+  it('it should not Block a User given the User_id on /User/BlockAndUnblock/ PATCH', (done) => {
+    chai.request(app).patch('/api/User/BlockAndUnblock/1' )
+      .end((err, res) => {
+        res.should.have.status(422);
+        done();
+      });
+  });
+
   it('it should Block a User given the User_id on /User/BlockAndUnblock/ PATCH', (done) => {
     chai.request(app).patch('/api/User/BlockAndUnblock/' + User.id)
       .end((err, res) => {
@@ -214,6 +245,14 @@ describe('Admin tests: ', () => {
         res.body.data.should.have.property('email').eql('mahmoud@gmail.com');
         res.body.data.should.have.property('blocked').eql(true);
 
+        done();
+      });
+  });
+
+  it('it should not UnBlock a User given the User_id on /User/BlockAndUnblock/ PATCH', (done) => {
+    chai.request(app).patch('/api/User/BlockAndUnblock/1' )
+      .end((err, res) => {
+        res.should.have.status(422);
         done();
       });
   });
@@ -234,7 +273,13 @@ describe('Admin tests: ', () => {
       });
   });
 
-
+  it('it should not change the role of the given user to an expert /api/User/ChangeRole/ PATCH', (done) => {
+    chai.request(app).patch('/api/User/ChangeRole/1' )
+      .end((err, res) => {
+        res.should.have.status(422);
+        done();
+      });
+  });
 
   it('it should change the role of the given user to an expert /api/User/ChangeRole/ PATCH', (done) => {
     chai.request(app).patch('/api/User/ChangeRole/' + usedForExpert.id)
@@ -245,11 +290,27 @@ describe('Admin tests: ', () => {
       });
   });
 
+  it('it should not change the role of the given user to an admin /api/User/ChangeRole/ PATCH', (done) => {
+    chai.request(app).patch('/api/User/ChangeRole/1' )
+      .end((err, res) => {
+        res.should.have.status(422);
+        done();
+      });
+  });
+
   it('it should change the role of the given user to an admin /api/User/ChangeRole/ PATCH', (done) => {
     chai.request(app).patch('/api/User/ChangeRole/' + usedForAdmin.id)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.data.should.have.property('username');
+        done();
+      });
+  });
+
+  it('it should not change the role of the given user to a user /api/User/ChangeRole/ PATCH', (done) => {
+    chai.request(app).patch('/api/User/ChangeRole/1' )
+      .end((err, res) => {
+        res.should.have.status(422);
         done();
       });
   });
