@@ -48,11 +48,11 @@ export class AdminPageUserComponent implements OnInit {
       } ,
       {
         name:'upgradeToAdmin', 
-        title: `<i class="fa fa-chevron-circle-down"></i>` ,
+        title: `<i class="fa fa-arrow-circle-up"></i>` ,
         
       } ,
        {name:'downgrade', 
-       title: `<i class="fa fa-chevron-circle-down"></i>`}]
+       title: `<i class="fa fa-arrows-v"></i>`}]
       
       },
       

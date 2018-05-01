@@ -49,5 +49,5 @@
    background-color: #fff;}
 :host /deep/ ng2-smart-table ng2-smart-table-pager .pagination {
   margin-left: 40%;
-  margin-top: 250%;
+  margin-top: 360%;
 }

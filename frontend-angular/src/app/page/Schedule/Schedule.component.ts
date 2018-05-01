@@ -259,7 +259,8 @@ export class ScheduleComponent implements OnInit {
     }, (err) => {
       console.log(err);
     });
-    console.log(this.schedule[day].indexOf(slot))
+    console.log(this.schedule[day].indexOf(slot));
+    this.popoutUserConfirmation = false;
   }
   //users
   Offer(day, slot) {
