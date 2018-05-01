@@ -88,6 +88,10 @@ export class AppComponent {
   }
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) { 
+    var titlee = this.location.prepareExternalUrl(this.location.path());
+    titlee = titlee.slice( 7 ).split("/",1)[0];
+   // console.log(titlee);
+    if(!(titlee === 'signup' ||  titlee=='login' || titlee==='session')) {
     this.key = event.key;
     
     console.log(this.key);
@@ -107,4 +111,5 @@ export class AppComponent {
         
     }
   }
+}
 }
