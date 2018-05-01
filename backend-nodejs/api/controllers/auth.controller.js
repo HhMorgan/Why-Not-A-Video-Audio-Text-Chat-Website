@@ -5,7 +5,16 @@ var mongoose = require('mongoose'),
   Encryption = require('../utils/encryption'),
   EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
   User = mongoose.model('User');
-
+  var nodemailer = require('nodemailer');
+  var crypto = require('crypto');
+// authenticating sender email
+var transporter = nodemailer.createTransport({
+  service: 'hotmail',
+  auth: {
+    user: 'riseuptest@hotmail.com',
+    pass: 'Test123456789'
+  }
+});
 module.exports.login = function(req, res, next) {
   // Check that the body keys are in the expected format and the required fields are there
   var valid =
@@ -85,7 +94,7 @@ module.exports.signup = function(req, res, next) {
       data: null
     });
   }
-  User.findOne({ username:{ $eq: req.body.username } }, function(err, user){
+  User.findOne({$or:[ {username:{ $eq: req.body.username }} ,{ email:{ $eq: req.body.email}}] }, function(err, user){
     if (err)
       throw err;
     if (user == null){
@@ -94,19 +103,33 @@ module.exports.signup = function(req, res, next) {
         if (err) {
           return next(err);
         }
+        // creating a verification token to enable user to verify his email
+        var token = crypto.randomBytes(16).toString('hex');
         req.body.password = hash;
+        req.body.verificationToken = token;
         /*---------------------------------------------------*/ // Temp For Now
-        // req.body.img = {};
-        // req.body.img.contentType = 'image/png';
-        // req.body.img.data = fs.readFileSync('./images/default-Profile-Pic.png');
-        // req.body.CoverImg.contentType = 'image/jpg';
-        // req.body.CoverImg.data = fs.readFileSync('../assets/img/fabio-mangione.jpg');
+        req.body.img = {};
+        req.body.img.contentType = 'image/png';
+        req.body.img.data = fs.readFileSync('./images/default-Profile-Pic.png');
         /*---------------------------------------------------*/ 
         console.log(req.body.img);
         User.create(req.body, function(err, newUser) {
           if (err) {
             return next(err);
           }
+          // Confirmation url which will be sent to user
+          let confirmationUrl = 'http://localhost:4200/#/page' + `/confirm/${token}`;
+           //contents of email
+           var mailOptions = {
+             from: 'riseuptest@hotmail.com',
+             to: newUser.email,
+             subject: 'Account Verification Token',
+             html: 'Click the following link to confirm your account:</p>'+confirmationUrl, 
+            };
+            transporter.sendMail(mailOptions, function (err) {
+             if (err) {
+                  }
+          });
           return res.status(201).json({
             err: null,
             msg: 'Registration successful, you can now login to your account.',
@@ -121,4 +144,81 @@ module.exports.signup = function(req, res, next) {
         data: null
       })
   })
+};
+
+module.exports.confirmEmail = function(req, res, next) {
+  // finds a user with verification token appended to the url url
+  User.findOne({verificationToken: req.params.token }, function(err, user){
+    if (err)
+      throw err;
+    if (!user){
+      return res.status(209).json({
+        err: null,
+        msg: 'Failed to verifiy your email.',
+        data: null
+      })
+    } 
+    // Handles the case that user already verified his account
+    if (user.isVerified)
+     return res.status(209).json({ 
+        err: null,
+        msg: 'This user has already been verified.',
+        data : null 
+      });
+      //changes the status of user.isVerified to true
+    user.isVerified = true;
+    user.save(function (err) {
+      if (err) {
+         return next(err);
+       }
+      return res.status(200).json({
+        err: null,
+        msg: user.email +" has been verified.",
+        data: null
+      });
+  });
+})
+};
+
+module.exports.resendConfirmation = function(req, res, next) {
+  User.findOne({ email: req.decodedToken.user.email }, function (err, user) {
+    if (!user) return res.status(209).json({
+      err:null,
+      msg: 'We were unable to find a user with that email.' ,
+      data:null
+    });
+    if (user.isVerified)
+    return res.status(400).json({ 
+       err: null,
+       msg: 'This user has already been verified.',
+       data : null 
+     });
+     // Creates new verification token to resend it to the user
+     var token = crypto.randomBytes(16).toString('hex');
+     user.verificationToken = token;
+     user.save(function (err) {
+      if (err) {
+         return next(err);
+       }
+     let confirmationUrl = 'http://localhost:4200/#/page' + `/confirm/${token}`;
+           //contents of email
+           var mailOptions = {
+             from: 'riseuptest@hotmail.com',
+             to: user.email,
+             subject: 'Account Verification Token',
+             html: 'Click the following link to confirm your account:</p>'+confirmationUrl, 
+            };
+           transporter.sendMail(mailOptions, function (err) {
+             if (err) {
+               return next(err);
+                 }
+            return res.status(200).json({
+              err: null,
+              msg: "A confirmation email has been sent.",
+              data: null
+              });
+
+          });
+      });
+  });
 };

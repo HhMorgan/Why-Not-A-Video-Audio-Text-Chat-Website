@@ -60,6 +60,8 @@ var isExpert = function(req,res,next){
 //-----------------------------Authentication Routes-------------------------
 router.post('/auth/login' , isNotAuthenticated , authCtrl.login);
 router.post('/auth/signup' , isNotAuthenticated , authCtrl.signup);
+router.get('/auth/confirm/:token',authCtrl.confirmEmail);
+router.post('/auth/resendConfirmation',isAuthenticated,authCtrl.resendConfirmation);
 //----------------------------Admin Routes ----------------------------------
 router.post('/Tags/AddTag', AdminController.AddTag);
 router.get('/Tags/getTags' , AdminController.getTags);
