@@ -35,7 +35,7 @@
                     <div ngbDropdown class="d-inline-block dropdown">
                         <a class="btn  btn-background" id="dropdownBasic2" ngbDropdownToggle>Search By</a>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="dropdown-primary">
-                            <a (click)="searchbyUser()" class="dropdown-item">User</a>
+                            <!-- <a (click)="searchbyUser()" class="dropdown-item">User</a> -->
                             <a (click)="searchbyUserTags()" class="dropdown-item">User Tags</a>
                         </div>
                     </div>
@@ -71,22 +71,12 @@
                 <li class="nav-item">
                     <div ngbDropdown class="d-inline-block dropdown positionProfileImage">
                         <a id="dropdownBasic1" ngbDropdownToggle>
-                            <div class="notifier new">
-                                <div class="badge">5</div>
+                            <div class="notifier new" *ngIf ="showNotification()" >
+                                <div class="badge"  (click) = "openNotifications()">{{ norificationCount }} </div>
                             </div>
                             <img style="background-size:100% 100%;" id="profileimgnavbar" class=" img-circle img-no-padding img-responsive" src="../assets/img/default-Profile-Pic.png" width="45px"
                                 height="45px">
                         </a>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
-                            <a class="dropdown-header">Notifications</a>
-                            <a class="dropdown-item">User wants to contact you</a>
-                            <a class="dropdown-item">you have got a new email</a>
-                            <a class="dropdown-item">you have an appointment at 8:00 AM </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item">Separated link</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item">Another separated link</a>
-                        </div>
                     </div>
                 </li>
 

@@ -6,7 +6,7 @@ import { APIService } from './api.service';
 
 @Injectable()
 export class IOService {
-  private url = APIService.apiUrl.substring(0,APIService.apiUrl.length - 5);  
+  private url = APIService.apiUrl.substring( 0 , APIService.apiUrl.length - 5 );
   private socket;
   
   sendMessage(message){
@@ -14,15 +14,21 @@ export class IOService {
   }
   
   getMessages() {
-    console.log(this.url)
     let observable = new Observable(observer => {
+      console.log('-----------------------------------')
+      console.log(this.url)
+      console.log('***********************************')
         this.socket = io.connect(this.url, {
+          path : '/api/socket.io',
           query: 'token=' + APIService.getToken(),
           reconnection: true,
           reconnectionDelay: 1000,
           reconnectionDelayMax : 5000,
           reconnectionAttempts: Infinity
         });
+        this.socket.on('connect' , () => {
+          console.log('fufhueghurhughuogugtobtoubgt')
+        })
         this.socket.on('message', (data) => {
             observer.next(data);
         });

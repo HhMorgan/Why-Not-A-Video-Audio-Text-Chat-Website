@@ -39,8 +39,6 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { VideoViewComponent } from './videoView/videoView.component';
-import { SessionVideoComponent } from './sessionVideoVoice/sessionvideo.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
 import { RatingComponent } from './rating/rating.component';
 import { ExpertsListComponent } from './expertsList/expertsList.component';
@@ -52,7 +50,7 @@ import { ScheduleComponent } from './Schedule/Schedule.component';
 import { WeekModule } from './Schedule/week.module';
 import { AboutComponent } from './about/about.component';
 import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
-import { SearchUserComponent } from '../page/search-user/search-user.component';
+import { SearchComponent } from '../page/search/search.component';
 import { SnackbarCompComponent } from './components/snackbar-comp/snackbar-comp.component';
 import { ColorTagComponent } from './colorTag/colorTag.component';
 
@@ -90,8 +88,6 @@ import { ColorTagComponent } from './colorTag/colorTag.component';
     ProfileComponent,
     SignupComponent,
     DashboardComponent,
-    VideoViewComponent,
-    SessionVideoComponent,
     SlotRequestComponent, 
     RatingComponent,
     viewScheduleComponent,
@@ -103,7 +99,7 @@ import { ColorTagComponent } from './colorTag/colorTag.component';
     AdminRatingComponent,
     SettingsPageComponent,
     ScheduleComponent,
-    SearchUserComponent,
+    SearchComponent,
     AboutComponent,
     notificationPageComponent,
     SnackbarCompComponent,

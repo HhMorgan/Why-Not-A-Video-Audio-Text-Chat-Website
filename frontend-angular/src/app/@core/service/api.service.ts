@@ -8,7 +8,8 @@ import { APIData, SlotData, Tag, Session, Request, CandicateSession, Profile, Us
 
 @Injectable()
 export class APIService {
-  public static apiUrl = 'http://localhost:3000/api/';
+  // public static apiUrl = 'https://whatwhynot.net/api/';
+  public static apiUrl = 'http://127.0.0.1:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup'];
   constructor(private http: HttpClient) { }
 
@@ -147,9 +148,14 @@ export class APIService {
   getusername(): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'getusername').catch(this.errorHandler);
   }
+
   getUsernameOfUser(id: String): Observable<APIData> {
     console.log(id);
     return this.http.get<APIData>(APIService.apiUrl + 'getUsernameOfUser/' + id).catch(this.errorHandler);
+  }
+
+  getNotification(): Observable<APIData>{
+    return this.http.get<APIData>(APIService.apiUrl + '/Notification/getNotifications').catch(this.errorHandler);
   }
 
   getMatchingSearch(searchtag: String): Observable<APIData> {

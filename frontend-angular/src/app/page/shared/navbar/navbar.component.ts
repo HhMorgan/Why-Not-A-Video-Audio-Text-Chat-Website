@@ -6,14 +6,13 @@ import { APIData , User  } from '../../../@core/service/models/api.data.structur
 import { Buffer } from 'buffer';
 import { Routes,Router } from '@angular/router';
 import { NavBarService } from '../../../@core/service/shared.service';
-import { SearchUserComponent } from '../../search-user/search-user.component';
-
 @Component({
     selector: 'app-navbar',
     templateUrl: './template/navbar.component.html',
     styleUrls: ['./template/navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+    public norificationCount = 0;
     public username: string;
     public toggleButton: any;
     public sidebarVisible: boolean;
@@ -91,7 +90,7 @@ export class NavbarComponent implements OnInit {
     }
     getusername(){
         this.apiServ.getusername().subscribe((apires : APIData) =>{
-            this.username = apires.data;  
+            this.username = apires.data;
         });      
     }
 
@@ -112,6 +111,13 @@ export class NavbarComponent implements OnInit {
         else {
             return false;
         }
+    }
+
+    showNotification() {
+        if(this.norificationCount == 0){
+            return false;
+        }
+        return true;
     }
 
     isAuth(){
@@ -135,6 +141,7 @@ export class NavbarComponent implements OnInit {
             document.getElementById("dropdownBasic1").style.display="block";
             this.getimage();
             this.getusername();
+            this.getNotificationCount();
         } else {
             document.getElementById("login").style.display="block";
             document.getElementById("logout").style.display="none";
@@ -144,6 +151,16 @@ export class NavbarComponent implements OnInit {
             document.getElementById("userTextField").style.display="none";
             document.getElementById("dropdownBasic1").style.display="none";
         }
+    }
+
+    getNotificationCount(){
+        this.apiServ.getNotification().subscribe((apiresponse: APIData)=> {
+            this.norificationCount = apiresponse.data.length;
+        });
+    }
+
+    openNotifications(){
+        this.router.navigate(['page/notification']); 
     }
 
     

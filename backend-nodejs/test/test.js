@@ -24,6 +24,8 @@ let usedForAdmin;
 let Expert;
 let token;
 
+let salmaTag,salmaExpert;
+
 
 
 
@@ -60,7 +62,8 @@ describe('Admin tests: ', () => {
     Tag1 = new Tags({ name: "Tarek1", status: "Accepted", blocked: false, });
     Tag1.save((err, Tag1) => {
     });
-      User = new Users({ username: "Jimmy", email: "Mahmoud@gmail.com", password: "9194591945" });
+    
+    User = new Users({ username: "Jimmy", email: "Mahmoud@gmail.com", password: "9194591945" });
     User.save((err, User) => {
     });
     User.role = 'expert';
@@ -315,20 +318,34 @@ describe('Auth tests: ', () => {
 });
 
 describe('User tests: ', () => {
-  /*it('it should find tag by id GET /api/expert/getTagById', (done) => {
-    chai.request(app).post('/api/expert/getTagById'+Tag1.id)
-   .set('authorization', token).end((err, res) => {
-      res.should.have.status(201);
-      res.body.data.should.be.a('array');
-      for (var i = 0; i < res.body.data; i++) {
-        res.body.data[i].should.have.property('name');
-        res.body.data[i].should.have.property('status');
-        res.body.data[i].should.have.property('blocked');
-      }
-      res.body.msg.should.be.eql('Succesfully retrieved the Tag');
+  before ( function(done) {
+    salmaTag = new Tags({ name: "Finance", status: "Accepted", blocked: false});
+    salmaTag.save((err, tag) => {
+      salmaExpert = new Users({ username: "Salma" , email: "salma@gmail.com" , password: "9" , 
+      role: "expert" , speciality : [tag._id] });
       done();
     });
-  });*/
+  })
+
+  it("Searching for a certain tag.", function(done){
+    var tag = {
+        'name' : 'Finance'
+    }
+    chai.request(app)
+        .get('/api/user/viewSuggestedExperts/'+ tag.name)
+        .set('authorization', token)
+        .end(function(err,res) {
+            res.status.should.be.eql(200);
+            res.body.should.have.property("msg");
+            res.body.msg.should.be.equal("Experts retrieved successfully.");        
+            res.body.should.have.property("data");
+            done();
+        })
+    });
+
+
+
+  
   it('it should load user status  /api//loadStatus' , (done) => {
   
     chai.request(app).get('/api/loadStatus').set('authorization', token).end((err, res) => {

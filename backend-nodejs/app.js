@@ -99,7 +99,9 @@ if(secure){
   app.server = http.createServer(app);
 }
 
-app.io = io(app.server);
+app.io = io(app.server, {
+  path :'/api/socket.io'
+});
 require('./api/controllers/socketio.controller')(app.io);
 module.exports = app;
 

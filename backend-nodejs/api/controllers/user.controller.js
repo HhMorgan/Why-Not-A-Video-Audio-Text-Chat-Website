@@ -19,7 +19,7 @@ var RegExp = require('mongodb').RegExp;
 
 //this function searches for the user that has tags which are the similar to the searchtag parameter
 module.exports.searchUserbyTags = function (req, res, next) {
-  Tag.find({ name: {$regex: req.params.searchtag, $options: "$i"},blocked:{$eq: "false" } ,status:{$eq: "Accepted" }}).exec (function(err, Tags) {
+  Tag.find({ name: { $regex: req.params.searchtag , $options: "$i" } , blocked : { $eq: "false" } , status: { $eq: "Accepted" }}).exec (function(err, Tags) {
    
     if (err) {
       return next(err);
@@ -33,7 +33,7 @@ module.exports.searchUserbyTags = function (req, res, next) {
       });
     }
 
-User.find({ speciality: { $in: Tags },role:{$eq:"expert"},blocked:{$eq:"false"}  }).populate('speciality').exec (function(err, User) {
+User.find({ speciality: { $in: Tags } , role : { $eq: "expert" } , blocked : { $eq: "false" }  }).populate('speciality').exec (function(err, User) {
   if (err) {
      return next(err);
    }
@@ -486,15 +486,26 @@ module.exports.reserveSlot = function (req, res, next) {
 };
 
 module.exports.viewSuggestedExperts = function (req, res, next) {
-  User.find({ "createdTags": req.params.tagName, "role": "expert" }).exec(function (err, User) {
-    if (err) {
-      return next(err);
+  Tag.findOne({ name: { $regex: req.params.tagName , $options: "$i" } , blocked : false , status : "Accepted" }).exec( function (err , tag) {
+    if(tag){
+      User.find({ _id : { $ne : req.decodedToken.user._id } , "speciality" : tag._id , "role": "expert" , blocked : false } ,
+       { _id : 1 , username : 1 , role : 1 , speciality : 1  , rating : 1 , img : 1 }).populate('speciality','name').exec(function (err, User) {
+        if (err) {
+          return next(err);
+        }
+        return res.status(200).json({
+          err: null,
+          msg: 'Experts retrieved successfully.',
+          data: User
+        });
+      });
+    } else {
+      return res.status(404).json({
+        err: null,
+        msg: 'Tag Not Found',
+        data: null
+      })
     }
-    res.status(200).json({
-      err: null,
-      msg: 'Experts retrieved successfully.',
-      data: User
-    });
   });
 };
 

@@ -111,7 +111,7 @@ module.exports.expertCancelSlot = function(req, res, next) {
       { $pull : { slots : req.body.slots } } ).populate('slots.users','username').exec(function( err , updatedSchedule ) {
       if(updatedSchedule){
         var scheduleSlotUsers = updatedSchedule.slots[ ScheduleHelper.getSlotIndex( updatedSchedule.slots , req.body.dayNo , req.body.slotNo ) ].users ;
-        NotificationController.createNotificationMuitiple( req.decodedToken.user._id , scheduleSlotUsers  , "User : " + req.decodedToken.user.username + " Cancelled The Slot" , "Slot-Canceled" , 0 , function(done) {
+        NotificationController.createNotificationMuitiple( req.decodedToken.user._id , scheduleSlotUsers  , " Cancelled The Slot" , "Slot-Canceled" , 0 , function(done) {
           updatedSchedule.slots.splice(ScheduleHelper.getSlotIndex( updatedSchedule.slots , req.body.dayNo , req.body.slotNo ),1)
           return res.status(200).json({
             err: null,
@@ -204,7 +204,7 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
                   if(updatedSession.users.length >= maxNoUsers) {
                     var scheduleSlotUsers = schedule.slots[ ScheduleHelper.getSlotIndex( schedule.slots , req.body.dayNo , req.body.slotNo ) ].users ;
                     NotificationController.createNotificationMuitiple( req.decodedToken.user._id , scheduleSlotUsers  , 
-                      "User : " + req.decodedToken.user.username + " Rejected The Slot" , "Slot-Denied" , 0 , function(done) {
+                      " Rejected The Slot" , "Slot-Denied" , 0 , function(done) {
                         if(done){
                           req.body.slots = { day : req.body.dayNo , time : req.body.slotNo }
                           Schedule.findOneAndUpdate({ $and : [ { _id : schedule._id , 
@@ -275,7 +275,7 @@ module.exports.userReserveSlot = function(req, res, next) {
         return next(err);
       }
       if(schedule){
-        NotificationController.createNotification( req.decodedToken.user._id , req.body.expertID  , "User : " + req.decodedToken.user.username + " Requested A Slot With You" , "Slot-Request" , function(done) {
+        NotificationController.createNotification( req.decodedToken.user._id , req.body.expertID  , " Requested A Slot With You" , "Slot-Request" , function(done) {
           if(done){
             return res.status(201).json(
               {

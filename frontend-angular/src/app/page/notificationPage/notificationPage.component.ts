@@ -19,24 +19,15 @@ export class notificationPageComponent implements OnInit {
     this.refresh();
   }
   settings = {
-    edit: {
-      editButtonContent: '<i  class="fa fa-edit"></i>',
-      saveButtonContent: '<i class="fa fa-check"></i>',
-      cancelButtonContent: '<i class="fa fa-ban"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="fa fa-trash"></i>',
-    },
-    add: {
-      addButtonContent: '<i class="fa fa-plus"></i>',
-      createButtonContent: '<i class="fa fa-check"></i>',
-      cancelButtonContent: '<i class="fa fa-close"></i>',
+    actions : {
+      add: false,
+      edit: false,
+      delete: false 
     },
     pager: {
       display: true,
       perPage: 5
     },
-
     columns: {
       // Initializing the columns with their name and type and whether they are selectable
       // when adding or editing the columns or not.        
@@ -44,9 +35,9 @@ export class notificationPageComponent implements OnInit {
         title: 'Sender',
         type: 'string',
       },
-      status: {
-        title: 'Status',
-        type: 'string',
+      recipient :{
+        title : 'recipient',
+        type : 'string',
       },
       type: {
         title: 'Type',
@@ -54,6 +45,9 @@ export class notificationPageComponent implements OnInit {
       }, createdAt: {
         title: 'Name',
         default: Date.now,
+      }, message :{
+        title: 'Message',
+        type: 'string',
       }
     }
   };
@@ -61,31 +55,16 @@ export class notificationPageComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   config: ToasterConfig;
   constructor(private _apiService: APIService) {
-    //onAdded is called when some 1 adds a tag using the ng2smarttable 
-    // this.source.onAdded().subscribe((Tags :Tags)=>{
-    //   // we intilialize status to accepted and blocked to false as the admin is 
-    //   // the one adding the tag so he doesn't need to write these himself 
-    //   Tags.status = 'Accepted';
-    //   Tags.blocked = false;
-    //   //Then we send APIData to the method named AddTag through the api.service then we 
-    //   //refresh after the database has been updated to get the new tag
-    //   this._apiService.AddTag(Tags).subscribe((apiresponse: APIData)=>{
-    //     console.log(apiresponse.msg);
-    //     console.log(Tags);
-    //     this.refresh();  
-    //   });
-    //   this.refresh();  
-    // });    
+
   }
   refresh(): void {
-
-    //   this._apiService.getnotifications().subscribe((apiresponse: APIData)=>{
-    //     for (var i = 0 ; i < apiresponse.data.length ; i++ )
-    //       //apiresponse.data[i].id = (i+1);
-    //       console.log(apiresponse.data);
-    //     this.source.load(apiresponse.data);
-    //   });
+    this._apiService.getNotification().subscribe((apiresponse: APIData)=>{
+      for(var i = 0 ; i < apiresponse.data.length ; i++){
+        apiresponse.data[i].sender = apiresponse.data[i].sender.username;
+        apiresponse.data[i].recipient = apiresponse.data[i].recipient.username;
+      }
+      this.source.load(apiresponse.data);
+    });
   }
-
 }
 

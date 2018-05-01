@@ -10,7 +10,6 @@ import { TemplateComponent } from './template/template.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { VideoViewComponent } from './videoView/videoView.component';
 import { RatingComponent } from './rating/rating.component';
 import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
 import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
@@ -21,7 +20,7 @@ import { ScheduleComponent } from './Schedule/Schedule.component';
 
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
 import { AboutComponent } from './about/about.component';
-import { SearchUserComponent } from '../page/search-user/search-user.component';
+import { SearchComponent } from '../page/search/search.component';
 import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
 
 const routes: Routes = [
@@ -38,7 +37,7 @@ const routes: Routes = [
   { path: 'expertsList', component: ExpertsListComponent },
   { path: 'adminPage', component:AdminPageUserComponent},
   { path: 'chat', component: SessionChatMobileComponent},
-  { path: 'search/:searchtag' , component:SearchUserComponent},
+  { path: 'search/:searchtag' , component:SearchComponent},
   { path: 'about', component:AboutComponent },
   { path: 'slotRequest', component: SlotRequestComponent },
   { path: 'rating', component: RatingComponent },

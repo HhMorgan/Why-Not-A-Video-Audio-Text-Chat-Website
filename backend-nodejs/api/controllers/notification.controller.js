@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
   Notification = mongoose.model('Notification');
 
 module.exports.getNotifications = function (req, res, next) {
-  Notification.find( { $or  : [ { sender :  { $eq : req.decodedToken.user._id } } ,  { recipient : { $eq : req.decodedToken.user._id } } ] } ).exec(function (err, notification) {
+  Notification.find( { $or  : [ { sender :  { $eq : req.decodedToken.user._id } } , 
+     { recipient : { $eq : req.decodedToken.user._id } } ] } ).populate('sender recipient','username').exec(function (err, notification) {
     if (err) {
       return next(err);
     }

@@ -15,7 +15,6 @@
     
 }
 
-
 #t {
     position: absolute;
     top: 0px;
@@ -25,10 +24,6 @@
 .checked {
   color: orange;
 }
-
-
-
-
 
 #mydivheader {
 
@@ -82,12 +77,15 @@ h1 {
   transition: background-color .40s ease-in-out;
   cursor: pointer;
 }
+
 .toggle-btn.active {
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAmUlEQVQ4T6WT0RWDMAhFeZs4ipu0mawZpaO4yevBc6hUIWLNd+4NeQDk5sE/PMkZwFvZywKSTxF5iUgH0C4JHGyF97IggFVSqyCFga0CvQSg70Mdwd8QSSr4sGBMcgavAgdvwQCtApvA2uKr1x7Pu++06ItrF5LXPB/CP4M0kKTwYRIDyRAOR9lJTuF0F0hOAJbKopVHOZN9ACS0UgowIx8ZAAAAAElFTkSuQmCC") no-repeat 10px center #2ecc71;
 }
+
 .toggle-btn.active .round-btn {
   left: 45px;
 }
+
 .toggle-btn .round-btn {
   width: 30px;
   height: 30px;
@@ -103,6 +101,7 @@ h1 {
   -o-transition: all .30s ease-in-out;
   transition: all .30s ease-in-out;
 }
+
 .toggle-btn .cb-value {
   position: absolute;
   left: 0;
@@ -114,8 +113,8 @@ h1 {
   cursor: pointer;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 }
-.modal {
- 
+
+.modal { 
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
@@ -151,4 +150,3 @@ h1 {
   text-decoration: none;
   cursor: pointer;
 }
-
