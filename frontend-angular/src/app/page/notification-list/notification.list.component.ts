@@ -7,12 +7,12 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 
 @Component({
-  selector: 'app-notificationPage',
-  templateUrl: './notificationPage.component.html',
-  styleUrls: ['./notificationPage.component.scss']
+  selector: 'app-notification-list',
+  templateUrl: './template/notification.list.component.html',
+  styleUrls: ['./template/notification.list.component.scss']
 })
 
-export class notificationPageComponent implements OnInit {
+export class NotificationListComponent implements OnInit {
 
   ngOnInit() {
     // we call refresh to load data on entery of the page

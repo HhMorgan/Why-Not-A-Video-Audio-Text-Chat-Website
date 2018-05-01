@@ -144,6 +144,7 @@ export class NavbarComponent implements OnInit {
             this.getNotificationCount();
         } else {
             document.getElementById("login").style.display="block";
+            document.getElementById("signup").style.display="block";
             document.getElementById("logout").style.display="none";
             document.getElementById("profile").style.display="none";
             document.getElementById("officeHours").style.display="none";
@@ -162,8 +163,6 @@ export class NavbarComponent implements OnInit {
     openNotifications(){
         this.router.navigate(['page/notification']); 
     }
-
-    
 
     logout() {
         localStorage.clear();

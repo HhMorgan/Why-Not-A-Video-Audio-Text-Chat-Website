@@ -30,8 +30,6 @@ import { AdminComponent } from './AdminPage/Admin.component';
 import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
 import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
 
-import { SlotRequestComponent } from './slotRequest/slotRequest.component';
-import { ExpertComponent } from './expert/expert.component';
 import { PagesRoutingModule } from './page.routing'
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { LoginComponent } from './auth/login/login.component';
@@ -41,7 +39,6 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
 import { RatingComponent } from './rating/rating.component';
-import { ExpertsListComponent } from './expertsList/expertsList.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
@@ -49,11 +46,11 @@ import { SettingsPageComponent } from './profile/settings-page/settings-page.com
 import { ScheduleComponent } from './Schedule/Schedule.component';
 import { WeekModule } from './Schedule/week.module';
 import { AboutComponent } from './about/about.component';
-import { notificationPageComponent } from '../page/notificationPage/notificationPage.Component';
 import { SearchComponent } from '../page/search/search.component';
+import { NotificationListComponent } from '../page/notification-list/notification.list.component';
 import { SnackbarCompComponent } from './components/snackbar-comp/snackbar-comp.component';
 import { ColorTagComponent } from './colorTag/colorTag.component';
-import { ConfirmMailComponent } from './confirm-mail/confirm-mail.component';
+import { ConfirmMailComponent } from './auth/confirm-mail/confirm-mail.component';
 
 @NgModule({
   imports: [
@@ -89,12 +86,9 @@ import { ConfirmMailComponent } from './confirm-mail/confirm-mail.component';
     ProfileComponent,
     SignupComponent,
     DashboardComponent,
-    SlotRequestComponent, 
     RatingComponent,
     viewScheduleComponent,
     upgradeToExpertComponent,
-    ExpertComponent,
-    ExpertsListComponent,
     AdminPageUserComponent,
     SessionChatMobileComponent,
     AdminRatingComponent,
@@ -102,7 +96,7 @@ import { ConfirmMailComponent } from './confirm-mail/confirm-mail.component';
     ScheduleComponent,
     SearchComponent,
     AboutComponent,
-    notificationPageComponent,
+    NotificationListComponent,
     SnackbarCompComponent,
     ColorTagComponent,
     ConfirmMailComponent,

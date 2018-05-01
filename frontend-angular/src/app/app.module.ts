@@ -17,6 +17,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material';
 import { PopOutComponent } from './page/components/pop-out/pop-out.component';
 import { NavBarService } from './@core/service/shared.service';
+import { RoleGuardService } from './@core/service/role-guard.service';
+import { JwtHelper } from 'angular2-jwt';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,7 @@ import { NavBarService } from './@core/service/shared.service';
       useClass: AuthInterceptor,
       multi: true
     }
-     , APIService , IOService , NavBarService
+     , APIService , IOService , NavBarService , JwtHelper , RoleGuardService
      ,{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   bootstrap: [AppComponent]

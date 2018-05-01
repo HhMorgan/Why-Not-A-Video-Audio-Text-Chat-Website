@@ -5,7 +5,7 @@
   userCtrl = require('../controllers/user.controller'),
   sessionCtrl = require('../controllers/session.controller'),
   expert = require('../controllers/expert.controller'),
-  AdminController = require('../controllers/Admin.Controller'),
+  AdminController = require('../controllers/admin.controller'),
   scheduleController = require('../controllers/schedule.controller')
   NotificationController = require('../controllers/notification.Controller');
  
@@ -58,9 +58,9 @@ var isExpert = function(req,res,next){
 // all the methods below are all routers where we specify a route for api.service to 
 // call and what method in the backend to go with the specefied route 
 //-----------------------------Authentication Routes-------------------------
+router.get('/auth/confirm/:email/:token',authCtrl.confirmEmail);
 router.post('/auth/login' , isNotAuthenticated , authCtrl.login);
 router.post('/auth/signup' , isNotAuthenticated , authCtrl.signup);
-router.get('/auth/confirm/:token',authCtrl.confirmEmail);
 router.post('/auth/resendConfirmation',isAuthenticated,authCtrl.resendConfirmation);
 //----------------------------Admin Routes ----------------------------------
 router.post('/Tags/AddTag', AdminController.AddTag);
