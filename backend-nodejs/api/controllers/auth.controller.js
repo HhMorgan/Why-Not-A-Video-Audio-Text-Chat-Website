@@ -98,7 +98,7 @@ module.exports.signup = function (req, res, next) {
         req.body.password = hash;
         req.body.verificationToken = token;
         // Confirmation url which will be sent to user
-        let confirmationUrl = 'http://localhost:4200/#/page' + `/confirm/${req.body.email}/${token}`;
+        let confirmationUrl = 'https://whatwhynot.net/#/page' + `/confirm/${req.body.email}/${token}`;
         nodemailerController.sendEmail(
           req.body.email,
           'Account Verification Token',
@@ -164,7 +164,7 @@ User.findOne({ $or: [{ username: { $eq: req.body.username } }, { email: { $eq: r
       req.body.password = hash;
       req.body.verificationToken = token;
       // Confirmation url which will be sent to user
-      let confirmationUrl = 'http://localhost:4200/#/page' + `/confirm/${req.body.email}/${token}`;
+      let confirmationUrl = 'https://whatwhynot.net/#/page' + `/confirm/${req.body.email}/${token}`;
       nodemailerController.sendEmail(
         req.body.email,
         'Account Verification Token',

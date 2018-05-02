@@ -134,7 +134,7 @@ OnChangeRole(event): void {
   var Users = <User>{};
   Users = event.data;
   if(Users.role == 'expert'){
-    Users.role = 'regular';
+    Users.role = 'user';
     this._apiService.ChangeRole(Users).subscribe((apiresponse: APIData)=>{
     // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
       this.refresh();

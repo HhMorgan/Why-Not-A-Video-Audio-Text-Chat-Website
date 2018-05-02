@@ -1,6 +1,6 @@
 var nodemailer = require('nodemailer');
 module.exports.sendEmail = function ( to , subject , html , done) {
-    return done(true); // Temp For Spamming
+    // return done(true); // Temp For Spamming
     nodemailer.createTransport({
         service: 'hotmail',
         auth: {
