@@ -294,7 +294,7 @@ describe('Admin tests: ', () => {
     chai.request(app).patch('/api/User/ChangeRole/' + usedForAdmin.id)
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.data.should.have.property('username');
+        res.body.data.should.have.property('role').eql('admin');
         done();
       });
   });
@@ -371,7 +371,7 @@ describe('Auth tests: ', () => {
   it('it should not add a user', (done) => {
     chai.request(app).post('/api/auth/signup')
       .send({ username: "tarekk", email: "tarek@abdoscience.com", password: "tarek123", }).end((err, res) => {
-        res.should.have.status(209);
+        res.should.have.status(412);
         res.body.should.have.property('msg');
         res.body.msg.should.be.eql('Registration Failed');
 
