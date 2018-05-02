@@ -74,11 +74,6 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-const options = {
-  key: fs.readFileSync(config.CERT_KEY_Path),
-  cert: fs.readFileSync(config.CERT_Path)
-};
-
 var server = app.server;
 
 /**
