@@ -104,6 +104,7 @@ module.exports.signup = function (req, res, next) {
           'Account Verification Token',
           'Click the following link to confirm your account:</p>' + confirmationUrl ,
           function(done) {
+            console.log(done);
             if(done){
               User.create(req.body, function (err, newUser) {
                 if (err) {

@@ -331,11 +331,20 @@ module.exports.updatePassword = function (req, res, next) {
         if (err) {
           return next(err);
         }
+        console.log('------------------------------------')
+        console.log(user.password);
+        console.log(req.body.oldPassword)
+        console.log(hash2);
+        console.log(req.decodedToken.user);
+        console.log('------------------------------------')
         Encryption.comparePasswordToHash( req.body.oldPassword , user.password , function (err, matches) {
 
             if (err) {
               return next(err);
             }
+            console.log(req.body.oldPassword);
+
+            console.log
             if (!matches) {
               return res.status(422).json({
                 err: null,
