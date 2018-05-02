@@ -12,6 +12,14 @@ import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-t
   })
 export class Schedule2Component implements OnInit {
   public slots :any[] = []; 
+  public username;
+  public sessionID;
+  public email;
+  public sessionID1;
+  public date;
+  public username1;
+  public date1;
+  public date2;
  
   constructor( private apiservice : APIService ){
     apiservice.getScheduleV2().subscribe((apiresponse: APIData) => {
