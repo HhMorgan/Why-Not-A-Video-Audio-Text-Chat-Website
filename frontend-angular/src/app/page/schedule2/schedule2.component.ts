@@ -12,19 +12,16 @@ import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-t
   })
 export class Schedule2Component implements OnInit {
   public slots :any[] = []; 
-
+ 
   constructor( private apiservice : APIService ){
     apiservice.getScheduleV2().subscribe((apiresponse: APIData) => {
       console.log(apiresponse.data);
     });
 
     apiservice.getViewRequestedSlotsSchdeuleV2().subscribe((apiresponse: APIData) => {
-      console.log(apiresponse.data);
+      this.slots.push({accepted:apiresponse.data.usersAccepted,requested:apiresponse.data.usersRequested});
     });
 
-    apiservice.getViewRequestedSlotsSchdeuleV2().subscribe((apiresponse: APIData) => {
-      console.log(apiresponse.data);
-    });
   }
 
   reserve( email  , sessionid ){
@@ -50,7 +47,12 @@ export class Schedule2Component implements OnInit {
       console.log(apiresponse.data);
     }
   )}
-
+  createScheduleV2(date){
+    console.log(date)
+    this.apiservice.createScheduleV2(date).subscribe((apiresponse : APIData)=>{
+      console.log(apiresponse.data);
+    });
+  }
   ngOnInit() {
   }
 }

@@ -116,13 +116,6 @@ module.exports.viewRequestedSlots = function(req, res, next) {
       if (err) {
         return next(err);
       }
-      if (!updatedRequest) {
-        return res.status(404).json({
-          err: null,
-          msg: 'Request not found.',
-          data: null
-        });
-      }
       return res.status(200).json({
         err: null,
         msg:' Requested slots by users retrieved successfully.',

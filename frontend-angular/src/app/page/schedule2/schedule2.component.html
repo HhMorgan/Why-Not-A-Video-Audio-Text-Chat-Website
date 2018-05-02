@@ -1,20 +1,46 @@
 <div class="wrapper">
     <div class="topClass">
         <form class="scheduleAccept-form">
-            <label>Expert Email</label>
-            <input type="email" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}" />
+            <label>Expert username</label>
+            <input type="text" class="form-control" [(ngModel)]="username" placeholder="username" [ngModelOptions]="{standalone: true}" />
             <label>Session id</label>
-            <input type="text" class="form-control" [(ngModel)]="password" placeholder="id" [ngModelOptions]="{standalone: true}"/>
-            <button class="btn btn-success btn-block">Request</button>
+            <input type="text" class="form-control" [(ngModel)]="sessionID" placeholder="id" [ngModelOptions]="{standalone: true}"/>
+            <button (click)="accept(username,sessionID)" class="btn btn-success btn-block">Request</button>
             <!-- (click)="loginClick()" -->
         </form>
-        <form class="scheduleReject-form">
-                <label>User Email</label>
+        <form class="scheduleReserve-form">
+                <label>Reserve Email</label>
                 <input type="email" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}" />
-                <label>Date</label>
-                <input type="text" class="form-control" [(ngModel)]="password" placeholder="date" [ngModelOptions]="{standalone: true}"/>
-                <button class="btn btn-danger btn-block">Reject</button>
+                <label>Session id</label>
+                <input type="text" class="form-control" [(ngModel)]="sessionID1" placeholder="id" [ngModelOptions]="{standalone: true}"/>
+                <button (click)="reserve(email,sessionID1)" class="btn btn-success btn-block">Request</button>
                 <!-- (click)="loginClick()" -->
             </form>
+            <form class="scheduleCreate-form">
+                    <label>Date</label>
+                    <input type="text" class="form-control" [(ngModel)]="date" placeholder="date" [ngModelOptions]="{standalone: true}"/>
+                    <button (click)="createScheduleV2(date)" class="btn btn-success btn-block">Create Schedule</button>
+                    <!-- (click)="loginClick()" -->
+                </form>
+        <form class="scheduleReject-form">
+                <label>Username</label>
+                <input type="email" class="form-control" [(ngModel)]="username1" placeholder="username" [ngModelOptions]="{standalone: true}" />
+                <label>Date</label>
+                <input type="text" class="form-control" [(ngModel)]="date1" placeholder="date" [ngModelOptions]="{standalone: true}"/>
+                <button (click)="declineslot(username1,date1)" class="btn btn-danger btn-block">Reject One Slot</button>
+                <!-- (click)="loginClick()" -->
+            </form>
+
+            <form class="scheduleRejectAll-form">
+                    <label>Date</label>
+                    <input type="text" class="form-control" [(ngModel)]="date2" placeholder="date" [ngModelOptions]="{standalone: true}"/>
+                    <button (click)="rejectAllSlot(date2)" class="btn btn-danger btn-block">Reject One Slot</button>
+                    <!-- (click)="loginClick()" -->
+                </form>
+
+                <div *ngFor="let slot of slots">
+                        {{slot.accepted.type+"//"+slot.requested.type}}
+                       
+                    </div>
     </div>
 </div>

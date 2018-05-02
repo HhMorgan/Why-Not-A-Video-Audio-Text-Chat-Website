@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
   dbUrl = config.MONGO_URI;
   
   require('../models/Tag.model');
+  require('../models/schedule2.model');
   require('../models/user.model');
   require('../models/request.model');
   require('../models/session.model');
