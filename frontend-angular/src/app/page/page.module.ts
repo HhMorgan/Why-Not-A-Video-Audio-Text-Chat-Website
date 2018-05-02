@@ -27,7 +27,6 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SessionComponent } from './session/session.component';
 import { AdminComponent } from './AdminPage/Admin.component';
 
-import { viewScheduleComponent } from './viewSchedule/viewSchedule.component';
 import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
 
 import { PagesRoutingModule } from './page.routing'
@@ -42,7 +41,7 @@ import { RatingComponent } from './rating/rating.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
 import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
-import { ScheduleComponent } from './Schedule/Schedule.component';
+import { ScheduleComponent } from './schedule/schedule.component';
 import { WeekModule } from './Schedule/week.module';
 import { AboutComponent } from './about/about.component';
 import { SearchComponent } from '../page/search/search.component';
@@ -91,7 +90,6 @@ import { RequestsComponent } from './requests/requests.component';
     SignupComponent,
     DashboardComponent,
     RatingComponent,
-    viewScheduleComponent,
     upgradeToExpertComponent,
     AdminPageUserComponent,
     AdminRatingComponent,

@@ -7,8 +7,8 @@ import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-schedule',
-  templateUrl: './template/Schedule.component.html',
-  styleUrls: ['./template/Schedule.component.scss']
+  templateUrl: './template/schedule.component.html',
+  styleUrls: ['./template/schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
   public mySchedule: boolean;
