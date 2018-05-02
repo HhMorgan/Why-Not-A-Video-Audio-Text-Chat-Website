@@ -11,8 +11,46 @@ import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-t
     styleUrls: ['./schedule2.component.scss']
   })
 export class Schedule2Component implements OnInit {
+  public slots :any[] = []; 
 
-    ngOnInit() {
-        // we call refresh to load data on entery of the page
-      }
+  constructor( private apiservice : APIService ){
+    apiservice.getScheduleV2().subscribe((apiresponse: APIData) => {
+      console.log(apiresponse.data);
+    });
+
+    apiservice.getViewRequestedSlotsSchdeuleV2().subscribe((apiresponse: APIData) => {
+      console.log(apiresponse.data);
+    });
+
+    apiservice.getViewRequestedSlotsSchdeuleV2().subscribe((apiresponse: APIData) => {
+      console.log(apiresponse.data);
+    });
+  }
+
+  reserve( email  , sessionid ){
+    this.apiservice.userReserveScheduleV2(email,sessionid).subscribe((apiresponse : APIData) =>{
+      console.log(apiresponse.data);
+    });
+  }
+
+  accept( username , date ){
+    this.apiservice.expertAcceptRequestScheduleV2(username,date).subscribe((apiresponse : APIData) =>{
+      console.log(apiresponse.data);
+    })
+  }
+
+  declineslot( username , date ){
+    this.apiservice.expertRejectRequestScheduleV2( username , date ).subscribe((apiresponse : APIData) =>{
+      console.log(apiresponse);
+    });
+  }
+
+  rejectAllSlot( date ) {
+    this.apiservice.expertRejectAllRequestScheduleV2(date).subscribe((apiresponse : APIData) => {
+      console.log(apiresponse.data);
     }
+  )}
+
+  ngOnInit() {
+  }
+}

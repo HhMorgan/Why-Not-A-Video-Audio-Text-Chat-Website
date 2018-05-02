@@ -17,6 +17,6 @@ var slotsSchema = mongoose.Schema({
             usersRequested:{ type: [String] } } ,
              { _id: false })],
 
-},{ collection: 'Schedule'} ) ;
+},{ collection: 'Schedule2'} ) ;
 
-mongoose.model('Schedule', slotsSchema);
+mongoose.model('Schedule2', slotsSchema);

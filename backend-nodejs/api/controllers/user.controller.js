@@ -119,8 +119,6 @@ module.exports.searchbyUser = function (req, res, next) {
 
 };
 
-
-
 module.exports.loadStatus = function (req, res) {
   User.findById(req.decodedToken.user._id).exec(function (err, User) {
     if (err) {

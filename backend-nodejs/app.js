@@ -86,14 +86,13 @@ app.use(function(req, res) {
   });
 });
 
-const options = { 
-  key: fs.readFileSync(config.CERT_KEY_Path) ,
-  cert: fs.readFileSync(config.CERT_Path)
-};
-
 var secure = false;
 
 if(secure){
+  const options = { 
+    key: fs.readFileSync(config.CERT_KEY_Path) ,
+    cert: fs.readFileSync(config.CERT_Path)
+  };
   app.server = https.createServer(options,app);
 } else {
   app.server = http.createServer(app);
