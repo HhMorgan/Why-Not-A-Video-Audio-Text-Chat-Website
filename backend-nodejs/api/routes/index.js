@@ -1,4 +1,4 @@
- var express = require('express'),
+var express = require('express'),
   router = express.Router(),
   jwt = require('jsonwebtoken'),
   authCtrl = require('../controllers/auth.controller'),
@@ -7,9 +7,9 @@
   expert = require('../controllers/expert.controller'),
   AdminController = require('../controllers/admin.controller'),
   scheduleController = require('../controllers/schedule.controller')
-  NotificationController = require('../controllers/notification.Controller');
- 
-var isAuthenticated = function(req, res, next) {
+NotificationController = require('../controllers/notification.Controller');
+
+var isAuthenticated = function (req, res, next) {
   // Check that the request has the JWT in the authorization header
   var token = req.headers['authorization'];
   if (!token) {
@@ -20,7 +20,7 @@ var isAuthenticated = function(req, res, next) {
     });
   }
   // Verify that the JWT is created using our server secret and that it hasn't expired yet
-  jwt.verify(token, req.app.get('secret'), function(err, decodedToken) {
+  jwt.verify(token, req.app.get('secret'), function (err, decodedToken) {
     if (err) {
       return res.status(401).json({
         error: err,
@@ -33,7 +33,7 @@ var isAuthenticated = function(req, res, next) {
   });
 };
 
-var isNotAuthenticated = function(req, res, next) {
+var isNotAuthenticated = function (req, res, next) {
   // Check that the request doesn't have the JWT in the authorization header
   var token = req.headers['authorization'];
   if (token) {
@@ -45,12 +45,12 @@ var isNotAuthenticated = function(req, res, next) {
   }
   next();
 };
-var isExpert = function(req,res,next){
-  if(req.decodedToken.user.role.trim() !== 'expert' && req.decodedToken.user.role.trim() !== 'Expert' ){
+var isExpert = function (req, res, next) {
+  if (req.decodedToken.user.role.trim() !== 'expert' && req.decodedToken.user.role.trim() !== 'Expert') {
     return res.status(403).json({
-       err: null,
-       msg: 'Unauthorized.',
-       data: null 
+      err: null,
+      msg: 'Unauthorized.',
+      data: null
     });
   }
   next();
@@ -58,43 +58,43 @@ var isExpert = function(req,res,next){
 // all the methods below are all routers where we specify a route for api.service to 
 // call and what method in the backend to go with the specefied route 
 //-----------------------------Authentication Routes-------------------------
-router.get('/auth/confirm/:email/:token',authCtrl.confirmEmail);
-router.post('/auth/login' , isNotAuthenticated , authCtrl.login);
-router.post('/auth/signup' , isNotAuthenticated , authCtrl.signup);
-router.post('/auth/resendConfirmation',isAuthenticated,authCtrl.resendConfirmation);
+router.get('/auth/confirm/:email/:token', authCtrl.confirmEmail);
+router.post('/auth/login', isNotAuthenticated, authCtrl.login);
+router.post('/auth/signup', isNotAuthenticated, authCtrl.signup);
+router.post('/auth/resendConfirmation', isAuthenticated, authCtrl.resendConfirmation);
 //----------------------------Admin Routes ----------------------------------
 router.post('/Tags/AddTag', AdminController.AddTag);
-router.get('/Tags/getTags' , AdminController.getTags);
+router.get('/Tags/getTags', AdminController.getTags);
 router.patch('/Tag/editTags/:tagId', AdminController.editTag);
-router.delete('/Tags/deleteTags/:tagId' , AdminController.deleteTags);
+router.delete('/Tags/deleteTags/:tagId', AdminController.deleteTags);
 router.patch('/User/BlockAndUnblock/:userId', AdminController.BlockAndUnblock);
 router.patch('/User/ChangeRole/:userId', AdminController.ChangeRole);
-router.get('/User/getUsers',AdminController.getUsers);
-router.get('/getUsers',isAuthenticated, AdminController.getUsers); 
-router.post('/CreateAColor' , AdminController.AddColor);
-router.post('/addColorToTag' , AdminController.AddColorToTag); 
-router.get('/getColors' , AdminController.getColors);  
-router.get('/User/getUserRequestToBeExpert',AdminController.getRequestsFromUsersToBeExpert);
+router.get('/User/getUsers', AdminController.getUsers);
+router.get('/getUsers', isAuthenticated, AdminController.getUsers);
+router.post('/CreateAColor', AdminController.AddColor);
+router.post('/addColorToTag', AdminController.AddColorToTag);
+router.get('/getColors', AdminController.getColors);
+router.get('/User/getUserRequestToBeExpert', AdminController.getRequestsFromUsersToBeExpert);
 //----------------------------User Routes -----------------------------------
-router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
-router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);
-router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescription);
+router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
+router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
+router.post('/auth/updateDescription', isAuthenticated, userCtrl.updateDescription);
 
 //-----------------------------User Role Expert Routes-------------------------
-router.get('/expert/getTagById/:tagId' , isAuthenticated , expert.findTagbyid);
-router.get('/expert/getTagByName/:tagname', isAuthenticated , expert.findTagbyname);   
-router.patch('/expert/addSpeciality/:tagId', isAuthenticated , expert.addSpeciality); 
-router.delete('/expert/editSpeciality/:tagId', isAuthenticated , expert.editSpeciality);
+router.get('/expert/getTagById/:tagId', isAuthenticated, expert.findTagbyid);
+router.get('/expert/getTagByName/:tagname', isAuthenticated, expert.findTagbyname);
+router.patch('/expert/addSpeciality/:tagId', isAuthenticated, expert.addSpeciality);
+router.delete('/expert/editSpeciality/:tagId', isAuthenticated, expert.editSpeciality);
 //-------------------------------------------------------------------
 
-router.post('/photo', isAuthenticated , userCtrl.uploadimage);
-router.post('/CoverImgUpload', isAuthenticated , userCtrl.uploadCoverPic);
-router.get('/getphoto', isAuthenticated , userCtrl.getimage);
-router.get('/getusername', isAuthenticated , userCtrl.getusername);
-router.get('/user/getUserData', isAuthenticated , userCtrl.getUserData);
-router.get('/loadStatus', isAuthenticated , userCtrl.loadStatus);
-router.post('/auth/changeUserStatus' , isAuthenticated , userCtrl.changeUserStatus);
-router.get('/user/getUserProfile/:username' , isAuthenticated , userCtrl.getUserProfile);
+router.post('/photo', isAuthenticated, userCtrl.uploadimage);
+router.post('/CoverImgUpload', isAuthenticated, userCtrl.uploadCoverPic);
+router.get('/getphoto', isAuthenticated, userCtrl.getimage);
+router.get('/getusername', isAuthenticated, userCtrl.getusername);
+router.get('/user/getUserData', isAuthenticated, userCtrl.getUserData);
+router.get('/loadStatus', isAuthenticated, userCtrl.loadStatus);
+router.post('/auth/changeUserStatus', isAuthenticated, userCtrl.changeUserStatus);
+router.get('/user/getUserProfile/:username', isAuthenticated, userCtrl.getUserProfile);
 
 //----------------------------------------------------------------------------------------------------
 //router.get('/user/Search/:searchtag', userCtrl.getSearchResultsTagUser);
@@ -107,9 +107,9 @@ router.get('/Notification/getNotifications', isAuthenticated, NotificationContro
 
 
 //-----------------------------User Routes-------------------------
-router.post('/user/updateRating', isAuthenticated , userCtrl.updateRating);
+router.post('/user/updateRating', isAuthenticated, userCtrl.updateRating);
 router.get('/getExpertSchedule/:userId', isAuthenticated, userCtrl.getExpertSchedule);
-router.post('/user/upgradeToexpert', isAuthenticated , userCtrl.upgradeToExpert);
+router.post('/user/upgradeToexpert', isAuthenticated, userCtrl.upgradeToExpert);
 //to get offered slots:
 router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
 //to choose slot
@@ -117,15 +117,15 @@ router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
 router.delete('/user/removeFromBookmarks/:expertId', isAuthenticated, userCtrl.removeFromBookmarks);
-router.get('/user/viewBookmarks', isAuthenticated , userCtrl.viewBookmarks);
-router.post('/user/getUserById', isAuthenticated , userCtrl.findUserbyId);
+router.get('/user/viewBookmarks', isAuthenticated, userCtrl.viewBookmarks);
+router.post('/user/getUserById', isAuthenticated, userCtrl.findUserbyId);
 
 //----------------------------------------------------------------------------------------------------------------
-router.get('/schedule/:expertID' , isAuthenticated , scheduleController.getSlots );
-router.post('/schedule/userReserveSlot' , isAuthenticated , scheduleController.userReserveSlot);
-router.post('/schedule/expertOfferSlot' , isAuthenticated , isExpert , scheduleController.expertOfferSlot);
-router.post('/schedule/expertCancelSlot' , isAuthenticated , isExpert , scheduleController.expertCancelSlot);
-router.post('/schedule/expertAcceptSlot' , isAuthenticated , isExpert , scheduleController.expertAcceptUserInSlot);
+router.get('/schedule/:expertID', isAuthenticated, scheduleController.getSlots);
+router.post('/schedule/userReserveSlot', isAuthenticated, scheduleController.userReserveSlot);
+router.post('/schedule/expertOfferSlot', isAuthenticated, isExpert, scheduleController.expertOfferSlot);
+router.post('/schedule/expertCancelSlot', isAuthenticated, isExpert, scheduleController.expertCancelSlot);
+router.post('/schedule/expertAcceptSlot', isAuthenticated, isExpert, scheduleController.expertAcceptUserInSlot);
 //----------------------------------------------------------------------------------------------------------------
 
 module.exports = router;
