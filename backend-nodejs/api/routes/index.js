@@ -1,13 +1,13 @@
 var express = require('express'),
-  router = express.Router(),
-  jwt = require('jsonwebtoken'),
-  authCtrl = require('../controllers/auth.controller'),
-  userCtrl = require('../controllers/user.controller'),
-  sessionCtrl = require('../controllers/session.controller'),
-  expert = require('../controllers/expert.controller'),
-  AdminController = require('../controllers/admin.controller'),
-  scheduleController = require('../controllers/schedule.controller')
-NotificationController = require('../controllers/notification.Controller');
+router = express.Router(),
+jwt = require('jsonwebtoken'),
+authCtrl = require('../controllers/auth.controller'),
+userCtrl = require('../controllers/user.controller'),
+sessionCtrl = require('../controllers/session.controller'),
+expert = require('../controllers/expert.controller'),
+AdminController = require('../controllers/admin.controller'),
+scheduleController = require('../controllers/schedule.controller')
+NotificationController = require('../controllers/notification.controller');
 
 var isAuthenticated = function (req, res, next) {
   // Check that the request has the JWT in the authorization header
