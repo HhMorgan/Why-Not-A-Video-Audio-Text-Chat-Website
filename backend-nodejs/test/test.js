@@ -8,16 +8,19 @@ var config = require('../api/config/appconfig');
 Encryption = require('../api/utils/encryption');
 var Tags = require('../api/models/Tag.model');
 var Users = require('../api/models/user.model');
+var Requests = require('../api/models/request.model');
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var should = chai.should();
 let User1;
+var confirmationURL = '/api/auth/confirm/';
 chai.use(chaiHttp);
 let v;
 let Tag;
 let Tag1;
 let User;
 let admin;
+let nada;
 let Userblocked;
 let usedForUser;
 let usedForExpert;
@@ -25,7 +28,7 @@ let usedForAdmin;
 let Expert;
 let token;
 let token1;
-let token2;
+let unAuthToken;
 let token3;
 let token4;
 let token5;
@@ -87,7 +90,17 @@ describe('Admin tests: ', () => {
 
     User = new Users({ username: "Jimmy", email: "Mahmoud@gmail.com", password: "9194591945" });
     User.save((err, User) => {
-    
+      unAuthToken = jwt.sign(
+        {
+          user : null
+        },
+        config.SECRET,
+        {
+          expiresIn: '12h'
+        }
+      );
+  
+      
     });
     User.role = 'expert';
     User.blocked = true;
@@ -97,6 +110,11 @@ describe('Admin tests: ', () => {
     });
     Userblocked.blocked = false;
 
+    nada = new Users ({
+      email : "nadahammouda97@gmail.com",
+      password : "123",
+      username : "nada",
+     });
 
     usedForUser = new Users({ username: "1", email: "1@gmail.com", password: "9194591945", role: "expert" });
     usedForUser.save((err, User) => {
@@ -426,7 +444,34 @@ describe('Auth tests: ', () => {
       });
   });
 
-});
+  // describe('/POST user', () => {
+  //   it('it should signup a user and create a confirmation token' , (done) => {
+      
+  //      chai.request(app).post('/api/auth/signup')
+  //      .send(nada).end((err, res) => {
+  //       res.should.have.status(201);
+  //       res.body.should.be.a('object');
+  //       res.body.should.have.property('msg').eql('Registration successful, you can now login to your account.' );
+  //       res.body.data.should.have.property('email');
+  //       res.body.data.should.have.property('username');
+  //       res.body.data.should.have.property('verificationToken');
+  //       confirmationURL += res.body.data.email +'/'+ res.body.data.verificationToken;
+  //       done();
+  //       });
+  //   });
+  // });
+  
+
+  //   it('it should confirm email of user' , (done) => {
+  //      chai.request(app).get(confirmationURL)
+  //      .end((err, res) => {
+  //       res.should.have.status(200);
+  //       res.body.should.have.property('msg').include('has been verified' );
+  //       done();
+  //       });
+  //   });
+  });
+
 
 describe('User tests: ', () => {
   before ( function(done) {
@@ -563,6 +608,38 @@ it('it should not add speciality  /api/expert/addSpeciality/:tagId' , (done) => 
       done();    
 });
 });
+
+it('it should edit speciality  /api/expert/editSpeciality/:tagId' , (done) => {
+  
+ 
+  chai.request(app).delete('/api//expert/editSpeciality/'+  Tag1.id)
+  .set('authorization', token)
+  .end((err, res) => {
+   res.should.have.status(201);
+   res.body.should.have.property('msg');
+   res.body.msg.should.be.eql('Speciality removed');
+  // res.body.data.id.should.be.eql(Tag1.id);
+   
+   
+      done();    
+});
+});
+it('it should not edit speciality  /api/expert/editSpeciality/:tagId' , (done) => {
+  
+ 
+  chai.request(app).delete('/api//expert/editSpeciality/'+  Tag.id)
+  .set('authorization', token)
+  .end((err, res) => {
+   res.should.have.status(404);
+   res.body.should.have.property('msg');
+   res.body.msg.should.be.eql('Speciality could not be removed u are not an expert or a user');
+   
+   
+      done();    
+});
+});
+
+
 it('it should not load user status  /api//loadStatus' , (done) => {
    
   chai.request(app).get('/api/loadStatus').set('authorization', 0).end((err, res) => {
@@ -710,6 +787,8 @@ after(function (done) {
   });
   Users.remove({}, (err) => {
   });
+  Requests.remove({}, (err) => {
+});
   // mockgoose.helper.reset().then(() => {
   // });
 

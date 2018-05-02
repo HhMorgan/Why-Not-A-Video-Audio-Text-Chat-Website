@@ -39,4 +39,4 @@ var requestSchema = mongoose.Schema( {
   
 },{ collection: 'Requests' } );
 
-mongoose.model('Request', requestSchema);
+module.exports = mongoose.model('Request', requestSchema);

@@ -143,7 +143,7 @@ module.exports.confirmEmail = function (req, res, next) {
       if (err)
         throw err;
       if (!user) {
-        return res.status(209).json({
+        return res.status(404).json({
           err: null,
           msg: 'Failed to verify your email.',
           data: null
