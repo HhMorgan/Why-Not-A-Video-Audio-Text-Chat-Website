@@ -290,7 +290,7 @@ module.exports.ChangeRole = function (req, res, next) {
 }
 
 module.exports.getUsers = function (req, res, next) {
-  User.find({}, { _id: 1, username: 1, email: 1, role: 1, blocked: 1 }).exec(function (err, user) {
+  User.find({}, { _id: 1, username: 1, email: 1, role: 1, blocked: 1  , rating : 1}).exec(function (err, user) {
     if (err) {
       return next(err);
     }
@@ -305,7 +305,7 @@ module.exports.getUsers = function (req, res, next) {
 // --------------------------/getting requests from user to be Expert and admin shows it/--------------------------------------------
 
 module.exports.getRequestsFromUsersToBeExpert = function(req, res, next) {
-  Requests.find({type : 'upgradeToExpert' , recipient : 'admin'} , {sender:1 ,recipient : 1, status : 1 , type : 1 }).exec(function(err,request) {
+  Requests.find({type : 'upgradeToExpert' , recipient : 'admin'} , {sender:1 ,recipient : 1, status : 1 , type : 1  }).exec(function(err,request) {
     console.log('here');
     if (err){
       return next(err);

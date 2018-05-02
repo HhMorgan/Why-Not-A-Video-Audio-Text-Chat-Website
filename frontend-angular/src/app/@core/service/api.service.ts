@@ -70,7 +70,7 @@ export class APIService {
 
   getTagbyName(tag: Tag): Observable<APIData> {
     //   console.log(tname);
-    return this.http.post<APIData>(APIService.apiUrl + 'expert/getTagByName', tag)
+    return this.http.get<APIData>(APIService.apiUrl + 'expert/getTagByName/' + tag.name)
       .catch(this.errorHandler);
   }
 

@@ -97,6 +97,7 @@ export class ProfileComponent implements OnInit {
       this.user.username = params['username'];
       this.apiServ.getUserProfile(this.user).subscribe((apires: APIData) => { //this method gets all the info of current profile 
         var specialities = <Tag[]>apires.data.speciality; //getting the speciality array of the user
+        this.usernameOfProfile = apires.data.username; //getting the username of showed profile
         this.BookmarkedUsers = new Array();
         var i, j, l = 0, Tags_names_length;
         var specsElem = document.getElementById("specs"); //specs div
@@ -178,8 +179,6 @@ export class ProfileComponent implements OnInit {
           document.getElementById("tagsdiv").appendChild(TagsContainer);
           document.getElementById("tagsdiv").appendChild(document.createTextNode(' '));           // Append <p> to <div> with id="myDIV"
         }
-
-        this.usernameOfProfile = apires.data.username; //getting the username of showed profile
         this.usernameOfProfileRole = apires.data.role;//getting the role of the showed profile
         this.description = apires.data.description; //getting the desc. of showed profile
         SharedFunctions.loadImageBy('profileimg' , apires.data.img , false );
