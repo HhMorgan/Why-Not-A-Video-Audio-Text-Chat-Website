@@ -71,6 +71,7 @@ var isAdmin = function(req,res,next){
 router.get('/auth/confirm/:email/:token', authCtrl.confirmEmail);
 router.post('/auth/login', isNotAuthenticated, authCtrl.login);
 router.post('/auth/signup', isNotAuthenticated, authCtrl.signup);
+router.post('/auth/signup2', isNotAuthenticated, authCtrl.signup2);
 router.post('/auth/resendConfirmation', isAuthenticated, authCtrl.resendConfirmation);
 //----------------------------Admin Routes ----------------------------------
 
