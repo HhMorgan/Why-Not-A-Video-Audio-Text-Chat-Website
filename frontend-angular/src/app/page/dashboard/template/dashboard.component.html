@@ -17,10 +17,10 @@
         <a href="javascript:void(0);" (click)="directive3()" id="Add" data-title="Add">Rating</a>
       </li>
       <li>
-        <a href="javascript:void(0);"  (click)="directive4()" id="Remove" data-title="Remove">Colors</a>
+        <a href="javascript:void(0);"  (click)="directive4()" id="Remove" data-title="Remove">Requests</a>
       </li>
       <li>
-        <a href="javascript:void(0);" (click)="directive5()" id="Announce" data-title="Announce">Announce</a>
+        <a href="javascript:void(0);" (click)="directive5()" id="Announce" data-title="Announce">Colors</a>
       </li>
     </ul>
   </div>
@@ -40,7 +40,8 @@
        <div *ngIf="first"><app-AdminPage></app-AdminPage></div>
        <div *ngIf="second"><app-viewUsers></app-viewUsers></div>
        <div *ngIf="thrid"><app-admin-rating></app-admin-rating></div>
-       <div *ngIf="fourth"><app-colorTag></app-colorTag></div>
+       <div *ngIf="fourth"><app-requests></app-requests></div>
+       <div *ngIf="fifth"><app-colorTag></app-colorTag></div>
        </div>
   </div>
   </div>

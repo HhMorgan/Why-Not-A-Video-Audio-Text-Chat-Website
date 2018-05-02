@@ -197,7 +197,7 @@ module.exports.viewScheduledSlots = function (req, res, next) {
 
 module.exports.findTagbyname = function (req, res, next) {
 
-  Tag.findOne({ name: req.body.name  }).exec(function (err, tag) {
+  Tag.findOne({ name: req.params.tagname  }).exec(function (err, tag) {
     if (err) {
       return next(err);
     }
@@ -220,7 +220,7 @@ module.exports.findTagbyname = function (req, res, next) {
 };
 
 module.exports.findTagbyid = function (req, res, next) {
-  Tag.find({ _id: req.body, blocked: { $eq: false } }).exec(function (err, tag) {
+  Tag.findOne({ _id: req.params.tagId, blocked: { $eq: false } }).exec(function (err, tag) {
     if (err) {
       return next(err);
     }

@@ -74,14 +74,15 @@ router.get('/getUsers',isAuthenticated, AdminController.getUsers);
 router.post('/CreateAColor' , AdminController.AddColor);
 router.post('/addColorToTag' , AdminController.AddColorToTag); 
 router.get('/getColors' , AdminController.getColors);  
+router.get('/User/getUserRequestToBeExpert',AdminController.getRequestsFromUsersToBeExpert);
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);
 router.post('/auth/updateDescription', isAuthenticated , userCtrl.updateDescription);
 
 //-----------------------------User Role Expert Routes-------------------------
-router.post('/expert/getTagById' , isAuthenticated , expert.findTagbyid);
-router.post('/expert/getTagByName', isAuthenticated , expert.findTagbyname);   
+router.get('/expert/getTagById/:tagId' , isAuthenticated , expert.findTagbyid);
+router.get('/expert/getTagByName/:tagname', isAuthenticated , expert.findTagbyname);   
 router.patch('/expert/addSpeciality/:tagId', isAuthenticated , expert.addSpeciality); 
 router.delete('/expert/editSpeciality/:tagId', isAuthenticated , expert.editSpeciality);
 //-------------------------------------------------------------------

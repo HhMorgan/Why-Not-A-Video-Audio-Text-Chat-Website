@@ -82,7 +82,7 @@
         </ng-template>
       </ngb-tab>
 
-      <ngb-tab title="Add Tags/Speciality">
+      <ngb-tab *ngIf="isExpert()" title="Add Tags/Speciality">
         <ng-template ngbTabContent>
          <div style="width:30%;left:35%;" class="input-group">
           <input style="width:30%;" id="inputsearch" type="text" class="form-control" placeholder="Search by Tag" aria-describedby="basic-addon1">
@@ -94,7 +94,7 @@
 
       <ngb-tab>
         <ng-template ngbTabTitle>
-          <i *ngIf="isExpert()" (click)=closeSetting() class="fa fa-times" onSubmit="return false" style="font-size:24px"></i>
+          <i  (click)=closeSetting() class="fa fa-times" onSubmit="return false" style="font-size:24px"></i>
         </ng-template>
       </ngb-tab>
 

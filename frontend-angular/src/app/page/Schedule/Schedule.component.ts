@@ -6,7 +6,7 @@ import { error } from "util";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-schedule',
   templateUrl: './template/Schedule.component.html',
   styleUrls: ['./template/Schedule.component.scss']
 })
@@ -259,7 +259,8 @@ export class ScheduleComponent implements OnInit {
     }, (err) => {
       console.log(err);
     });
-    console.log(this.schedule[day].indexOf(slot))
+    console.log(this.schedule[day].indexOf(slot));
+    this.popoutUserConfirmation = false;
   }
   //users
   Offer(day, slot) {

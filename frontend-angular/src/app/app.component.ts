@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Renderer, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, Renderer, ElementRef, ViewChild, HostListener  } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
@@ -17,7 +17,9 @@ import { AppRoutingModule } from './app.routing';
 })
 export class AppComponent {
   title = 'app';
-  
+  key;
+  keyArray=[];
+  keyArrayAnswer=['w','w','s','s','a','d','a','d','Enter'];
   private _router: Subscription;
   @ViewChild(NavbarComponent) navbar: NavbarComponent;
   
@@ -84,4 +86,35 @@ export class AppComponent {
           return true;
       }
   }
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) { 
+    var titlee = this.location.prepareExternalUrl(this.location.path());
+    titlee = titlee.slice( 7 ).split("/",1)[0];
+   // console.log(titlee);
+    if(!(titlee === 'signup' ||  titlee=='login' || titlee==='session')) {
+    this.key = event.key;
+    
+    //console.log(this.key);
+    this.keyArray.push(event.key);
+    if(this.keyArray.length==9){
+        var flag=true;
+        for(let i=0;i<9;i++){
+            if(this.keyArray[i]!=this.keyArrayAnswer[i]){
+                flag=false;
+                break;
+            }
+        }
+        if(flag){
+           // console.log(flag);
+            this.router.navigate(['page/about']);
+        }
+        else{
+            this.keyArray.splice(0,1);
+        }
+        
+        
+    }
+    //console.log(this.keyArray);
+  }
+}
 }

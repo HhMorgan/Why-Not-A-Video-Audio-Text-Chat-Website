@@ -40,7 +40,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capture.module'
 import { RatingComponent } from './rating/rating.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
-import { SessionChatMobileComponent } from './sessionChatMobile/session.component';
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
 import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
 import { ScheduleComponent } from './Schedule/Schedule.component';
@@ -50,7 +49,12 @@ import { SearchComponent } from '../page/search/search.component';
 import { NotificationListComponent } from '../page/notification-list/notification.list.component';
 import { SnackbarCompComponent } from './components/snackbar-comp/snackbar-comp.component';
 import { ColorTagComponent } from './colorTag/colorTag.component';
+import { ErrComponent } from './err/err.component';
+import { ErrTestComponent } from './errTest/errTest.component';
+import { Schedule2Component } from './schedule2/schedule2.component';
 import { ConfirmMailComponent } from './auth/confirm-mail/confirm-mail.component';
+import { RequestsComponent } from './requests/requests.component';
+
 
 @NgModule({
   imports: [
@@ -90,7 +94,6 @@ import { ConfirmMailComponent } from './auth/confirm-mail/confirm-mail.component
     viewScheduleComponent,
     upgradeToExpertComponent,
     AdminPageUserComponent,
-    SessionChatMobileComponent,
     AdminRatingComponent,
     SettingsPageComponent,
     ScheduleComponent,
@@ -99,7 +102,11 @@ import { ConfirmMailComponent } from './auth/confirm-mail/confirm-mail.component
     NotificationListComponent,
     SnackbarCompComponent,
     ColorTagComponent,
+    ErrComponent,
+    ErrTestComponent,
+    Schedule2Component,
     ConfirmMailComponent,
+    RequestsComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

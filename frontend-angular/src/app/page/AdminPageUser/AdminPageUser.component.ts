@@ -48,11 +48,11 @@ export class AdminPageUserComponent implements OnInit {
       } ,
       {
         name:'upgradeToAdmin', 
-        title: `<i class="fa fa-chevron-circle-down"></i>` ,
+        title: `<i class="fa fa-arrow-circle-up"></i>` ,
         
       } ,
        {name:'downgrade', 
-       title: `<i class="fa fa-chevron-circle-down"></i>`}]
+       title: `<i class="fa fa-arrows-v"></i>`}]
       
       },
       
@@ -62,7 +62,7 @@ export class AdminPageUserComponent implements OnInit {
         type: 'string',
         editable: false,
         addable: false,
-        
+
       },
       role: {
         title: 'Role',
@@ -85,20 +85,20 @@ export class AdminPageUserComponent implements OnInit {
   config: ToasterConfig;
 
   constructor(private _apiService: APIService) {
-    
+
   }
 refresh(): void {
   this._apiService.getUsers().subscribe((apiresponse: APIData)=>{
-    
+
     for (var i = 0 ; i < apiresponse.data.length ; i++ )
-      
+
       console.log(apiresponse.data);
     this.source.load(apiresponse.data);
   });
 }
 
 public onCustom(event):void{
-  
+
   if(event.action == 'block'){
     this.OnBlockAndUnblock(event)
   }else if(event.action == 'upgradeToAdmin'){
@@ -157,7 +157,12 @@ upgradeToAdmin(event):void{
       this.refresh();
     });
     }
-  
+
 }
+
+
+// ------------------------------- loading the requests -----------------------------------
+
+
 
 

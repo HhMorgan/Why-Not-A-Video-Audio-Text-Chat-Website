@@ -3,16 +3,26 @@
 <div class="wrapper">
     <div class="page-header section-dark" style="background-image: url('assets/img/daniel-stanimi.jpg')">
         <div class="filter"></div>
-        <div class="content-center">
-            <div class="container">
+        <div class="content-center componentWidth">
 
-     
-  <div class = 'tagTable'>     
-       <ng2-smart-table [settings]="settings" [source]="source">
-        </ng2-smart-table>
-      </div>
-  
-  </div>
-</div>
-</div>
+
+            <div>
+                <div class="scrollBoxUsers" id="windowScroll">
+                    <div *ngFor="let notification of notificationsArray">
+                        <div class="container darker">
+                            <img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="Avatar" style="width:100%;">
+                            <div class="messagePosition">
+                                <p>「{{notification.sender}}」 {{notification.message}}</p>
+                            </div>
+
+                            <span class="time-right">{{notification.createdAt}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
 </div>
