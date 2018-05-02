@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
   Tags = mongoose.model('Tag');
 User = mongoose.model('User');
 Color = mongoose.model('Color');
+Requests = mongoose.model('Request');
 
 
 module.exports.getColors = function (req, res, next) {
@@ -301,3 +302,18 @@ module.exports.getUsers = function (req, res, next) {
   });
 };
 
+// --------------------------/getting requests from user to be Expert and admin shows it/--------------------------------------------
+
+module.exports.getRequestsFromUsersToBeExpert = function(req, res, next) {
+  Requests.find({type : 'upgradeToExpert' , recipient : 'admin'} , {sender:1 ,recipient : 1, status : 1 , type : 1 }).exec(function(err,request) {
+    console.log('here');
+    if (err){
+      return next(err);
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'requests retrieved successfully',
+      data: request
+    });
+  });
+};

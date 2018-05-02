@@ -74,6 +74,7 @@ router.get('/getUsers',isAuthenticated, AdminController.getUsers);
 router.post('/CreateAColor' , AdminController.AddColor);
 router.post('/addColorToTag' , AdminController.AddColorToTag); 
 router.get('/getColors' , AdminController.getColors);  
+router.get('/User/getUserRequestToBeExpert',AdminController.getRequestsFromUsersToBeExpert);
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated , userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated , userCtrl.updatePassword);

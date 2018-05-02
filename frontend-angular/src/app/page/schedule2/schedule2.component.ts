@@ -6,7 +6,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 @Component({
-    selector: 'app-login',
+    selector: 'app-schedule2',
     templateUrl: './schedule2.component.html',
     styleUrls: ['./schedule2.component.scss']
   })

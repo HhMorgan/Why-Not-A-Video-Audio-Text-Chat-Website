@@ -243,6 +243,12 @@ export class APIService {
     return this.http.post<APIData>(APIService.apiUrl + '/user/getUserById', Users_ids)
       .catch(this.errorHandler);
   }
+//-----------------------------------/getRequestsFromUsersToBeExpert api request/--------------------------
+
+  getRequestsFromUsersToBeExpert(): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'User/getUserRequestToBeExpert').catch(this.errorHandler);
+  }
+
 
   confirmEmail( email : string , token : string ): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'auth/confirm/'+ email + '/' + token ).catch(this.errorHandler);

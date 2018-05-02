@@ -6,7 +6,7 @@ import { error } from "util";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-schedule',
   templateUrl: './template/Schedule.component.html',
   styleUrls: ['./template/Schedule.component.scss']
 })

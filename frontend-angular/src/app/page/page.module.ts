@@ -53,6 +53,8 @@ import { ErrComponent } from './err/err.component';
 import { ErrTestComponent } from './errTest/errTest.component';
 import { Schedule2Component } from './schedule2/schedule2.component';
 import { ConfirmMailComponent } from './auth/confirm-mail/confirm-mail.component';
+import { RequestsComponent } from './requests/requests.component';
+
 
 @NgModule({
   imports: [
@@ -104,6 +106,7 @@ import { ConfirmMailComponent } from './auth/confirm-mail/confirm-mail.component
     ErrTestComponent,
     Schedule2Component,
     ConfirmMailComponent,
+    RequestsComponent,
   ],
   entryComponents: [NgbdModalContent]
 })
