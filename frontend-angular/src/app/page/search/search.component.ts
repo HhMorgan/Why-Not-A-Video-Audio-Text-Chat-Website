@@ -234,6 +234,12 @@ export class SearchComponent implements OnInit {
   }
   
   RequestTag() {
-    
+    var tag_Request = <Tag>{};
+    tag_Request.name = (document.getElementById("RequestingTag") as HTMLInputElement).value;
+    tag_Request.status = 'Pending';
+    tag_Request.blocked = false;
+    this.apiServ.AddTag(tag_Request).subscribe((apiresponse: APIData) => {
+      this.NavBarService.triggernotifcations("#34A853", "Your request was sent sucessfully");
+    });
   }
 }
