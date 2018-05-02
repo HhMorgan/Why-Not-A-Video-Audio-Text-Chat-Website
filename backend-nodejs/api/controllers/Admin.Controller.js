@@ -27,7 +27,7 @@ Tags.create(req.body, function(err, Tags) {
   res.status(201).json({
     err: null,
     msg: 'Tag was added Sucessfully.',
-    data: null //Tags
+    data: Tags
   });
 });
 };
@@ -75,7 +75,7 @@ module.exports.editTag = function(req, res, next) {
     res.status(200).json({
       err: null,
       msg: 'Tag was updated successfully.',
-      data: null//updatedTag
+      data: updatedTag
     });
   });
 };
@@ -119,7 +119,7 @@ module.exports.deleteTags = function(req, res, next) {
     res.status(200).json({
       err: null,
       msg: 'Tag was deleted successfully.',
-      data: null//deletedTags
+      data: deletedTags
     });
   });
 };
@@ -151,7 +151,7 @@ module.exports.blockUser = function(req, res, next) {
     res.status(200).json({
       err: null,
       msg: 'User was blocked successfully.',
-      data: null//blockeduser
+      data: { email : blockeduser.email , username : blockeduser.username , blocked : blockeduser.blocked }
     });
   });
 };
