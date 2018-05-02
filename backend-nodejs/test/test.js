@@ -573,7 +573,7 @@ describe('User tests: ', () => {
     chai.request(app).get('/api/loadStatus').set('authorization', token).end((err, res) => {
      res.should.have.status(201);
      res.body.should.have.property('msg');
-     res.body.msg.should.be.eql('i.');
+     res.body.msg.should.be.eql('user status loaded successfully.');
      res.body.data.should.be.eql(true);
      
         done();    

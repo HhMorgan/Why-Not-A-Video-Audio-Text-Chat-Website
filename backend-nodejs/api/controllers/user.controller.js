@@ -126,7 +126,7 @@ module.exports.loadStatus = function (req, res) {
     }
     res.status(201).json({
       err: null,
-      msg: 'i.',
+      msg: 'user status loaded successfully.',
       data: User.onlineStatus
     });
     //res.end();
