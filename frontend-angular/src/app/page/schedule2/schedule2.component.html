@@ -1,0 +1,20 @@
+<div class="wrapper">
+    <div class="topClass">
+        <form class="scheduleAccept-form">
+            <label>Expert Email</label>
+            <input type="email" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}" />
+            <label>Session id</label>
+            <input type="text" class="form-control" [(ngModel)]="password" placeholder="id" [ngModelOptions]="{standalone: true}"/>
+            <button class="btn btn-success btn-block">Request</button>
+            <!-- (click)="loginClick()" -->
+        </form>
+        <form class="scheduleReject-form">
+                <label>User Email</label>
+                <input type="email" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}" />
+                <label>Date</label>
+                <input type="text" class="form-control" [(ngModel)]="password" placeholder="date" [ngModelOptions]="{standalone: true}"/>
+                <button class="btn btn-danger btn-block">Reject</button>
+                <!-- (click)="loginClick()" -->
+            </form>
+    </div>
+</div>
