@@ -19,7 +19,7 @@ export class Schedule2Component implements OnInit {
     });
 
     apiservice.getViewRequestedSlotsSchdeuleV2().subscribe((apiresponse: APIData) => {
-      this.slots.push({accepted:apiresponse.data.usersAccepted,requested:apiresponse.data.usersRequested});
+      // this.slots.push({accepted:apiresponse.data.slots.usersAccepted,requested:apiresponse.data.slots.usersRequested});
     });
 
   }

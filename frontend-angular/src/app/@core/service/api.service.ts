@@ -254,7 +254,7 @@ export class APIService {
 
 
   createScheduleV2( date : String) :Observable<APIData> {
-    return this.http.post<APIData>( APIService.apiUrl + 'expert/createSchedule', {date : date} ).catch(this.errorHandler);
+    return this.http.post<APIData>( APIService.apiUrl + 'expert/createSchedule', { Date : date} ).catch(this.errorHandler);
   }
 
   getScheduleV2():Observable<APIData>{
@@ -266,17 +266,17 @@ export class APIService {
   }
 
   expertAcceptRequestScheduleV2(username : String , date : String ):Observable<APIData>{
-    return this.http.post<APIData> ( APIService.apiUrl + '/expert/acceptRequest' , { username : username , date :date })
+    return this.http.post<APIData> ( APIService.apiUrl + '/expert/acceptRequest' , { username : username , Date :date })
     .catch(this.errorHandler);
   }
 
   expertRejectRequestScheduleV2(username : String , date : String ):Observable<APIData>{
-    return this.http.post<APIData> ( APIService.apiUrl + '/expert/rejectRequest' , { username : username , date :date })
+    return this.http.post<APIData> ( APIService.apiUrl + '/expert/rejectRequest' , { username : username , Date :date })
     .catch(this.errorHandler);
   }
 
   expertRejectAllRequestScheduleV2( date : String ):Observable<APIData>{
-    return this.http.post<APIData> ( APIService.apiUrl + '/expert/rejectallRequest' , { date :date })
+    return this.http.post<APIData> ( APIService.apiUrl + '/expert/rejectallRequest' , { Date :date })
     .catch(this.errorHandler);
   }
 
