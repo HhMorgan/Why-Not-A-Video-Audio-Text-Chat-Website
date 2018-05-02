@@ -17,12 +17,20 @@ let v;
 let Tag;
 let Tag1;
 let User;
+let admin;
 let Userblocked;
 let usedForUser;
 let usedForExpert;
 let usedForAdmin;
 let Expert;
 let token;
+let token1;
+let token2;
+let token3;
+let token4;
+let token5;
+
+
 
 let salmaTag,salmaExpert;
 
@@ -63,14 +71,29 @@ describe('Admin tests: ', () => {
     Tag1.save((err, Tag1) => {
     });
     
+    admin = new Users({ username: "admin", email: "admin@gmail.com", password: "admin",role:'admin' });
+    admin.save((err, User) => {
+      token1 = jwt.sign(
+        {
+          user : admin
+        },
+        config.SECRET,
+        {
+          expiresIn: '12h'
+        }
+      );
+  
+    });
+
     User = new Users({ username: "Jimmy", email: "Mahmoud@gmail.com", password: "9194591945" });
     User.save((err, User) => {
+    
     });
     User.role = 'expert';
     User.blocked = true;
 
     Userblocked = new Users({ username: "Jimmy2", email: "Mahmoud2@gmail.com", password: "9194591945", blocked: true });
-    Userblocked.save((err, User) => {
+    Userblocked.save((err, User) => {      
     });
     Userblocked.blocked = false;
 
@@ -123,7 +146,8 @@ describe('Admin tests: ', () => {
 
       chai.request(app)
         .get('/api/Tags/getTags')
-        .end((err, res) => {
+        .set('authorization', token1)
+            .end((err, res) => {
           res.should.have.status(200);
           //.body.data is used because we return the result of our api request in the data
           // structure we made where it returns err,msg and data where data in this case is
@@ -144,7 +168,9 @@ describe('Admin tests: ', () => {
   // });
   it('it should UPDATE a Tag given the id on /api//Tag/editTags/ PATCH', (done) => {
     chai.request(app).patch('/api/Tag/editTags/' + Tag.id)
-      .send({ name: "ana", status: "Pending", blocked: false, }).end((err, res) => {
+      .send({ name: "ana", status: "Pending", blocked: false, })
+      .set('authorization', token1)
+    .end((err, res) => {
         res.should.have.status(200);
         res.body.data.should.have.property('name');
         res.body.data.should.have.property('status');
@@ -160,7 +186,9 @@ describe('Admin tests: ', () => {
 
   it('it should not UPDATE a Tag given the id on /api//Tag/editTags/ PATCH', (done) => {
     chai.request(app).patch('/api/Tag/editTags/1'  )
-      .send({ name: "ana", status: "Pending", blocked: false, }).end((err, res) => {
+      .send({ name: "ana", status: "Pending", blocked: false, })
+      .set('authorization', token1)
+      .end((err, res) => {
         res.should.have.status(422);
         done();
       });
@@ -168,7 +196,9 @@ describe('Admin tests: ', () => {
 
   it('it should add a Tag POST /api/Tags/AddTag', (done) => {
     chai.request(app).post('/api/Tags/AddTag')
-      .send({ name: "Mohamed", status: "Accepted", blocked: false, }).end((err, res) => {
+      .send({ name: "Mohamed", status: "Accepted", blocked: false, })
+      .set('authorization', token1)
+      .end((err, res) => {
         res.should.have.status(201);
         res.body.data.should.have.property('name');
         res.body.data.should.have.property('status');
@@ -184,21 +214,27 @@ describe('Admin tests: ', () => {
 
   it('it should not add a Tag POST /api/Tags/AddTag', (done) => {
         chai.request(app).post('/api/Tags/AddTag')
-          .send({  status: "Accepted", blocked: false, }).end((err, res) => {
+          .send({  status: "Accepted", blocked: false, })
+          .set('authorization', token1)
+          .end((err, res) => {
             res.should.have.status(422);
             done();
           });
       });
 
   it('it should delete a Tag DELETE /api//Tags/deleteTags/', (done) => {
-    chai.request(app).delete('/api/Tags/deleteTags/' + Tag.id).end((err, res) => {
+    chai.request(app).delete('/api/Tags/deleteTags/' + Tag.id)
+    .set('authorization', token1)
+    .end((err, res) => {
       res.should.have.status(200);
       done();
     });
   });
 
   it('it should not delete a Tag DELETE /api//Tags/deleteTags/', (done) => {
-        chai.request(app).delete('/api/Tags/deleteTags/1').end((err, res) => {
+        chai.request(app).delete('/api/Tags/deleteTags/1')
+        .set('authorization', token1)
+        .end((err, res) => {
           res.should.have.status(422);
           done();
         });
@@ -207,6 +243,7 @@ describe('Admin tests: ', () => {
   it('it should GET all the Users with their ratings', (done) => {
     chai.request(app)
       .get('/api//User/getUsers')
+      .set('authorization', token1)
       .end((err, res) => {
         res.should.have.status(200);
         //.body.data is used because we return the result of our api request in the data
@@ -226,6 +263,7 @@ describe('Admin tests: ', () => {
 
   it('it should Block a User given the User_id on /User/BlockAndUnblock/ PATCH', (done) => {
     chai.request(app).patch('/api/User/BlockAndUnblock/' + User.id)
+    .set('authorization', token1)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.data.should.have.property('username');
@@ -243,6 +281,7 @@ describe('Admin tests: ', () => {
   
   it('it should not Block a User given the User_id on /User/BlockAndUnblock/ PATCH', (done) => {
     chai.request(app).patch('/api/User/BlockAndUnblock/1' )
+    .set('authorization', token1)
       .end((err, res) => {
         res.should.have.status(422);
         done();
@@ -250,7 +289,8 @@ describe('Admin tests: ', () => {
   });
 
   it('it should UnBlock a User given the User_id on /User/BlockAndUnblock/ PATCH', (done) => {
-    chai.request(app).patch('/api/User/BlockAndUnblock/' + Userblocked.id)
+    chai.request(app).patch('/api/User/BlockAndUnblock/' + Userblocked._id)
+    .set('authorization', token1)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.data.should.have.property('username');
@@ -267,7 +307,8 @@ describe('Admin tests: ', () => {
 
   it('it should not UnBlock a User given the User_id on /User/BlockAndUnblock/ PATCH', (done) => {
         chai.request(app).patch('/api/User/BlockAndUnblock/1' )
-          .end((err, res) => {
+        .set('authorization', token1)  
+        .end((err, res) => {
             res.should.have.status(422);
             done();
           });
@@ -275,6 +316,7 @@ describe('Admin tests: ', () => {
 
   it('it should change the role of the given user to an expert /api/User/ChangeRole/ PATCH', (done) => {
     chai.request(app).patch('/api/User/ChangeRole/' + usedForExpert.id)
+    .set('authorization', token1)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('expert');
@@ -284,6 +326,7 @@ describe('Admin tests: ', () => {
 
   it('it should not change the role of the given user to an expert /api/User/ChangeRole/ PATCH', (done) => {
         chai.request(app).patch('/api/User/ChangeRole/1' )
+        .set('authorization', token1)
           .end((err, res) => {
             res.should.have.status(422);
             done();
@@ -292,7 +335,8 @@ describe('Admin tests: ', () => {
 
   it('it should change the role of the given user to an admin /api/User/ChangeRole/ PATCH', (done) => {
     chai.request(app).patch('/api/User/ChangeRole/' + usedForAdmin.id)
-      .end((err, res) => {
+    .set('authorization', token1)  
+    .end((err, res) => {
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('admin');
         done();
@@ -301,7 +345,8 @@ describe('Admin tests: ', () => {
 
   it('it should not change the role of the given user to an admin /api/User/ChangeRole/ PATCH', (done) => {
         chai.request(app).patch('/api/User/ChangeRole/1' )
-          .end((err, res) => {
+        .set('authorization', token1)
+        .end((err, res) => {
             res.should.have.status(422);
             done();
           });
@@ -309,7 +354,8 @@ describe('Admin tests: ', () => {
 
   it('it should change the role of the given user to a user /api/User/ChangeRole/ PATCH', (done) => {
     chai.request(app).patch('/api/User/ChangeRole/' + usedForUser.id)
-      .end((err, res) => {
+    .set('authorization', token1)  
+    .end((err, res) => {
         res.should.have.status(200);
         res.body.data.should.have.property('role').eql('user');
         done();
@@ -318,6 +364,7 @@ describe('Admin tests: ', () => {
 
   it('it should not change the role of the given user to a user /api/User/ChangeRole/ PATCH', (done) => {
         chai.request(app).patch('/api/User/ChangeRole/1' )
+        .set('authorization', token1)
           .end((err, res) => {
             res.should.have.status(422);
             done();
