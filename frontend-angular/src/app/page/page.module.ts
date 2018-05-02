@@ -42,7 +42,7 @@ import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component'
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
 import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
 import { ScheduleComponent } from './schedule/schedule.component';
-import { WeekModule } from './Schedule/week.module';
+import { WeekModule } from './schedule/week.module';
 import { AboutComponent } from './about/about.component';
 import { SearchComponent } from '../page/search/search.component';
 import { NotificationListComponent } from '../page/notification-list/notification.list.component';
