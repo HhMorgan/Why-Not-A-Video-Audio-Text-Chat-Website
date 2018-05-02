@@ -9,8 +9,8 @@ import { APIData , Tag , Session , Request , CandicateSession , Profile , User ,
 
 @Injectable()
 export class APIService {
-  public static apiUrl = 'https://whatwhynot.net/api/';
-  // public static apiUrl = 'http://127.0.0.1:3000/api/';
+  // public static apiUrl = 'https://whatwhynot.net/api/';
+  public static apiUrl = 'http://127.0.0.1:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup'];
   constructor( private jwtHelper: JwtHelper , private http: HttpClient) { }
 
@@ -248,8 +248,41 @@ export class APIService {
     return this.http.get<APIData>(APIService.apiUrl + 'User/getUserRequestToBeExpert').catch(this.errorHandler);
   }
 
-
   confirmEmail( email : string , token : string ): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'auth/confirm/'+ email + '/' + token ).catch(this.errorHandler);
   }
+
+
+  createScheduleV2( date : String) :Observable<APIData> {
+    return this.http.post<APIData>( APIService.apiUrl + 'expert/createSchedule', {date : date} ).catch(this.errorHandler);
+  }
+
+  getScheduleV2():Observable<APIData>{
+    return this.http.get<APIData> ( APIService.apiUrl + '/expert/viewSchedule').catch(this.errorHandler);
+  }
+
+  getViewRequestedSlotsSchdeuleV2():Observable<APIData>{
+    return this.http.get<APIData> ( APIService.apiUrl + '/expert/viewRequestedSlots').catch(this.errorHandler);
+  }
+
+  expertAcceptRequestScheduleV2(username : String , date : String ):Observable<APIData>{
+    return this.http.post<APIData> ( APIService.apiUrl + '/expert/acceptRequest' , { username : username , date :date })
+    .catch(this.errorHandler);
+  }
+
+  expertRejectRequestScheduleV2(username : String , date : String ):Observable<APIData>{
+    return this.http.post<APIData> ( APIService.apiUrl + '/expert/rejectRequest' , { username : username , date :date })
+    .catch(this.errorHandler);
+  }
+
+  expertRejectAllRequestScheduleV2( date : String ):Observable<APIData>{
+    return this.http.post<APIData> ( APIService.apiUrl + '/expert/rejectallRequest' , { date :date })
+    .catch(this.errorHandler);
+  }
+
+  userReserveScheduleV2( expertemail : String , sessionid : String ) : Observable<APIData> {
+    return this.http.post<APIData> ( APIService.apiUrl + '/user/chooseSlot/'+ expertemail , {sessionId : sessionid})
+    .catch(this.errorHandler);
+  }
+
 }

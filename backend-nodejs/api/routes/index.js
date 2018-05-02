@@ -120,6 +120,16 @@ router.delete('/user/removeFromBookmarks/:expertId', isAuthenticated, userCtrl.r
 router.get('/user/viewBookmarks', isAuthenticated, userCtrl.viewBookmarks);
 router.post('/user/getUserById', isAuthenticated, userCtrl.findUserbyId);
 
+
+router.post('/user/chooseSlot/:expertEmail' , isAuthenticated , expert.chooseSlot);
+router.post('/expert/createSchedule',isAuthenticated,expert.createSchedule);
+router.get('/expert/viewSchedule',expert.viewSchedule);
+router.get('/expert/viewScheduledSlots',isAuthenticated,expert.viewScheduledSlots);
+router.get('/expert/viewRequestedSlots',isAuthenticated,expert.viewRequestedSlots);
+router.post('/expert/acceptRequest',isAuthenticated,expert.acceptRequest);
+router.post('/expert/rejectRequest',isAuthenticated,expert.rejectRequest);
+router.post('/expert/rejectallRequest',isAuthenticated,expert.rejectAllRequests);
+
 //----------------------------------------------------------------------------------------------------------------
 router.get('/schedule/:expertID', isAuthenticated, scheduleController.getSlots);
 router.post('/schedule/userReserveSlot', isAuthenticated, scheduleController.userReserveSlot);
