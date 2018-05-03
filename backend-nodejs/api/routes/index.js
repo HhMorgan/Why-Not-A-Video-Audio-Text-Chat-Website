@@ -1,12 +1,12 @@
 var express = require('express'),
-router = express.Router(),
-jwt = require('jsonwebtoken'),
-authCtrl = require('../controllers/auth.controller'),
-userCtrl = require('../controllers/user.controller'),
-sessionCtrl = require('../controllers/session.controller'),
-expert = require('../controllers/expert.controller'),
-AdminController = require('../controllers/admin.controller'),
-scheduleController = require('../controllers/schedule.controller')
+  router = express.Router(),
+  jwt = require('jsonwebtoken'),
+  authCtrl = require('../controllers/auth.controller'),
+  userCtrl = require('../controllers/user.controller'),
+  sessionCtrl = require('../controllers/session.controller'),
+  expert = require('../controllers/expert.controller'),
+  AdminController = require('../controllers/admin.controller'),
+  scheduleController = require('../controllers/schedule.controller')
 NotificationController = require('../controllers/notification.controller');
 
 var isAuthenticated = function (req, res, next) {
@@ -56,37 +56,38 @@ var isExpert = function (req, res, next) {
   next();
 };
 //This function checks if the user is an admin to be authorized to certain functionalities
-var isAdmin = function(req,res,next){
-  if(req.decodedToken.user.role.trim().toLowerCase() !== 'admin'){
+var isAdmin = function (req, res, next) {
+  if (req.decodedToken.user.role.trim().toLowerCase() !== 'admin') {
     return res.status(403).json({
-       err: null,
-       msg: 'Unauthorized.',
-       data: null });
+      err: null,
+      msg: 'Unauthorized.',
+      data: null
+    });
   }
   next();
 };
 // all the methods below are all routers where we specify a route for api.service to 
 // call and what method in the backend to go with the specefied route 
 //-----------------------------Authentication Routes-------------------------
-router.get('/auth/confirm/:email/:token', authCtrl.confirmEmail);
 router.post('/auth/login', isNotAuthenticated, authCtrl.login);
 router.post('/auth/signup', isNotAuthenticated, authCtrl.signup);
+router.get('/auth/confirm/:email/:token', authCtrl.confirmEmail);
 router.post('/auth/signup2', isNotAuthenticated, authCtrl.signup2);
 router.post('/auth/resendConfirmation', isAuthenticated, authCtrl.resendConfirmation);
 //----------------------------Admin Routes ----------------------------------
 
-router.post('/Tags/AddTag',isAuthenticated,isAdmin, AdminController.AddTag);//checked
-router.get('/Tags/getTags' ,isAuthenticated,isAdmin, AdminController.getTags);//checked
-router.patch('/Tag/editTags/:tagId',isAuthenticated,isAdmin, AdminController.editTag);//checked
-router.delete('/Tags/deleteTags/:tagId',isAuthenticated,isAdmin,AdminController.deleteTags);//checked
-router.patch('/User/BlockAndUnblock/:userId',isAuthenticated,isAdmin, AdminController.BlockAndUnblock);//checked
-router.patch('/User/ChangeRole/:userId',isAuthenticated,isAdmin, AdminController.ChangeRole);//checked
-router.get('/User/getUsers',AdminController.getUsers);
-router.get('/getUsers',isAuthenticated, AdminController.getUsers); 
-router.post('/CreateAColor' , AdminController.AddColor);
-router.post('/addColorToTag' , AdminController.AddColorToTag); 
-router.get('/getColors' , AdminController.getColors);  
-router.get('/User/getUserRequestToBeExpert',AdminController.getRequestsFromUsersToBeExpert);
+router.post('/Tags/AddTag', isAuthenticated, isAdmin, AdminController.AddTag);
+router.get('/Tags/getTags', isAuthenticated, AdminController.getTags);
+router.patch('/Tag/editTags/:tagId', isAuthenticated, isAdmin, AdminController.editTag);
+router.delete('/Tags/deleteTags/:tagId', isAuthenticated, isAdmin, AdminController.deleteTags);
+router.patch('/User/BlockAndUnblock/:userId', isAuthenticated, isAdmin, AdminController.BlockAndUnblock);
+router.patch('/User/ChangeRole/:userId', isAuthenticated, isAdmin, AdminController.ChangeRole);
+router.get('/User/getUsers', AdminController.getUsers);
+router.get('/getUsers', isAuthenticated, AdminController.getUsers);
+router.post('/CreateAColor', AdminController.AddColor);
+router.post('/addColorToTag', AdminController.AddColorToTag);
+router.get('/getColors', AdminController.getColors);
+router.get('/User/getUserRequestToBeExpert', AdminController.getRequestsFromUsersToBeExpert);
 //----------------------------User Routes -----------------------------------
 router.post('/auth/updateEmail', isAuthenticated, userCtrl.updateEmail);
 router.post('/auth/updatePassword', isAuthenticated, userCtrl.updatePassword);
@@ -133,14 +134,14 @@ router.get('/user/viewBookmarks', isAuthenticated, userCtrl.viewBookmarks);
 router.post('/user/getUserById', isAuthenticated, userCtrl.findUserbyId);
 
 
-router.post('/user/chooseSlot/:expertEmail' , isAuthenticated , expert.chooseSlot);
-router.post('/expert/createSchedule',isAuthenticated,expert.createSchedule);
-router.get('/expert/viewSchedule',expert.viewSchedule);
-router.get('/expert/viewScheduledSlots',isAuthenticated,expert.viewScheduledSlots);
-router.get('/expert/viewRequestedSlots',isAuthenticated,expert.viewRequestedSlots);
-router.post('/expert/acceptRequest',isAuthenticated,expert.acceptRequest);
-router.post('/expert/rejectRequest',isAuthenticated,expert.rejectRequest);
-router.post('/expert/rejectallRequest',isAuthenticated,expert.rejectAllRequests);
+router.post('/user/chooseSlot/:expertEmail', isAuthenticated, expert.chooseSlot);
+router.post('/expert/createSchedule', isAuthenticated, expert.createSchedule);
+router.get('/expert/viewSchedule', expert.viewSchedule);
+router.get('/expert/viewScheduledSlots', isAuthenticated, expert.viewScheduledSlots);
+router.get('/expert/viewRequestedSlots', isAuthenticated, expert.viewRequestedSlots);
+router.post('/expert/acceptRequest', isAuthenticated, expert.acceptRequest);
+router.post('/expert/rejectRequest', isAuthenticated, expert.rejectRequest);
+router.post('/expert/rejectallRequest', isAuthenticated, expert.rejectAllRequests);
 
 //----------------------------------------------------------------------------------------------------------------
 router.get('/schedule/:expertID', isAuthenticated, scheduleController.getSlots);
