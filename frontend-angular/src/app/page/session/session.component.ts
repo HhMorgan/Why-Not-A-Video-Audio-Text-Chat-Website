@@ -1,3 +1,4 @@
+// The ts file that contains all the linking functions for the video/text chat
 import { Component, OnInit,Renderer2, ElementRef,Input,ViewChild  } from '@angular/core';
 
 import { ProfileComponent } from '../profile/profile.component';
@@ -38,11 +39,11 @@ export class SessionComponent implements OnInit {
   ngOnInit() {
     this.scrollToBottom();
   }
-
+//forces the scroll area to focus on the last element
   ngAfterViewChecked() {        
     this.scrollToBottom();        
   }
-
+//checks the screen size of the device that views the site
   screenSize(){
     if (screen.width <= 699) {
       return false;
@@ -50,21 +51,21 @@ export class SessionComponent implements OnInit {
         return true;
     }
   }
-
+//forces the scroll area to focus on the last element
   scrollToBottom(): void {
     try {
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) { }                 
   }
-  
+  //old function that meant to let user switch between the other users that are with him/her to chat with or switch the video to
   userChatChange(val : any){
     this.reciever=val;
   }
-
+//starts the socket between the two users
   socketjoin(){
     this.joinFlag = true;
   }
-
+//switch cases for all of the chating protocols that are followed to make a connection between users
   constructor( private apiService : APIService , private ioService : IOService , private route : ActivatedRoute ) {
     this.route.params.subscribe( 
       params => {
@@ -157,7 +158,7 @@ export class SessionComponent implements OnInit {
       }
     );
   }
-
+  //makes sure that the user is still connected to the session
   checkIsUserConnected(user:String){
     return this.connectedUsers.includes(user);
   }
@@ -180,7 +181,7 @@ export class SessionComponent implements OnInit {
     peerConnection.onaddstream = this.getRemoteStream;
     peerConnection.addStream(this.mediaSource_local);
   }
-
+//the function that connects the video between the two users
   public joinClick() {
     this.joinButtonflag=true;
     for(var i = 0 ; i < this.connectedUsers.length ; i++) {
@@ -202,7 +203,7 @@ export class SessionComponent implements OnInit {
       )
     }
   }
-
+//the function that ends the video call between the two users
   public closeCall(){
     for(var i = 0 ; i < this.connectedUsers.length ; i++) {
       this.ioService.sendMessage(JSON.stringify(
@@ -214,16 +215,16 @@ export class SessionComponent implements OnInit {
       )
     }
   }
-
+//gets the stream from the other user that is connected to the same session
   private getRemoteStream = (e) => {
     console.log(e);
     this.mediaSource_remote_list[0] = e.stream;
   }
-
+//stores the stream data
   public handle_Media_Stream(stream) {
     this.mediaSource_local = stream;
   }
-
+//sends a message through the chat between the users 
   onEnter(value : string){
     console.log(value);
     console.log(JSON.stringify(
@@ -246,7 +247,7 @@ export class SessionComponent implements OnInit {
     this.htmlVariable.push({type:"sender",message:this.value});
     this.searchValue=null;
   }
-  
+  //updates the value of something that was used in the old version of this page
   update(value: string) { 
     this.value = value; 
   }

@@ -71,7 +71,7 @@ module.exports.login = function (req, res, next) {
 
 //===========================================================================
 
-
+//the function that register users to the database
 module.exports.signup = function (req, res, next) {
   var valid = req.body.username && Validations.isString(req.body.username) &&
     req.body.password && Validations.isString(req.body.password) &&

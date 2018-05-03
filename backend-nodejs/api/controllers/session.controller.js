@@ -3,7 +3,7 @@ jwt = require('jsonwebtoken'),
 Validations = require('../utils/validations'),
 User = mongoose.model('User'),
 Session = mongoose.model('Session');
-
+//creates a session between the two users
 module.exports.createSession = function(req, res, next) {
     // Check that the body keys are in the expected format and the required fields are there
     var valid = req.body.userId && Validations.isObjectId(req.body.userId);
@@ -38,7 +38,7 @@ module.exports.createSession = function(req, res, next) {
         });
     }
 };
-
+// adds Candidate to the session that the user is in for the user to able to connect the two user between eachother
 module.exports.addCandidate = function(req, res, next) {
     // Check that the body keys are in the expected format and the required fields are there
     var valid = req.body.userId && Validations.isObjectId(req.body.userId) &&
@@ -74,7 +74,7 @@ module.exports.addCandidate = function(req, res, next) {
         });
     }
 };
-
+//updates the candidate key of the session
 module.exports.updateCandidate = function(req , res , next) {
     var valid = req.body.userId && Validations.isObjectId(req.body.userId) &&
     req.body.sessionId && Validations.isObjectId(req.body.sessionId) &&
@@ -112,7 +112,7 @@ module.exports.updateCandidate = function(req , res , next) {
         });
     }
 }
-
+//gets the candidate key for the other user
 module.exports.getCandidatesRTCDes = function(req, res, next) {
     // Check that the body keys are in the expected format and the required fields are there
     var valid = req.params.sessionId && Validations.isObjectId(req.params.sessionId)
@@ -158,7 +158,7 @@ module.exports.getCandidatesRTCDes = function(req, res, next) {
         });
     }
 };
-
+//test function that is not used anymore
 module.exports.testSession = function(req, res, next) {
     req.app.io.emit('tx' ,{key:'fuck'});
     return res.status(200).json({

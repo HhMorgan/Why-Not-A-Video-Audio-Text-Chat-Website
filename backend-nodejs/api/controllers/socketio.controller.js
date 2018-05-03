@@ -1,13 +1,14 @@
+//the document that contains the functions of the video/text/voice chat
 var socketioJwt = require('socketio-jwt'),
 config = require('../config/appconfig');
 var users = {};
 module.exports = function (io) {
-    
+    // Authorize the connection between the two users
     io.set('authorization', socketioJwt.authorize({
         secret: config.SECRET ,
         handshake: true
       }));
-
+    //contains all of the protocols that are used to send and recieve packets between the two users
     io.on('connection', function(connection) {  
         console.log('-----------------------------------')
         console.log(connection.request.decoded_token.user);
@@ -93,24 +94,25 @@ module.exports = function (io) {
                
             }
         })
-
+        // disconnects the call between the two users
         connection.on('disconnect', function () {
             console.log("disconnected " + connection.request.decoded_token.user._id)
             // socket.emit('disconnected');
             // online = online - 1;
         });
+        //connects the call between the two users
         connection.send(JSON.stringify(
             {
                 type : "connected"
             }
         ))
       });
-    
+    //the functions that sends the protocol messages between the two users
     function sendTo(connection, message) {
           console.log("sending to " + connection.request.decoded_token.user._id)
         connection.send(JSON.stringify(message)); 
     }
-
+    //check if the users are connected to the room
     function isConnectioninRoom(connection , room) {
         for( var socketId in io.sockets.adapter.rooms[room].sockets) {
             var socketconnection = io.of("/").connected[socketId];
@@ -120,7 +122,7 @@ module.exports = function (io) {
         }
         return false;
     }
-
+//sends the protocol message to a certain user that is connected to the session
     function send_To_Using_ID( connection , userid , room  , message ){
         for( var socketId in io.sockets.adapter.rooms[room].sockets) {
             var socketconnection = io.of("/").connected[socketId];
@@ -129,7 +131,7 @@ module.exports = function (io) {
             }
         }
     }
-
+//sends the protocol message to all users that are connected to the session
     function broadCastToAll( connection , room , message ) {
         for( var socketId in io.sockets.adapter.rooms[room].sockets) {
             var socketconnection = io.of("/").connected[socketId];
@@ -138,7 +140,7 @@ module.exports = function (io) {
             }
         }
     }
-
+//sends the info of the users that are connected to the session
     function sendAllConnectedUsersinRoom( connection , room ) {
         var usersid = [];
         for( var socketId in io.sockets.adapter.rooms[room].sockets) {
