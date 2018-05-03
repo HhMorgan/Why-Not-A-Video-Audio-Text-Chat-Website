@@ -6,6 +6,7 @@ import { APIData , User  } from '../../../@core/service/models/api.data.structur
 import { Buffer } from 'buffer';
 import { Routes,Router } from '@angular/router';
 import { NavBarService } from '../../../@core/service/shared.service';
+import * as decode from 'jwt-decode';
 @Component({
     selector: 'app-navbar',
     templateUrl: './template/navbar.component.html',
@@ -18,7 +19,8 @@ export class NavbarComponent implements OnInit {
     public sidebarVisible: boolean;
     public searchtext;
     public searchtag : string;
-
+    public role;
+    public tokenPayload;
     constructor( public location: Location , private element : ElementRef , private apiServ:APIService , private router: Router , 
         private navbarservice : NavBarService ) {
         this.sidebarVisible = false;
@@ -26,13 +28,18 @@ export class NavbarComponent implements OnInit {
         navbarservice.change.subscribe(isUserLoggedIn => {
             this.isloggedin();
         });
+        var isAuth = !( APIService.getToken() == null )
+        if (isAuth) { 
+        this.tokenPayload=<any> decode(APIService.getToken());
+        this.role=this.tokenPayload.user.role;
+        }
     }
 
     ngOnInit() {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
         this.isloggedin();
-       
+        
     }
     
     appendSearchTag(){       
@@ -133,9 +140,22 @@ export class NavbarComponent implements OnInit {
         if (isAuth) { // NG IF Will Be Added
             document.getElementById("login").style.display="none";
             document.getElementById("signup").style.display="none";
+            
+            if(this.isAdmin()){
+                document.getElementById("admin").style.display="block";
+            }
+            else{
+                document.getElementById("admin").style.display="none";
+            }
+            if(this.isExpert()){
+                document.getElementById("officeHours").style.display="block";
+                }
+                else{
+                    document.getElementById("officeHours").style.display="none"; 
+                }
             document.getElementById("logout").style.display="block";
             document.getElementById("profile").style.display="block";
-            document.getElementById("officeHours").style.display="block";
+            
             document.getElementById("userDropDown").style.display="block";
             document.getElementById("userTextField").style.display="block";
             document.getElementById("dropdownBasic1").style.display="block";
@@ -143,6 +163,7 @@ export class NavbarComponent implements OnInit {
             this.getusername();
             this.getNotificationCount();
         } else {
+            document.getElementById("admin").style.display="none";
             document.getElementById("login").style.display="block";
             document.getElementById("signup").style.display="block";
             document.getElementById("logout").style.display="none";
@@ -189,6 +210,22 @@ export class NavbarComponent implements OnInit {
 
     }
 
+    isExpert() {
+        if (this.role == 'expert') {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+      isAdmin() {
+        if (this.role == 'admin') {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
 
 /*    TextFieldSearch()
     {
