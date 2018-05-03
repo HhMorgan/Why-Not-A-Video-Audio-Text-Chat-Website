@@ -1,3 +1,5 @@
+//The ts document for the notifications page
+
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../@core/service/api.service';
@@ -22,6 +24,7 @@ export class NotificationListComponent implements OnInit {
   constructor(private _apiService: APIService) {
 
   }
+  //The function that loads all the notifications from the backend
   refresh(): void {
     this._apiService.getNotification().subscribe((apiresponse: APIData)=>{
       for(var i = 0 ; i < apiresponse.data.length ; i++){
