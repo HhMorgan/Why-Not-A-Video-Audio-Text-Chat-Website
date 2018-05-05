@@ -15,9 +15,6 @@ export class IOService {
   
   getMessages() {
     let observable = new Observable(observer => {
-      console.log('-----------------------------------')
-      console.log(this.url)
-      console.log('***********************************')
         this.socket = io.connect(this.url, {
           path : '/api/socket.io',
           query: 'token=' + APIService.getToken(),
@@ -26,16 +23,13 @@ export class IOService {
           reconnectionDelayMax : 5000,
           reconnectionAttempts: Infinity
         });
-        this.socket.on('connect' , () => {
-          console.log('fufhueghurhughuogugtobtoubgt')
-        })
         this.socket.on('message', (data) => {
             observer.next(data);
         });
         return () => {
             this.socket.disconnect();
         };
-    })     
+    })
     return observable;
   }  
 }

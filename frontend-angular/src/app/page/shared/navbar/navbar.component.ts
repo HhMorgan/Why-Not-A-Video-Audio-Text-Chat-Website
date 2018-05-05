@@ -18,21 +18,17 @@ export class NavbarComponent implements OnInit {
     public sidebarVisible: boolean;
     public searchtext;
     public searchtag : string;
+    public navbarCollapsed = true;
 
     constructor( public location: Location , private element : ElementRef , private apiServ:APIService , private router: Router , 
         private navbarservice : NavBarService ) {
         this.sidebarVisible = false;
-
-        navbarservice.change.subscribe(isUserLoggedIn => {
-            this.isloggedin();
-        });
     }
 
     ngOnInit() {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
         this.isloggedin();
-       
     }
     
     appendSearchTag(){       
@@ -43,18 +39,17 @@ export class NavbarComponent implements OnInit {
     sidebarOpen() {
         const toggleButton = this.toggleButton;
         const html = document.getElementsByTagName('html')[0];
-        setTimeout(function(){
-            toggleButton.classList.add('toggled');
-        }, 500);
         html.classList.add('nav-open');
         this.sidebarVisible = true;
     };
+
     sidebarClose() {
         const html = document.getElementsByTagName('html')[0];
         this.toggleButton.classList.remove('toggled');
         this.sidebarVisible = false;
         html.classList.remove('nav-open');
     };
+
     sidebarToggle() {
         if (this.sidebarVisible === false) {
             this.sidebarOpen();
@@ -62,13 +57,13 @@ export class NavbarComponent implements OnInit {
             this.sidebarClose();
         }
     };
+
     isHome() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
-
+        
         if( titlee === '/home' ) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -85,9 +80,7 @@ export class NavbarComponent implements OnInit {
            }
         });      
     }
-    refresh(): void {
-        window.location.reload();
-    }
+
     getusername(){
         this.apiServ.getusername().subscribe((apires : APIData) =>{
             this.username = apires.data;
@@ -120,17 +113,8 @@ export class NavbarComponent implements OnInit {
         return true;
     }
 
-    isAuth(){
-        var isAuth = !(localStorage.getItem('token')=="null")
-        if (isAuth){
-            return true
-        } else 
-            return false
-    }
-
     private isloggedin(){
-        var isAuth = !( APIService.getToken() == null )
-        if (isAuth) { // NG IF Will Be Added
+        if(this.apiServ.isAuthenticated()){
             document.getElementById("login").style.display="none";
             document.getElementById("signup").style.display="none";
             document.getElementById("logout").style.display="block";
@@ -166,7 +150,7 @@ export class NavbarComponent implements OnInit {
 
     logout() {
         localStorage.clear();
-        this.navbarservice.setUserLoggedin(false);
+        this.isloggedin();
     }
 
     searchbyTags(){
@@ -184,19 +168,6 @@ export class NavbarComponent implements OnInit {
     searchbyUserTags(){
         this.navbarservice.searchBy("UserTags");
         var dropdownSearch = (document.getElementById("dropdownBasic2") as HTMLElement).innerHTML="Search by User's Tags";
-      //  this.navbarservice.refreshsearchevent(true);
-     
-
     }
-
-
-/*    TextFieldSearch()
-    {
-        var userTextField = document.getElementById("userTextField");
-        userTextField.addEventListener("keyup",function(addEventListener)
-        {
-            
-        })
-    }*/
     
 }

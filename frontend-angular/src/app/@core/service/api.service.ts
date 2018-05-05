@@ -9,8 +9,8 @@ import { APIData , Tag , Session , Request , CandicateSession , Profile , User ,
 
 @Injectable()
 export class APIService {
-  public static apiUrl = 'https://whatwhynot.net/api/';
-  // public static apiUrl = 'http://127.0.0.1:3000/api/';
+  // public static apiUrl = 'https://whatwhynot.net/api/';
+  public static apiUrl = 'http://127.0.0.1:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup'];
   constructor( private jwtHelper: JwtHelper , private http: HttpClient) { }
 
@@ -19,7 +19,11 @@ export class APIService {
   }
 
   public isAuthenticated(): boolean {
-    return !this.jwtHelper.isTokenExpired(APIService.getToken());
+    if(APIService.getToken() != null){
+      return !this.jwtHelper.isTokenExpired(APIService.getToken());
+    } else {
+      return false;
+    }
   }
 
   errorHandler(apiResponse: HttpErrorResponse) {

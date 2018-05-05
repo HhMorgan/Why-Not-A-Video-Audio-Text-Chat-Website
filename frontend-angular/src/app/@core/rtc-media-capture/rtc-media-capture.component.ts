@@ -1,15 +1,16 @@
-import { Component , OnChanges , SimpleChange , OnInit, ViewChild, Input , Output , EventEmitter } from '@angular/core';
+import { Component, OnChanges, SimpleChange, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'rtc-media-recorder',
   templateUrl: './template/rtc-media-recorder.component.html',
   styleUrls: ['./template/rtc-media-recorder.component.css']
 })
-export class RtcMediaCaptureComponent implements OnInit , OnChanges {
-  
+export class RtcMediaCaptureComponent implements OnInit, OnChanges {
+
   @Input() isRemote;
   @Input() mediaSource;
   @Input() constrains;
+  @Input() startCapture = false;
   @Input() showVideoPlayer = true;
 
   @Output() startRecording = new EventEmitter();
@@ -19,35 +20,47 @@ export class RtcMediaCaptureComponent implements OnInit , OnChanges {
   @ViewChild('recVideo') recVideo: any;
 
   public format = 'video/webm';
-  public _navigator = <any> navigator;
+  public _navigator = <any>navigator;
   public video;
   public mediaRecorder;
-  public recordedBlobs = null;
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     if (this.recVideo) {
       this.video = this.recVideo.nativeElement;
-      if(!this.isRemote)
+      if (!this.isRemote)
         this.recVideo.nativeElement.muted = true;
       this.recVideo.nativeElement.controls = false;
-      this.start();
     }
-    this._navigator.getUserMedia = ( this._navigator.getUserMedia || this._navigator.webkitGetUserMedia || this._navigator.mozGetUserMedia 
-      || this._navigator.msGetUserMedia );
+    this._navigator.getUserMedia = (this._navigator.getUserMedia || this._navigator.webkitGetUserMedia || this._navigator.mozGetUserMedia
+      || this._navigator.msGetUserMedia);
   }
 
-  ngOnChanges(changes: {[propKey: string]: SimpleChange}): void {
+  ngOnChanges(changes: { [propKey: string]: SimpleChange }): void {
     for (let propName in changes) {
-      if( propName === "mediaSource" && this.isRemote && this.mediaSource != null ){
-        console.log('change');
-        this.start();
+
+      switch (propName) {
+        case "mediaSource":
+          if (this.isRemote && this.mediaSource != null) {
+            this.start();
+          }
+        break;
+        
+        case "startCapture":
+          if (!this.isRemote) {
+            if (this.startCapture) {
+              this.start();
+            } else {
+              this.stop();
+            }
+          }
+        break;
       }
     }
   }
 
   private _initStream(constrains, navigator) {
-    return navigator.mediaDevices.getUserMedia(constrains).then((stream) => {  
+    return navigator.mediaDevices.getUserMedia(constrains).then((stream) => {
       this.handleMediaStream.emit(stream);
       return stream;
     }).catch(err => err);
@@ -61,44 +74,22 @@ export class RtcMediaCaptureComponent implements OnInit , OnChanges {
   }
 
   public start() {
-    this.recordedBlobs = [];
-    if(this.isRemote) 
-      if(this.mediaSource != null){
+    if (this.isRemote) {
+      if (this.mediaSource != null) {
         this.video.srcObject = this.mediaSource;
-        this.mediaRecorder = new window['MediaRecorder'](this.mediaSource, {mimeType: this.format});
       } else {
         console.log('failed to create media')
       }
-        
-    else {
+    } else {
       this._initStream(this.constrains, this._navigator).then((stream) => {
-        if (!window['MediaRecorder'].isTypeSupported(this.format)) {
-          console.log(this.format + ' is not Supported');
-          return;
+        if (this.video) {
+          this.video.srcObject = stream;
+          this.mediaSource = this.video.srcObject;
         }
-        try {
-          if (this.video) {
-              this.video.srcObject = stream;
-              this.mediaSource = this.video.srcObject;
-            }
-            this.mediaRecorder = new window['MediaRecorder'](this.mediaSource, {mimeType: this.format});
-          this.startRecording.emit(stream);
-        } catch (e) {
-          console.error('Exception while creating MediaRecorder: ' + e);
-          return;
-        }
-        // console.log('Created MediaRecorder', this.mediaRecorder, 'with options', this.format);
-        this.mediaRecorder.ondataavailable = (event) => {
-          if (event.data && event.data.size > 0) {
-            this.recordedBlobs.push(event.data);
-          }};
-        this.mediaRecorder.start(10); // collect 10ms of data
-        });
-      }
+      });
+    }
   }
-
   public stop() {
     this._stopStream();
-    this.mediaRecorder.stop();
   }
 }

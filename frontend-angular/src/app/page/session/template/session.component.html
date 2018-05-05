@@ -35,12 +35,12 @@
                                         <div class="media-display">
                                             <!-- <h2> RtcMedia Local </h2> -->
                                             <div class="LocalVideo">
-                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)"
+                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)" [startCapture]="startCapture"
                                                     [mediaSource]="mediaSource_local" [isRemote]="false"></rtc-media-recorder>
                                             </div>
                                             <!-- <h2> RtcMedia Remote  </h2> -->
                                             <div class="RemoteVideo">
-                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)"
+                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)"  [startCapture]="false"
                                                     [mediaSource]="mediaSource_remote_list[0]" [isRemote]="true"></rtc-media-recorder>
                                             </div>
                                             <div  class="buttons">
@@ -142,12 +142,12 @@
                                         <div class="media-display">
                                             <!-- <h2> RtcMedia Local </h2> -->
                                             <div class="LocalVideo">
-                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)"
+                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)" [startCapture]="startCapture"
                                                     [mediaSource]="mediaSource_local" [isRemote]="false"></rtc-media-recorder>
                                             </div>
                                             <!-- <h2> RtcMedia Remote  </h2> -->
                                             <div class="RemoteVideo">
-                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)"
+                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)" [startCapture]="false"
                                                     [mediaSource]="mediaSource_remote_list[0]" [isRemote]="true"></rtc-media-recorder>
                                             </div>
                                         </div>

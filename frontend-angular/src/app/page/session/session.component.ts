@@ -14,10 +14,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./template/session.component.css']
 })
 export class SessionComponent implements OnInit {
-  public userArray=[{img:"../assets/img/faces/clem-onojeghuo-3.jpg",username:"Clem"},{img:"../assets/img/faces/joe-gardner-2.jpg",username:"Joe"},{img:"../assets/img/faces/kaci-baum-2.jpg",username:"Kaci"},{img:"../assets/img/faces/clem-onojeghuo-2.jpg",username:"Nate"},{img:"../assets/img/faces/erik-lucatero-2.jpg",username:"Erik"}];
+  public userArray=[ {img:"../assets/img/faces/clem-onojeghuo-3.jpg",username:"Clem"} 
+  ,{img:"../assets/img/faces/joe-gardner-2.jpg",username:"Joe"},
+  {img:"../assets/img/faces/kaci-baum-2.jpg",username:"Kaci"},
+  {img:"../assets/img/faces/clem-onojeghuo-2.jpg",username:"Nate"},
+  {img:"../assets/img/faces/erik-lucatero-2.jpg",username:"Erik"}];
   public reciever="Chat";
   value='';
-  public chatArea;
   public chatMessage;
   searchValue:string = '';
   messageRecieved:string='';
@@ -29,6 +32,7 @@ export class SessionComponent implements OnInit {
   public sessionid : String; 
   public format = 'video/webm';
   public constrains = { video: true , audio: true };
+  public startCapture = true;
   public mediaSource_local = null;
   public mediaSource_remote_list : any = [null];
   private peer_config = <RTCConfiguration>{iceServers: [{urls: 'stun:stun.l.google.com:19302'}
@@ -205,7 +209,9 @@ export class SessionComponent implements OnInit {
   }
 //the function that ends the video call between the two users
   public closeCall(){
+    this.startCapture = false;
     for(var i = 0 ; i < this.connectedUsers.length ; i++) {
+      // this.peerConnections[i].close();
       this.ioService.sendMessage(JSON.stringify(
         {
           room : this.sessionid ,
@@ -250,6 +256,10 @@ export class SessionComponent implements OnInit {
   //updates the value of something that was used in the old version of this page
   update(value: string) { 
     this.value = value; 
+  }
+
+  public rtcCaptureControl(event){
+    console.log(event);
   }
 }
 
