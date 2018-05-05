@@ -444,32 +444,36 @@ describe('Auth tests: ', () => {
       });
   });
 
-  // describe('/POST user', () => {
-  //   it('it should signup a user and create a confirmation token' , (done) => {
-      
-  //      chai.request(app).post('/api/auth/signup')
-  //      .send(nada).end((err, res) => {
-  //       res.should.have.status(201);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('msg').eql('Registration successful, you can now login to your account.' );
-  //       res.body.data.should.have.property('email');
-  //       res.body.data.should.have.property('username');
-  //       res.body.data.should.have.property('verificationToken');
-  //       confirmationURL += res.body.data.email +'/'+ res.body.data.verificationToken;
-  //       done();
-  //       });
-  //   });
-  // });
+   
+  it('it should signup a user and create a confirmation token' , (done) => {
+    let user = {
+      email : "nadahammouda97@gmail.com",
+      password : "123",
+      username : "nada",
+     }
+     chai.request(app).post('/api/auth/signup')
+     .send(user).end((err, res) => {
+      res.should.have.status(201);
+      res.body.should.be.a('object');
+      res.body.should.have.property('msg').eql('Registration successful, you can now login to your account.' );
+      res.body.data.should.have.property('email').eql("nadahammouda97@gmail.com");
+      res.body.data.should.have.property('username').eql("nada");
+      res.body.data.should.have.property('verificationToken');
+      confirmationURL += res.body.data.email+'/'+res.body.data.verificationToken;
+      done();
+      });
+  });
+ 
   
+  it('it should confirm email of user' , (done) => {
+    chai.request(app).get(confirmationURL)
+    .end((err, res) => {
+     res.should.have.status(200);
+     res.body.should.have.property('msg').include('has been verified' );
+     done();
+     });
+ });
 
-  //   it('it should confirm email of user' , (done) => {
-  //      chai.request(app).get(confirmationURL)
-  //      .end((err, res) => {
-  //       res.should.have.status(200);
-  //       res.body.should.have.property('msg').include('has been verified' );
-  //       done();
-  //       });
-  //   });
   });
 
 
