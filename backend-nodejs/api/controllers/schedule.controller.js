@@ -131,12 +131,12 @@ module.exports.expertCancelSlot = function(req, res, next) {
 }
 
 module.exports.expertAcceptUserInSlot = function(req, res, next) {
-
+ //Validate the userId, day and slot number
   var valid = req.decodedToken.user._id && Validations.isObjectId(req.decodedToken.user._id) &&
   req.body.dayNo && Validations.isNumber(req.body.dayNo) && 
   req.body.slotNo && Validations.isNumber(req.body.slotNo) &&
   req.body.userid && Validations.isObjectId(req.body.userid)
-
+  
   if (!valid) {
     return res.status(422).json({
       err: null,
@@ -146,27 +146,41 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
   } else { /* Userid != ExpertId Check */
     var start_date = ScheduleHelper.weekdayWithStartWeekday( 0 , 6 ).format('D-MMMM-YY')
     var end_date = ScheduleHelper.weekdayWithStartWeekday( 6 , 6 ).format('D-MMMM-YY')
-    Schedule.findOneAndUpdate({ $and : [ { expertID : { $eq : req.decodedToken.user._id } , startDate : { $eq : start_date } , endDate : { $eq : end_date } , 
-      slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , users : { $eq : req.body.userid } , status : { $eq : "Opened" } } } } ]
-    },{ $pull : { "slots.$.users" : req.body.userid  } } , { new: true }).populate('slots.users','username').exec( function( err , schedule ) {
+    /*find a record with same expertID, day, slotNo within week of start_date and end_date
+       and populates the usernames of requesting users. It also removes the userid from slots.users array 
+       to accept the user.*/
+    Schedule.findOneAndUpdate({ $and : [ { expertID : { $eq : req.decodedToken.user._id } ,
+       startDate : { $eq : start_date } , endDate : { $eq : end_date } , 
+      slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , 
+      users : { $eq : req.body.userid } , status : { $eq : "Opened" } } } } ]
+    },{ $pull : { "slots.$.users" : req.body.userid  } } , 
+    { new: true }).populate('slots.users','username').exec( function( err , schedule ) {
       if (err) {
         return next(err);
       }
       if(schedule){
         var scheduleSession = schedule.slots[ ScheduleHelper.getSlotIndex( schedule.slots , req.body.dayNo , req.body.slotNo ) ].session;
+        //Checks to see if session already created
         if(!scheduleSession){
-          Session.create( { createdById : req.decodedToken.user._id , users : [ req.body.userid ] } , function(err , session) {
+          //session is not created so you can accept the user and create a new session
+          Session.create( { createdById : req.decodedToken.user._id , users : [ req.body.userid ] } ,
+             function(err , session) {
             if (err) {
               return next(err);
             }
             if(session){
-              Schedule.findOneAndUpdate(  { _id : schedule._id , slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , status : { $eq : "Opened" } } } } , 
-                { $set : { "slots.$.session" : session._id } } , { new : true }).populate('slots.users','username').exec( function( err , scheduleSessionUpdated ) {
+              // Successfully created session so we need to update the same schedule record with session id
+              Schedule.findOneAndUpdate(  { _id : schedule._id , slots : { $elemMatch : { day : { $eq : req.body.dayNo } ,
+                 time : { $eq : req.body.slotNo } , status : { $eq : "Opened" } } } } , 
+                { $set : { "slots.$.session" : session._id } } , 
+                { new : true }).populate('slots.users','username').exec( function( err , scheduleSessionUpdated ) {
                 if (err) {
                   return next(err);
                 }
                 if(scheduleSessionUpdated){
-                  NotificationController.createNotification( req.decodedToken.user._id , req.body.userid  , "url/ " + session._id , "Session" , function(done) {
+                  //Sends notification to user with url of session 
+                  NotificationController.createNotification( req.decodedToken.user._id , req.body.userid  ,
+                     "url/ " + session._id , "Session" , function(done) {
                     if(done){
                       return res.status(201).json({
                         err: null,
@@ -176,6 +190,7 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
                     }
                   })
                 } else {
+                  //failed to send notification
                   return res.status(403).json({
                     err: null,
                     msg: 'Failed to Add Session '+ session._id ,
@@ -184,6 +199,7 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
                 }
               })
             } else {
+              //failed to create a new session
               return res.status(403).json({
                 err: null,
                 msg: 'Failed to Create Session',
@@ -192,9 +208,12 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
             }
           })
         } else {
+          //a user already has been accepted in the session so the expert can't accept another one
           var maxNoUsers = 2;
-          Session.findOneAndUpdate( { _id : scheduleSession , users : { $ne : req.body.userid } , $expr : { $lt:[ { $size : "$users" } , maxNoUsers ] }  } , 
-            { $push : { users : req.body.userid } } , { new : true } ).populate('slots.users','username').exec( function( err , updatedSession ) {
+          Session.findOneAndUpdate( { _id : scheduleSession , users : { $ne : req.body.userid } , 
+            $expr : { $lt:[ { $size : "$users" } , maxNoUsers ] }  } , 
+            { $push : { users : req.body.userid } } , 
+            { new : true } ).populate('slots.users','username').exec( function( err , updatedSession ) {
             if (err) {
               return next(err);
             }
@@ -202,13 +221,17 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
               NotificationController.createNotification( req.decodedToken.user._id , req.body.userid  , "url/ " + updatedSession._id , "Session" , function(done) {
                 if(done){
                   if(updatedSession.users.length >= maxNoUsers) {
-                    var scheduleSlotUsers = schedule.slots[ ScheduleHelper.getSlotIndex( schedule.slots , req.body.dayNo , req.body.slotNo ) ].users ;
+                    // number of users in session reached the max so a notification is sent to user rejecting his request
+                    var scheduleSlotUsers = schedule.slots[ ScheduleHelper.getSlotIndex( schedule.slots , req.body.dayNo , 
+                      req.body.slotNo ) ].users ;
                     NotificationController.createNotificationMuitiple( req.decodedToken.user._id , scheduleSlotUsers  , 
                       " Rejected The Slot" , "Slot-Denied" , 0 , function(done) {
                         if(done){
                           req.body.slots = { day : req.body.dayNo , time : req.body.slotNo }
+                          //closes the slot and removes all the requesting users
                           Schedule.findOneAndUpdate({ $and : [ { _id : schedule._id , 
-                            slots : { $elemMatch : { day : { $eq : req.body.slots.day } , time : { $eq : req.body.slots.time } , status : { $eq : "Opened" } } } } ] } , 
+                            slots : { $elemMatch : { day : { $eq : req.body.slots.day } ,
+                             time : { $eq : req.body.slots.time } , status : { $eq : "Opened" } } } } ] } , 
                             { $set : { "slots.$.users" : [] , "slots.$.status" : "Closed" } } , { new : true } ).populate('slots.users','username').exec(
                             function( err , updatedSchedule ) {
                               return res.status(200).json({

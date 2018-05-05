@@ -334,7 +334,7 @@ module.exports.createSchedule = function (req, res, next) {
 
 module.exports.acceptRequest = function (req, res, next) {
 
-
+  //checks to see if a user has already been accepted if true the expert can't accept another one
   Schedule.findOne({
     expertEmail: req.decodedToken.user.email,
     "slots.Date": req.body.Date
@@ -350,8 +350,8 @@ module.exports.acceptRequest = function (req, res, next) {
           data: null
         });
       }
-
-
+      
+      
       User.findOne({ email: req.body.userName }).exec(function (err, user) {
 
         if (err)
@@ -363,6 +363,7 @@ module.exports.acceptRequest = function (req, res, next) {
             data: null
           });
         }
+        //creates a new session for the expert and the user
         req.body.createdById = req.decodedToken.user._id;
         req.body.candidates = { id: user._id };
         Session.create(req.body, function (err, Session) {
@@ -377,6 +378,8 @@ module.exports.acceptRequest = function (req, res, next) {
             });
 
           }
+          /*updates the schedule by putting the userinto usersAccepted array and removing 
+            him from userRequested and setting the session id */
           Schedule.findOneAndUpdate(
             {
               $and: [{ expertEmail: req.decodedToken.user.email },
@@ -406,6 +409,7 @@ module.exports.acceptRequest = function (req, res, next) {
                 if (err) {
                     }
             });*/
+            // reject all the other users that requested this slot
               module.exports.rejectAllRequests(req, res, next);
 
 
@@ -496,6 +500,7 @@ module.exports.rejectAllRequests = function (req, res, next) {
       if (err)
         return next(err);
       if (schedule) {
+        // looping on userRequested array to remove and send notification of rejection to each user
         for (var j = 0; j < schedule.slots[0].usersRequested.length; j++) {
           //console.log(schedule.slots[0].usersRequested.length);
           req.body.userEmail = schedule.slots[0].usersRequested[j];
