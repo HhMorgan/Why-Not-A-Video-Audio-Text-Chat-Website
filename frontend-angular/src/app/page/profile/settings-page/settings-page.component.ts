@@ -1,4 +1,6 @@
-import { Component , OnInit , Input , Output , EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { APIService } from '../../../@core/service/api.service';
 import { APIData, User, FileData, Profile, Tag } from '../../../@core/service/models/api.data.structure'
 import { ProfileComponent } from '../../profile/profile.component';
@@ -21,63 +23,27 @@ export class SettingsPageComponent implements OnInit {
   public description: string;
   public password: string;
   private profile = <Profile>{};
-  private searchtag:string;
-  private tags:Tag[];
+  private searchtag: string;
+  private tags: Tag[];
+
+  public searchInput;
+  public searchParams;
+  public searchChanged : Subject<string> = new Subject<string>();
 
 
-  constructor(private apiServ: APIService, private NavBarService:NavBarService ) { }
-  source: LocalDataSource = new LocalDataSource();
-  settings = {
-    pager: {
-      display: true,
-      perPage: 5,
-    },
-
-    actions: {
-      add: false,
-      edit: false,
-      delete: false,
-      columnTitle: '',
-      position: 'right',
-      // Initializing the custom buttons for the ng2smarttable
-      custom: [{
-        name: 'add',
-        title: `<i class="fa fa-check" aria-hidden="true"></i> `
-      }]
-
-    },
-    columns: {
-      // Initializing the columns with their name and type and whether they are selectable
-      // when adding or editing the columns or not.        
-      name: {
-        title: 'Name',
-        type: 'string',
-      },
-
-    }
-  };
-  ngOnInit() {
-    this.getData();
-    this.refresh();
-
-
-  }
-
-
-  custom(event): void {
-    if (event.action == 'add') {
-      this.OnAdd(event);
-    }
-  }
-
-  //this method is invoked when the user presses the custom made button add
-  OnAdd(event): void {
-    //sends the tag name through addSpeciality which is later used to search for the tag and add it
-    this.apiServ.addSpeciality(<Tag>event.data).subscribe((apiresponse: APIData) => {
-      this.refresh();
+  constructor(private apiServ: APIService, private NavBarService: NavBarService) {
+    this.searchChanged.debounceTime(1000).distinctUntilChanged().subscribe(searchInput =>{
+      this.searchParams = searchInput;
     });
   }
 
+  changed(text: string){
+    this.searchChanged.next(text);
+  }
+
+  ngOnInit() {
+    this.getData();
+  }
 
   updateemail() {
     var element = document.getElementById("inputemail");
@@ -109,20 +75,6 @@ export class SettingsPageComponent implements OnInit {
 
   }
 
-  // the refresh method loads all the data from the database and inserts it into the 
-  // ng2smarttable
-  refresh(): void {
-    // we call the method getTags through the api.service and then loop on all the 
-    // recived data and add it to the ng2smarttable
-    this.apiServ.getTags().subscribe((apiresponse: APIData) => {
-      for (var i = 0; i < apiresponse.data.length; i++)
-        //apiresponse.data[i].id = (i+1);
-        console.log(apiresponse.data);
-      this.source.load(apiresponse.data);
-    });
-  }
-
-
   UpdatePassword() {
     var element = document.getElementById("textdesc");
     var success = document.getElementById("succ");
@@ -148,7 +100,6 @@ export class SettingsPageComponent implements OnInit {
         EditPasswordDiv.classList.remove("has-success");
         EditPasswordDiv.classList.add("has-danger");
         EditingMsg.innerHTML = "" + err.msg; EditingMsg.style.display = "block";
-        //document.getElementById("confirmpass").classList.add("form-control-danger");
       });
     }
   }
@@ -185,8 +136,8 @@ export class SettingsPageComponent implements OnInit {
     var parentDirowClass2 = parentDirowClass.parentElement as HTMLElement
     var firstDivOfRows = parentDirowClass.firstElementChild as HTMLElement
     var TagBtn = firstDivOfRows.firstElementChild as HTMLElement
-    for( let currentTag of this.tags ){
-      if(TagBtn.textContent == currentTag.name ){
+    for (let currentTag of this.tags) {
+      if (TagBtn.textContent == currentTag.name) {
         tag._id = currentTag._id;
         break;
       }
@@ -194,9 +145,9 @@ export class SettingsPageComponent implements OnInit {
     tag.name = TagBtn.textContent;
     //sends the tag name through addSpeciality which is later used to search for the tag and add it
     this.apiServ.addSpeciality(tag).subscribe((apiresponse: APIData) => {
-     // this.triggernotifications("#34A853", apiresponse.msg);
+      // this.triggernotifications("#34A853", apiresponse.msg);
     }, (err) => {
-    //  this.triggernotifications("#EA4335", err.msg);
+      //  this.triggernotifications("#EA4335", err.msg);
     });
   }
 
@@ -278,28 +229,17 @@ export class SettingsPageComponent implements OnInit {
       this.description = apires.data.description;
       this.password = apires.data.password;
       this.username = apires.data.username;
-      this.role=apires.data.role;
+      this.role = apires.data.role;
     })
-
-   
-
   }
 
-  isExpert(){
-    if(this.role=="expert"){
-        return true;
+  isExpert() {
+    if (this.role == "expert") {
+      return true;
     }
 
-    else{
+    else {
       false;
     }
-  }
-
-  search(){
-
-    
-    (document.getElementById("searchComp") as HTMLInputElement).style.display="block";
-    this.NavBarService.search(((document.getElementById("inputsearch") as HTMLInputElement).value));
-
   }
 }

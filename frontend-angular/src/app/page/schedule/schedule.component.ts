@@ -36,13 +36,12 @@ export class ScheduleComponent implements OnInit {
   public popoutUserConfirmation=false;
   public dayOffer;
   public slotOffer;
-  private id = "5ad0c0fbee0ffd38e0549a5a";
   private expertUser = <User>{};
 
   constructor(private apiService: APIService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
       if (!params.expertid) {
-        this.expertUser._id = this.id;
+        this.expertUser._id = this.apiService.getToken(true)._id;
         this.mySchedule = true;
       } else {
         this.mySchedule = false;

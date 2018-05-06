@@ -8,8 +8,6 @@ var mongoose = require('mongoose'),
   require('../models/request.model');
   require('../models/session.model');
   require('../models/request.model');
-  require('../models/slot.model');
-  require('../models/slotsOffered.model');
   require('../models/schedule.model');
   require('../models/notification.model');
   require('../models/color.model');

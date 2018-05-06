@@ -307,7 +307,6 @@ export class ProfileComponent implements OnInit {
     let fy: FileData = { file: files.item(0) };
     this.apiServ.postCoverImg(fy).subscribe(data => {
       this.apiServ.getUserProfile(this.user).subscribe((apires: APIData) => {
-        console.log(apires);
         SharedFunctions.loadImageBy('coverImg' , apires.data.CoverImg  , true);
       });
     }, error => {
@@ -333,6 +332,7 @@ export class ProfileComponent implements OnInit {
   settingsComponentClose($event) {
     this.profileInfo = true;
     this.profilesettings = false;
+    // this.ngOnInit();
   }
   goToSchedule(){
     this.router.navigate(['page/schedule',this.user._id]); 

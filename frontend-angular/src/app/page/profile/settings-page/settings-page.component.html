@@ -84,17 +84,17 @@
 
       <ngb-tab *ngIf="isExpert()" title="Add Tags/Speciality">
         <ng-template ngbTabContent>
-         <div style="width:30%;left:35%;" class="input-group">
-          <input style="width:30%;" id="inputsearch" type="text" class="form-control" placeholder="Search by Tag" aria-describedby="basic-addon1">
-          <button (click)="search()" type="button" class="btn btn-default">Search</button>
-      </div>
-       <app-search id="searchComp" style="display:none;"  [showCover]="false" [showUsers]="false" [showTags]="true"></app-search>
+          <div style="width:30%;left:35%;" class="input-group">
+            <input style="width:30%;" id="inputsearch" type="text" class="form-control" [(ngModel)]="searchInput" 
+            placeholder="Search by Tag"(ngModelChange)='changed($event)' [ngModelOptions]="{ standalone: true }"/>
+          </div>
+          <app-search id="searchComp" [searchParms]="searchParams" [showCover]="false" [showUsers]="false" [showTags]="true"></app-search>
         </ng-template>
       </ngb-tab>
 
       <ngb-tab>
         <ng-template ngbTabTitle>
-          <i  (click)=closeSetting() class="fa fa-times" onSubmit="return false" style="font-size:24px"></i>
+          <i (click)=closeSetting() class="fa fa-times" onSubmit="return false" style="font-size:24px"></i>
         </ng-template>
       </ngb-tab>
 

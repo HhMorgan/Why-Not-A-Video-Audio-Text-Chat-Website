@@ -2,15 +2,17 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { Observable } from 'rxjs/Observable';
 
-import { Injectable } from '@angular/core';
+import * as decodejwt from 'jwt-decode';
 import { JwtHelper } from 'angular2-jwt';
+
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { APIData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , Color , OfferedSlots , ReserveSlotBody , OfferSlotBody , Notification , ExpertAcceptSlotBody } from '../service/models/api.data.structure';
+import { APIData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , Color , OfferedSlots , ReserveSlotBody , OfferSlotBody , Notification , ExpertAcceptSlotBody, Token } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
-  // public static apiUrl = 'https://whatwhynot.net/api/';
-  public static apiUrl = 'http://127.0.0.1:3000/api/';
+  public static apiUrl = 'https://whatwhynot.net/api/';
+  // public static apiUrl = 'http://127.0.0.1:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup'];
   constructor( private jwtHelper: JwtHelper , private http: HttpClient) { }
 
@@ -23,6 +25,15 @@ export class APIService {
       return !this.jwtHelper.isTokenExpired(APIService.getToken());
     } else {
       return false;
+    }
+  }
+
+  public getToken( getUserData : boolean) : any {
+    let tokenPayload = <any> decodejwt(APIService.getToken());
+    if(getUserData){
+      return <Token> tokenPayload.user;
+    } else {
+      return tokenPayload;
     }
   }
 
@@ -116,9 +127,11 @@ export class APIService {
   searchbyTags(searchtag: String): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'user/searchbyTags/' + searchtag).catch(this.errorHandler);
   }
-  searchbyUser(searchtag: String): Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'user/searchbyUser/' + searchtag).catch(this.errorHandler);
+  
+  searchbyUser(username: String): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'user/searchbyUser/' + username).catch(this.errorHandler);
   }
+
   login(user: User): Observable<APIData> {
     return this.http.post<APIData>(APIService.apiUrl + 'auth/login', user).catch(this.errorHandler);
   }
@@ -262,30 +275,30 @@ export class APIService {
   }
 
   getScheduleV2():Observable<APIData>{
-    return this.http.get<APIData> ( APIService.apiUrl + '/expert/viewSchedule').catch(this.errorHandler);
+    return this.http.get<APIData> ( APIService.apiUrl + 'expert/viewSchedule').catch(this.errorHandler);
   }
 
   getViewRequestedSlotsSchdeuleV2():Observable<APIData>{
-    return this.http.get<APIData> ( APIService.apiUrl + '/expert/viewRequestedSlots').catch(this.errorHandler);
+    return this.http.get<APIData> ( APIService.apiUrl + 'expert/viewRequestedSlots').catch(this.errorHandler);
   }
 
   expertAcceptRequestScheduleV2(username : String , date : String ):Observable<APIData>{
-    return this.http.post<APIData> ( APIService.apiUrl + '/expert/acceptRequest' , { username : username , Date :date })
+    return this.http.post<APIData> ( APIService.apiUrl + 'expert/acceptRequest' , { username : username , Date :date })
     .catch(this.errorHandler);
   }
 
   expertRejectRequestScheduleV2(username : String , date : String ):Observable<APIData>{
-    return this.http.post<APIData> ( APIService.apiUrl + '/expert/rejectRequest' , { username : username , Date :date })
+    return this.http.post<APIData> ( APIService.apiUrl + 'expert/rejectRequest' , { username : username , Date :date })
     .catch(this.errorHandler);
   }
 
   expertRejectAllRequestScheduleV2( date : String ):Observable<APIData>{
-    return this.http.post<APIData> ( APIService.apiUrl + '/expert/rejectallRequest' , { Date :date })
+    return this.http.post<APIData> ( APIService.apiUrl + 'expert/rejectallRequest' , { Date :date })
     .catch(this.errorHandler);
   }
 
   userReserveScheduleV2( expertemail : String , sessionid : String ) : Observable<APIData> {
-    return this.http.post<APIData> ( APIService.apiUrl + '/user/chooseSlot/'+ expertemail , {sessionId : sessionid})
+    return this.http.post<APIData> ( APIService.apiUrl + 'user/chooseSlot/'+ expertemail , {sessionId : sessionid})
     .catch(this.errorHandler);
   }
 

@@ -2,11 +2,10 @@
     <div class="container">
         <div class="navbar-translate">
             <div class="header-logo">
-                <a class="navbar-brand" (click)="refresh()" href="#">
+                <a class="navbar-brand" [routerLink]="['/page/home']">
                     <img src="assets/img/logo-footer.png">Riseup</a>
             </div>
-            <button class="navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed" 
-            [attr.aria-expanded]="!navbarCollapsed" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation"
+            <button class="navbar-toggler" type="button" (click)="navbarCollapsed = !navbarCollapsed" aria-label="Toggle navigation"
                 (click)="sidebarToggle()">
                 <span class="navbar-toggler-bar"></span>
                 <span class="navbar-toggler-bar"></span>
@@ -17,60 +16,64 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <div class="searchArea">
-                        <form onsubmit=" location.href='/page/search/' + document.getElementById('userTextField').value; return false;">
-                            <input id="userTextField" _ngcontent-c6="" class="form-control" placeholder="Search for User" type="text submit">
+                        <form (ngSubmit)="search(searchParams)">
+                            <input id="userTextField" type="text submit" class="form-control" [(ngModel)]="searchParams" placeholder="Search for User" [ngModelOptions]="{standalone: true}"/>
                         </form>
                     </div>
 
                 </li>
                 <li id="userDropDown" class="nav-item">
                     <div ngbDropdown class="d-inline-block dropdown">
-                        <a class="btn  btn-background" id="dropdownBasic2" ngbDropdownToggle>Search By</a>
+                        <a class="btn  btn-background" id="dropdownBasic2" ngbDropdownToggle>{{ selectedSearchParams }}</a>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="dropdown-primary">
-                            <a (click)="searchbyUser()" class="dropdown-item">User</a>
-                            <a (click)="searchbyUserTags()" class="dropdown-item">User Tags</a>
+                            <a  class="dropdown-item" *ngFor="let searchOption of searchOptions" (click) = "ChangeSearchOption(searchOption)">{{ searchOption }}</a>
                         </div>
                     </div>
                 </li>
 
                 <li class="nav-item">
-                    <a id="officeHours" [routerLink]="['/page/schedule']" class="nav-link">
+                    <a id="officeHours" [routerLink]="['/page/schedule']" (click)="!isSamePath('schedule') && navbarCollapsed = !navbarCollapsed" class="nav-link">
                         <i class="nc-icon nc-book-bookmark"></i> Office Hours</a>
                 </li>
 
+                <li class="nav-item">
+                    <a id="admin" [routerLink]="['/page/dashboard']" (click)="!isSamePath('dashboard') && navbarCollapsed = !navbarCollapsed" class="nav-link">
+                        <i class="nc-icon nc-book-bookmark"></i>Dashboard</a>
+                </li>
 
                 <li class="nav-item" *ngIf="!isHome()">
-                    <a [routerLink]="['/home']" (click)="navbarCollapsed = !navbarCollapsed" *ngIf="isDocumentation()" class="nav-link"></a>
+                    <a [routerLink]="['/home']" (click)="!isSamePath('home') && navbarCollapsed = !navbarCollapsed" *ngIf="isDocumentation()" class="nav-link"></a>
                 </li>
 
                 <li class="nav-item">
-                    <a id="login" [routerLink]="['/page/login']" (click)="navbarCollapsed = !navbarCollapsed"  class="nav-link">
+                    <a id="login" [routerLink]="['/page/login']" (click)="!isSamePath('login') && navbarCollapsed = !navbarCollapsed" class="nav-link">
                         <i class="nc-icon nc-circle-10"></i>Login</a>
                 </li>
                 <li class="nav-item">
-                    <a (click)="navbarCollapsed = !navbarCollapsed && logout()" id="logout" href="/page/home" class="nav-link">
+                    <a (click)="logout()" [routerLink]="['/page/home']" (click)="navbarCollapsed = !navbarCollapsed" id="logout" class="nav-link">
                         <i class="nc-icon nc-circle-10"></i>Logout</a>
                 </li>
                 <li class="nav-item" id="signup">
-                    <a  [routerLink]="['/page/signup']" (click)="navbarCollapsed = !navbarCollapsed && sidebarClose()" class="nav-link">
+                    <a [routerLink]="['/page/signup']" (click)="!isSamePath('signup') && navbarCollapsed = !navbarCollapsed" class="nav-link">
                         <i class="nc-icon nc-paper"></i>Signup</a>
                 </li>
 
                 <li class="nav-item">
                     <div ngbDropdown class="d-inline-block dropdown positionProfileImage">
                         <a id="dropdownBasic1" ngbDropdownToggle>
-                            <div class="notifier new" *ngIf ="showNotification()" >
-                                <div class="badge" (click) = "openNotifications()">{{ norificationCount }} </div>
+                            <div class="notifier new" *ngIf="showNotification()">
+                                <div class="badge" (click)="openNotifications()">{{ norificationCount }} </div>
                             </div>
-                            <img style="background-size:100% 100%;" id="profileimgnavbar" class=" img-circle img-no-padding img-responsive" src="../assets/img/default-Profile-Pic.png" width="45px"
-                                height="45px">
+                            <img style="background-size:100% 100%;" id="profileimgnavbar" class=" img-circle img-no-padding img-responsive" src="../assets/img/default-Profile-Pic.png"
+                                width="45px" height="45px">
                         </a>
                     </div>
                 </li>
 
                 <li class="nav-item" id="profile">
                     <div class="nav-link positionUsername">
-                        <div [routerLink]="['/page/profile' , username]"> {{ username }}</div>
+                        <div (click)="!isSamePath('profile') && navbarCollapsed = !navbarCollapsed" [routerLink]="['/page/profile' , username]">
+                        {{ username }}</div>
                     </div>
                 </li>
                 <li class="nav-item" *ngIf="isDocumentation()">
