@@ -94,7 +94,7 @@ module.exports.searchbyTags = function (req, res, next) {
 
 module.exports.searchbyUser = function (req, res, next) {
 
-  User.find({ username: { $regex: req.params.searchtag, $options: "$i" }, role: { $eq: "expert" }, blocked: { $eq: "false" } }).exec(function (err, user) {
+  User.find({ username: { $regex: req.params.searchtag, $options: "$i" }, $or:[ { role: { $eq: "expert" } , role: { $eq: "user" }  }], blocked: { $eq: "false" } }).exec(function (err, user) {
     if (err) {
       return next(err);
     }
@@ -138,8 +138,8 @@ module.exports.getimage = function (req, res) {
     return res.status(200).json({
       err: null,
       msg: null,
-      data: (user.img.data && user.img.contentType )? 
-      { data : user.img.data, contentType: user.img.contentType } : null
+      data: (user.img.data && user.img.contentType) ?
+        { data: user.img.data, contentType: user.img.contentType } : null
     });
   });
 };
@@ -235,7 +235,9 @@ module.exports.uploadCoverPic = function (req, res) {
       });
     });
 };
-
+/*
+allows the user to update his Email
+*/
 module.exports.updateEmail = function (req, res, next) {
   if (!Validations.matchesRegex(req.body.email, EMAIL_REGEX)) {
     return res.status(422).json({
@@ -283,6 +285,9 @@ module.exports.updateEmail = function (req, res, next) {
   });
 };
 
+/*
+allows the user to update his Password
+*/
 module.exports.updatePassword = function (req, res, next) {
 
   var valid =
@@ -362,6 +367,9 @@ module.exports.updatePassword = function (req, res, next) {
   });
 };
 
+/*
+allows the user to update his Description
+*/
 module.exports.updateDescription = function (req, res, next) {
   if (!(Validations.isString(req.body.description))) {
     return res.status(422).json({
