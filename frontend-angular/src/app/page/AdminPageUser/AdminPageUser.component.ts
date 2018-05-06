@@ -22,11 +22,6 @@ export class AdminPageUserComponent implements OnInit {
     this.refresh();
   }
   settings = {
-    edit: {
-      editButtonContent: '<i  class="fa fa-edit"></i>',
-      saveButtonContent: '<i class="fa fa-check"></i>',
-      cancelButtonContent: '<i class="fa fa-ban"></i>',
-    },
     delete: {
       deleteButtonContent: '<i class="fa fa-trash"></i>',
     },
@@ -40,7 +35,8 @@ export class AdminPageUserComponent implements OnInit {
       perPage: 5
     },
     actions:{
-
+      edit: false,
+      add: false,
       custom: [{
         name:'block', 
         title: `<i class="fa fa-lock"></i>` ,
@@ -57,12 +53,17 @@ export class AdminPageUserComponent implements OnInit {
       },
       
     columns: {
+      username:{
+        title: 'Username',
+        type: 'string',
+        editable: false,
+        addable: false,
+      },
       email: {
         title: 'Email',
         type: 'string',
         editable: false,
         addable: false,
-
       },
       role: {
         title: 'Role',

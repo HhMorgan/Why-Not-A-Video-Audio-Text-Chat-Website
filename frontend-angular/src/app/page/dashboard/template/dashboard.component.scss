@@ -4,8 +4,10 @@
   font-family: 'entypo';
   font-style: normal;
   font-weight: normal;
-  src: url('http://weloveiconfonts.com/api/fonts/entypo/entypo.eot');
-  src: url('http://weloveiconfonts.com/api/fonts/entypo/entypo.eot?#iefix') format('eot'), url('http://weloveiconfonts.com/api/fonts/entypo/entypo.woff') format('woff'), url('http://weloveiconfonts.com/api/fonts/entypo/entypo.ttf') format('truetype'), url('http://weloveiconfonts.com/api/fonts/entypo/entypo.svg#entypo') format('svg');
+  src: url('../../../../assets/fonts/entypo.eot');
+  src: url('../../../../assets/fonts/entypo.eot') format('eot') , 
+  url('../../../../assets/fonts/entypo.woff') format('woff') , 
+  url('../../../../assets/fonts/entypo.ttf') format('truetype');
 }
 
 body {

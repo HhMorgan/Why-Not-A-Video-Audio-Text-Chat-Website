@@ -80,7 +80,6 @@ router.patch('/Tag/editTags/:tagId', isAuthenticated, isAdmin, AdminController.e
 router.delete('/Tags/deleteTags/:tagId', isAuthenticated, isAdmin, AdminController.deleteTags);
 router.patch('/User/BlockAndUnblock/:userId', isAuthenticated, isAdmin, AdminController.BlockAndUnblock);
 router.patch('/User/ChangeRole/:userId', isAuthenticated, isAdmin, AdminController.ChangeRole);
-router.get('/User/getUsers', AdminController.getUsers);
 router.get('/getUsers', isAuthenticated, AdminController.getUsers);
 router.post('/CreateAColor', AdminController.AddColor);
 router.post('/addColorToTag', AdminController.AddColorToTag);
