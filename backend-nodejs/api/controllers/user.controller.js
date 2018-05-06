@@ -15,42 +15,6 @@ var bcrypt = require('bcryptjs');
 var RegExp = require('mongodb').RegExp;
 
 
-//this function searches for the user that has tags which are the similar to the searchtag parameter
-module.exports.searchUserbyTags = function (req, res, next) {
-  Tag.find({ name: { $regex: req.params.searchtag, $options: "$i" }, blocked: { $eq: "false" }, status: { $eq: "Accepted" } }).exec(function (err, Tags) {
-
-    if (err) {
-      return next(err);
-    }
-
-    else if (Tags.length == 0) {
-      return res.status(404).json({
-        err: null,
-        msg: 'Tags not found',
-        data: null
-      });
-    }
-    User.find({ speciality: { $in: Tags }, role: { $eq: "expert" }, blocked: { $eq: "false" } }).populate('speciality').exec(function (err, User) {
-      if (err) {
-        return next(err);
-      }
-      else if (User.length == 0) {
-        return res.status(404).json({
-          err: null,
-          msg: 'no Users with such a Tag ',
-          data: null
-        });
-      }
-      res.status(201).json({
-        err: null,
-        msg: 'i.',
-        data: User
-      });
-      //res.end();
-    });
-  });
-};
-
 module.exports.changeUserStatus = function (req, res, next) {
   /* Add Validations */
   delete req.body.email;
@@ -65,55 +29,6 @@ module.exports.changeUserStatus = function (req, res, next) {
       data: updatedUser
     });
   });
-};
-
-//this function searches for tags which are the similar to the searchtag parameter
-module.exports.searchbyTags = function (req, res, next) {
-
-  Tag.find({ name: { $regex: req.params.searchtag, $options: "$i" }, blocked: { $eq: "false" }, status: { $eq: "Accepted" } }).exec(function (err, tag) {
-    if (err) {
-      return next(err);
-    }
-    else if (tag.length == 0) {
-      return res.status(404).json({
-        err: null,
-        msg: 'Tags not found',
-        data: null
-      });
-    }
-    else if (tag) {
-      return res.status(200).json({
-        err: null,
-        msg: 'Tags retrieved successfully.',
-        data: tag
-      });
-    }
-  });
-
-};
-
-module.exports.searchbyUser = function (req, res, next) {
-
-  User.find({ username: { $regex: req.params.searchtag, $options: "$i" }, $or:[ { role: { $eq: "expert" } , role: { $eq: "user" }  }], blocked: { $eq: "false" } }).exec(function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    else if (!user) {
-      return res.status(404).json({
-        err: null,
-        msg: 'user not found',
-        data: null
-      });
-    }
-    else if (user) {
-      return res.status(200).json({
-        err: null,
-        msg: 'users retrieved successfully.',
-        data: user
-      });
-    }
-  });
-
 };
 
 module.exports.loadStatus = function (req, res) {
@@ -458,6 +373,55 @@ module.exports.upgradeToExpert = function (req, res, next) {
       });
     });
   });
+};
+
+//this function searches for tags which are the similar to the searchtag parameter
+module.exports.searchbyTags = function (req, res, next) {
+
+  Tag.find({ name: { $regex: req.params.searchtag, $options: "$i" }, blocked: { $eq: "false" }, status: { $eq: "Accepted" } }).exec(function (err, tag) {
+    if (err) {
+      return next(err);
+    }
+    else if (tag.length == 0) {
+      return res.status(404).json({
+        err: null,
+        msg: 'Tags not found',
+        data: null
+      });
+    }
+    else if (tag) {
+      return res.status(200).json({
+        err: null,
+        msg: 'Tags retrieved successfully.',
+        data: tag
+      });
+    }
+  });
+
+};
+
+module.exports.searchbyUser = function (req, res, next) {
+
+  User.find({ _id: { $ne: req.decodedToken.user._id} , username: { $regex: req.params.searchtag, $options: "$i" } , $or:[ { role: "expert" } , { role: "user"  } ], blocked: { $eq: "false" } }).exec(function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    else if (!user) {
+      return res.status(404).json({
+        err: null,
+        msg: 'user not found',
+        data: null
+      });
+    }
+    else if (user) {
+      return res.status(200).json({
+        err: null,
+        msg: 'users retrieved successfully.',
+        data: user
+      });
+    }
+  });
+
 };
 
 /*

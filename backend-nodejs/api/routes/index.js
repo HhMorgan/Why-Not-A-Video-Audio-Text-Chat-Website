@@ -45,6 +45,7 @@ var isNotAuthenticated = function (req, res, next) {
   }
   next();
 };
+
 var isExpert = function (req, res, next) {
   if (req.decodedToken.user.role.trim() !== 'expert' && req.decodedToken.user.role.trim() !== 'Expert') {
     return res.status(403).json({
@@ -55,6 +56,7 @@ var isExpert = function (req, res, next) {
   }
   next();
 };
+
 //This function checks if the user is an admin to be authorized to certain functionalities
 var isAdmin = function (req, res, next) {
   if (req.decodedToken.user.role.trim().toLowerCase() !== 'admin') {
@@ -106,12 +108,13 @@ router.get('/loadStatus', isAuthenticated, userCtrl.loadStatus);
 router.post('/auth/changeUserStatus', isAuthenticated, userCtrl.changeUserStatus);
 router.get('/user/getUserProfile/:username', isAuthenticated, userCtrl.getUserProfile);
 
+/*
+Search
+*/
 //----------------------------------------------------------------------------------------------------
-router.get('/user/searchUserbyTags/:searchtag', userCtrl.searchUserbyTags);
-router.get('/user/searchbyTags/:searchtag', userCtrl.searchbyTags);
-router.get('/user/searchbyUser/:searchtag', userCtrl.searchbyUser);
-router.get('/Notification/getNotifications', isAuthenticated, NotificationController.getNotifications);
-// router.get('/Notification/AddNotifications', isAuthenticated, NotificationController.AddNotification);
+router.get('/user/searchbyTags/:searchtag', isAuthenticated , userCtrl.searchbyTags);
+router.get('/user/searchbyUser/:searchtag', isAuthenticated , userCtrl.searchbyUser);
+router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 //-----------------------------------------------------------------------------------------------------
 
 
@@ -119,15 +122,15 @@ router.get('/Notification/getNotifications', isAuthenticated, NotificationContro
 router.post('/user/updateRating', isAuthenticated, userCtrl.updateRating);
 router.get('/getExpertSchedule/:userId', isAuthenticated, userCtrl.getExpertSchedule);
 router.post('/user/upgradeToexpert', isAuthenticated, userCtrl.upgradeToExpert);
-router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
 router.delete('/user/removeFromBookmarks/:expertId', isAuthenticated, userCtrl.removeFromBookmarks);
 router.get('/user/viewBookmarks', isAuthenticated, userCtrl.viewBookmarks);
 router.post('/user/getUserById', isAuthenticated, userCtrl.findUserbyId);
+router.get('/Notification/getNotifications', isAuthenticated, NotificationController.getNotifications);
 
 /* Schedule V2 */
 //-------------------------------------------------------------------------------------
-router.post('/user/chooseSlot/:expertEmail', isAuthenticated, expert.chooseSlot);
+router.post('/user/chooseSlot/:expertEmail', isAuthenticated , expert.chooseSlot);
 router.post('/expert/createSchedule', isAuthenticated, expert.createSchedule);
 router.get('/expert/viewSchedule', expert.viewSchedule);
 router.get('/expert/viewScheduledSlots', isAuthenticated, expert.viewScheduledSlots);
