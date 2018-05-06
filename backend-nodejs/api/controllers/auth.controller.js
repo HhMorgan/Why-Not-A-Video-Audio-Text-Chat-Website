@@ -52,12 +52,10 @@ module.exports.login = function (req, res, next) {
       if (user.blocked)
         return res.status(401).json({ err: null, msg: 'Blocked', data: null });
       // Create a JWT and put in it the user object from the database
-
-      delete user.blocked;
       var token = jwt.sign(
         {
           // user.toObject transorms the document to a json object without the password as we can't leak sensitive info to the frontend
-          user: user
+          user: { _id : user._id , username: user.username , email: user.email , role : user.role  }
         },
         req.app.get('secret'),
         {
@@ -75,8 +73,7 @@ module.exports.login = function (req, res, next) {
 module.exports.signup = function (req, res, next) {
   var valid = req.body.username && Validations.isString(req.body.username) &&
     req.body.password && Validations.isString(req.body.password) &&
-    req.body.email && Validations.isString(req.body.email);
-  console.log(req.body);
+    req.body.email && Validations.isString(req.body.email) && Validations.matchesRegex(req.body.email,EMAIL_REGEX);
   if (!valid) {
     return res.status(422).json({
       err: null,
@@ -84,6 +81,7 @@ module.exports.signup = function (req, res, next) {
       data: null
     });
   }
+  req.body.username = req.body.username.trim().replace(/\s+/g, '-');
   User.findOne({ $or: [{ username: { $eq: req.body.username } }, { email: { $eq: req.body.email } }] }, function (err, user) {
     if (err)
       throw err;
@@ -104,12 +102,12 @@ module.exports.signup = function (req, res, next) {
           'Account Verification Token',
           'Click the following link to confirm your account:</p>' + confirmationUrl ,
           function(done) {
-            console.log(done);
             if(done){
               User.create(req.body, function (err, newUser) {
                 if (err) {
                   return next(err);
                 }
+                console.log(req.body);
                 return res.status(201).json({
                   err: null,
                   msg: 'Registration successful, you can now login to your account.',
@@ -133,72 +131,6 @@ module.exports.signup = function (req, res, next) {
         data: null
       })
   })
-};
-
-module.exports.signup2 = function(req , res , next) {
-  var valid = req.body.username && Validations.isString(req.body.username) &&
-  req.body.password && Validations.isString(req.body.password) &&
-  req.body.email && Validations.isString(req.body.email) &&
-  req.body.role && Validations.isString(req.body.role);
-  console.log(req.body.password);
-console.log(req.body);
-console.log(valid);
-if (!valid) {
-  return res.status(422).json({
-    err: null,
-    msg: 'username (String) , email (String) , and password (String) are required fields.',
-    data: null
-  });
-}
-User.findOne({ $or: [{ username: { $eq: req.body.username } }, { email: { $eq: req.body.email } }] }, function (err, user) {
-  if (err)
-    throw err;
-  if (user == null) {
-    var password = req.body.password.trim();
-    Encryption.hashPassword(password, function (err, hash) {
-      if (err) {
-        return next(err);
-      }
-      // creating a verification token to enable user to verify his email
-      var token = crypto.randomBytes(16).toString('hex');
-      req.body.password = hash;
-      req.body.verificationToken = token;
-      // Confirmation url which will be sent to user
-      let confirmationUrl = 'https://whatwhynot.net/#/page' + `/confirm/${req.body.email}/${token}`;
-      nodemailerController.sendEmail(
-        req.body.email,
-        'Account Verification Token',
-        'Click the following link to confirm your account:</p>' + confirmationUrl ,
-        function(done) {
-          console.log(done);
-          if(done){
-            User.create(req.body, function (err, newUser) {
-              if (err) {
-                return next(err);
-              }
-              return res.status(201).json({
-                err: null,
-                msg: 'Registration successful, you can now login to your account.',
-                data: newUser
-              });
-            });
-          } else {
-            return res.status(412).json({
-              err: null,
-              msg: 'Registration Failed',
-              data: null
-            })
-          }
-        }
-      );
-    });
-  } else
-    return res.status(412).json({
-      err: null,
-      msg: 'Registration Failed',
-      data: null
-    })
-})
 };
 
 module.exports.confirmEmail = function (req, res, next) {

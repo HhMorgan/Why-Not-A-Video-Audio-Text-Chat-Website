@@ -72,10 +72,8 @@ var isAdmin = function (req, res, next) {
 router.post('/auth/login', isNotAuthenticated, authCtrl.login);
 router.post('/auth/signup', isNotAuthenticated, authCtrl.signup);
 router.get('/auth/confirm/:email/:token', authCtrl.confirmEmail);
-router.post('/auth/signup2', isNotAuthenticated, authCtrl.signup2);
 router.post('/auth/resendConfirmation', isAuthenticated, authCtrl.resendConfirmation);
 //----------------------------Admin Routes ----------------------------------
-
 router.post('/Tags/AddTag', isAuthenticated, isAdmin, AdminController.AddTag);
 router.get('/Tags/getTags', isAuthenticated, AdminController.getTags);
 router.patch('/Tag/editTags/:tagId', isAuthenticated, isAdmin, AdminController.editTag);
@@ -110,7 +108,6 @@ router.post('/auth/changeUserStatus', isAuthenticated, userCtrl.changeUserStatus
 router.get('/user/getUserProfile/:username', isAuthenticated, userCtrl.getUserProfile);
 
 //----------------------------------------------------------------------------------------------------
-//router.get('/user/Search/:searchtag', userCtrl.getSearchResultsTagUser);
 router.get('/user/searchUserbyTags/:searchtag', userCtrl.searchUserbyTags);
 router.get('/user/searchbyTags/:searchtag', userCtrl.searchbyTags);
 router.get('/user/searchbyUser/:searchtag', userCtrl.searchbyUser);
@@ -123,17 +120,14 @@ router.get('/Notification/getNotifications', isAuthenticated, NotificationContro
 router.post('/user/updateRating', isAuthenticated, userCtrl.updateRating);
 router.get('/getExpertSchedule/:userId', isAuthenticated, userCtrl.getExpertSchedule);
 router.post('/user/upgradeToexpert', isAuthenticated, userCtrl.upgradeToExpert);
-//to get offered slots:
-router.get('/user/getOfferedSlots', isAuthenticated, userCtrl.getOfferedSlots);
-//to choose slot
-router.post('/user/reserveSlot', isAuthenticated, userCtrl.reserveSlot);
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
 router.delete('/user/removeFromBookmarks/:expertId', isAuthenticated, userCtrl.removeFromBookmarks);
 router.get('/user/viewBookmarks', isAuthenticated, userCtrl.viewBookmarks);
 router.post('/user/getUserById', isAuthenticated, userCtrl.findUserbyId);
 
-
+/* Schedule V2 */
+//-------------------------------------------------------------------------------------
 router.post('/user/chooseSlot/:expertEmail', isAuthenticated, expert.chooseSlot);
 router.post('/expert/createSchedule', isAuthenticated, expert.createSchedule);
 router.get('/expert/viewSchedule', expert.viewSchedule);
@@ -142,13 +136,15 @@ router.get('/expert/viewRequestedSlots', isAuthenticated, expert.viewRequestedSl
 router.post('/expert/acceptRequest', isAuthenticated, expert.acceptRequest);
 router.post('/expert/rejectRequest', isAuthenticated, expert.rejectRequest);
 router.post('/expert/rejectallRequest', isAuthenticated, expert.rejectAllRequests);
+//-------------------------------------------------------------------------------------
 
+/* Main Schedule */
 //----------------------------------------------------------------------------------------------------------------
-router.get('/schedule/:expertID', isAuthenticated, scheduleController.getSlots);
-router.post('/schedule/userReserveSlot', isAuthenticated, scheduleController.userReserveSlot);
-router.post('/schedule/expertOfferSlot', isAuthenticated, isExpert, scheduleController.expertOfferSlot);
-router.post('/schedule/expertCancelSlot', isAuthenticated, isExpert, scheduleController.expertCancelSlot);
-router.post('/schedule/expertAcceptSlot', isAuthenticated, isExpert, scheduleController.expertAcceptUserInSlot);
+router.get('/schedule/:expertID' , isAuthenticated , scheduleController.getSlots);
+router.post('/schedule/userReserveSlot', isAuthenticated , scheduleController.userReserveSlot);
+router.post('/schedule/expertOfferSlot', isAuthenticated , isExpert, scheduleController.expertOfferSlot);
+router.post('/schedule/expertCancelSlot', isAuthenticated , isExpert, scheduleController.expertCancelSlot);
+router.post('/schedule/expertAcceptSlot', isAuthenticated , isExpert, scheduleController.expertAcceptUserInSlot);
 //----------------------------------------------------------------------------------------------------------------
 
 module.exports = router;

@@ -4,53 +4,51 @@ var mongoose = require('mongoose'),
   Validations = require('../utils/validations'),
   Encryption = require('../utils/encryption'),
   EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
+  Tag = mongoose.model('Tag'),
   User = mongoose.model('User'),
   Request = mongoose.model('Request'),
-  OfferedSlot = mongoose.model('OfferedSlot'),
   schedule = mongoose.model('Schedule'),
   moment = require('moment');
 var Binary = require('mongodb').Binary;
 var fs = require('fs');
 var bcrypt = require('bcryptjs');
-Tag = mongoose.model('Tag');
 var RegExp = require('mongodb').RegExp;
- 
+
 
 //this function searches for the user that has tags which are the similar to the searchtag parameter
 module.exports.searchUserbyTags = function (req, res, next) {
-  Tag.find({ name: { $regex: req.params.searchtag , $options: "$i" } , blocked : { $eq: "false" } , status: { $eq: "Accepted" }}).exec (function(err, Tags) {
-   
+  Tag.find({ name: { $regex: req.params.searchtag, $options: "$i" }, blocked: { $eq: "false" }, status: { $eq: "Accepted" } }).exec(function (err, Tags) {
+
     if (err) {
       return next(err);
     }
 
-    else if (Tags.length==0) {
+    else if (Tags.length == 0) {
       return res.status(404).json({
         err: null,
         msg: 'Tags not found',
         data: null
       });
     }
-
-User.find({ speciality: { $in: Tags } , role : { $eq: "expert" } , blocked : { $eq: "false" }  }).populate('speciality').exec (function(err, User) {
-  if (err) {
-     return next(err);
-   }
-   else if ( User.length==0 ) {
-    return res.status(404).json({
-      err: null,
-      msg: 'no Users with such a Tag ',
-      data: null
+    User.find({ speciality: { $in: Tags }, role: { $eq: "expert" }, blocked: { $eq: "false" } }).populate('speciality').exec(function (err, User) {
+      if (err) {
+        return next(err);
+      }
+      else if (User.length == 0) {
+        return res.status(404).json({
+          err: null,
+          msg: 'no Users with such a Tag ',
+          data: null
+        });
+      }
+      res.status(201).json({
+        err: null,
+        msg: 'i.',
+        data: User
+      });
+      //res.end();
     });
-  }
-   res.status(201).json({
-     err: null,
-     msg: 'i.',
-     data: User
-   });
-   //res.end();
- });
-});
+  });
 };
 
 module.exports.changeUserStatus = function (req, res, next) {
@@ -70,45 +68,44 @@ module.exports.changeUserStatus = function (req, res, next) {
 };
 
 //this function searches for tags which are the similar to the searchtag parameter
-
 module.exports.searchbyTags = function (req, res, next) {
 
-    Tag.find({ name: { $regex: req.params.searchtag, $options: "$i" }, blocked: { $eq: "false" }, status:{$eq:"Accepted"} }).exec(function (err, tag) {
-      if (err) {
-        return next(err);
-      }
-      else if ( tag.length==0) {
-        return res.status(404).json({
-          err: null,
-          msg: 'Tags not found',
-          data: null
-        });
-      }
-      else if ( tag) {
-        return res.status(200).json({
-          err: null,
-          msg: 'Tags retrieved successfully.',
-          data: tag
-        });
-      }
-    });
+  Tag.find({ name: { $regex: req.params.searchtag, $options: "$i" }, blocked: { $eq: "false" }, status: { $eq: "Accepted" } }).exec(function (err, tag) {
+    if (err) {
+      return next(err);
+    }
+    else if (tag.length == 0) {
+      return res.status(404).json({
+        err: null,
+        msg: 'Tags not found',
+        data: null
+      });
+    }
+    else if (tag) {
+      return res.status(200).json({
+        err: null,
+        msg: 'Tags retrieved successfully.',
+        data: tag
+      });
+    }
+  });
 
 };
 
 module.exports.searchbyUser = function (req, res, next) {
-    
-  User.find({ username: { $regex: req.params.searchtag, $options: "$i" }, role:{$eq:"expert"},blocked:{$eq:"false"} }).exec(function (err, user) {
+
+  User.find({ username: { $regex: req.params.searchtag, $options: "$i" }, role: { $eq: "expert" }, blocked: { $eq: "false" } }).exec(function (err, user) {
     if (err) {
       return next(err);
     }
-    else if ( !user) {
+    else if (!user) {
       return res.status(404).json({
         err: null,
         msg: 'user not found',
         data: null
       });
     }
-    else if ( user) {
+    else if (user) {
       return res.status(200).json({
         err: null,
         msg: 'users retrieved successfully.',
@@ -138,20 +135,21 @@ module.exports.getimage = function (req, res) {
     if (err) {
       return next(err);
     }
-    return res.status(201).json({
+    return res.status(200).json({
       err: null,
       msg: null,
-      data: { buffer: user.img.data, contentType: user.img.contentType }
+      data: (user.img.data && user.img.contentType )? 
+      { data : user.img.data, contentType: user.img.contentType } : null
     });
   });
 };
 
 module.exports.getUserProfile = function (req, res) {
-  User.findOne({ username: { $eq: req.params.username } }).populate('speciality').populate('bookmarks' , 'username role img').exec(function (err, user) {
+  User.findOne({ username: { $eq: req.params.username } }).populate('speciality').populate('bookmarks', 'username role img').exec(function (err, user) {
     if (err) {
       return next(err);
     }
-    
+
     if (!user) {
       return res.status(404).json({
         err: null,
@@ -202,6 +200,7 @@ module.exports.getusername = function (req, res) {
     });
   });
 };
+
 //this function is used to upload an image (buffer) to the database
 module.exports.uploadimage = function (req, res) {
   User.findByIdAndUpdate(req.decodedToken.user._id, { $set: { img: { data: req.file.buffer, contentType: req.file.mimetype } } },
@@ -234,7 +233,7 @@ module.exports.uploadCoverPic = function (req, res) {
         data: { buffer: updatedUser.CoverImg.data, contentType: updatedUser.CoverImg.contentType } /* Hnn3ml load el new Image From El Browser B3d El Checks 
        Only Confirmation Message Is Needed*/
       });
-  });
+    });
 };
 
 module.exports.updateEmail = function (req, res, next) {
@@ -331,38 +330,32 @@ module.exports.updatePassword = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        console.log('------------------------------------')
-        console.log(user.password);
-        console.log(req.body.oldPassword)
-        console.log(hash2);
-        console.log(req.decodedToken.user);
-        console.log('------------------------------------')
-        Encryption.comparePasswordToHash( req.body.oldPassword , user.password , function (err, matches) {
+        Encryption.comparePasswordToHash(req.body.oldPassword, user.password, function (err, matches) {
 
+          if (err) {
+            return next(err);
+          }
+          console.log(req.body.oldPassword);
+
+          console.log
+          if (!matches) {
+            return res.status(422).json({
+              err: null,
+              msg: 'wrong old password',
+              data: null
+            });
+          }
+          req.body.password = hash;
+          User.findByIdAndUpdate(req.decodedToken.user._id, { $set: req.body }, { new: true }).exec(function (err, updatedUser) {
             if (err) {
               return next(err);
             }
-            console.log(req.body.oldPassword);
-
-            console.log
-            if (!matches) {
-              return res.status(422).json({
-                err: null,
-                msg: 'wrong old password',
-                data: null
-              });
-            }
-            req.body.password = hash;
-            User.findByIdAndUpdate(req.decodedToken.user._id, { $set: req.body }, { new: true }).exec(function (err, updatedUser) {
-              if (err) {
-                return next(err);
-              }
-              return res.status(201).json({
-                err: null,
-                msg: 'Password updated successfully.',
-                data: updatedUser
-              });
+            return res.status(201).json({
+              err: null,
+              msg: 'Password updated successfully.',
+              data: updatedUser
             });
+          });
         });
       });
     });
@@ -459,52 +452,31 @@ module.exports.upgradeToExpert = function (req, res, next) {
   });
 };
 
-module.exports.getOfferedSlots = function (req, res, next) {
-  OfferedSlot.find({ user_email: req.decodedToken.user.email }).exec(function (err, OfferedSlotsTable) {
-    if (err) {
-      return next(err);
-    }
-    if (!OfferedSlotsTable) {
-      return res.status(404).json({ err: null, msg: 'You are still not offered any slots', data: null });
-    }
-    res.status(200).json({
-      err: null,
-      msg: 'Here are your offered appointments',
-      data: OfferedSlotsTable
-    });
-  });
-};
-
-module.exports.reserveSlot = function (req, res, next) {
-  OfferedSlot.findOneAndUpdate({ $and: [{ user_email: req.decodedToken.user.email }, { expert_email: req.body.expert_email }] }, { $set: { status: req.body.status } }, function (err, updatedTable) {
-    if (err) {
-      return next(err);
-    }
-    if (!updatedTable) {
-      return res.status(404).json({ err: null, msg: 'Record not found.', data: null });
-    }
-    return res.status(200).json({
-      err: null,
-      msg: 'Successfully reserved/declined slot.',
-      data: updatedTable
-    });
-  });
-};
-
+/*
+  Views all the experts whose specialty includes the searched tag
+*/
 module.exports.viewSuggestedExperts = function (req, res, next) {
-  Tag.findOne({ name: { $regex: req.params.tagName , $options: "$i" } , blocked : false , status : "Accepted" }).exec( function (err , tag) {
-    if(tag){
-      User.find({ _id : { $ne : req.decodedToken.user._id } , "speciality" : tag._id , "role": "expert" , blocked : false } ,
-       { _id : 1 , username : 1 , role : 1 , speciality : 1  , rating : 1 , img : 1 }).populate('speciality','name').exec(function (err, User) {
-        if (err) {
-          return next(err);
-        }
-        return res.status(200).json({
-          err: null,
-          msg: 'Experts retrieved successfully.',
-          data: User
+  Tag.findOne({ name: { $regex: req.params.tagName, $options: "$i" }, blocked: false, status: "Accepted" }).exec(function (err, tag) {
+    if (tag) {
+      User.find({ _id: { $ne: req.decodedToken.user._id }, "speciality": tag._id, "role": "expert", blocked: false },
+        { _id: 1, username: 1, role: 1, speciality: 1, rating: 1, img: 1 }).populate('speciality', 'name').exec(function (err, users) {
+          if (err) {
+            return next(err);
+          }
+          if (users.length != 0) {
+            return res.status(200).json({
+              err: null,
+              msg: 'Experts retrieved successfully.',
+              data: users
+            });
+          } else {
+            return res.status(404).json({
+              err: null,
+              msg: 'Unable to Find Experts Tagged With ' + tag.name + ' .',
+              data: users
+            });
+          }
         });
-      });
     } else {
       return res.status(404).json({
         err: null,
@@ -545,18 +517,18 @@ module.exports.addToBookmarks = function (req, res, next) {
         });
       }
 
-      User.findOneAndUpdate({ _id : { $eq : req.decodedToken.user._id} , bookmarks: { $ne: req.params.expertId }},
-        { $push: { bookmarks: req.params.expertId } }, { new : true } , function (err, user) {
+      User.findOneAndUpdate({ _id: { $eq: req.decodedToken.user._id }, bookmarks: { $ne: req.params.expertId } },
+        { $push: { bookmarks: req.params.expertId } }, { new: true }, function (err, user) {
 
           if (err) {
             return next(err);
           }
           if (!user) {
-            return res.status(404).json({ 
-              err: null , 
+            return res.status(404).json({
+              err: null,
               msg: 'The expert could not be added to your bookmarks because '
-                   + ' he/she is already added to your bookmarks.', 
-              data: null 
+                + ' he/she is already added to your bookmarks.',
+              data: null
             });
           }
           return res.status(201).json({
@@ -612,7 +584,7 @@ module.exports.removeFromBookmarks = function (req, res, next) {
 
 module.exports.findUserbyId = function (req, res, next) {
   console.log(req.body);
-  User.find({ _id: req.body  }).exec(function (err, User) {
+  User.find({ _id: req.body }).exec(function (err, User) {
     if (err) {
       return next(err);
     }

@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'dashboard', component : DashboardComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'admin' } },
   { path: 'profile' , component : ProfileComponent , canActivate : [AuthGuard]  , data : { checkRole : false } },
   { path: 'profile/:username' , component : ProfileComponent , canActivate : [AuthGuard] , data : { checkRole : false } },
-  { path: 'search/:searchtag' , component:SearchComponent , canActivate : [AuthGuard] , data : { checkRole : false }  },
+  { path: 'search/:searchOptions/:search' , component:SearchComponent , canActivate : [AuthGuard] , data : { checkRole : false }  },
   { path: 'rating', component : RatingComponent , canActivate : [AuthGuard]  , data : { checkRole : false }},
   { path: 'notification', component : NotificationListComponent , canActivate : [AuthGuard] , data : { checkRole : false } },
   { path: 'schedule', component : ScheduleComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'expert' }  },

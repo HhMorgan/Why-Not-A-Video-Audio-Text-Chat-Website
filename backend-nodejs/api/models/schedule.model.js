@@ -30,7 +30,7 @@ var ScheduleSchema = mongoose.Schema({
         }
     ]
 
-}, { collection: 'Schedule' }
+}, { collection: 'Schedules' }
 );
 
 module.exports = mongoose.model('Schedule', ScheduleSchema);

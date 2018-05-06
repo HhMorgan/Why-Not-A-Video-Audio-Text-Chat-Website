@@ -1,4 +1,5 @@
-/* The  controller that handles all the functionality that an expert can do.
+/* 
+The  controller that handles all the functionality that an expert can do.
 An expert can view the his/her pending slot requests created by another user --> "viewSlotRequests".
 An expert can accept/reject a slot request --> "editSlotRequest".
 */
@@ -7,11 +8,11 @@ var mongoose = require('mongoose'),
 Request = mongoose.model('Request'),
 User = mongoose.model('User'),
 Tag = mongoose.model('Tag'),
-Slot = mongoose.model('ReservedSlot'),
 Schedule = mongoose.model('Schedule2'),
 Session = mongoose.model('Session'),
 Validations = require('../utils/validations');
 
+//This function is responsible for adding a speciality for the expert,only if it exists in the tag table
 module.exports.addSpeciality = function (req, res, next) {
   var valid = req.params.tagId && Validations.isObjectId(req.params.tagId);
   if (!valid) {

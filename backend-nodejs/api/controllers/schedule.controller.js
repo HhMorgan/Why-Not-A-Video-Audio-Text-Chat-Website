@@ -1,15 +1,25 @@
+/* 
+this controller contains all the functions related to the schedule schema as
+1- expert view his defined slots
+2- expert add new slot to his schedule
+3- expert cancel an offered slot
+4- expert accept a session request from user
+5- user send a slot request to expert 
+*/
 var mongoose = require('mongoose'),
 Request = mongoose.model('Request'),
 Schedule = mongoose.model('Schedule'),
 User = mongoose.model('User'),
 Tag = mongoose.model('Tag'),
 Session = mongoose.model('Session'),
-Slot = mongoose.model('ReservedSlot'),
 NotificationController = require('../controllers/notification.controller')
 Validations = require('../utils/validations'),
 ScheduleHelper = require('../utils/schedule.helper'),
 moment = require('moment');
 
+/*
+this function retreives all the slots defined by the expert from table Schedule 
+*/
 module.exports.getSlots = function(req , res , next){
   var valid = req.params.expertID && Validations.isObjectId(req.params.expertID)
   if(!valid){
@@ -19,8 +29,8 @@ module.exports.getSlots = function(req , res , next){
       data: null
     });
   } else {
-    var start_date = moment(new Date()).startOf('week').isoWeekday(6).format('D-MMMM-YY')
-    var end_date = moment(new Date()).startOf('week').isoWeekday(6 + 6).format('D-MMMM-YY')
+    var start_date = ScheduleHelper.weekdayWithStartWeekday( 0 , 6 ).format('D-MMMM-YY')
+    var end_date = ScheduleHelper.weekdayWithStartWeekday( 6 , 6 ).format('D-MMMM-YY')
     Schedule.findOne({ $and : [ { expertID : { $eq : req.params.expertID } , 
       startDate : { $eq : start_date } , endDate : { $eq : end_date } } ] }).
       populate('slots.users','username').exec(function( err,schedule ){
@@ -41,6 +51,10 @@ module.exports.getSlots = function(req , res , next){
   }
 }
 
+/*
+this function adds new slots to the expert's Schedule if the schedule already exists,
+if not it creats a new Schedule to the expert and add the offered slot in it 
+*/
 module.exports.expertOfferSlot = function(req, res, next) {
 
   var valid = req.decodedToken.user._id && Validations.isObjectId(req.decodedToken.user._id) &&
