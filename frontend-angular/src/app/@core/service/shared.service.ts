@@ -57,7 +57,6 @@ export class SharedFunctions {
       return new Promise<String>(resolve => {
         reader.readAsDataURL(new Blob([new Buffer(imgData.data)], { type: imgData.data.contentType }))
         reader.addEventListener("load", () => {
-          console.log(reader.result);
           resolve(reader.result);
         }, false);
       })

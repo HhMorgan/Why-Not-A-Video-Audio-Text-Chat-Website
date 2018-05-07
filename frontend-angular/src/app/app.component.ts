@@ -77,7 +77,6 @@ export class AppComponent {
     removeFooter() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
         titlee = titlee.slice(7).split("/", 1)[0];
-        // console.log(titlee);
         if (titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'video' || this.title === 'videotest'
             || titlee === 'chat' || titlee === 'login' || titlee === 'about' || titlee === 'search' || titlee == 'profile') {
             return false;
@@ -90,11 +89,8 @@ export class AppComponent {
     handleKeyboardEvent(event: KeyboardEvent) {
         var titlee = this.location.prepareExternalUrl(this.location.path());
         titlee = titlee.slice(7).split("/", 1)[0];
-        // console.log(titlee);
         if (!(titlee === 'signup' || titlee == 'login' || titlee === 'session')) {
             this.key = event.key;
-
-            //console.log(this.key);
             this.keyArray.push(event.key);
             if (this.keyArray.length == 9) {
                 var flag = true;
@@ -105,14 +101,11 @@ export class AppComponent {
                     }
                 }
                 if (flag) {
-                    // console.log(flag);
                     this.router.navigate(['page/about']);
-                }
-                else {
+                } else {
                     this.keyArray.splice(0, 1);
                 }
             }
-            //console.log(this.keyArray);
         }
     }
 }

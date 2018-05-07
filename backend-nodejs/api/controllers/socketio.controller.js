@@ -35,12 +35,12 @@ module.exports = function (io) {
                         )
                         sendAllConnectedUsersinRoom(connection,data.room);
                     } else {
-                        sendTo(connection , JSON.stringify(
+                        sendTo(connection , 
                             {
                                 type : "Failure" ,
                                 msg : "Already Logged In Room"
                             }
-                        ));
+                        );
                     }
                 break;
                 
@@ -120,10 +120,12 @@ module.exports = function (io) {
     }
 
     function isUserConnectedinRoom(connection , room){
-        for( var socketId in io.sockets.adapter.rooms[room].sockets) {
-            var socketconnection = io.of("/").connected[socketId];
-            if(socketconnection != null && connection.request.decoded_token.user._id == socketconnection.request.decoded_token.user._id) {
-                return true;
+        if(io.sockets.adapter.rooms[room]){
+            for( var socketId in io.sockets.adapter.rooms[room].sockets) {
+                var socketconnection = io.of("/").connected[socketId];
+                if(socketconnection != null && connection.request.decoded_token.user._id == socketconnection.request.decoded_token.user._id) {
+                    return true;
+                }
             }
         }
         return false;
