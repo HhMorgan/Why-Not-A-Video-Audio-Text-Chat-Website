@@ -50,4 +50,21 @@ export class SharedFunctions {
       }, false);
     }
   }
+
+  public static getImageUrl(imgData) : Promise<String> {
+    var reader: FileReader = new FileReader();
+    if(imgData){
+      return new Promise<String>(resolve => {
+        reader.readAsDataURL(new Blob([new Buffer(imgData.data)], { type: imgData.data.contentType }))
+        reader.addEventListener("load", () => {
+          console.log(reader.result);
+          resolve(reader.result);
+        }, false);
+      })
+    } else {
+      return new Promise<String>(resolve => {
+        resolve("../assets/img/default-Profile-Pic.png");
+      });
+    }
+  }
 }

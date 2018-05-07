@@ -255,10 +255,10 @@ export class APIService {
       .catch(this.errorHandler);
   }
 
-  getUserbyIds(Users_ids: String[]): Observable<APIData> {
-    return this.http.post<APIData>(APIService.apiUrl + 'user/getUserById', Users_ids)
-      .catch(this.errorHandler);
+  getUsersbyIds(Users_ids: String[]): Observable<APIData> {
+    return this.http.post<APIData>(APIService.apiUrl + 'users/getById', { ids : Users_ids }).catch(this.errorHandler);
   }
+
 //-----------------------------------/getRequestsFromUsersToBeExpert api request/--------------------------
 
   getRequestsFromUsersToBeExpert(): Observable<APIData> {

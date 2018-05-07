@@ -428,6 +428,14 @@ module.exports.searchbyUser = function (req, res, next) {
   Views all the experts whose specialty includes the searched tag
 */
 module.exports.viewSuggestedExperts = function (req, res, next) {
+  var valid = req.params.tagName && Validations.isString(req.params.tagName);
+  if(!valid){
+    return res.status(422).json({
+      err: null,
+      msg: 'Not A String',
+      data: null
+    });
+  }
   Tag.findOne({ name: { $regex: req.params.tagName, $options: "$i" }, blocked: false, status: "Accepted" }).exec(function (err, tag) {
     if (tag) {
       User.find({ _id: { $ne: req.decodedToken.user._id }, "speciality": tag._id, "role": "expert", blocked: false },
@@ -554,9 +562,26 @@ module.exports.removeFromBookmarks = function (req, res, next) {
   });
 };
 
-module.exports.findUserbyId = function (req, res, next) {
-  console.log(req.body);
-  User.find({ _id: req.body }).exec(function (err, User) {
+module.exports.findUsersByID = function (req, res, next) {
+  var valid = req.body.ids && Validations.isArray(req.body.ids);
+  if(!valid){
+    return res.status(422).json({
+      err: null,
+      msg: 'Not An Array',
+      data: null
+    });
+  } else {
+    for( id of req.body.ids){
+      if(!Validations.isObjectId(id)){
+        return res.status(422).json({
+          err: null,
+          msg: 'Not An ObjectId',
+          data: null
+        });
+      }
+    }
+  }
+  User.find({ _id: { $in : req.body.ids } },{ _id: 1 , username: 1 , role: 1 , img: 1 }).exec(function (err, User) {
     if (err) {
       return next(err);
     }
@@ -567,7 +592,6 @@ module.exports.findUserbyId = function (req, res, next) {
         data: null
       });
     }
-
     return res.status(201).json({
       err: null,
       msg: 'Succesfully retrieved Users',

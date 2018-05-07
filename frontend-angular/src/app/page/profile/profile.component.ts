@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { APIService } from '../../@core/service/api.service';
 import { NavBarService, SharedFunctions } from '../../@core/service/shared.service';
-import { APIData , User , FileData , Tag } from '../../@core/service/models/api.data.structure'
+import { APIData, User, FileData, Tag } from '../../@core/service/models/api.data.structure'
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
   public editable: boolean = true; // intially just for testing
 
 
-  constructor(private apiServ: APIService , private route: ActivatedRoute , private NavBarService: NavBarService , private router : Router ) { };
+  constructor(private apiServ: APIService, private route: ActivatedRoute, private NavBarService: NavBarService, private router: Router) { };
   //this method changes the user's current status if it's online to offlne and vice versa
 
   changeUserStatus() {
@@ -181,12 +181,12 @@ export class ProfileComponent implements OnInit {
         }
         this.usernameOfProfileRole = apires.data.role;//getting the role of the showed profile
         this.description = apires.data.description; //getting the desc. of showed profile
-        SharedFunctions.loadImageBy('profileimg' , apires.data.img , false );
-        SharedFunctions.loadImageBy('coverImg' , apires.data.CoverImg , true);
+        SharedFunctions.loadImageBy('profileimg', apires.data.img, false);
+        SharedFunctions.loadImageBy('coverImg', apires.data.CoverImg, true);
         this.BookmarkedUsers = new Array();
-        for( let bookmark of apires.data.bookmarks){
+        for (let bookmark of apires.data.bookmarks) {
           this.BookmarkedUsers.push(bookmark);
-          SharedFunctions.loadImageBy(bookmark.username , bookmark.img , false)
+          SharedFunctions.loadImageBy(bookmark.username, bookmark.img, false)
         }
         this.showrating(apires.data.rating);
         this.CoverImgOfUser = apires.data.CoverImg;
@@ -307,7 +307,7 @@ export class ProfileComponent implements OnInit {
     let fy: FileData = { file: files.item(0) };
     this.apiServ.postCoverImg(fy).subscribe(data => {
       this.apiServ.getUserProfile(this.user).subscribe((apires: APIData) => {
-        SharedFunctions.loadImageBy('coverImg' , apires.data.CoverImg  , true);
+        SharedFunctions.loadImageBy('coverImg', apires.data.CoverImg, true);
       });
     }, error => {
 
@@ -316,8 +316,8 @@ export class ProfileComponent implements OnInit {
 
   getimage() {
     this.apiServ.getimage().subscribe((apires: APIData) => {
-      SharedFunctions.loadImageBy('profileimg' , apires.data.img , false);
-      SharedFunctions.loadImageBy('profileimgnavbar' , apires.data.img  , false);
+      SharedFunctions.loadImageBy('profileimg', apires.data, false);
+      SharedFunctions.loadImageBy('profileimgnavbar', apires.data, false);
     }, (err) => {
       console.log(err);
     });
@@ -334,7 +334,7 @@ export class ProfileComponent implements OnInit {
     this.profilesettings = false;
     // this.ngOnInit();
   }
-  goToSchedule(){
-    this.router.navigate(['page/schedule',this.user._id]); 
+  goToSchedule() {
+    this.router.navigate(['page/schedule', this.user._id]);
   }
 }

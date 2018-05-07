@@ -16,7 +16,6 @@ module.exports = function (io) {
         console.log("User " + connection.request.decoded_token.user._id +" Connected");
         connection.on('message', function(message) { 
             var data; 
-            //accepting only JSON messages 
             try {
                 data = JSON.parse(message); 
             } catch (e) { 
@@ -25,27 +24,34 @@ module.exports = function (io) {
             } 
             switch(data.type){
                 case "Join":
-                    connection.join(data.room);
-                    connection.broadcast.to(data.room).emit('message' , 
-                        JSON.stringify({
-                        type : "Join" ,
-                        msg : "Joined Room " + data.room ,
-                        userid : connection.request.decoded_token.user._id
-                        })
-                    )
-                    sendAllConnectedUsersinRoom(connection,data.room);
-                    // io.sockets.in('5accc80710884653ec3a3b14').emit('message', JSON.stringify('hi 3ml ')); // kol nas including sending socket
+                    if(!isUserConnectedinRoom(connection,data.room)){
+                        connection.join(data.room);
+                        connection.broadcast.to(data.room).emit('message' , 
+                            JSON.stringify({
+                            type : "Join" ,
+                            msg : "Joined Room " + data.room ,
+                            userid : connection.request.decoded_token.user._id
+                            })
+                        )
+                        sendAllConnectedUsersinRoom(connection,data.room);
+                    } else {
+                        sendTo(connection , JSON.stringify(
+                            {
+                                type : "Failure" ,
+                                msg : "Already Logged In Room"
+                            }
+                        ));
+                    }
                 break;
                 
 
                 case "message": 
-                    
-                    console.log("message : ", data.message,", id : ", data.name); 
                     connection.broadcast.to(data.room).emit('message' , 
                     JSON.stringify(
                         {
                             type: "message",
-                            message : data.message
+                            message : data.message,
+                            userid : connection.request.decoded_token.user._id
                         }
                     )
                 ); 
@@ -112,6 +118,17 @@ module.exports = function (io) {
           console.log("sending to " + connection.request.decoded_token.user._id)
         connection.send(JSON.stringify(message)); 
     }
+
+    function isUserConnectedinRoom(connection , room){
+        for( var socketId in io.sockets.adapter.rooms[room].sockets) {
+            var socketconnection = io.of("/").connected[socketId];
+            if(socketconnection != null && connection.request.decoded_token.user._id == socketconnection.request.decoded_token.user._id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //check if the users are connected to the room
     function isConnectioninRoom(connection , room) {
         for( var socketId in io.sockets.adapter.rooms[room].sockets) {

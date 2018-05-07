@@ -125,7 +125,7 @@ router.post('/user/upgradeToexpert', isAuthenticated, userCtrl.upgradeToExpert);
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
 router.delete('/user/removeFromBookmarks/:expertId', isAuthenticated, userCtrl.removeFromBookmarks);
 router.get('/user/viewBookmarks', isAuthenticated, userCtrl.viewBookmarks);
-router.post('/user/getUserById', isAuthenticated, userCtrl.findUserbyId);
+router.post('/users/getById', isAuthenticated , userCtrl.findUsersByID);
 router.get('/Notification/getNotifications', isAuthenticated, NotificationController.getNotifications);
 
 /* Schedule V2 */
