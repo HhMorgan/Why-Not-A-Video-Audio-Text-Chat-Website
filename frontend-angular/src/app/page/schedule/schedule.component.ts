@@ -98,16 +98,18 @@ export class ScheduleComponent implements OnInit {
   }
 
   popoutExpertOn(day: Number, slot: any) {
-    this.usersRequestedSlot = [];
-    if (slot.users.length > 0) {
-      for (let user of slot.users) {
-        this.usersRequestedSlot.push({ id: user._id, username: user.username, day: day, slot: slot });
+    if (!this.popoutExpertConfirmation) {
+      this.usersRequestedSlot = [];
+      if (slot.users.length > 0) {
+        for (let user of slot.users) {
+          this.usersRequestedSlot.push({ id: user._id, username: user.username, day: day, slot: slot });
+        }
+        console.log(this.usersRequestedSlot);
+      } else {
+        console.log("not here");
       }
-      console.log(this.usersRequestedSlot);
-    } else {
-      console.log("not here");
+      this.popoutExpert = true;
     }
-    this.popoutExpert = true;
   }
 
   popoutExpertOff() {
@@ -115,9 +117,11 @@ export class ScheduleComponent implements OnInit {
   }
 
   popoutExpertConfirmationOn(day, slot) {
-    this.slotOffer = slot;
-    this.dayOffer = day;
-    this.popoutExpertConfirmation = true;
+    if (!this.popoutExpert) {
+      this.slotOffer = slot;
+      this.dayOffer = day;
+      this.popoutExpertConfirmation = true;
+    }
   }
   popoutExpertConfirmationOff() {
     this.popoutExpertConfirmation = false;
