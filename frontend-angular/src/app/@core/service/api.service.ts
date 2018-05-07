@@ -11,8 +11,9 @@ import { APIData , Tag , Session , Request , CandicateSession , Profile , User ,
 
 @Injectable()
 export class APIService {
-  public static apiUrl = 'https://whatwhynot.net/api/';
+  //public static apiUrl = 'https://whatwhynot.net/api/';
   // public static apiUrl = 'http://127.0.0.1:3000/api/';
+  public static apiUrl='https://192.168.1.199:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup'];
   constructor( private jwtHelper: JwtHelper , private http: HttpClient) { }
 

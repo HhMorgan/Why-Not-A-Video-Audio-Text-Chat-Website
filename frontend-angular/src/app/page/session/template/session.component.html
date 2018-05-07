@@ -60,7 +60,7 @@
                                                     <div *ngFor="let msg of messages">
 
                                                         <div *ngIf="msg.type==='recieved' && msg.message != undefined" id="chatMessage" class="container">
-                                                            <img [src]="msg.img" alt="Avatar" style="width:100%;">
+                                                            <img [src]="msg.img" alt="Avatar" class="left" style="width:100%;">
                                                             <p>{{msg.message}}</p>
                                                         </div>
 
