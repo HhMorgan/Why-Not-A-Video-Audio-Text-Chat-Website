@@ -24,23 +24,23 @@
                             <div class="LeftBox">
                                 <div class="motto">
                                     <div class="centeralizeVertical">
-                                    <div *ngIf='joinFlag'>
-                                        <div class="media-display">
-                                            <div class="LocalVideo">
-                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)" [startCapture]="startCapture"
-                                                    [mediaSource]="mediaSource_local" [isRemote]="false"></rtc-media-recorder>
-                                            </div>
-                                            <div class="RemoteVideo">
-                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)"  [startCapture]="false"
-                                                    [mediaSource]="mediaSource_remote_list[0]" [isRemote]="true"></rtc-media-recorder>
-                                            </div>
-                                            <div  class="buttons">
-                                                <button *ngIf="!joinButtonflag" class="btn btn-success positionJoinButton" (click)="joinClick()">Join</button>
-                                                <button *ngIf="joinButtonflag" class="btn btn-danger positionJoinButton" (click)="closeCall()">End</button>
+                                        <div *ngIf='joinFlag'>
+                                            <div class="media-display">
+                                                <div class="LocalVideo">
+                                                    <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)" [startCapture]="startCapture"
+                                                        [mediaSource]="mediaSource_local" [isRemote]="false"></rtc-media-recorder>
+                                                </div>
+                                                <div class="RemoteVideo">
+                                                    <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)" [startCapture]="false" [mediaSource]="mediaSource_remote_list[0]"
+                                                        [isRemote]="true"></rtc-media-recorder>
+                                                </div>
+                                                <div class="buttons">
+                                                    <button *ngIf="!joinButtonflag" class="btn btn-success positionJoinButton" (click)="joinClick()">Join</button>
+                                                    <button *ngIf="joinButtonflag" class="btn btn-danger positionJoinButton" (click)="closeCall()">End</button>
 
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -59,14 +59,16 @@
 
                                                     <div *ngFor="let msg of messages">
 
-                                                        <div *ngIf="msg.type==='recieved' && msg.message != undefined" id="chatMessage" class="container">
+                                                        <div *ngIf="msg.type==='recieved' && msg.message!='↵' && msg.message != undefined" id="chatMessage" class="container">
                                                             <img [src]="msg.img" alt="Avatar" class="left" style="width:100%;">
                                                             <p>{{msg.message}}</p>
+                                                            <span class="time-right">{{senderUsername}}</span>
                                                         </div>
 
-                                                        <div *ngIf="msg.type==='sender' && msg.message != undefined" id="chatMessage" class="container darker">
-                                                            <img  [src]="senderImgSrc" alt="Avatar" class="right" style="width:100%;">
+                                                        <div *ngIf="msg.type==='sender' && msg.message!='↵' && msg.message != undefined" id="chatMessage" class="container darker">
+                                                            <img [src]="senderImgSrc" alt="Avatar" class="right" style="width:100%;">
                                                             <p>{{msg.message}}</p>
+                                                            <span class="time-right">{{recieverUsername}}</span>
                                                         </div>
                                                     </div>
 
@@ -128,8 +130,8 @@
                                                     [mediaSource]="mediaSource_local" [isRemote]="false"></rtc-media-recorder>
                                             </div>
                                             <div class="RemoteVideo">
-                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)" [startCapture]="false"
-                                                    [mediaSource]="mediaSource_remote_list[0]" [isRemote]="true"></rtc-media-recorder>
+                                                <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)" [startCapture]="false" [mediaSource]="mediaSource_remote_list[0]"
+                                                    [isRemote]="true"></rtc-media-recorder>
                                             </div>
                                         </div>
                                         <div class="buttons">
