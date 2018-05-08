@@ -12,7 +12,7 @@ import { RatingComponent } from './rating/rating.component';
 import { upgradeToExpertComponent } from './upgradeToExpert/upgradeToExpert.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 import { AdminRatingComponent } from './components/admin-rating/admin-rating.component';
-import { ConfirmMailComponent } from '../page/auth/confirm-mail/confirm-mail.component';
+import { VerifyComponent } from '../page/auth/verify/verify.component';
 import { AboutComponent } from './about/about.component';
 import { SearchComponent } from '../page/search/search.component';
 import { NotificationListComponent } from '../page/notification-list/notification.list.component';
@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'about', component : AboutComponent },
   { path: 'login' , component : LoginComponent },
   { path: 'signup' , component : SignupComponent },
-  { path: 'confirm/:email/:token', component : ConfirmMailComponent},
+  { path: 'verify/:token', component : VerifyComponent},
   { path: 'session/:sessionid', component: SessionComponent , canActivate : [AuthGuard]  , data : { checkRole : false } },
   { path: 'dashboard', component : DashboardComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'admin' } },
   { path: 'profile' , component : ProfileComponent , canActivate : [AuthGuard]  , data : { checkRole : false } },

@@ -55,7 +55,7 @@ module.exports.login = function (req, res, next) {
       var token = jwt.sign(
         {
           // user.toObject transorms the document to a json object without the password as we can't leak sensitive info to the frontend
-          user: { _id : user._id , username: user.username , email: user.email , role : user.role  }
+          user: { _id: user._id, username: user.username, email: user.email, role: user.role }
         },
         req.app.get('secret'),
         {
@@ -73,7 +73,7 @@ module.exports.login = function (req, res, next) {
 module.exports.signup = function (req, res, next) {
   var valid = req.body.username && Validations.isString(req.body.username) &&
     req.body.password && Validations.isString(req.body.password) &&
-    req.body.email && Validations.isString(req.body.email) && Validations.matchesRegex(req.body.email,EMAIL_REGEX);
+    req.body.email && Validations.isString(req.body.email) && Validations.matchesRegex(req.body.email, EMAIL_REGEX);
   if (!valid) {
     return res.status(422).json({
       err: null,
@@ -82,7 +82,7 @@ module.exports.signup = function (req, res, next) {
     });
   }
   req.body.username = req.body.username.trim().replace(/\s+/g, '-');
-  User.findOne({ $or: [{ username: { $eq: req.body.username } }, { email: { $eq: req.body.email } }] }, function (err, user) {
+  User.findOne({ $or: [{ username: { $eq: req.body.username } }, { email: { $eq: req.body.email.trim().toLowerCase() } }] }, function (err, user) {
     if (err)
       throw err;
     if (user == null) {
@@ -91,38 +91,52 @@ module.exports.signup = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        // creating a verification token to enable user to verify his email
-        var token = crypto.randomBytes(16).toString('hex');
-        req.body.password = hash;
-        req.body.verificationToken = token;
-        // Confirmation url which will be sent to user
-        let confirmationUrl = 'https://whatwhynot.net/#/page' + `/confirm/${req.body.email}/${token}`;
-        nodemailerController.sendEmail(
-          req.body.email,
-          'Account Verification Token',
-          'Click the following link to confirm your account:</p>' + confirmationUrl ,
-          function(done) {
-            if(done){
-              User.create(req.body, function (err, newUser) {
-                if (err) {
-                  return next(err);
+        if (req.body.role) {
+          req.body.role = 'user';
+        }
+        User.create({ username: req.body.username, email: req.body.email.trim().toLowerCase(), role: req.body.role, password: hash, verificationToken: crypto.randomBytes(16).toString('hex') }, function (err, newUser) {
+          if (err) {
+            return next(err);
+          } else {
+            var token = jwt.sign(
+              {
+                user: { _id : newUser._id , email: newUser.email , verify : "Account" , 
+                token : newUser.verificationToken }
+              },
+              req.app.get('secret'),
+              {
+                expiresIn: '2h'
+              }
+            );
+            // Confirmation url which will be sent to user
+            let confirmationUrl = 'https://whatwhynot.net/#/page' + `/verify/${token}`;
+            nodemailerController.sendEmail(
+              req.body.email,
+              'Account Verification Token',
+              'Click the following link to confirm your account:</p>' + confirmationUrl,
+              function (done) {
+                if (done) {
+                  console.log(req.body);
+                  return res.status(201).json({
+                    err: null,
+                    msg: 'Registration successful, you can now login to your account.',
+                    data: newUser
+                  });
+                } else {
+                  User.remove({ _id: user._id }, function (err) {
+                    if (!err) {
+                      return res.status(412).json({
+                        err: null,
+                        msg: 'Registration Failed',
+                        data: null
+                      })
+                    }
+                  })
                 }
-                console.log(req.body);
-                return res.status(201).json({
-                  err: null,
-                  msg: 'Registration successful, you can now login to your account.',
-                  data: newUser
-                });
-              });
-            } else {
-              return res.status(412).json({
-                err: null,
-                msg: 'Registration Failed',
-                data: null
-              })
-            }
+              }
+            )
           }
-        );
+        });
       });
     } else
       return res.status(412).json({
@@ -133,87 +147,63 @@ module.exports.signup = function (req, res, next) {
   })
 };
 
-module.exports.confirmEmail = function (req, res, next) {
+module.exports.verify = function (req, res, next) {
   // finds a user with verification token appended to the url url
-  var valid = req.params.email && Validations.isString(req.params.email) &&
-    req.params.token && Validations.isString(req.params.email);
+  var valid = req.params.token && Validations.isString(req.params.token);
   if (valid) {
-    User.findOne({ email: req.params.email, verificationToken: req.params.token }, function (err, user) {
-      if (err)
-        throw err;
-      if (!user) {
-        return res.status(404).json({
-          err: null,
-          msg: 'Failed to verify your email.',
+    jwt.verify(req.params.token, req.app.get('secret'), function (err, decodedToken) {
+      if (err) {
+        return res.status(401).json({
+          error: err,
+          msg: 'Token Timed Out',
           data: null
-        })
-      } else {
-        // Handles the case that user already verified his account
-        if (user.isVerified) {
-          return res.status(209).json({
-            err: null,
-            msg: 'This user has already been verified.',
-            data: null
-          });
-        } else {
-          //changes the status of user.isVerified to true
-          user.isVerified = true;
-          user.save(function (err) {
-            if (err) {
-              return next(err);
-            }
-            return res.status(200).json({
-              err: null,
-              msg: user.email + " has been verified.",
-              data: null
-            });
-          });
-        }
+        });
       }
-    })
+      switch (decodedToken.user.verify) {
+        case "Email":
+          User.findOneAndUpdate({ _id: decodedToken.user._id, verificationEmailToken: decodedToken.user.token },
+            { $set: { email: decodedToken.user.email }, $unset: { verificationEmailToken: 1 } },
+            { new: false }, function (err, user) {
+              if (user) {
+                return res.status(200).json({
+                  err: null,
+                  msg: user.email + ' Updated to ' + decodedToken.user.email,
+                  data: null
+                })
+              } else {
+                return res.status(200).json({
+                  err: null,
+                  msg: ' Unable to Verify Email ' + decodedToken.user.email,
+                  data: null
+                })
+              }
+            })
+          break;
+        case "Account":
+          User.findOneAndUpdate({ _id: decodedToken.user._id, verificationToken: decodedToken.user.token },
+            { $set: { isVerified: true }, $unset: { verificationToken: 1 } }, { new: true }, function (err, user) {
+              if (user) {
+                return res.status(200).json({
+                  err: null,
+                  msg: user.username + ' Account is now Verified ',
+                  data: null
+                })
+              } else {
+                return res.status(200).json({
+                  err: null,
+                  msg: ' Unable to Verify Account ' + decodedToken.user.email,
+                  data: null
+                })
+              }
+            })
+          break;
+      }
+    });
   } else {
     return res.status(422).json({
       err: null,
-      msg: "Invalid Email or Token",
+      msg: 'Invalid Data.',
       data: null
     })
   }
-};
-
-module.exports.resendConfirmation = function (req, res, next) {
-  User.findById(req.decodedToken.user._id, function (err, user) {
-    if (!user) {
-      return res.status(209).json({
-        err: null,
-        msg: 'We were unable to find a user with that email.',
-        data: null
-      });
-    } else {
-
-    }
-
-    if (user.isVerified) {
-      return res.status(400).json({
-        err: null,
-        msg: 'This user has already been verified.',
-        data: null
-      });
-    } else {
-      // Creates new verification token to resend it to the user
-      var token = crypto.randomBytes(16).toString('hex');
-      user.verificationToken = token;
-      user.save(function (err) {
-        if (err) {
-          return next(err);
-        }
-        // Confirmation url which will be sent to user
-        let confirmationUrl = 'http://localhost:4200/#/page' + `/confirm/${req.body.email}/${token}`;
-        nodemailerController.sendEmail(
-          user.email,
-          'Account Verification Token',
-          'Click the following link to confirm your account:</p>' + confirmationUrl
-        );
-      });
-    }
-  });
 };

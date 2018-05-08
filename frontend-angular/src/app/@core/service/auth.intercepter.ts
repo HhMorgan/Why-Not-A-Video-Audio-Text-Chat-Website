@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
   
   public isIntercepted(url:String):boolean {
     for(var i = 0 ; i < APIService.apiUrl_Intercept_Ignore_list.length ; i++)
-      if(url.endsWith(APIService.apiUrl_Intercept_Ignore_list[i].toString()))
+      if(url.includes(APIService.apiUrl_Intercept_Ignore_list[i].toString()))
         return false;
     return true;
   }

@@ -73,8 +73,7 @@ var isAdmin = function (req, res, next) {
 //-----------------------------Authentication Routes-------------------------
 router.post('/auth/login', isNotAuthenticated, authCtrl.login);
 router.post('/auth/signup', isNotAuthenticated, authCtrl.signup);
-router.get('/auth/confirm/:email/:token', authCtrl.confirmEmail);
-router.post('/auth/resendConfirmation', isAuthenticated, authCtrl.resendConfirmation);
+router.get('/auth/verify/:token', isNotAuthenticated , authCtrl.verify);
 //----------------------------Admin Routes ----------------------------------
 router.post('/Tags/AddTag', isAuthenticated, isAdmin, AdminController.AddTag);
 router.get('/Tags/getTags', isAuthenticated, AdminController.getTags);

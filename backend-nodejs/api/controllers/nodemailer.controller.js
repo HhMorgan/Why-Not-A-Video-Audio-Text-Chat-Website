@@ -1,8 +1,13 @@
 var nodemailer = require('nodemailer');
 module.exports.sendEmail = function ( to , subject , html , done) {
-    return done(true); // Temp For Spamming
+    // return done(true); // Temp For Spamming
     nodemailer.createTransport({
-        service: 'hotmail',
+        host: "smtp-mail.outlook.com",
+        secureConnection: false,
+        port: 587,
+        tls: {
+           ciphers:'SSLv3'
+        },
         auth: {
           user: 'riseuptest@hotmail.com',
           pass: 'Test123456789'
@@ -13,6 +18,7 @@ module.exports.sendEmail = function ( to , subject , html , done) {
         subject: subject,
         html: html , 
     } , ( err , result ) => {
+        console.log(result);
         if(err) {
             return done(false);
         } else {

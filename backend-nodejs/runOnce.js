@@ -1,6 +1,17 @@
 var MongoClient = require('mongodb').MongoClient;
+var nodemailerController = require('./api/controllers/nodemailer.controller');
 var url = "mongodb://localhost:27017/";
 
+
+nodemailerController.sendEmail(
+  "ahmed.ayman.v1@12345.com",
+  'Testing',
+  'Hi:</p>',
+  function(done) {
+    console.log(done);
+  }
+)
+/*
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
   var dbo = db.db("StartUp-Connect-Database");
@@ -14,17 +25,11 @@ MongoClient.connect(url, function(err, db) {
 
  
   var ReservedSlotsObj = [{
-    
   }
   ];
   var collectionsObj = [
     {name: 'Requests', data: requestsObj},
-
     {name: 'ReservedSlots', data: ReservedSlotsObj},
-
-
-
-
   ];
 
 
@@ -44,3 +49,4 @@ MongoClient.connect(url, function(err, db) {
   }
   console.log("Press Control C");
 });
+*/

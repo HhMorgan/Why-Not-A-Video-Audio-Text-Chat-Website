@@ -13,7 +13,7 @@ import { APIData , Tag , Session , Request , CandicateSession , Profile , User ,
 export class APIService {
   public static apiUrl = 'https://whatwhynot.net/api/';
   // public static apiUrl = 'http://127.0.0.1:3000/api/';
-  public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup'];
+  public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup' , 'auth/verify'];
   constructor( private jwtHelper: JwtHelper , private http: HttpClient) { }
 
   public static getToken(): string {
@@ -264,9 +264,8 @@ export class APIService {
   getRequestsFromUsersToBeExpert(): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'User/getUserRequestToBeExpert').catch(this.errorHandler);
   }
-
-  confirmEmail( email : string , token : string ): Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'auth/confirm/'+ email + '/' + token ).catch(this.errorHandler);
+  verify( token : string ): Observable<APIData> {
+    return this.http.get<APIData>(APIService.apiUrl + 'auth/verify/' + token ).catch(this.errorHandler);
   }
 
 

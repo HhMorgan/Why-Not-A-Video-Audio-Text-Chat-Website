@@ -1,8 +1,10 @@
 var mongoose = require('mongoose'),
   moment = require('moment'),
+  crypto = require('crypto'),
   jwt = require('jsonwebtoken'),
   Validations = require('../utils/validations'),
   Encryption = require('../utils/encryption'),
+  nodemailerController = require('./nodemailer.controller'),
   EMAIL_REGEX = require('../config/appconfig').EMAIL_REGEX,
   Tag = mongoose.model('Tag'),
   User = mongoose.model('User'),
@@ -13,6 +15,7 @@ var Binary = require('mongodb').Binary;
 var fs = require('fs');
 var bcrypt = require('bcryptjs');
 var RegExp = require('mongodb').RegExp;
+
 
 
 module.exports.changeUserStatus = function (req, res, next) {
@@ -185,17 +188,48 @@ module.exports.updateEmail = function (req, res, next) {
           msg: 'A user with this email address already exists, please try another email address.',
           data: null
         });
+      } else {
+        var verificationEmailToken = crypto.randomBytes(16).toString('hex');
+
+        var token = jwt.sign(
+          {
+            user: { _id : user._id , email: req.body.email.trim().toLowerCase() , verify : "Email" , 
+            token : verificationEmailToken }
+          },
+          req.app.get('secret'),
+          {
+            expiresIn: '6h'
+          }
+        );
+        let confirmationUrl = 'http://localhost:4200/#/page' + `/confirm/${token}`;
+        nodemailerController.sendEmail(
+          req.body.email,
+          'Email Update',
+          'Click the following link to confirm your new Email :</p>' + confirmationUrl,
+          function(done){
+            if(done){
+              user.verificationEmailToken = verificationEmailToken;
+              user.save(function(err){
+                if(err){
+                  next(err);
+                } else {
+                  return res.status(201).json({
+                    err: null ,
+                    msg: 'Email update Request Sent To '+ req.body.email ,
+                    data: null
+                  });
+                }
+              })
+            } else {
+              return res.status(503).json({
+                err: null ,
+                msg: 'Email Failed to send Update Request To '+ req.body.email ,
+                data: null
+              });
+            }
+          }
+        )
       }
-      User.findByIdAndUpdate(req.decodedToken.user._id, { $set: req.body }, { new: true }).exec(function (err, updatedUser) {
-        if (err) {
-          return next(err);
-        }
-        res.status(201).json({
-          err: null,
-          msg: 'Email updated successfully.',
-          data: updatedUser
-        });
-      });
     });
   });
 };
