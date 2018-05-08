@@ -53,12 +53,21 @@ module.exports.getimage = function (req, res) {
     if (err) {
       return next(err);
     }
-    return res.status(200).json({
-      err: null,
-      msg: null,
-      data: (user.img.data && user.img.contentType) ?
-        { data: user.img.data, contentType: user.img.contentType } : null
-    });
+    if(user){
+      return res.status(200).json({
+        err: null,
+        msg: null,
+        data: (user.img.data && user.img.contentType) ?
+          { data: user.img.data, contentType: user.img.contentType } : null
+      });
+    } else {
+      return res.status(404).json({
+        err: null,
+        msg: 'User Not Found',
+        data: null
+      })
+    }
+    
   });
 };
 

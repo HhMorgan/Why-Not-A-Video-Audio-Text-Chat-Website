@@ -7,12 +7,12 @@ import { JwtHelper } from 'angular2-jwt';
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { APIData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , Color , OfferedSlots , ReserveSlotBody , OfferSlotBody , Notification , ExpertAcceptSlotBody, Token } from '../service/models/api.data.structure';
+import { APIData , Tag , Session , Request , CandicateSession , Profile , User , FileData , RequestData , Color , OfferedSlots , ReserveSlotBody , SlotBody , Notification , ExpertAcceptSlotBody, Token, SlotDateBody } from '../service/models/api.data.structure';
 
 @Injectable()
 export class APIService {
-  //public static apiUrl = 'https://whatwhynot.net/api/';
-  public static apiUrl = 'http://127.0.0.1:3000/api/';
+  public static apiUrl = 'https://whatwhynot.net/api/';
+  // public static apiUrl = 'http://127.0.0.1:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup' , 'auth/verify'];
   constructor( private jwtHelper: JwtHelper , private http: HttpClient) { }
 
@@ -233,12 +233,20 @@ export class APIService {
     return this.http.get<APIData>(APIService.apiUrl + 'schedule/' + user._id).catch(this.errorHandler);
   }
 
+  getScheduleWeeklySlots(date : any): Observable<APIData> {
+    return this.http.post<APIData>(APIService.apiUrl + 'schedule' , { date : date } ).catch(this.errorHandler);
+  }
+
   userReserveSlot(reserveSlotBody: ReserveSlotBody): Observable<APIData> {
     return this.http.post<APIData>(APIService.apiUrl + 'schedule/userReserveSlot', reserveSlotBody).catch(this.errorHandler);
   }
 
-  expertOfferSlot(offerSlotBody: OfferSlotBody): Observable<APIData> {
-    return this.http.post<APIData>(APIService.apiUrl + 'schedule/expertOfferSlot', offerSlotBody).catch(this.errorHandler);
+  expertOfferSlot( slotDateBody : SlotDateBody): Observable<APIData> {
+    return this.http.post<APIData>(APIService.apiUrl + 'schedule/expertOfferSlot', slotDateBody).catch(this.errorHandler);
+  }
+
+  expertCancelSlot(slotDateBody : SlotDateBody): Observable<APIData> {
+    return this.http.post<APIData>(APIService.apiUrl + 'schedule/expertCancelSlot', slotDateBody ).catch(this.errorHandler);
   }
 
   expertAcceptSlot(expertAcceptSlotBody: ExpertAcceptSlotBody): Observable<APIData> {
@@ -266,39 +274,6 @@ export class APIService {
   }
   verify( token : string ): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'auth/verify/' + token ).catch(this.errorHandler);
-  }
-
-
-  createScheduleV2( date : String) :Observable<APIData> {
-    return this.http.post<APIData>( APIService.apiUrl + 'expert/createSchedule', { Date : date} ).catch(this.errorHandler);
-  }
-
-  getScheduleV2():Observable<APIData>{
-    return this.http.get<APIData> ( APIService.apiUrl + 'expert/viewSchedule').catch(this.errorHandler);
-  }
-
-  getViewRequestedSlotsSchdeuleV2():Observable<APIData>{
-    return this.http.get<APIData> ( APIService.apiUrl + 'expert/viewRequestedSlots').catch(this.errorHandler);
-  }
-
-  expertAcceptRequestScheduleV2(username : String , date : String ):Observable<APIData>{
-    return this.http.post<APIData> ( APIService.apiUrl + 'expert/acceptRequest' , { username : username , Date :date })
-    .catch(this.errorHandler);
-  }
-
-  expertRejectRequestScheduleV2(username : String , date : String ):Observable<APIData>{
-    return this.http.post<APIData> ( APIService.apiUrl + 'expert/rejectRequest' , { username : username , Date :date })
-    .catch(this.errorHandler);
-  }
-
-  expertRejectAllRequestScheduleV2( date : String ):Observable<APIData>{
-    return this.http.post<APIData> ( APIService.apiUrl + 'expert/rejectallRequest' , { Date :date })
-    .catch(this.errorHandler);
-  }
-
-  userReserveScheduleV2( expertemail : String , sessionid : String ) : Observable<APIData> {
-    return this.http.post<APIData> ( APIService.apiUrl + 'user/chooseSlot/'+ expertemail , {sessionId : sessionid})
-    .catch(this.errorHandler);
   }
 
 }

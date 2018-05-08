@@ -12,57 +12,57 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('January')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(1)">
                                             <i class="fa fa-calendar"></i>January</button>
                                     </div>
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('May')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(5)">
                                             <i class="fa fa-calendar"></i>May</button>
                                     </div>
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('September')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(9)">
                                             <i class="fa fa-calendar"></i>September</button>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('February')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(2)">
                                             <i class="fa fa-calendar"></i>February</button>
                                     </div>
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('June')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(6)">
                                             <i class="fa fa-calendar"></i>June</button>
                                     </div>
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('October')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(10)">
                                             <i class="fa fa-calendar"></i>October</button>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('March')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(3)">
                                             <i class="fa fa-calendar"></i>March</button>
                                     </div>
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('July')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(7)">
                                             <i class="fa fa-calendar"></i>July</button>
                                     </div>
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('November')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(11)">
                                             <i class="fa fa-calendar"></i>November</button>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('April')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(4)">
                                             <i class="fa fa-calendar"></i>April</button>
                                     </div>
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('Augest')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(8)">
                                             <i class="fa fa-calendar"></i>Augest</button>
                                     </div>
                                     <div class="buttonBetweenPadding">
-                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetValue('December')">
+                                        <button type="button" class="btn buttonDivider btn-outline-neutral " (click)="monthGetWeekRange(12)">
                                             <i class="fa fa-calendar"></i>December</button>
                                     </div>
                                 </div>
@@ -77,13 +77,12 @@
             <div *ngIf="scheduleFlag">
 
                 <div class="container ">
-                    <div *ngIf="!mobile() && !userView" class="week-number">
-                        {{getRange()}}
+                    <div *ngIf="!mobile()" class="week-number">
                         <!-- {{ yourDate | week }} <br> -->
                         <div class="weekRangeFont">
-                            {{weekStart}}
+                            {{ weekduration[selectedWeek].weekStart }}
                             <i class='fa fa-arrow-right'></i>
-                            {{ weekEnd }}
+                            {{  weekduration[selectedWeek].WeekEnd }}
                         </div>
                     </div>
 
@@ -114,7 +113,7 @@
                                 </div>
 
                                 <div class="btnPosition">
-                                    <button class="btn btn-danger">cancel slot</button>
+                                    <button class="btn btn-danger" (click)="cancel()">cancel slot</button>
                                     <button class="btn btn-warning" (click)="popoutExpertOff()">close</button>
                                 </div>
                             </div>
@@ -160,7 +159,7 @@
                         <div class="scrollBoxUsersSchedule" id="windowScrollSchedule">
                             <div class="row">
                                 <div *ngIf="!mobile() && !userView" class="col-md-1 positionArrow">
-                                    <i (click)="onAdd()" class="fa fa-chevron-left"></i>
+                                    <i (click)="operation('Left')" class="fa fa-chevron-left"></i>
                                 </div>
                                 <div class="col-md-10 positionArrow">
                                     <div class="row">
@@ -204,11 +203,11 @@
                                                     <div class="day_title">SATURDAY</div>
                                                     <div *ngFor="let slot of schedule[0]">
                                                         <!-- popoutExpertOn() -->
-                                                        <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn( 0 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(0 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 0 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(0 , slot)">Available</div>
 
-                                                        <div *ngIf="!slot.offered && role!=='expert'" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && role==='expert'" (click)="popoutExpertConfirmationOn(0 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(0 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
                                                 </div>
@@ -219,11 +218,11 @@
 
                                                     <div *ngFor="let slot of schedule[1]">
 
-                                                        <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn( 1 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(1 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule " class="class gray buttonBox" (click)="popoutExpertOn( 1 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule " class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(1 , slot)">Available</div>
 
-                                                        <div *ngIf="!slot.offered && role!=='expert'" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && role==='expert'" (click)="popoutExpertConfirmationOn(1 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(1 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
 
@@ -234,11 +233,11 @@
 
                                                     <div class="day_title">MONDAY</div>
                                                     <div *ngFor="let slot of schedule[2]">
-                                                        <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn( 2 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(2 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 2 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(2 , slot)">Available</div>
 
-                                                        <div *ngIf="!slot.offered && role!=='expert'" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && role==='expert'" (click)="popoutExpertConfirmationOn(2 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(2 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
                                                 </div>
@@ -248,11 +247,11 @@
                                                     <div class="day_title">TUESDAY</div>
 
                                                     <div *ngFor="let slot of schedule[3]">
-                                                        <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn( 3 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(3 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 3 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(3 , slot)">Available</div>
 
-                                                        <div *ngIf="!slot.offered && role!=='expert'" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && role==='expert'" (click)="popoutExpertConfirmationOn(3 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(3 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
 
@@ -263,11 +262,11 @@
                                                     <div class="day_title">WEDNESDAY</div>
 
                                                     <div *ngFor="let slot of schedule[4]">
-                                                        <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn( 4 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(4 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 4 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(4 , slot)">Available</div>
 
-                                                        <div *ngIf="!slot.offered && role!=='expert'" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && role==='expert'" (click)="popoutExpertConfirmationOn(4 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(4 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
                                                 </div>
@@ -276,22 +275,22 @@
 
                                                     <div class="day_title">THURSDAY</div>
                                                     <div *ngFor="let slot of schedule[5]">
-                                                        <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn( 5 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(5 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 5 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(5 , slot)">Available</div>
 
-                                                        <div *ngIf="!slot.offered && role!=='expert'" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && role==='expert'" (click)="popoutExpertConfirmationOn(5 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(5 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
                                                 </div>
                                                 <div class="day Friday">
                                                     <div class="day_title">FRIDAY</div>
                                                     <div *ngFor="let slot of schedule[6]">
-                                                        <div *ngIf="slot.offered && role==='expert'" class="class gray buttonBox" (click)="popoutExpertOn( 6 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && role!=='expert'" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(6 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 6 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(6 , slot)">Available</div>
 
-                                                        <div *ngIf="!slot.offered && role!=='expert'" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && role==='expert'" (click)="popoutExpertConfirmationOn(6 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(6 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
 
@@ -301,7 +300,7 @@
                                     </div>
                                 </div>
                                 <div *ngIf="!mobile() && !userView" class="col-md-1 positionArrow">
-                                    <i (click)="onSubtract()" class="fa fa-chevron-right"></i>
+                                    <i (click)="operation('Right')" class="fa fa-chevron-right"></i>
                                 </div>
                             </div>
                         </div>

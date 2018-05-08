@@ -14,7 +14,6 @@ import { TypographyComponent } from './components/typography/typography.componen
 import { NucleoiconsComponent } from './components/nucleoicons/nucleoicons.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { BasicelementsComponent } from './components/basicelements/basicelements.component';
-import { AmazingTimePickerModule } from 'amazing-time-picker'; // this line you need
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
@@ -42,7 +41,6 @@ import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component'
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
 import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
 import { ScheduleComponent } from './schedule/schedule.component';
-import { WeekModule } from './schedule/week.module';
 import { AboutComponent } from './about/about.component';
 import { SearchComponent } from '../page/search/search.component';
 import { NotificationListComponent } from '../page/notification-list/notification.list.component';
@@ -50,7 +48,6 @@ import { SnackbarCompComponent } from './components/snackbar-comp/snackbar-comp.
 import { ColorTagComponent } from './colorTag/colorTag.component';
 import { ErrComponent } from './err/err.component';
 import { ErrTestComponent } from './errTest/errTest.component';
-import { Schedule2Component } from './schedule2/schedule2.component';
 import { VerifyComponent } from './auth/verify/verify.component';
 import { RequestsComponent } from './requests/requests.component';
 
@@ -67,8 +64,6 @@ import { RequestsComponent } from './requests/requests.component';
     RtcMediaCaptureModule,
     AngularFontAwesomeModule,
     JWBootstrapSwitchModule,
-    AmazingTimePickerModule,
-    WeekModule ,
     NgxPaginationModule 
   ],
   declarations: [
@@ -102,7 +97,6 @@ import { RequestsComponent } from './requests/requests.component';
     ColorTagComponent,
     ErrComponent,
     ErrTestComponent,
-    Schedule2Component,
     VerifyComponent,
     RequestsComponent,
   ],

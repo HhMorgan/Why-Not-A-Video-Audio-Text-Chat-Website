@@ -127,21 +127,11 @@ router.get('/user/viewBookmarks', isAuthenticated, userCtrl.viewBookmarks);
 router.post('/users/getById', isAuthenticated , userCtrl.findUsersByID);
 router.get('/Notification/getNotifications', isAuthenticated, NotificationController.getNotifications);
 
-/* Schedule V2 */
-//-------------------------------------------------------------------------------------
-router.post('/user/chooseSlot/:expertEmail', isAuthenticated , expert.chooseSlot);
-router.post('/expert/createSchedule', isAuthenticated, expert.createSchedule);
-router.get('/expert/viewSchedule', expert.viewSchedule);
-router.get('/expert/viewScheduledSlots', isAuthenticated, expert.viewScheduledSlots);
-router.get('/expert/viewRequestedSlots', isAuthenticated, expert.viewRequestedSlots);
-router.post('/expert/acceptRequest', isAuthenticated, expert.acceptRequest);
-router.post('/expert/rejectRequest', isAuthenticated, expert.rejectRequest);
-router.post('/expert/rejectallRequest', isAuthenticated, expert.rejectAllRequests);
-//-------------------------------------------------------------------------------------
 
 /* Main Schedule */
 //----------------------------------------------------------------------------------------------------------------
 router.get('/schedule/:expertID' , isAuthenticated , scheduleController.getSlots);
+router.post('/schedule' , isAuthenticated , isExpert , scheduleController.getWeeklySlots);
 router.post('/schedule/userReserveSlot', isAuthenticated , scheduleController.userReserveSlot);
 router.post('/schedule/expertOfferSlot', isAuthenticated , isExpert, scheduleController.expertOfferSlot);
 router.post('/schedule/expertCancelSlot', isAuthenticated , isExpert, scheduleController.expertCancelSlot);

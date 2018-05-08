@@ -19,7 +19,6 @@ import { NotificationListComponent } from '../page/notification-list/notificatio
 import { RoleGuardService as AuthGuard } from '../@core/service/role-guard.service';
 import { ErrTestComponent } from './errTest/errTest.component';
 import { ScheduleComponent } from './schedule/schedule.component';
-import { Schedule2Component } from './schedule2/schedule2.component';
 import { RequestsComponent } from './requests/requests.component';
 
 const routes: Routes = [
@@ -37,7 +36,6 @@ const routes: Routes = [
   { path: 'notification', component : NotificationListComponent , canActivate : [AuthGuard] , data : { checkRole : false } },
   { path: 'schedule', component : ScheduleComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'expert' }  },
   { path: 'schedule/:expertid', component: ScheduleComponent , canActivate : [AuthGuard] , data : { checkRole : false } },
-  { path: 'schedule2', component: Schedule2Component , canActivate : [AuthGuard]  , data : { checkRole : false }},
   { path: '', pathMatch: 'full', redirectTo: 'home' },  
 ];
 

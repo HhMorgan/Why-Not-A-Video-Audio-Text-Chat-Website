@@ -3,14 +3,13 @@ var mongoose = require('mongoose'),
   dbUrl = config.MONGO_URI;
   
   require('../models/Tag.model');
-  require('../models/schedule2.model');
   require('../models/user.model');
+  require('../models/color.model');
   require('../models/request.model');
   require('../models/session.model');
   require('../models/request.model');
   require('../models/schedule.model');
   require('../models/notification.model');
-  require('../models/color.model');
 
 // CAPTURE APP TERMINATION / RESTART EVENTS
 // To be called when process is restarted or terminated

@@ -10,12 +10,12 @@ var ScheduleSchema = mongoose.Schema({
     startDate: {
         type: String,
         required: true,
-        default: ScheduleHelper.weekdayWithStartWeekday( 0 , 6 ).format('D-MMMM-YY')
+        default: ScheduleHelper.weekdayWithStartWeekday( Date.now() , 0 , 6 ).format('D-MMMM-YY')
     },
     endDate: {
         type: String,
         required: true,
-        default: ScheduleHelper.weekdayWithStartWeekday( 6 , 6 ).format('D-MMMM-YY')
+        default: ScheduleHelper.weekdayWithStartWeekday( Date.now() , 6 , 6 ).format('D-MMMM-YY')
     },
     slots:[
         {

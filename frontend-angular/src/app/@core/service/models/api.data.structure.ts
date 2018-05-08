@@ -103,15 +103,21 @@ export interface OfferedSlots {
     status: String;
 }
 
-export interface OfferSlotBody {
+export interface SlotBody {
     dayNo: String,
-    slotNo: String
+    slotNo: String,
 }
 
-export interface ReserveSlotBody extends OfferSlotBody {
+export interface SlotDateBody {
+    dayNo: String,
+    slotNo: String,
+    date: String
+}
+
+export interface ReserveSlotBody extends SlotBody {
     expertID: String;
 }
 
-export interface ExpertAcceptSlotBody extends OfferSlotBody {
-    userid: String;
+export interface ExpertAcceptSlotBody extends SlotBody {
+    userid: String,
 }
