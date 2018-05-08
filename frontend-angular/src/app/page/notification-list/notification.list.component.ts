@@ -31,7 +31,7 @@ export class NotificationListComponent implements OnInit {
         apiresponse.data[i].sender = apiresponse.data[i].sender.username;
         apiresponse.data[i].recipient = apiresponse.data[i].recipient.username;
         console.log(apiresponse.data);
-        this.notificationsArray.push({createdAt:apiresponse.data[i].createdAt.split("T",1)[0],message:apiresponse.data[i].message,sender:apiresponse.data[i].sender,type:apiresponse.data[i].type});
+        this.notificationsArray.push({createdAt:apiresponse.data[i].createdAt.split("T",1)[0],message:apiresponse.data[i].message,sender:apiresponse.data[i].sender, recipient:apiresponse.data[i].recipient,type:apiresponse.data[i].type});
       }
       //this.source.load(apiresponse.data);
     });
