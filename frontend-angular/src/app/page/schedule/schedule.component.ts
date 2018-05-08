@@ -150,6 +150,7 @@ export class ScheduleComponent implements OnInit {
     }, (err) => {
       console.log(err);
     });
+    this.popoutExpert=false;
   }
 
   operation(direction: String) {
