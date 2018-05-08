@@ -124,18 +124,19 @@ html, body { height: 100%; margin: 0px; }
 .day_title {
   height:5%;
   background-color: #34495e;
-  font-size: 100%;
+  font-size: 30%;
   font-weight: 600;
   text-transform: uppercase;
   text-align: center;
   line-height: 5vh;
 }
 }
+//<<<<
 @media (max-width: 600px) {
   .day_title {
     height:5%;
     background-color: #34495e;
-    font-size: 60%;
+    font-size: 50%;
     font-weight: 600;
     text-transform: uppercase;
     text-align: center;
@@ -146,17 +147,19 @@ html, body { height: 100%; margin: 0px; }
 @media (min-width: 600px) {
 .hour {
   height: 10%;
+  padding:0.2px;
   background-color: rgba(52, 73, 94,0.9);
-  font-size: 100%;
+  font-size: 30%;
   text-align: center;
   line-height: 5.05vh;
 }
 }
+//<<<<
 @media (max-width: 600px) {
   .hour {
     height: 10%;
     background-color: rgba(52, 73, 94,0.9);
-    font-size: 60%;
+    font-size: 50%;
     text-align: center;
     line-height: 5.05vh;
   }
@@ -168,31 +171,34 @@ html, body { height: 100%; margin: 0px; }
   height: 5vh; /*90min*/
   line-height: 5vh;
   background-color: #4d969b;
-  font-size: 100%;
+  font-size: 30%;
   padding-left: 0;
   font-family: monospace;
   font-weight: 300;
 }
 }
+//<<<<
 @media (max-width: 600px) {
   .class {
     width: 60%;
     height: 5vh; /*90min*/
     line-height: 5vh;
     background-color: #4d969b;
-    font-size: 60%;
+    font-size: 50%;
     padding-left: 0;
     font-family: monospace;
     font-weight: 300;
   }
   }
-  
+  @media (min-width: 600px) {
 .positionArrow{
     margin: auto;
     top: 0;
     bottom: 0;
-    font-size: 600%;
+    font-size: 300%;
 }
+  }
+  
 .tableCenter{
   position: relative;
   margin-left: 5%;
@@ -356,4 +362,27 @@ html, body { height: 100%; margin: 0px; }
   bottom: 0;
   right: 0;
   left: 0;
+}
+.scrollBoxUsersSchedule{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 50em;
+}
+
+
+#windowScrollSchedule::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    background-color: rgba(245, 245, 245,0);
+}
+#windowScrollSchedule::-webkit-scrollbar
+{
+    width: 5px;
+    background-color: rgba(255, 251, 251, 0);
+}
+
+#windowScrollSchedule::-webkit-scrollbar-thumb
+{
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid rgba(85, 85, 85, 0);
 }

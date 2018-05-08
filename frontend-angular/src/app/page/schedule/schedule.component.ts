@@ -1,5 +1,5 @@
-import { Component, OnInit,ElementRef,ViewChild } from "@angular/core";
-import { APIData, User, ReserveSlotBody, OfferSlotBody, ExpertAcceptSlotBody } from '../../@core/service/models/api.data.structure';
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { APIData, User, Token, ReserveSlotBody, OfferSlotBody, ExpertAcceptSlotBody } from '../../@core/service/models/api.data.structure';
 import { APIService } from "../../@core/service/api.service";
 import * as moment from 'moment';
 import { error } from "util";
@@ -32,13 +32,20 @@ export class ScheduleComponent implements OnInit {
   public popout = false;
   public popoutExpert = false;
   public lateSub = false;
-  public popoutExpertConfirmation=false;
-  public popoutUserConfirmation=false;
+  public popoutExpertConfirmation = false;
+  public popoutUserConfirmation = false;
   public dayOffer;
   public slotOffer;
+  public userView = false;
   private expertUser = <User>{};
 
   constructor(private apiService: APIService, private route: ActivatedRoute) {
+    var userToken = <Token>this.apiService.getToken(true);
+    if (userToken.role != 'expert') {
+      this.scheduleFlag = true;
+      this.userView = true;
+      this.monthFlag = false;
+    }
     this.route.params.subscribe(params => {
       if (!params.expertid) {
         this.expertUser._id = this.apiService.getToken(true)._id;
@@ -52,7 +59,15 @@ export class ScheduleComponent implements OnInit {
       })
     });
   }
-  updateSchedule( scheduleSlots : any ){
+  mobile() {
+    var height = (window.screen.height);
+    if (height <= 750) {
+      return true;
+    }
+    return false;
+  }
+
+  updateSchedule(scheduleSlots: any) {
     for (let slot of scheduleSlots) {
       this.schedule[slot.day][slot.time].offered = true;
       this.schedule[slot.day][slot.time].users = slot.users;
@@ -60,10 +75,15 @@ export class ScheduleComponent implements OnInit {
     }
   }
   ngOnInit() {
+    var height = (window.screen.height);
+    if (height <= 750) {
+      this.scheduleFlag = true;
+      this.monthFlag = false;
+    }
     for (var i = 0; i < 7; i++) {
       this.schedule[i] = []
       for (var j = 0; j < 15; j++) {
-        this.schedule[i][j] = { offered: false, users: [] , status : "Opened" };
+        this.schedule[i][j] = { offered: false, users: [], status: "Opened" };
       }
     }
     this.getData();
@@ -77,35 +97,39 @@ export class ScheduleComponent implements OnInit {
     this.popout = false;
   }
 
-  popoutExpertOn( day : Number , slot : any) {
-    this.usersRequestedSlot = [];
-    if (slot.users.length > 0) {
-      for (let user of slot.users) {
-        this.usersRequestedSlot.push( { id : user._id , username : user.username , day : day , slot : slot } );
+  popoutExpertOn(day: Number, slot: any) {
+    if (!this.popoutExpertConfirmation) {
+      this.usersRequestedSlot = [];
+      if (slot.users.length > 0) {
+        for (let user of slot.users) {
+          this.usersRequestedSlot.push({ id: user._id, username: user.username, day: day, slot: slot });
+        }
+        console.log(this.usersRequestedSlot);
+      } else {
+        console.log("not here");
       }
-      console.log(this.usersRequestedSlot);
-    } else {
-      console.log("not here");
+      this.popoutExpert = true;
     }
-    this.popoutExpert = true;
   }
-  
+
   popoutExpertOff() {
     this.popoutExpert = false;
   }
 
-  popoutExpertConfirmationOn(day,slot) {
-    this.slotOffer=slot;
-    this.dayOffer=day;
-    this.popoutExpertConfirmation = true;
+  popoutExpertConfirmationOn(day, slot) {
+    if (!this.popoutExpert) {
+      this.slotOffer = slot;
+      this.dayOffer = day;
+      this.popoutExpertConfirmation = true;
+    }
   }
   popoutExpertConfirmationOff() {
     this.popoutExpertConfirmation = false;
   }
 
-  popoutUserConfirmationOn(day,slot) {
-    this.slotOffer=slot;
-    this.dayOffer=day;
+  popoutUserConfirmationOn(day, slot) {
+    this.slotOffer = slot;
+    this.dayOffer = day;
     this.popoutUserConfirmation = true;
   }
   popoutUserConfirmationOff() {
@@ -113,9 +137,11 @@ export class ScheduleComponent implements OnInit {
   }
 
 
-  AcceptUser(userid: String , day : number , slot : any ) {
-    this.apiService.expertAcceptSlot(<ExpertAcceptSlotBody> { userid : userid , 
-      dayNo : JSON.stringify(day) , slotNo : JSON.stringify( this.schedule[day].indexOf(slot) ) } ).subscribe((apiresponse: APIData) => {
+  AcceptUser(userid: String, day: number, slot: any) {
+    this.apiService.expertAcceptSlot(<ExpertAcceptSlotBody>{
+      userid: userid,
+      dayNo: JSON.stringify(day), slotNo: JSON.stringify(this.schedule[day].indexOf(slot))
+    }).subscribe((apiresponse: APIData) => {
       console.log(apiresponse.msg)
       this.updateSchedule(apiresponse.data);
     }, (err) => {
@@ -252,7 +278,7 @@ export class ScheduleComponent implements OnInit {
 
   Reserve(day, slot) {
     console.log("slot : " + this.schedule[day].indexOf(slot));
-    this.apiService.userReserveSlot(<ReserveSlotBody>{ expertID: this.expertUser._id , dayNo: JSON.stringify(day), slotNo: JSON.stringify(this.schedule[day].indexOf(slot)) }).subscribe((apiresponse: APIData) => {
+    this.apiService.userReserveSlot(<ReserveSlotBody>{ expertID: this.expertUser._id, dayNo: JSON.stringify(day), slotNo: JSON.stringify(this.schedule[day].indexOf(slot)) }).subscribe((apiresponse: APIData) => {
       console.log(apiresponse.msg)
       this.updateSchedule(apiresponse.data);
     }, (err) => {
@@ -273,7 +299,7 @@ export class ScheduleComponent implements OnInit {
     console.log(this.schedule[day].indexOf(slot));
     this.popoutExpertConfirmation = false;
   }
- 
+
 }
 
 

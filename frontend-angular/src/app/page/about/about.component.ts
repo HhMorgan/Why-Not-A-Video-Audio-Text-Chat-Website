@@ -23,7 +23,7 @@ export class AboutComponent implements OnInit {
       window.removeEventListener('resize', this.init);
       window.addEventListener('mousemove', this.setTracer);
       this.router.navigate(['/home']);
-    }, 25000);
+    }, 70000);
     $("body").css("overflow", "hidden");
     (
       () => {

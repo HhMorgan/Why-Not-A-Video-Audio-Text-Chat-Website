@@ -201,7 +201,7 @@ module.exports.updateEmail = function (req, res, next) {
             expiresIn: '6h'
           }
         );
-        let confirmationUrl = 'http://localhost:4200/#/page' + `/confirm/${token}`;
+        let confirmationUrl = 'http://whatwhynot.net/#/page' + `/verify/${token}`;
         nodemailerController.sendEmail(
           req.body.email,
           'Email Update',

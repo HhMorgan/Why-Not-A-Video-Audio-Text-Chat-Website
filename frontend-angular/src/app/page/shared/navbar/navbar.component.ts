@@ -13,16 +13,16 @@ import * as decode from 'jwt-decode';
     styleUrls: ['./template/navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-    
+
     public username: String;
     public norificationCount = 0;
-    
+
     public toggleButton: any;
     public sidebarVisible: boolean;
     public navbarCollapsed = true;
-    
+
     public searchParams;
-    public searchOptions = ['Users' , 'TaggedUsers'];
+    public searchOptions = ['Users', 'TaggedUsers'];
     public selectedSearchParams = this.searchOptions[0];
 
 
@@ -97,29 +97,28 @@ export class NavbarComponent implements OnInit {
         }
         return true;
     }
-
     private isloggedin() {
         console.log(this.apiServ.isAuthenticated())
         if (this.apiServ.isAuthenticated()) {
             document.getElementById("login").style.display = "none";
             document.getElementById("signup").style.display = "none";
-            let userToken = <Token> this.apiServ.getToken(true);
+            let userToken = <Token>this.apiServ.getToken(true);
             console.log(userToken)
-            switch(userToken.role){
+            switch (userToken.role) {
                 case "admin":
                     document.getElementById("admin").style.display = "block";
                     document.getElementById("officeHours").style.display = "none";
-                break;
+                    break;
 
                 case "expert":
                     document.getElementById("admin").style.display = "none";
                     document.getElementById("officeHours").style.display = "block";
-                break;
+                    break;
 
-                default :
+                default:
                     document.getElementById("officeHours").style.display = "none";
                     document.getElementById("admin").style.display = "none";
-                break;
+                    break;
             }
             this.username = userToken.username;
             document.getElementById("logout").style.display = "block";
@@ -128,7 +127,7 @@ export class NavbarComponent implements OnInit {
             document.getElementById("userTextField").style.display = "block";
             document.getElementById("dropdownBasic1").style.display = "block";
             this.apiServ.getimage().subscribe((apires: APIData) => {
-                SharedFunctions.loadImageBy('profileimgnavbar' , apires.data , false);
+                SharedFunctions.loadImageBy('profileimgnavbar', apires.data, false);
             });
             this.getNotificationCount();
         } else {
@@ -154,7 +153,7 @@ export class NavbarComponent implements OnInit {
         this.router.navigate(['page/notification']);
     }
 
-    isSamePath( page : string ) : boolean {
+    isSamePath(page: string): boolean {
         console.log(page);
         console.log(this.location.prepareExternalUrl(this.location.path()).includes(page))
         return this.location.prepareExternalUrl(this.location.path()).includes(page);
@@ -165,14 +164,14 @@ export class NavbarComponent implements OnInit {
         this.isloggedin();
     }
 
-    search(searchtext){
-        if(!this.isSamePath('search/'+searchtext)){
+    search(searchtext) {
+        if (!this.isSamePath('search/' + searchtext)) {
             this.navbarCollapsed = !this.navbarCollapsed;
         }
-        this.router.navigate(['page/search' , this.selectedSearchParams , searchtext]);
+        this.router.navigate(['page/search', this.selectedSearchParams, searchtext]);
     }
 
-    ChangeSearchOption(searchOption){
+    ChangeSearchOption(searchOption) {
         this.selectedSearchParams = searchOption;
     }
 }

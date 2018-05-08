@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IOService } from '../../@core/service/io.service';
 import { APIService } from '../../@core/service/api.service';
 import { SharedFunctions } from '../../@core/service/shared.service';
-import { APIData, User } from '../../@core/service/models/api.data.structure';
+import { APIData, User, Token } from '../../@core/service/models/api.data.structure';
 
 
 @Component({
@@ -18,6 +18,8 @@ import { APIData, User } from '../../@core/service/models/api.data.structure';
 export class SessionComponent implements OnInit {
   public message;
   public senderImgSrc;
+  public senderUsername;
+  public recieverUsername;
   public messages = [];
   public joinFlag = false;
   public joinButtonflag = false;
@@ -68,8 +70,10 @@ export class SessionComponent implements OnInit {
   }
 
   //switch cases for all of the chating protocols that are followed to make a connection between users
-  constructor(private apiService: APIService, private ioService: IOService, private route: ActivatedRoute , 
+  constructor(private apiService: APIService, private ioService: IOService, private route: ActivatedRoute,
     private _sanitizer: DomSanitizer) {
+    let userToken = <Token>this.apiService.getToken(true);
+    this.recieverUsername = userToken.username;
     this.route.params.subscribe(
       params => {
         this.sessionid = params.sessionid;
@@ -82,10 +86,10 @@ export class SessionComponent implements OnInit {
                 this.connectedUsers.push(js.userid);
                 this.peerConnections.push(new RTCPeerConnection(this.peer_config))
                 this.apiService.getUsersbyIds([js.userid]).subscribe((apiresponse: APIData) => {
-                  SharedFunctions.getImageUrl(apiresponse.data[0].img).then((result) =>{
+                  SharedFunctions.getImageUrl(apiresponse.data[0].img).then((result) => {
                     this.connectedUsersData.push(
                       {
-                        _id: apiresponse.data[0]._id ,
+                        _id: apiresponse.data[0]._id,
                         username: apiresponse.data[0].username,
                         role: apiresponse.data[0].role,
                         img: this._sanitizer.bypassSecurityTrustResourceUrl(result.toString())
@@ -96,8 +100,8 @@ export class SessionComponent implements OnInit {
               }
               break;
             case "connected":
-              this.apiService.getUsersbyIds([this.apiService.getToken(true)._id]).subscribe((apiresponse : APIData)=>{
-                SharedFunctions.getImageUrl(apiresponse.data[0].img).then((result) =>{
+              this.apiService.getUsersbyIds([this.apiService.getToken(true)._id]).subscribe((apiresponse: APIData) => {
+                SharedFunctions.getImageUrl(apiresponse.data[0].img).then((result) => {
                   this.senderImgSrc = this._sanitizer.bypassSecurityTrustResourceUrl(result.toString());
                 });
               });
@@ -120,10 +124,10 @@ export class SessionComponent implements OnInit {
               this.connectedUsers = js.data;
               this.apiService.getUsersbyIds(js.data).subscribe((apiresponse: APIData) => {
                 for (let user of apiresponse.data) {
-                  SharedFunctions.getImageUrl(user.img).then((result) =>{
+                  SharedFunctions.getImageUrl(user.img).then((result) => {
                     this.connectedUsersData.push(
                       {
-                        _id: user._id, 
+                        _id: user._id,
                         username: user.username,
                         role: user.role,
                         img: this._sanitizer.bypassSecurityTrustResourceUrl(result.toString())
@@ -182,14 +186,16 @@ export class SessionComponent implements OnInit {
               break;
 
             case "message":
+              this.senderUsername = this.connectedUsersData[this.connectedUsers.indexOf(js.userid)].username;
+              console.log(this.connectedUsersData[this.connectedUsers.indexOf(js.userid)].username);
               this.messages.push(
-                { 
-                  type: "recieved", 
-                  message: js.message , 
-                  img : this.connectedUsersData[this.connectedUsers.indexOf(js.userid)].img 
+                {
+                  type: "recieved",
+                  message: js.message,
+                  img: this.connectedUsersData[this.connectedUsers.indexOf(js.userid)].img
                 }
               );
-            break;
+              break;
           }
         });
       }
@@ -280,6 +286,6 @@ export class SessionComponent implements OnInit {
       )
     );
     this.message = null;
-    this.messages.push({ type: "sender" , message: value });
+    this.messages.push({ type: "sender", message: value });
   }
 }
