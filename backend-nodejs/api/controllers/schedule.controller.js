@@ -56,7 +56,7 @@ this function adds new slots to the expert's Schedule if the schedule already ex
 if not it creats a new Schedule to the expert and add the offered slot in it 
 */
 module.exports.expertOfferSlot = function(req, res, next) {
-
+   //Validate the userId, day and slot number
   var valid = req.decodedToken.user._id && Validations.isObjectId(req.decodedToken.user._id) &&
   req.body.dayNo && Validations.isNumber(req.body.dayNo) && 
   req.body.slotNo && Validations.isNumber(req.body.slotNo);
@@ -72,6 +72,8 @@ module.exports.expertOfferSlot = function(req, res, next) {
     delete req.body.slotNo
     var start_date = ScheduleHelper.weekdayWithStartWeekday( 0 , 6 ).format('D-MMMM-YY')
     var end_date = ScheduleHelper.weekdayWithStartWeekday( 6 , 6 ).format('D-MMMM-YY')
+     /*find a record with same expertID, day, slotNo within week of start_date and end_date
+       and does not match any slot existing in the schedule table, also update the schedule with the new slot added.*/
     Schedule.findOneAndUpdate( { $and : [ { expertID : { $eq : req.decodedToken.user._id } , startDate : { $eq : start_date } , 
       endDate : { $eq : end_date } , slots : { $not : { $elemMatch : { day : { $eq : req.body.slots.day } , time : { $eq : req.body.slots.time } } } } } ] } , 
       { $push : { slots : req.body.slots } } , { new : true } ).populate('slots.users','username').exec(function( err , updatedSchedule ) {
@@ -82,6 +84,7 @@ module.exports.expertOfferSlot = function(req, res, next) {
           data: updatedSchedule.slots
         });
       } else {
+        /*if there is no existing schedule for the expert, create a new schedule and add the new slot to it*/
         Schedule.findOne({ $and : [ { expertID : { $eq : req.decodedToken.user._id } , startDate : { $eq : start_date } , endDate : { $eq : end_date } } ] })
         .populate('slots.users','username').exec(function( err , schedule ){
           if(schedule) {
@@ -107,6 +110,7 @@ module.exports.expertOfferSlot = function(req, res, next) {
 }
 
 module.exports.expertCancelSlot = function(req, res, next) {
+   //Validate the userId, day and slot number
   var valid = req.decodedToken.user._id && Validations.isObjectId(req.decodedToken.user._id) &&
   req.body.dayNo && Validations.isNumber(req.body.dayNo) && 
   req.body.slotNo && Validations.isNumber(req.body.slotNo);
