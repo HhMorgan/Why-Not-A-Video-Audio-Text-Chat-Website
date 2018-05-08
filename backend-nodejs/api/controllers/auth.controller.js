@@ -91,7 +91,7 @@ module.exports.signup = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        if (req.body.role) {
+        if (!req.body.role) {
           req.body.role = 'user';
         }
         User.create({ username: req.body.username, email: req.body.email.trim().toLowerCase(), role: req.body.role, password: hash, verificationToken: crypto.randomBytes(16).toString('hex') }, function (err, newUser) {
