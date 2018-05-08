@@ -97,50 +97,36 @@ export class NavbarComponent implements OnInit {
         }
         return true;
     }
+    isExpert(){
+        let userToken = <Token>this.apiServ.getToken(true);
+        if(userToken.role=='expert'){
+            return true;
+        }
+        return false;
+    }
+    isAdmin(){
+        let userToken = <Token>this.apiServ.getToken(true);
+        if(userToken.role=='admin'){
+            return true;
+        }
+        return false;
+    }
+    isLogged(){
+        if (this.apiServ.isAuthenticated()) {
+            return true;
+        }
+        return false;
+    }
     private isloggedin() {
         console.log(this.apiServ.isAuthenticated())
         if (this.apiServ.isAuthenticated()) {
-            document.getElementById("login").style.display = "none";
-            document.getElementById("signup").style.display = "none";
-            let userToken = <Token>this.apiServ.getToken(true);
-            console.log(userToken)
-            switch (userToken.role) {
-                case "admin":
-                    document.getElementById("admin").style.display = "block";
-                    document.getElementById("officeHours").style.display = "none";
-                    break;
-
-                case "expert":
-                    document.getElementById("admin").style.display = "none";
-                    document.getElementById("officeHours").style.display = "block";
-                    break;
-
-                default:
-                    document.getElementById("officeHours").style.display = "none";
-                    document.getElementById("admin").style.display = "none";
-                    break;
-            }
-            this.username = userToken.username;
-            document.getElementById("logout").style.display = "block";
-            document.getElementById("profile").style.display = "block";
-            document.getElementById("userDropDown").style.display = "block";
-            document.getElementById("userTextField").style.display = "block";
-            document.getElementById("dropdownBasic1").style.display = "block";
-            this.apiServ.getimage().subscribe((apires: APIData) => {
-                SharedFunctions.loadImageBy('profileimgnavbar', apires.data, false);
-            });
-            this.getNotificationCount();
-        } else {
-            document.getElementById("admin").style.display = "none";
-            document.getElementById("login").style.display = "block";
-            document.getElementById("signup").style.display = "block";
-            document.getElementById("logout").style.display = "none";
-            document.getElementById("profile").style.display = "none";
-            document.getElementById("officeHours").style.display = "none";
-            document.getElementById("userDropDown").style.display = "none";
-            document.getElementById("userTextField").style.display = "none";
-            document.getElementById("dropdownBasic1").style.display = "none";
-        }
+             let userToken = <Token>this.apiServ.getToken(true);
+             this.username = userToken.username;
+             this.apiServ.getimage().subscribe((apires: APIData) => {
+                 SharedFunctions.loadImageBy('profileimgnavbar', apires.data, false);
+             });
+             this.getNotificationCount();
+        } 
     }
 
     getNotificationCount() {
