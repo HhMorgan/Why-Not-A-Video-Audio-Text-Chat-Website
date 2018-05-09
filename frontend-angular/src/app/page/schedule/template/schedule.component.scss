@@ -191,6 +191,31 @@ html, body { height: 100%; margin: 0px; }
   }
   }
   @media (min-width: 600px) {
+    .classReserved {
+      width: 60%;
+      height: 5vh; /*90min*/
+      line-height: 5vh;
+      background-color: #d17000;
+      font-size: 30%;
+      padding-left: 0;
+      font-family: monospace;
+      font-weight: 300;
+    }
+    }
+    //<<<<
+    @media (max-width: 600px) {
+      .classReserved {
+        width: 60%;
+        height: 5vh; /*90min*/
+        line-height: 5vh;
+        background-color: #d17000;
+        font-size: 50%;
+        padding-left: 0;
+        font-family: monospace;
+        font-weight: 300;
+      }
+      }
+  @media (min-width: 600px) {
 .positionArrow{
     margin: auto;
     top: 0;
@@ -217,7 +242,7 @@ html, body { height: 100%; margin: 0px; }
   width:50%;
   height:50%;
   border-radius: 2%;
-  background-color: rgba(24, 24, 24, 0.397);
+  background-color: rgba(24, 24, 24, 0.8);
 }
 .windowPopConfirmation{
   position: absolute;
@@ -385,4 +410,13 @@ html, body { height: 100%; margin: 0px; }
 {
     background-color: rgba(0, 0, 0, 0);
     border: 1px solid rgba(85, 85, 85, 0);
+}
+.zPosition{
+  z-index: 2;
+}
+.snackbarPosition{
+  position: absolute;
+  margin: auto;
+  bottom: 82%;
+  z-index: 3;
 }
