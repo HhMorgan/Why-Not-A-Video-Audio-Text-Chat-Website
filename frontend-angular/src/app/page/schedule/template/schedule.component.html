@@ -219,12 +219,12 @@
                                                     <div class="day_title">SATURDAY</div>
                                                     <div *ngFor="let slot of schedule[0]">
                                                         <!-- popoutExpertOn() -->
-                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 0 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(0 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" (click)="popoutExpertOn( 0 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(0 , slot)">Available</div>
                                                         <div *ngIf="slot.offered && !mySchedule && reserveSameUser(slot.users)" (click)="popoutUserCancelSlotOn(0,slot)" class="classReserved buttonBox" data-tooltip="You have reserved this slot">Reserved</div>
 
-                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(0 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule && !reserveSameUser(slot.users)" (click)="popoutExpertConfirmationOn(0 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
                                                 </div>
@@ -235,12 +235,12 @@
 
                                                     <div *ngFor="let slot of schedule[1]">
 
-                                                        <div *ngIf="slot.offered && mySchedule " class="class gray buttonBox" (click)="popoutExpertOn( 1 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && !mySchedule " class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(1 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" (click)="popoutExpertOn( 1 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(1 , slot)">Available</div>
                                                         <div *ngIf="slot.offered && !mySchedule && reserveSameUser(slot.users)" (click)="popoutUserCancelSlotOn(1,slot)" class="classReserved buttonBox" data-tooltip="You have reserved this slot">Reserved</div>
 
-                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(1 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule && !reserveSameUser(slot.users)" (click)="popoutExpertConfirmationOn(1 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
 
@@ -251,12 +251,12 @@
 
                                                     <div class="day_title">MONDAY</div>
                                                     <div *ngFor="let slot of schedule[2]">
-                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 2 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(2 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" (click)="popoutExpertOn( 2 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(2 , slot)">Available</div>
                                                         <div *ngIf="slot.offered && !mySchedule && reserveSameUser(slot.users)" (click)="popoutUserCancelSlotOn(2,slot)" class="classReserved buttonBox" data-tooltip="You have reserved this slot">Reserved</div>
 
-                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(2 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule && !reserveSameUser(slot.users)" (click)="popoutExpertConfirmationOn(2 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
                                                 </div>
@@ -266,12 +266,12 @@
                                                     <div class="day_title">TUESDAY</div>
 
                                                     <div *ngFor="let slot of schedule[3]">
-                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 3 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(3 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" (click)="popoutExpertOn( 3 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(3 , slot)">Available</div>
                                                         <div *ngIf="slot.offered && !mySchedule && reserveSameUser(slot.users)" (click)="popoutUserCancelSlotOn(3,slot)" class="classReserved buttonBox" data-tooltip="You have reserved this slot">Reserved</div>
 
-                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(3 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule && !reserveSameUser(slot.users)" (click)="popoutExpertConfirmationOn(3 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
 
@@ -282,12 +282,12 @@
                                                     <div class="day_title">WEDNESDAY</div>
 
                                                     <div *ngFor="let slot of schedule[4]">
-                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 4 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(4 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" (click)="popoutExpertOn( 4 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(4 , slot)">Available</div>
                                                         <div *ngIf="slot.offered && !mySchedule && reserveSameUser(slot.users)" (click)="popoutUserCancelSlotOn(4,slot)" class="classReserved buttonBox" data-tooltip="You have reserved this slot">Reserved</div>
 
-                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(4 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule && !reserveSameUser(slot.users)" (click)="popoutExpertConfirmationOn(4 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
                                                 </div>
@@ -296,24 +296,24 @@
 
                                                     <div class="day_title">THURSDAY</div>
                                                     <div *ngFor="let slot of schedule[5]">
-                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 5 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(5 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" (click)="popoutExpertOn( 5 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(5 , slot)">Available</div>
                                                         <div *ngIf="slot.offered && !mySchedule && reserveSameUser(slot.users)" (click)="popoutUserCancelSlotOn(5,slot)" class="classReserved buttonBox" data-tooltip="You have reserved this slot">Reserved</div>
 
-                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(5 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule && !reserveSameUser(slot.users)" (click)="popoutExpertConfirmationOn(5 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
                                                 </div>
                                                 <div class="day Friday">
                                                     <div class="day_title">FRIDAY</div>
                                                     <div *ngFor="let slot of schedule[6]">
-                                                        <div *ngIf="slot.offered && mySchedule" class="class gray buttonBox" (click)="popoutExpertOn( 6 , slot )" data-tooltip="This slot is offered">Offered</div>
-                                                        <div *ngIf="slot.offered && !mySchedule" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(6 , slot)">Available</div>
+                                                        <div *ngIf="slot.offered && mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" (click)="popoutExpertOn( 6 , slot )" data-tooltip="This slot is offered">Offered</div>
+                                                        <div *ngIf="slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class gray buttonBox" data-tooltip="Click to reserve slot" (click)="popoutUserConfirmationOn(6 , slot)">Available</div>
                                                         <div *ngIf="slot.offered && !mySchedule && reserveSameUser(slot.users)" (click)="popoutUserCancelSlotOn(6,slot)" class="classReserved buttonBox" data-tooltip="You have reserved this slot">Reserved</div>
 
-                                                        <div *ngIf="!slot.offered && !mySchedule" class="class spacing" data-tooltip="Cannot be reserved"></div>
-                                                        <div *ngIf="!slot.offered && mySchedule" (click)="popoutExpertConfirmationOn(6 , slot)" class="class spacing gray buttonBox"
+                                                        <div *ngIf="!slot.offered && !mySchedule && !reserveSameUser(slot.users)" class="class spacing" data-tooltip="Cannot be reserved"></div>
+                                                        <div *ngIf="!slot.offered && mySchedule && !reserveSameUser(slot.users)" (click)="popoutExpertConfirmationOn(6 , slot)" class="class spacing gray buttonBox"
                                                             data-tooltip="Can be Offered">Offer</div>
                                                     </div>
 
