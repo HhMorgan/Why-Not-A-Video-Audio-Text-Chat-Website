@@ -20,7 +20,9 @@
     top: 0px;
     right: 0px;
 }
-
+.btn-padding{
+  padding:2%;
+}
 .checked {
   color: orange;
 }
