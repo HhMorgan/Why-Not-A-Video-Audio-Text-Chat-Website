@@ -6,7 +6,10 @@ import { APIService } from '../../@core/service/api.service';
 import { APIData, Tag } from '../../@core/service/models/api.data.structure';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
+import { SharedFunctions } from '../../@core/service/shared.service';
+import { read } from 'fs';
 
 @Component({
   selector: 'app-notification-list',
@@ -15,13 +18,13 @@ import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-t
 })
 
 export class NotificationListComponent implements OnInit {
-  notificationsArray=[];
+  public notificationsArray = [];
   ngOnInit() {
     // we call refresh to load data on entery of the page
     this.refresh();
   }
   
-  constructor(private _apiService: APIService) {
+  constructor(private _apiService: APIService , private _sanitizer: DomSanitizer) {
 
   }
   //The function that loads all the notifications from the backend
@@ -29,16 +32,35 @@ export class NotificationListComponent implements OnInit {
     this._apiService.getNotifications().subscribe((apiresponse: APIData)=>{
       console.log(apiresponse.data);
       for(var i = 0 ; i < apiresponse.data.length ; i++){
-        this.notificationsArray.push(
-          {
-            createdAt:apiresponse.data[i].createdAt.split("T",1)[0],
-            message:apiresponse.data[i].message,
-            sender:apiresponse.data[i].sender.username, 
-            recipient:apiresponse.data[i].recipient.username,
-            type:apiresponse.data[i].type
-          }
-        );
+        let notification = apiresponse.data[i];
+        SharedFunctions.getImageUrl(apiresponse.data[i].sender.img).then((result)=>{
+          this.notificationsArray.push(
+            {
+              _id : notification._id,
+              createdAt: notification.createdAt.split("T",1)[0],
+              message: notification.message,
+              sender: notification.sender.username, 
+              senderImg: this._sanitizer.bypassSecurityTrustResourceUrl(result.toString()),
+              recipient: notification.recipient.username,
+              type: notification.type,
+              read: notification.read
+            }
+          );
+        })
       }
+    });
+  }
+
+  markAsRead( notification : any ){
+    this._apiService.markNotificationAsRead( notification._id ).subscribe((apiresponse: APIData) => {
+      notification.read = true;
+    });
+  }
+
+  delete( notification : any ){
+    this._apiService.deleteNotification( notification._id ).subscribe((apiresponse: APIData) => {
+      this.notificationsArray.splice( this.notificationsArray.indexOf(notification) , 1 );
+      console.log(this.notificationsArray)
     });
   }
 }

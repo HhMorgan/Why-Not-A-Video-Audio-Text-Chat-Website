@@ -55,7 +55,7 @@ module.exports.markNotificationAsRead = function(req , res , next){
     });
   } else {
     Notification.findOneAndRemove( { _id : req.params.notificationID , 
-      recipient : req.decodedToken.user._id } , 
+      recipient : req.decodedToken.user._id , read : false } , 
       { $set : { read : true  } }  ).populate('sender recipient','username').exec(function(err , notification){
       if(err){
         return next(err);
@@ -69,8 +69,8 @@ module.exports.markNotificationAsRead = function(req , res , next){
         } else {
           return res.status(404).json({
             err: null,
-            msg: 'Notifications retrieved successfully.',
-            data: notifications.length
+            msg: 'Notification Not Found | Marked As Read.',
+            data: notification
           })
         }
       }
@@ -90,7 +90,7 @@ module.exports.deleteNotification = function(req , res , next){
     Notification.findOneAndRemove({ _id : req.params.notificationID , 
       recipient : req.decodedToken.user._id },function( err , notification ){
       if(notification){
-        return res.status(404).json({
+        return res.status(200).json({
           err: null,
           msg: 'Notification Deleted',
           data: notification

@@ -9,23 +9,19 @@
                 <div class="scrollBoxUsers" id="windowScroll">
                     <div *ngFor="let notification of notificationsArray">
                         <div class="container darker">
-                            <img id="{{ notification.sender }}" src="../assets/img/default-Profile-Pic.png" alt="Avatar" style="width:100%;">
+                            <img [src] = "notification.senderImg" alt="Avatar" style="width:100%;">
                             <div class="messagePosition">
                                 <p>「{{notification.sender}}」 {{notification.message}} 「{{notification.recipient}}」</p>
                             </div>
                             <div  class="option-right" id="notificationOptions">
-                            <a class="check" href=""><i class="fa fa-check"></i></a>
-                            <a class="trash" href=""><i class="fa fa-trash"></i></a>
+                            <a *ngIf = "!notification.read" class="check" (click)="markAsRead( notification )"><i class="fa fa-check"></i></a>
+                            <a class="trash" (click)="delete( notification )"><i class="fa fa-trash"></i></a>
                             </div>
                             <span class="time-right">{{notification.createdAt}}</span>
-                            
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </div>
