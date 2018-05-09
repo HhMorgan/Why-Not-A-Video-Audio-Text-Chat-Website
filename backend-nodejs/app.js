@@ -86,7 +86,7 @@ app.use(function(req, res) {
   });
 });
 
-var secure = true;
+var secure = false;
 
 if(secure){
   const options = { 

@@ -14,7 +14,12 @@
     border: 1px solid #d3d3d3;
     
 }
-
+.positionTag{
+  position : absolute;
+  margin : auto;
+  left : 0;
+  right : 0;
+}
 #t {
     position: absolute;
     top: 0px;
