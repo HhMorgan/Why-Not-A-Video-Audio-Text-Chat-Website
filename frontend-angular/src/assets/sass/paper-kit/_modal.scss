@@ -1,6 +1,6 @@
 .modal-header {
-    border-bottom: 1px solid $medium-gray;
-    padding: 20px;
+    border-bottom: 1px solid #DDDDDD;
+    padding: 0px;
     text-align: center;
     display: block !important;
 
@@ -15,7 +15,8 @@
         color: $black-color;
     }
     button.close{
-        margin-top: -25px;
+        margin-top: -64px;
+        margin-right: 17px;
     }
 }
 .modal-content {
@@ -32,7 +33,7 @@
     padding-top: 60px;
 }
 .modal-body{
-    padding: 20px 50px;
+    padding: 14px 50px;
     color: #000;
 }
 .modal-footer {
@@ -65,6 +66,13 @@
     transform: none;
     -webkit-transform: none;
     -moz-transform: none;
+    position: absolute;
+    margin: auto;
+    top: 35%;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 83%;
 }
 .modal.in .modal-dialog {
     transform: none;
