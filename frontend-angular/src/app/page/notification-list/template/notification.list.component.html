@@ -9,7 +9,7 @@
                 <div class="scrollBoxUsers" id="windowScroll">
                     <div *ngFor="let notification of notificationsArray">
                         <div class="container darker">
-                            <img src="../assets/img/faces/clem-onojeghuo-3.jpg" alt="Avatar" style="width:100%;">
+                            <img id="{{ notification.sender }}" src="../assets/img/default-Profile-Pic.png" alt="Avatar" style="width:100%;">
                             <div class="messagePosition">
                                 <p>「{{notification.sender}}」 {{notification.message}} 「{{notification.recipient}}」</p>
                             </div>

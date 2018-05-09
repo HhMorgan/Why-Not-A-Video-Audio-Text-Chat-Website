@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { APIService } from '../../@core/service/api.service';
-import { NavBarService, SharedFunctions } from '../../@core/service/shared.service';
+import { SharedService , SharedFunctions } from '../../@core/service/shared.service';
 import { APIData, User, Tag } from '../../@core/service/models/api.data.structure';
 import { IAlert } from '../../@core/service/models/frontend.data.structure';
 import { Routes, Router } from '@angular/router';
@@ -32,7 +32,7 @@ export class SearchComponent implements OnInit,OnChanges {
   public p2: number = 1;
 
   constructor(private apiServ: APIService, private route: ActivatedRoute, private router: Router, 
-    private modalService: NgbModal, private NavBarService: NavBarService) {
+    private modalService: NgbModal, private sharedService: SharedService) {
   }
 
   ngOnInit() {
@@ -48,8 +48,6 @@ export class SearchComponent implements OnInit,OnChanges {
       //as i'm using this in the add/edit speciality in the profile 
       // user doesn't actually search from the url so the searchtag is always null if it's from the profile
       //using the service i can communicate with the comp. (navbar)     
-      console.log(params)
-      console.log('------------------------------') 
       this.tags = new Array();
       this.users = new Array();
       switch(params['searchOptions']){
@@ -61,7 +59,7 @@ export class SearchComponent implements OnInit,OnChanges {
               SharedFunctions.loadImageBy(apires.data[i].username , (apires.data)[i].img , false)
             }
           }, (err) => {
-            this.NavBarService.triggernotifcations("#EA4335", err.msg);
+            this.sharedService.triggerNotifcation("#EA4335", err.msg);
           })
         }
         break;
@@ -73,7 +71,7 @@ export class SearchComponent implements OnInit,OnChanges {
                 SharedFunctions.loadImageBy(apires.data[i].username , (apires.data)[i].img , false)
               }
             },(err) =>{
-              this.NavBarService.triggernotifcations("#EA4335", err.msg);
+              this.sharedService.triggerNotifcation("#EA4335", err.msg);
             });
           }
           break;
@@ -94,7 +92,7 @@ export class SearchComponent implements OnInit,OnChanges {
                 var Tag = document.getElementById(((apires.data)[j])._id) as HTMLImageElement;
               }
             },(err) =>{
-              this.NavBarService.triggernotifcations("#EA4335", err.msg);
+              this.sharedService.triggerNotifcation("#EA4335", err.msg);
             })
           }
         break;
@@ -117,9 +115,9 @@ export class SearchComponent implements OnInit,OnChanges {
     user.username = name.innerText.toLowerCase();
     this.apiServ.getUserProfile(user).subscribe((apires: APIData) => {
       this.apiServ.addtoToBookmark(apires.data).subscribe((apires: APIData) => {
-        this.NavBarService.triggernotifcations("#34A853", apires.msg.toString());
+        this.sharedService.triggerNotifcation("#34A853", apires.msg.toString());
       }, (err) => {
-        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+        this.sharedService.triggerNotifcation("#EA4335", err.msg);
       })
     });
   }
@@ -166,9 +164,9 @@ export class SearchComponent implements OnInit,OnChanges {
     tag.name = TagBtn.textContent;
     //sends the tag name through addSpeciality which is later used to search for the tag and add it
     this.apiServ.addSpeciality(tag).subscribe((apiresponse: APIData) => {
-      this.NavBarService.triggernotifcations("#34A853", apiresponse.msg.toString());
+      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
     }, (err) => {
-      this.NavBarService.triggernotifcations("#EA4335", err.msg);
+      this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
   }
   
@@ -178,7 +176,7 @@ export class SearchComponent implements OnInit,OnChanges {
     tag_Request.status = 'Pending';
     tag_Request.blocked = false;
     this.apiServ.AddTag(tag_Request).subscribe((apiresponse: APIData) => {
-      this.NavBarService.triggernotifcations("#34A853", "Your request was sent sucessfully");
+      this.sharedService.triggerNotifcation("#34A853", "Your request was sent sucessfully");
     });
   }
 }

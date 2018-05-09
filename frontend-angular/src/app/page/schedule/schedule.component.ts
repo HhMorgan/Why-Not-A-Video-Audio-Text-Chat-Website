@@ -4,7 +4,7 @@ import { APIService } from "../../@core/service/api.service";
 import * as moment from 'moment';
 import { error } from "util";
 import { ActivatedRoute } from "@angular/router";
-import { SharedFunctions } from "../../@core/service/shared.service";
+import { SharedFunctions, SharedService } from "../../@core/service/shared.service";
 
 @Component({
   selector: 'app-schedule',
@@ -37,7 +37,7 @@ export class ScheduleComponent implements OnInit {
 
   private expertUser = <User>{};
 
-  constructor(private apiService: APIService, private route: ActivatedRoute) {
+  constructor(private apiService: APIService , private sharedService: SharedService , private route: ActivatedRoute) {
     var userToken = <Token>this.apiService.getToken(true);
     this.route.params.subscribe(params => {
       if (!params.expertid) {
@@ -59,6 +59,8 @@ export class ScheduleComponent implements OnInit {
       )
       this.apiService.getSchedule(this.expertUser).subscribe((apiresponse: APIData) => {
         this.updateSchedule(apiresponse.data);
+      },(err) =>{
+        this.sharedService.triggerNotifcation("#EA4335", err.msg);
       })
     });
   }
@@ -108,7 +110,7 @@ export class ScheduleComponent implements OnInit {
         }
         console.log(this.usersRequestedSlot);
       } else {
-        console.log("not here");
+        // console.log("not here");
       }
       this.popoutExpert = true;
     }
@@ -148,7 +150,7 @@ export class ScheduleComponent implements OnInit {
       console.log(apiresponse.msg)
       this.updateSchedule(apiresponse.data);
     }, (err) => {
-      console.log(err);
+      this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
     this.popoutExpert=false;
   }
@@ -187,8 +189,9 @@ export class ScheduleComponent implements OnInit {
     this.apiService.getScheduleWeeklySlots(date).subscribe((apiresponse: APIData) => {
       console.log(apiresponse);
       this.updateSchedule(apiresponse.data);
-    }, (error) => {
+    }, (err) => {
       this.scheduleReset()
+      this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
   }
 
@@ -214,10 +217,10 @@ export class ScheduleComponent implements OnInit {
       dayNo: JSON.stringify(day),
       slotNo: JSON.stringify(this.schedule[day].indexOf(slot))
     }).subscribe((apiresponse: APIData) => {
-      console.log(apiresponse.msg)
       this.updateSchedule(apiresponse.data);
+      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
     }, (err) => {
-      console.log(err);
+      this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
     console.log(this.schedule[day].indexOf(slot));
     this.popoutUserConfirmation = false;
@@ -229,12 +232,11 @@ export class ScheduleComponent implements OnInit {
       slotNo: JSON.stringify(this.schedule[day].indexOf(slot)),
       date: this.weekduration[this.selectedWeek].weekStart,
     }).subscribe((apiresponse: APIData) => {
-      console.log(apiresponse.msg)
       this.updateSchedule(apiresponse.data);
+      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
     }, (err) => {
-      console.log(err);
+      this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
-    console.log(this.schedule[day].indexOf(slot));
     this.popoutExpertConfirmation = false;
   }
   cancel(){
@@ -245,8 +247,9 @@ export class ScheduleComponent implements OnInit {
     }).subscribe((apiresponse: APIData) => {
       this.popoutExpert = false;
       this.updateSchedule(apiresponse.data);
+      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
+    },(err)=>{
+      this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
   }
 }
-
-

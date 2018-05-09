@@ -3,7 +3,7 @@ import { APIData, User } from '../../../@core/service/models/api.data.structure'
 import { APIService } from '../../../@core/service/api.service';
 import { error } from 'protractor';
 import { Routes,Router } from '@angular/router';
-import { NavBarService } from '../../../@core/service/shared.service';
+import { SharedService } from '../../../@core/service/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   public password;
   public loginMessage;
 
-  constructor(private _apiService:APIService , private router: Router , private _navBarService : NavBarService ) { }
+  constructor(private _apiService:APIService , private router: Router , private sharedService : SharedService ) { }
 
   ngOnInit() {
 
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
         this.loginMessage = apiresponse.msg;
         if( apiresponse.msg.includes('Welcome') ){
           localStorage.setItem('token', apiresponse.data);
-          this._navBarService.setUserLoggedin(true);
+          this.sharedService.setUserLoggedin(true);
           this.router.navigate(['home']); 
         } else {
           this.loginMessage = apiresponse.msg;

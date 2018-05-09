@@ -11,8 +11,8 @@ import { APIData , Tag , Session , Request , CandicateSession , Profile , User ,
 
 @Injectable()
 export class APIService {
-  public static apiUrl = 'https://whatwhynot.net/api/';
-  // public static apiUrl = 'http://127.0.0.1:3000/api/';
+  // public static apiUrl = 'https://whatwhynot.net/api/';
+  public static apiUrl = 'http://127.0.0.1:3000/api/';
   //public static apiUrl = 'https://192.168.1.199:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup' , 'auth/verify'];
   constructor( private jwtHelper: JwtHelper , private http: HttpClient) { }
@@ -176,8 +176,20 @@ export class APIService {
     return this.http.get<APIData>(APIService.apiUrl + 'getUsernameOfUser/' + id).catch(this.errorHandler);
   }
 
-  getNotification(): Observable<APIData>{
+  getNotifications(): Observable<APIData>{
     return this.http.get<APIData>(APIService.apiUrl + 'Notification/getNotifications').catch(this.errorHandler);
+  }
+
+  getUnreadNotifications(): Observable<APIData>{
+    return this.http.get<APIData>(APIService.apiUrl + 'Notification/getUnreadNotifications').catch(this.errorHandler);
+  }
+
+  markNotificationAsRead( notificationID : String ): Observable<APIData>{
+    return this.http.get<APIData>(APIService.apiUrl + 'Notification/markAsRead/' + notificationID ).catch(this.errorHandler);
+  }
+
+  deleteNotification( notificationID : String ): Observable<APIData>{
+    return this.http.get<APIData>(APIService.apiUrl + 'Notification/delete/' + notificationID ).catch(this.errorHandler);
   }
 
   getMatchingSearch(searchtag: String): Observable<APIData> {

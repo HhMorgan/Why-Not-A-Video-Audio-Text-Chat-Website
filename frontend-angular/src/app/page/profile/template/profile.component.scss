@@ -30,7 +30,7 @@ $badge-text-color: #787878;
   display: flex;
   justify-content: flex-start;
   text-decoration: none;
-
+  margin: auto;
   &--small {
     .c-rating__badge,
     .c-rating__count {

@@ -6,14 +6,14 @@ import { APIData, User, FileData, Profile, Tag } from '../../../@core/service/mo
 import { ProfileComponent } from '../../profile/profile.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { LocalDataSource } from 'ng2-smart-table';
-import { NavBarService } from '../../../@core/service/shared.service';
+import { SharedService } from '../../../@core/service/shared.service';
 
 @Component({
-  selector: 'app-settings-page',
-  templateUrl: './settings-page.component.html',
-  styleUrls: ['./settings-page.component.css']
+  selector: 'app-profile-settings',
+  templateUrl: './template/setting.component.html',
+  styleUrls: ['./template/setting.component.css']
 })
-export class SettingsPageComponent implements OnInit {
+export class SettingComponent implements OnInit {
 
   @Output() settingClose = new EventEmitter();
 
@@ -31,7 +31,7 @@ export class SettingsPageComponent implements OnInit {
   public searchChanged : Subject<string> = new Subject<string>();
 
 
-  constructor(private apiServ: APIService, private NavBarService: NavBarService) {
+  constructor(private apiServ: APIService, private sharedService: SharedService) {
     this.searchChanged.debounceTime(1000).distinctUntilChanged().subscribe(searchInput =>{
       this.searchParams = searchInput;
     });
@@ -236,10 +236,8 @@ export class SettingsPageComponent implements OnInit {
   isExpert() {
     if (this.role == "expert") {
       return true;
-    }
-
-    else {
-      false;
+    } else {
+      return false;
     }
   }
 }

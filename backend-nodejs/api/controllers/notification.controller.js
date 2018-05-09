@@ -4,26 +4,107 @@ var mongoose = require('mongoose'),
   Notification = mongoose.model('Notification');
 
 module.exports.getNotifications = function (req, res, next) {
-  Notification.find( { $or  : [ { sender :  { $eq : req.decodedToken.user._id } } , 
-     { recipient : { $eq : req.decodedToken.user._id } } ] } ).populate('sender recipient','username').exec(function (err, notification) {
+  Notification.find( { recipient : { $eq : req.decodedToken.user._id  } } ).populate('recipient','username').populate('sender','username img').exec(function (err, notifications) {
     if (err) {
       return next(err);
     }
-    if(notification){
+    if(notifications.length != 0 ){
       return res.status(200).json({
         err: null,
         msg: 'Notifications retrieved successfully.',
-        data: notification
+        data: notifications
       });
     } else {
       return res.status(404).json({
         err: null,
         msg: 'No Notifications Found For You',
-        data: notification
+        data: notifications
       });
     }
   });
 };
+
+module.exports.getUnreadNotifications = function (req, res, next) {
+  Notification.find( { recipient : { $eq : req.decodedToken.user._id } , read : false }).exec(function (err, notifications) {
+    if (err) {
+      return next(err);
+    }
+    if(notifications.length != 0){
+      return res.status(200).json({
+        err: null,
+        msg: 'Notifications retrieved successfully.',
+        data: notifications.length
+      });
+    } else {
+      return res.status(404).json({
+        err: null,
+        msg: 'No UNotifications Found For You',
+        data: 0
+      });
+    }
+  });
+};
+
+module.exports.markNotificationAsRead = function(req , res , next){
+  var valid = req.params.notificationID && Validations.isObjectId(req.params.notificationID)
+  if(!valid){
+    return res.status(422).json({
+      err: null,
+      msg: 'notificationID is Not Valid',
+      data: null
+    });
+  } else {
+    Notification.findOneAndRemove( { _id : req.params.notificationID , 
+      recipient : req.decodedToken.user._id } , 
+      { $set : { read : true  } }  ).populate('sender recipient','username').exec(function(err , notification){
+      if(err){
+        return next(err);
+      } else {
+        if(notification){
+          return res.status(200).json({
+            err: null,
+            msg: 'Notification Marked As Read.',
+            data: notification
+          })
+        } else {
+          return res.status(404).json({
+            err: null,
+            msg: 'Notifications retrieved successfully.',
+            data: notifications.length
+          })
+        }
+      }
+    })
+  }
+}
+
+module.exports.deleteNotification = function(req , res , next){
+  var valid = req.params.notificationID && Validations.isObjectId(req.params.notificationID)
+  if(!valid){
+    return res.status(422).json({
+      err: null,
+      msg: 'notificationID is Not Valid',
+      data: null
+    });
+  } else {
+    Notification.findOneAndRemove({ _id : req.params.notificationID , 
+      recipient : req.decodedToken.user._id },function( err , notification ){
+      if(notification){
+        return res.status(404).json({
+          err: null,
+          msg: 'Notification Deleted',
+          data: notification
+        })
+      } else {
+        return res.status(404).json({
+          err: null,
+          msg: 'Notification Not Found',
+          data: null
+        })
+      }
+    })
+  }
+}
 
 module.exports.AddNotification = function (req, res, next) {
   var valid =

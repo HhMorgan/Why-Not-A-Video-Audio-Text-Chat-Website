@@ -1,3 +1,4 @@
+import 'rxjs/add/observable/interval';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -5,7 +6,7 @@ import { APIService } from '../../../@core/service/api.service';
 import { APIData, User, Token } from '../../../@core/service/models/api.data.structure'
 import { Buffer } from 'buffer';
 import { Routes, Router } from '@angular/router';
-import { NavBarService, SharedFunctions } from '../../../@core/service/shared.service';
+import { SharedService, SharedFunctions } from '../../../@core/service/shared.service';
 import * as decode from 'jwt-decode';
 @Component({
     selector: 'app-navbar',
@@ -27,9 +28,9 @@ export class NavbarComponent implements OnInit {
 
 
     constructor(public location: Location, private element: ElementRef, private apiServ: APIService, private router: Router,
-        private navbarservice: NavBarService) {
+        private sharedService: SharedService) {
         this.sidebarVisible = false;
-        navbarservice.change.subscribe(isUserLoggedIn => {
+        sharedService.change.subscribe(isUserLoggedIn => {
             this.isloggedin();
         });
     }
@@ -97,6 +98,7 @@ export class NavbarComponent implements OnInit {
         }
         return true;
     }
+
     isExpert(){
         let userToken = <Token>this.apiServ.getToken(true);
         if(userToken.role=='expert'){
@@ -104,6 +106,7 @@ export class NavbarComponent implements OnInit {
         }
         return false;
     }
+
     isAdmin(){
         let userToken = <Token>this.apiServ.getToken(true);
         if(userToken.role=='admin'){
@@ -111,14 +114,15 @@ export class NavbarComponent implements OnInit {
         }
         return false;
     }
+
     isLogged(){
         if (this.apiServ.isAuthenticated()) {
             return true;
         }
         return false;
     }
+
     private isloggedin() {
-        console.log(this.apiServ.isAuthenticated())
         if (this.apiServ.isAuthenticated()) {
              let userToken = <Token>this.apiServ.getToken(true);
              this.username = userToken.username;
@@ -130,8 +134,10 @@ export class NavbarComponent implements OnInit {
     }
 
     getNotificationCount() {
-        this.apiServ.getNotification().subscribe((apiresponse: APIData) => {
-            this.norificationCount = apiresponse.data.length;
+        Observable.interval( 2 * 60 * 1000 ).subscribe(z => {
+            this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
+                this.norificationCount = apiresponse.data;
+            });
         });
     }
 
@@ -140,8 +146,6 @@ export class NavbarComponent implements OnInit {
     }
 
     isSamePath(page: string): boolean {
-        console.log(page);
-        console.log(this.location.prepareExternalUrl(this.location.path()).includes(page))
         return this.location.prepareExternalUrl(this.location.path()).includes(page);
     }
 

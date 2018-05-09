@@ -39,18 +39,17 @@ import { RtcMediaCaptureModule } from '../@core/rtc-media-capture/rtc-media-capt
 import { RatingComponent } from './rating/rating.component';
 import { AdminPageUserComponent } from './AdminPageUser/AdminPageUser.component';
 import { AdminRatingComponent } from '../page/components/admin-rating/admin-rating.component';
-import { SettingsPageComponent } from './profile/settings-page/settings-page.component';
+import { SettingComponent } from './profile/setting/setting.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { AboutComponent } from './about/about.component';
 import { SearchComponent } from '../page/search/search.component';
 import { NotificationListComponent } from '../page/notification-list/notification.list.component';
-import { SnackbarCompComponent } from './components/snackbar-comp/snackbar-comp.component';
 import { ColorTagComponent } from './colorTag/colorTag.component';
 import { ErrComponent } from './err/err.component';
 import { ErrTestComponent } from './errTest/errTest.component';
 import { VerifyComponent } from './auth/verify/verify.component';
 import { RequestsComponent } from './requests/requests.component';
-
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 @NgModule({
   imports: [
@@ -82,18 +81,18 @@ import { RequestsComponent } from './requests/requests.component';
     LoginComponent,
     HomeComponent,
     ProfileComponent,
+    SettingComponent,
+    SnackbarComponent,
     SignupComponent,
     DashboardComponent,
     RatingComponent,
     upgradeToExpertComponent,
     AdminPageUserComponent,
     AdminRatingComponent,
-    SettingsPageComponent,
     ScheduleComponent,
     SearchComponent,
     AboutComponent,
     NotificationListComponent,
-    SnackbarCompComponent,
     ColorTagComponent,
     ErrComponent,
     ErrTestComponent,

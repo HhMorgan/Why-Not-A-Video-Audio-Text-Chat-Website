@@ -1,6 +1,6 @@
 var nodemailer = require('nodemailer');
 module.exports.sendEmail = function ( to , subject , html , done) {
-    // return done(true); // Temp For Testing
+    return done(true); // Temp For Testing
     nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         secureConnection: false,

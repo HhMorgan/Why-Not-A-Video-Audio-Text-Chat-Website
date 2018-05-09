@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { APIService } from '../../@core/service/api.service';
-import { NavBarService, SharedFunctions } from '../../@core/service/shared.service';
+import { SharedService, SharedFunctions } from '../../@core/service/shared.service';
 import { APIData, User, FileData, Tag } from '../../@core/service/models/api.data.structure'
 
 @Component({
@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
   public editable: boolean = true; // intially just for testing
 
 
-  constructor(private apiServ: APIService, private route: ActivatedRoute, private NavBarService: NavBarService, private router: Router) { };
+  constructor(private apiServ: APIService, private route: ActivatedRoute, private sharedService: SharedService, private router: Router) { };
   //this method changes the user's current status if it's online to offlne and vice versa
 
   changeUserStatus() {
@@ -61,9 +61,9 @@ export class ProfileComponent implements OnInit {
     user.username = this.usernameOfProfile;
     this.apiServ.getUserProfile(user).subscribe((apires: APIData) => {
       this.apiServ.addtoToBookmark(apires.data).subscribe((apires: APIData) => {
-        this.NavBarService.triggernotifcations("#34A853", apires.msg.toString());
+        this.sharedService.triggerNotifcation("#34A853", apires.msg.toString());
       }, (err) => {
-        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+        this.sharedService.triggerNotifcation("#EA4335", err.msg);
       })
     });
   }
@@ -211,10 +211,10 @@ export class ProfileComponent implements OnInit {
     user.username = name.innerText.toLowerCase();
     this.apiServ.getUserProfile(user).subscribe((apires: APIData) => {
       this.apiServ.removeFromBookmark(apires.data).subscribe((apires: APIData) => {
-        this.NavBarService.triggernotifcations("#34A853", apires.msg.toString());
+        this.sharedService.triggerNotifcation("#34A853", apires.msg.toString());
         childdiv.parentElement.remove();
       }, (err) => {
-        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+        this.sharedService.triggerNotifcation("#EA4335", err.msg);
       })
     });
   }
@@ -229,11 +229,11 @@ export class ProfileComponent implements OnInit {
       this.apiServ.editSpeciality(Tag).subscribe((apiresponse: APIData) => {
         if (apiresponse.msg == "Speciality removed") {
           button.remove();
-          this.NavBarService.triggernotifcations("#34A853", apiresponse.msg.toString());
+          this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
         }
 
       }, (err) => {
-        this.NavBarService.triggernotifcations("#EA4335", err.msg);
+        this.sharedService.triggerNotifcation("#EA4335", err.msg);
       });
     });
   }

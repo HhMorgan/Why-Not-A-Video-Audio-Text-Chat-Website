@@ -2,9 +2,7 @@
     <div class="mainBody">
         <div class="page-header" style="background-image: url('../assets/img/bruno-abatti.jpg');">
             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
             <!--  -->
-
             <div *ngIf='monthFlag'>
                 <div class="container">
                     <div class="container">
@@ -84,6 +82,7 @@
                             <i class='fa fa-arrow-right'></i>
                             {{  weekduration[selectedWeek].WeekEnd }}
                         </div>
+                        <app-snackbar></app-snackbar>
                     </div>
 
                     <div class="center">
@@ -307,7 +306,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

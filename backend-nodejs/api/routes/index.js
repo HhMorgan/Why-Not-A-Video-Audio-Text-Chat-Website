@@ -6,8 +6,8 @@ var express = require('express'),
   sessionCtrl = require('../controllers/session.controller'),
   expert = require('../controllers/expert.controller'),
   AdminController = require('../controllers/admin.controller'),
-  scheduleController = require('../controllers/schedule.controller')
-NotificationController = require('../controllers/notification.controller');
+  scheduleController = require('../controllers/schedule.controller'),
+  NotificationController = require('../controllers/notification.controller');
 
 var isAuthenticated = function (req, res, next) {
   // Check that the request has the JWT in the authorization header
@@ -73,7 +73,7 @@ var isAdmin = function (req, res, next) {
 //-----------------------------Authentication Routes-------------------------
 router.post('/auth/login', isNotAuthenticated, authCtrl.login);
 router.post('/auth/signup', isNotAuthenticated, authCtrl.signup);
-router.get('/auth/verify/:token', isNotAuthenticated , authCtrl.verify);
+router.get('/auth/verify/:token', isNotAuthenticated, authCtrl.verify);
 //----------------------------Admin Routes ----------------------------------
 router.post('/Tags/AddTag', isAuthenticated, isAdmin, AdminController.AddTag);
 router.get('/Tags/getTags', isAuthenticated, AdminController.getTags);
@@ -111,8 +111,8 @@ router.get('/user/getUserProfile/:username', isAuthenticated, userCtrl.getUserPr
 Search
 */
 //----------------------------------------------------------------------------------------------------
-router.get('/user/searchbyTags/:searchtag', isAuthenticated , userCtrl.searchbyTags);
-router.get('/user/searchbyUser/:searchtag', isAuthenticated , userCtrl.searchbyUser);
+router.get('/user/searchbyTags/:searchtag', isAuthenticated, userCtrl.searchbyTags);
+router.get('/user/searchbyUser/:searchtag', isAuthenticated, userCtrl.searchbyUser);
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 //-----------------------------------------------------------------------------------------------------
 
@@ -124,18 +124,22 @@ router.post('/user/upgradeToexpert', isAuthenticated, userCtrl.upgradeToExpert);
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);
 router.delete('/user/removeFromBookmarks/:expertId', isAuthenticated, userCtrl.removeFromBookmarks);
 router.get('/user/viewBookmarks', isAuthenticated, userCtrl.viewBookmarks);
-router.post('/users/getById', isAuthenticated , userCtrl.findUsersByID);
+router.post('/users/getById', isAuthenticated, userCtrl.findUsersByID);
+
 router.get('/Notification/getNotifications', isAuthenticated, NotificationController.getNotifications);
+router.get('/Notification/delete/:notificationID' , isAuthenticated , NotificationController.deleteNotification);
+router.get('/Notification/getUnreadNotifications', isAuthenticated , NotificationController.getUnreadNotifications);
+router.get('/Notification/markAsRead/:notificationID' , isAuthenticated , NotificationController.markNotificationAsRead);
 
 
 /* Main Schedule */
 //----------------------------------------------------------------------------------------------------------------
-router.get('/schedule/:expertID' , isAuthenticated , scheduleController.getSlots);
-router.post('/schedule' , isAuthenticated , isExpert , scheduleController.getWeeklySlots);
-router.post('/schedule/userReserveSlot', isAuthenticated , scheduleController.userReserveSlot);
-router.post('/schedule/expertOfferSlot', isAuthenticated , isExpert, scheduleController.expertOfferSlot);
-router.post('/schedule/expertCancelSlot', isAuthenticated , isExpert, scheduleController.expertCancelSlot);
-router.post('/schedule/expertAcceptSlot', isAuthenticated , isExpert, scheduleController.expertAcceptUserInSlot);
+router.get('/schedule/:expertID', isAuthenticated, scheduleController.getSlots);
+router.post('/schedule', isAuthenticated, isExpert, scheduleController.getWeeklySlots);
+router.post('/schedule/userReserveSlot', isAuthenticated, scheduleController.userReserveSlot);
+router.post('/schedule/expertOfferSlot', isAuthenticated, isExpert, scheduleController.expertOfferSlot);
+router.post('/schedule/expertCancelSlot', isAuthenticated, isExpert, scheduleController.expertCancelSlot);
+router.post('/schedule/expertAcceptSlot', isAuthenticated, isExpert, scheduleController.expertAcceptUserInSlot);
 //----------------------------------------------------------------------------------------------------------------
 
 module.exports = router;

@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <div id="coverImg"  class="page-header page-header-xs image" data-parallax="true"  style="background-image: url('../assets/img/federico-beccari.jpg');">
+    <div id="coverImg" class="page-header page-header-xs image" data-parallax="true" style="background-image: url('../assets/img/federico-beccari.jpg');">
         <div class="middle">
             <div *ngIf="isloggeduser()" class="choose_file">
                 <span *ngIf="isloggeduser()">Edit Cover Image</span>
@@ -13,7 +13,7 @@
 
     <div class="section profile-content">
         <div [style.display]="profilesettings ? 'block' : 'none'" id="settings-page">
-            <app-settings-page (settingClose)="settingsComponentClose($event)"></app-settings-page>
+            <app-profile-settings (settingClose)="settingsComponentClose($event)"></app-profile-settings>
         </div>
         <div id="profile-page" [style.display]="profileInfo ? 'block' : 'none'" class="container">
             <div class="owner">
@@ -25,39 +25,38 @@
                                 title="change profile picture">
                         </a>
                     </label>
-
                 </div>
                 <h6 class="description">{{role}}</h6>
                 <div class="name" id="name">
-                    <!--  <div id="mydivheader" > <button class="btn btn-outline-default btn-round" (click)="myFunction()"><i class="fa fa-cog"></i> move</button></div> -->
                     <h4 class="title">{{usernameOfProfile}}
                         <i (click)=changeUserStatus() id="onlinestat" class="fa fa-circle" style="font-size:20px;color:#2ecc71;" placement="bottom"
                             ngbTooltip="change status"></i>
-                        <br />
+                        <br/>
                     </h4>
-
                     <div class="paddingBtn">
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="c-rating">
+                                <div class="c-rating__badge">{{rating}}</div>
+                                <div class="c-rating__display" aria-hidden="true">
+                                    <span class="c-rating__stars c-rating__stars--background"></span>
+                                    <span id="widthofStars" class="c-rating__stars"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
                         <div class="row">
                             <div class="col-md-4"></div>
                             <div class="col-md-4">
                                 <button *ngIf="!isloggeduser()" (click)="addtobookmark()" type="button" class="btn btn-info btn-sm">
                                     <i class="fa fa-heart"></i>bookmark</button>
-
                                 <button *ngIf="!isloggeduser() && isUserExpert()" (click)="goToSchedule()" type="button" class="btn btn-success btn-sm">
                                     <i class="fa fa-calendar-plus-o"></i>Schedule</button>
                             </div>
                             <div class="col-md-4"></div>
                         </div>
                     </div>
-                    <app-snackbar-comp></app-snackbar-comp>
-
-                    <div style="padding-left:44%;left:50%;" class="c-rating">
-                        <div class="c-rating__badge">{{rating}}</div>
-                        <div class="c-rating__display" aria-hidden="true">
-                            <span class="c-rating__stars c-rating__stars--background"></span>
-                            <span id="widthofStars" class="c-rating__stars"></span>
-                        </div>
-                    </div>
+                    <app-snackbar></app-snackbar>
                     <br />
                     <br />
                     <div id="tagsdivouter">
@@ -66,10 +65,6 @@
 
                 </div>
             </div>
-
-
-
-
             <div class="row">
                 <div class="col-md-6 ml-auto mr-auto text-center">
                     <div class="flex-center">
@@ -84,11 +79,6 @@
 
             <div class="row">
                 <div class="col-md-6 ml-auto mr-auto text-center">
-                    <!--  <div class="toggle-btn active">
-                                <input id='cb-value' type="checkbox" (click)="changeUserStatus()" checked class="cb-value" />
-                                <span class="round-btn"></span>
-                              </div> -->
-
                 </div>
             </div>
             <div class="nav-tabs-navigation">
@@ -103,7 +93,6 @@
                                                 <li>
                                                     <div class="row">
                                                         <div class="col-md-2 col-sm-2 ml-auto mr-auto">
-                                                            <!-- <img id="{{user.username}}" src="" alt="Circle Image" class="img-circle" title="change profile picture"> -->
                                                             <img id="{{user.username}}" src="../assets/img/default-Profile-Pic.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                                         </div>
                                                         <div class="col-md-7 col-sm-4 ml-auto">
@@ -126,20 +115,9 @@
                                 </div>
                             </ng-template>
                         </ngb-tab>
-                        <!--   <ngb-tab title="Following">
-                            <ng-template ngbTabContent>
-                                <h3 class="text-muted">Not following anyone yet :(</h3>
-                                <br>
-                                <button class="btn btn-warning btn-round">Find artists</button>
-                            </ng-template>
-                        </ngb-tab> -->
                     </ngb-tabset>
-
-
                 </div>
-
             </div>
         </div>
     </div>
-
 </div>
