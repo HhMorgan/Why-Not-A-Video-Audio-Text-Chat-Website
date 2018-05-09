@@ -20,7 +20,7 @@
                                 <button (click)="signupClick()" class="btn btn-success btn-block">Signup</button>
                               </form>
                             <div class="forgot">
-                                <a href="#" class="btn btn-link btn-info">Already Have Account?</a>
+                                <a href="#" [routerLink]="['/page/login']" class="btn btn-link btn-info">Already Have Account?</a>
                                 
                             </div>
                             <div style="text-align:center">{{signupMessage}}</div>

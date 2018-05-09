@@ -50,6 +50,7 @@ import { ErrTestComponent } from './errTest/errTest.component';
 import { VerifyComponent } from './auth/verify/verify.component';
 import { RequestsComponent } from './requests/requests.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { ForgotComponent } from './auth/forgot/forgot.component';
 
 @NgModule({
   imports: [
@@ -98,6 +99,7 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     ErrTestComponent,
     VerifyComponent,
     RequestsComponent,
+    ForgotComponent,
   ],
   entryComponents: [NgbdModalContent]
 })

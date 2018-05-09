@@ -1,0 +1,10 @@
+.lefty{
+    position: absolute;
+    margin-left:auto!important;
+}
+.card-register {
+    min-height: 350px!important;
+}
+.page-header .card-register .title {
+    margin-bottom: 0 !important;
+}
