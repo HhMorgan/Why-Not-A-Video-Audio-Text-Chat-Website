@@ -232,7 +232,7 @@ module.exports.expertAcceptUserInSlot = function(req, res, next) {
                 if(scheduleSessionUpdated){
                   //Sends notification to user with url of session 
                   NotificationController.createNotification( req.decodedToken.user._id , req.body.userid  ,
-                     "url/ " + session._id , "Session" , function(done) {
+                     "url/" + session._id , "Session" , function(done) {
                     if(done){
                       return res.status(201).json({
                         err: null,

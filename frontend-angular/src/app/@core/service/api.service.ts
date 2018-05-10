@@ -98,7 +98,6 @@ export class APIService {
     return this.http.get<APIData>(APIService.apiUrl + 'expert/viewSLotRequest').catch(this.errorHandler);
   }
 
-
   editSlotRequest(request: Request): Observable<APIData> {
     return this.http.patch<APIData>(APIService.apiUrl + 'expert/editSlotRequest/' + request._id, request).catch(this.errorHandler);
   }
@@ -106,7 +105,6 @@ export class APIService {
   getExpert(): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'session/getExpert').catch(this.errorHandler);
   }
-
 
   getUserData(): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'user/getUserData').catch(this.errorHandler);

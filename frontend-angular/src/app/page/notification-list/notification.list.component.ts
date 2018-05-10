@@ -38,18 +38,25 @@ export class NotificationListComponent implements OnInit {
           this.unreadNotificationCount++;
         }
         SharedFunctions.getImageUrl(apiresponse.data[i].sender.img).then((result)=>{
+          let message : String = notification.message;
           this.notificationsArray.push(
             {
               _id : notification._id,
               createdAt: notification.createdAt.split("T",1)[0],
-              message: notification.message,
               sender: notification.sender.username, 
               senderImg: this._sanitizer.bypassSecurityTrustResourceUrl(result.toString()),
               recipient: notification.recipient.username,
               type: notification.type,
-              read: notification.read
+              read: notification.read,
+              messagetype: (notification.message.includes('url')) ? 'Link' : 'Message',
+              message: (notification.message.includes('url')) ? notification.message.substring(4,notification.message.length):notification.message,
             }
           );
+
+          if(message.includes('url')){
+            console.log(message.substring(4,message.length))
+          }
+
         })
       }
     });
@@ -64,8 +71,10 @@ export class NotificationListComponent implements OnInit {
 
   delete( notification : any ){
     this._apiService.deleteNotification( notification._id ).subscribe((apiresponse: APIData) => {
+      if(notification.read){
+        this.sharedService.updateUnreadNotification(--this.unreadNotificationCount);
+      }
       this.notificationsArray.splice( this.notificationsArray.indexOf(notification) , 1 );
-      console.log(this.notificationsArray)
     });
   }
 }

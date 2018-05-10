@@ -9,13 +9,25 @@
                 <div class="scrollBoxUsers" id="windowScroll">
                     <div *ngFor="let notification of notificationsArray">
                         <div class="container darker">
-                            <img [src] = "notification.senderImg" alt="Avatar" style="width:100%;">
-                            <div class="messagePosition">
+                            <img [src]="notification.senderImg" alt="Avatar" style="width:100%;">
+                            
+                            <div *ngIf="notification.messagetype == 'Message' " class="messagePosition">
                                 <p>「{{notification.sender}}」 {{notification.message}} 「{{notification.recipient}}」</p>
                             </div>
-                            <div  class="option-right" id="notificationOptions">
-                            <a *ngIf = "!notification.read" class="check" (click)="markAsRead( notification )"><i class="fa fa-check"></i></a>
-                            <a class="trash" (click)="delete( notification )"><i class="fa fa-trash"></i></a>
+                            <div *ngIf="notification.messagetype == 'Link' ">
+                                <p>
+                                    「{{notification.sender}}」
+                                    <a [routerLink]="['/page/session' , notification.message]">Session Link</a>
+                                    With 「{{notification.recipient}}」
+                                </p>
+                            </div>
+                            <div class="option-right" id="notificationOptions">
+                                <a *ngIf="!notification.read" class="check" (click)="markAsRead( notification )">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                                <a class="trash" (click)="delete( notification )">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                             </div>
                             <span class="time-right">{{notification.createdAt}}</span>
                         </div>

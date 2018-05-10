@@ -123,7 +123,7 @@ module.exports.signup = function (req, res, next) {
                     data: newUser
                   });
                 } else {
-                  User.remove({ _id: user._id }, function (err) {
+                  User.remove({ _id: newUser._id }, function (err) {
                     if (!err) {
                       return res.status(412).json({
                         err: null,
