@@ -1,10 +1,10 @@
 var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   Validations = require('../utils/validations'),
-  Tags = mongoose.model('Tag');
-User = mongoose.model('User');
-Color = mongoose.model('Color');
-Requests = mongoose.model('Request');
+  Tags = mongoose.model('Tag'),
+  User = mongoose.model('User'),
+  Color = mongoose.model('Color'),
+  Requests = mongoose.model('Request');
 
 
 module.exports.getColors = function (req, res, next) {
@@ -85,34 +85,6 @@ module.exports.AddColorToTag = function (req, res, next) {
       });
   });
   console.log(req.body);
-};
-
-module.exports.AddTag = function (req, res, next) {
-  var valid =
-    req.body.name &&
-    Validations.isString(req.body.name);
-  // check if the tag name is given    
-  if (!valid) {
-    return res.status(422).json({
-      err: null,
-      msg: 'name (String) is a required fields.',
-      data: null
-    });
-  }
-  // Security Check
-  //delete req.body.createdAt;
-  //delete req.body.updatedAt;
-  // the method below creates the requred Tag in the backend and returns 201 if successful
-  Tags.create(req.body, function (err, Tags) {
-    if (err) {
-      return next(err);
-    }
-    res.status(201).json({
-      err: null,
-      msg: 'Tag was added Sucessfully.',
-      data: Tags
-    });
-  });
 };
 
 module.exports.editTag = function (req, res, next) {
@@ -277,7 +249,7 @@ module.exports.ChangeRole = function (req, res, next) {
 }
 
 module.exports.getUsers = function (req, res, next) {
-  User.find({}, { _id: 1, username: 1, email: 1, role: 1, blocked: 1  , rating : 1}).exec(function (err, user) {
+  User.find({}, { _id: 1, username: 1, email: 1, role: 1, blocked: 1, isVerified: 1, rating: 1 }).exec(function (err, user) {
     if (err) {
       return next(err);
     }
@@ -291,10 +263,10 @@ module.exports.getUsers = function (req, res, next) {
 
 // --------------------------/getting requests from user to be Expert and admin shows it/--------------------------------------------
 
-module.exports.getRequestsFromUsersToBeExpert = function(req, res, next) {
-  Requests.find({type : 'upgradeToExpert' , recipient : 'admin'} , {sender:1 ,recipient : 1, status : 1 , type : 1  }).exec(function(err,request) {
+module.exports.getRequestsFromUsersToBeExpert = function (req, res, next) {
+  Requests.find({ type: 'upgradeToExpert', recipient: 'admin' }, { sender: 1, recipient: 1, status: 1, type: 1 }).exec(function (err, request) {
     console.log('here');
-    if (err){
+    if (err) {
       return next(err);
     }
     res.status(200).json({

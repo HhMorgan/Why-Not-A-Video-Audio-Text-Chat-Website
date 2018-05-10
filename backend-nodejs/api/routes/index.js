@@ -75,7 +75,6 @@ router.post('/auth/login', isNotAuthenticated, authCtrl.login);
 router.post('/auth/signup', isNotAuthenticated, authCtrl.signup);
 router.get('/auth/verify/:token', isNotAuthenticated, authCtrl.verify);
 //----------------------------Admin Routes ----------------------------------
-router.post('/Tags/AddTag', isAuthenticated, isAdmin, AdminController.AddTag);
 router.get('/Tags/getTags', isAuthenticated, AdminController.getTags);
 router.patch('/Tag/editTags/:tagId', isAuthenticated, isAdmin, AdminController.editTag);
 router.delete('/Tags/deleteTags/:tagId', isAuthenticated, isAdmin, AdminController.deleteTags);
@@ -118,6 +117,7 @@ router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.view
 
 //-----------------------------User Routes-------------------------
 router.post('/user/updateRating', isAuthenticated, userCtrl.updateRating);
+router.post('/Tags/AddTag' , isAuthenticated , userCtrl.AddTag);
 router.get('/getExpertSchedule/:userId', isAuthenticated, userCtrl.getExpertSchedule);
 router.post('/user/upgradeToexpert', isAuthenticated, userCtrl.upgradeToExpert);
 router.post('/user/addToBookmarks/:expertId', isAuthenticated, userCtrl.addToBookmarks);

@@ -93,6 +93,45 @@ module.exports.getUserProfile = function (req, res) {
   });
 };
 
+module.exports.AddTag = function (req, res, next) {
+  var valid = req.body.name && Validations.isString(req.body.name) &&
+    req.body.blocked && Validations.isBoolean(req.body.blocked);
+  // check if the tag name is given    
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'name (String) is a required fields.',
+      data: null
+    });
+  }
+  if(req.decodedToken.user.role == 'admin'){
+    req.body.status = "Accepted"
+  } else {
+    req.body.status = "Pending"
+  }
+  // the method below creates the requred Tag in the backend and returns 201 if successful
+  Tag.findOne({ name: req.body.name }, function (err, tag) {
+    if (tag) {
+      return res.status(403).json({
+        err: null,
+        msg: 'Tag Already Exists',
+        data: null
+      })
+    } else {
+      Tag.create({ name: req.body.name, status: "Pending", blocked: req.body.blocked }, function (err, Tags) {
+        if (err) {
+          return next(err);
+        }
+        return res.status(201).json({
+          err: null,
+          msg: 'Tag was added Sucessfully.',
+          data: Tags
+        });
+      });
+    }
+  })
+};
+
 module.exports.getUserData = function (req, res) {
   User.findById(req.decodedToken.user._id).exec(function (err, user) {
     if (!user) {

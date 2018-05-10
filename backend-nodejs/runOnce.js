@@ -60,7 +60,7 @@ function dropCollectionsMuitiple(dbo, collections, i, done) {
   } else {
     dbo.collection(collections[i].name).drop(function (err, delOK) {
       if (err) throw err;
-      if (delOK) console.log("Collection " + collections[i].name + "deleted");
+      if (delOK) console.log("Collection " + collections[i].name + " deleted");
       return dropCollectionsMuitiple(dbo, collections, i + 1, done);
     });
   }

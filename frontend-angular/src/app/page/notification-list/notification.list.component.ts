@@ -52,11 +52,6 @@ export class NotificationListComponent implements OnInit {
               message: (notification.message.includes('url')) ? notification.message.substring(4,notification.message.length):notification.message,
             }
           );
-
-          if(message.includes('url')){
-            console.log(message.substring(4,message.length))
-          }
-
         })
       }
     });
@@ -71,7 +66,7 @@ export class NotificationListComponent implements OnInit {
 
   delete( notification : any ){
     this._apiService.deleteNotification( notification._id ).subscribe((apiresponse: APIData) => {
-      if(notification.read){
+      if(!notification.read){
         this.sharedService.updateUnreadNotification(--this.unreadNotificationCount);
       }
       this.notificationsArray.splice( this.notificationsArray.indexOf(notification) , 1 );
