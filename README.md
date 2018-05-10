@@ -11,7 +11,7 @@ https://whatwhynot.net/
 ## Setup
 1. Clone this repo to your desktop `git clone https://github.com/SEGUC17/Why-Not.git`
 2. Run `npm install` to install all the dependencies.
-If there is a bug and you are one of the testing team please send an email to ahmed.ayman1[at]gmail.com or heshammse[at]gmail.com
+If there is a bug and you are one of the testing team please send an email to ahmed.ayman.v1[at]gmail.com or heshammse[at]gmail.com
 
 ---
 
