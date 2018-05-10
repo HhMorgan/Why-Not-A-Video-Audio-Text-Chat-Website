@@ -251,9 +251,9 @@ module.exports.verify = function (req, res, next) {
             })
         break;
         case "Password":
-          Encryption.hashPassword(password, function (err, hash) { 
+          Encryption.hashPassword( decodedToken.user.token , function (err, hash) { 
             if(hash){
-              User.findByIdAndUpdate(decodedToken.user._id , { $set :{ password : hash } } , function( err , user ){
+              User.findByIdAndUpdate( decodedToken.user._id , { $set :{ password : hash } } , function( err , user ){
                 if(user){
                   return res.status(200).json({
                     err: null,

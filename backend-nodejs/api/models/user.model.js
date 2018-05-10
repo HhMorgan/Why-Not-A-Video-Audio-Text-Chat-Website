@@ -104,7 +104,7 @@ var userSchema = mongoose.Schema({
 
 }, { collection: 'Users' });
 
-userSchema.index( { createdAt: 1 } , { expireAfterSeconds: 300 , 
+userSchema.index( { createdAt: 1 } , { expireAfterSeconds: 7200 , 
   partialFilterExpression: { isVerified: { $eq : false } } 
 } );
 // Override the transform function of the schema to delete the password before it returns the object
