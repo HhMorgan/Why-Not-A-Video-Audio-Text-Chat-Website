@@ -33,6 +33,7 @@ export class ScheduleComponent implements OnInit {
   public sessionid;
   public popout = false;
   public popoutExpert = false;
+  public popoutExpertClosed = false;
   public popoutExpertConfirmation = false;
   public popoutUserConfirmation = false;
   public popoutUserCancel = false;
@@ -69,7 +70,8 @@ export class ScheduleComponent implements OnInit {
 
   mobile() {
     var height = (window.screen.height);
-    if (height <= 850) {
+    var width = (window.screen.width);
+    if (height <= 850 || width <= 750) {
       return true;
     }
     return false;
@@ -110,21 +112,40 @@ export class ScheduleComponent implements OnInit {
   popoutOff() {
     this.popout = false;
   }
-
-  popoutExpertOn(day: Number, slot: any) {
-    if (!this.popoutExpertConfirmation) {
+  popoutExpertClosedOn(day: Number, slot: any) {
+    if (!this.popoutExpertConfirmation && !this.popoutExpert) {
+      this.popoutExpertClosed = true;
       this.dayOffer = day;
       this.slotOffer = slot;
+      this.sessionid = slot.session;
+    }
+  }
+  popoutExpertClosedOff() {
+    this.sessionid = null;
+    this.popoutExpertClosed = false;
+  }
+  popoutExpertOpenedOrClosed(slot: any) {
+    if (slot) {
+      if (slot.status == 'Opened') {
+        return true;
+      }
+      return false;
+    }
+  }
+  popoutExpertOn(day: Number, slot: any) {
+    if (!this.popoutExpertConfirmation && !this.popoutExpertClosed) {
+      this.popoutExpert = true;
+      this.dayOffer = day;
+      this.slotOffer = slot;
+      console.log(this.slotOffer.status);
       this.usersRequestedSlot = [];
       this.sessionid = slot.session;
       if (slot.users.length > 0) {
         for (let user of slot.users) {
           this.usersRequestedSlot.push({ id: user._id, username: user.username, day: day, slot: slot });
         }
-      } else {
-        // console.log("not here");
       }
-      this.popoutExpert = true;
+
     }
   }
 
@@ -134,7 +155,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   popoutExpertConfirmationOn(day, slot) {
-    if (!this.popoutExpert) {
+    if (!this.popoutExpert && !this.popoutExpertClosed) {
       this.slotOffer = slot;
       this.dayOffer = day;
       this.popoutExpertConfirmation = true;
@@ -252,7 +273,7 @@ export class ScheduleComponent implements OnInit {
     this.popoutUserConfirmation = false;
   }
 
-  unReserve(){
+  unReserve() {
     this.apiService.userUnReserveSlot(<ReserveSlotBody>{
       expertID: this.expertUser._id,
       dayNo: JSON.stringify(this.dayOffer),
