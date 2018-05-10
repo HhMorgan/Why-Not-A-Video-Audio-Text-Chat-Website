@@ -8,7 +8,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-import { SharedFunctions } from '../../@core/service/shared.service';
+import { SharedFunctions, SharedService } from '../../@core/service/shared.service';
 import { read } from 'fs';
 
 @Component({
@@ -18,13 +18,14 @@ import { read } from 'fs';
 })
 
 export class NotificationListComponent implements OnInit {
+  private unreadNotificationCount : number = 0;
   public notificationsArray = [];
   ngOnInit() {
     // we call refresh to load data on entery of the page
     this.refresh();
   }
   
-  constructor(private _apiService: APIService , private _sanitizer: DomSanitizer) {
+  constructor(private _apiService: APIService , private _sanitizer: DomSanitizer , private sharedService : SharedService) {
 
   }
   //The function that loads all the notifications from the backend
@@ -33,6 +34,9 @@ export class NotificationListComponent implements OnInit {
       console.log(apiresponse.data);
       for(var i = 0 ; i < apiresponse.data.length ; i++){
         let notification = apiresponse.data[i];
+        if(!notification.read){
+          this.unreadNotificationCount++;
+        }
         SharedFunctions.getImageUrl(apiresponse.data[i].sender.img).then((result)=>{
           this.notificationsArray.push(
             {
@@ -54,6 +58,7 @@ export class NotificationListComponent implements OnInit {
   markAsRead( notification : any ){
     this._apiService.markNotificationAsRead( notification._id ).subscribe((apiresponse: APIData) => {
       notification.read = true;
+      this.sharedService.updateUnreadNotification(--this.unreadNotificationCount);
     });
   }
 

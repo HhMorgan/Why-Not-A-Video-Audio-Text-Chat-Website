@@ -84,7 +84,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.schedule);
     var height = (window.screen.height);
     if (height <= 750) {
       this.scheduleFlag = true;
@@ -92,7 +91,8 @@ export class ScheduleComponent implements OnInit {
     }
     this.scheduleReset();
   }
-  reserveSameUser(users: any) {
+
+  reserveSameUser(users: any[]) {
     for (let i = 0; i < users.length; i++) {
       var userToken = <Token>this.apiService.getToken(true);
       if (userToken._id === users[i]._id)
@@ -100,6 +100,7 @@ export class ScheduleComponent implements OnInit {
     }
     return false;
   }
+
   popoutOn() {
     this.popout = true;
   }
@@ -140,6 +141,7 @@ export class ScheduleComponent implements OnInit {
   popoutExpertConfirmationOff() {
     this.popoutExpertConfirmation = false;
   }
+
   popoutUserCancelSlotOn(day, slot) {
     if (!this.popoutUserConfirmation) {
       this.slotOffer = slot;
@@ -147,6 +149,7 @@ export class ScheduleComponent implements OnInit {
       this.popoutUserCancel = true;
     }
   }
+
   popoutUserCancelSlotOff() {
     this.popoutUserCancel = false;
   }
@@ -243,8 +246,21 @@ export class ScheduleComponent implements OnInit {
     }, (err) => {
       this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
-    console.log(this.schedule[day].indexOf(slot));
     this.popoutUserConfirmation = false;
+  }
+
+  unReserve(){
+    this.apiService.userUnReserveSlot(<ReserveSlotBody>{
+      expertID: this.expertUser._id,
+      dayNo: JSON.stringify(this.dayOffer),
+      slotNo: JSON.stringify(this.schedule[this.dayOffer].indexOf(this.slotOffer))
+    }).subscribe((apiresponse: APIData) => {
+      this.popoutUserCancel = false;
+      this.updateSchedule(apiresponse.data);
+      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
+    }, (err) => {
+      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+    });
   }
   //users
   Offer(day, slot) {

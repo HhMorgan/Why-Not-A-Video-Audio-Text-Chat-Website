@@ -333,7 +333,6 @@ module.exports.userReserveSlot = function(req, res, next) {
   req.body.slotNo && Validations.isNumber(req.body.slotNo) &&
   req.decodedToken.user._id && Validations.isObjectId(req.decodedToken.user._id)
 
-  console.log(req.body);
   if (!valid) {
     return res.status(422).json({
       err: null,
@@ -350,7 +349,7 @@ module.exports.userReserveSlot = function(req, res, next) {
         return next(err);
       }
       if(schedule){
-        NotificationController.createNotification( req.decodedToken.user._id , req.body.expertID  , " Requested A Slot With You" , "Slot-Request" , function(done) {
+        NotificationController.createNotification( req.decodedToken.user._id , req.body.expertID  , " Requested A Slot With" , "Slot-Request" , function(done) {
           if(done){
             return res.status(201).json(
               {
@@ -366,6 +365,51 @@ module.exports.userReserveSlot = function(req, res, next) {
           {
             err: null ,
             msg: 'Failed To Reserve Slot' ,
+            data: null
+          }
+        )
+      }
+    })
+  }
+}
+
+module.exports.userUnReserveSlot = function(req, res, next) {
+  var valid = req.body.expertID && Validations.isObjectId(req.body.expertID) &&
+  req.body.dayNo && Validations.isNumber(req.body.dayNo) && 
+  req.body.slotNo && Validations.isNumber(req.body.slotNo) &&
+  req.decodedToken.user._id && Validations.isObjectId(req.decodedToken.user._id)
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'userId | dayNo | slotNo is Not Valid',
+      data: null
+    });
+  } else {
+    var start_date = ScheduleHelper.weekdayWithStartWeekday( Date.now() , 0 , 6 ).format('D-MMMM-YY')
+    var end_date = ScheduleHelper.weekdayWithStartWeekday( Date.now() , 6 , 6 ).format('D-MMMM-YY')
+    Schedule.findOneAndUpdate({ $and : [ { expertID : { $eq : req.body.expertID } } , { startDate : { $eq : start_date } } , 
+      { endDate : { $eq : end_date } } , { slots : { $elemMatch : { day : { $eq : req.body.dayNo } , time : { $eq : req.body.slotNo } , status : { $eq : "Opened" } , users : { $eq : req.decodedToken.user._id } } } } ]
+    },{ $pull : { "slots.$.users" : req.decodedToken.user._id } } , { new: true } ).populate('slots.users','username').exec( function( err , schedule ) {
+      if (err) {
+        return next(err);
+      }
+      if(schedule){
+        NotificationController.createNotification( req.decodedToken.user._id , req.body.expertID  , " Cancelled A Slot Request With" , "Slot-Request" , function(done) {
+          if(done){
+            return res.status(201).json(
+              {
+                err: null ,
+                msg: 'UnReserved Slot Successfully' ,
+                data: schedule.slots
+              }
+            )
+          }
+        })
+      } else {
+        return res.status(403).json(
+          {
+            err: null ,
+            msg: 'Failed To UnReserved Slot' ,
             data: null
           }
         )

@@ -12,8 +12,8 @@ import { APIData , Tag , Session , Request , CandicateSession , Profile , User ,
 @Injectable()
 export class APIService {
   // public static apiUrl = 'https://whatwhynot.net/api/';
- // public static apiUrl = 'http://127.0.0.1:3000/api/';
-  public static apiUrl = 'https://192.168.1.199:3000/api/';
+ public static apiUrl = 'http://127.0.0.1:3000/api/';
+  // public static apiUrl = 'https://192.168.1.199:3000/api/';
   public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup' , 'auth/verify'];
   constructor( private jwtHelper: JwtHelper , private http: HttpClient) { }
 
@@ -167,10 +167,6 @@ export class APIService {
     return this.http.get<APIData>(APIService.apiUrl + 'getphoto').catch(this.errorHandler);
   }
 
-  getusername(): Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'getusername').catch(this.errorHandler);
-  }
-
   getUsernameOfUser(id: String): Observable<APIData> {
     console.log(id);
     return this.http.get<APIData>(APIService.apiUrl + 'getUsernameOfUser/' + id).catch(this.errorHandler);
@@ -251,7 +247,11 @@ export class APIService {
   }
 
   userReserveSlot(reserveSlotBody: ReserveSlotBody): Observable<APIData> {
-    return this.http.post<APIData>(APIService.apiUrl + 'schedule/userReserveSlot', reserveSlotBody).catch(this.errorHandler);
+    return this.http.post<APIData>(APIService.apiUrl + 'schedule/userReserveSlot' , reserveSlotBody).catch(this.errorHandler);
+  }
+  
+  userUnReserveSlot(reserveSlotBody: ReserveSlotBody): Observable<APIData>{
+    return this.http.post<APIData>(APIService.apiUrl + 'schedule/userUnReserveSlot' , reserveSlotBody).catch(this.errorHandler);
   }
 
   expertOfferSlot( slotDateBody : SlotDateBody): Observable<APIData> {

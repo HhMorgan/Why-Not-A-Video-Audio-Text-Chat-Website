@@ -246,12 +246,8 @@ export class ProfileComponent implements OnInit {
     widthofStars.style.width = 'calc(100% * (' + this.rating + '/ 5))';
   }
 
-  //this method gets username of the loggedin user
-  //connects to th backend using getusername() method wchich is implemented in the service file
   getcurrusername() {
-    this.apiServ.getusername().subscribe((apires: APIData) => {
-      this.currusername = apires.data;
-    });
+    this.currusername = this.apiServ.getToken(true).username;
   }
   //this method checks if the profile that's currently viewed is the same as the loggedin user
   isloggeduser() {

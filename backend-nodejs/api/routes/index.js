@@ -101,7 +101,6 @@ router.delete('/expert/editSpeciality/:tagId', isAuthenticated, expert.editSpeci
 router.post('/photo', isAuthenticated, userCtrl.uploadimage);
 router.post('/CoverImgUpload', isAuthenticated, userCtrl.uploadCoverPic);
 router.get('/getphoto', isAuthenticated, userCtrl.getimage);
-router.get('/getusername', isAuthenticated, userCtrl.getusername);
 router.get('/user/getUserData', isAuthenticated, userCtrl.getUserData);
 router.get('/loadStatus', isAuthenticated, userCtrl.loadStatus);
 router.post('/auth/changeUserStatus', isAuthenticated, userCtrl.changeUserStatus);
@@ -131,12 +130,12 @@ router.get('/Notification/delete/:notificationID' , isAuthenticated , Notificati
 router.get('/Notification/getUnreadNotifications', isAuthenticated , NotificationController.getUnreadNotifications);
 router.get('/Notification/markAsRead/:notificationID' , isAuthenticated , NotificationController.markNotificationAsRead);
 
-
 /* Main Schedule */
 //----------------------------------------------------------------------------------------------------------------
 router.get('/schedule/:expertID', isAuthenticated, scheduleController.getSlots);
 router.post('/schedule', isAuthenticated, isExpert, scheduleController.getWeeklySlots);
 router.post('/schedule/userReserveSlot', isAuthenticated, scheduleController.userReserveSlot);
+router.post('/schedule/userUnReserveSlot', isAuthenticated, scheduleController.userUnReserveSlot);
 router.post('/schedule/expertOfferSlot', isAuthenticated, isExpert, scheduleController.expertOfferSlot);
 router.post('/schedule/expertCancelSlot', isAuthenticated, isExpert, scheduleController.expertCancelSlot);
 router.post('/schedule/expertAcceptSlot', isAuthenticated, isExpert, scheduleController.expertAcceptUserInSlot);

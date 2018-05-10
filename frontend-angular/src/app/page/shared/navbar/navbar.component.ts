@@ -30,8 +30,17 @@ export class NavbarComponent implements OnInit {
     constructor(public location: Location, private element: ElementRef, private apiServ: APIService, private router: Router,
         private sharedService: SharedService) {
         this.sidebarVisible = false;
+        
         sharedService.change.subscribe(isUserLoggedIn => {
             this.isloggedin();
+        });
+        
+        sharedService.updateNotification.subscribe(unreadNotificationCount =>{
+            this.norificationCount = unreadNotificationCount;
+        })
+
+        this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
+            this.norificationCount = apiresponse.data;
         });
     }
 

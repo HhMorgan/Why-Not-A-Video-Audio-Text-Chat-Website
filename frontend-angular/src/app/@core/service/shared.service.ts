@@ -11,9 +11,14 @@ export class SharedService {
   @Output() searchevent: EventEmitter<string> = new EventEmitter();
   @Output() searcheventBy: EventEmitter<string> = new EventEmitter();
   @Output() refreshsearch: EventEmitter<boolean> = new EventEmitter();
-
+  @Output() updateNotification: EventEmitter<number> = new EventEmitter();
+  
   triggerNotifcation(color: string, text: string) {
     this.showNotification.emit({ color, text });
+  }
+
+  updateUnreadNotification( count : number ){
+    this.updateNotification.emit(count);
   }
 
   search(searchtag: string) {
