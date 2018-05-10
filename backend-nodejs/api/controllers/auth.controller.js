@@ -116,7 +116,6 @@ module.exports.signup = function (req, res, next) {
               'Click the following link to confirm your account:</p>' + confirmationUrl,
               function (done) {
                 if (done) {
-                  console.log(req.body);
                   return res.status(201).json({
                     err: null,
                     msg: 'Registration successful, you can now login to your account.',

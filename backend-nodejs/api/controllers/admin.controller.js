@@ -84,7 +84,6 @@ module.exports.AddColorToTag = function (req, res, next) {
         });
       });
   });
-  console.log(req.body);
 };
 
 module.exports.editTag = function (req, res, next) {
@@ -265,7 +264,6 @@ module.exports.getUsers = function (req, res, next) {
 
 module.exports.getRequestsFromUsersToBeExpert = function (req, res, next) {
   Requests.find({ type: 'upgradeToExpert', recipient: 'admin' }, { sender: 1, recipient: 1, status: 1, type: 1 }).exec(function (err, request) {
-    console.log('here');
     if (err) {
       return next(err);
     }

@@ -110,8 +110,6 @@ module.exports.findTagbyname = function (req, res, next) {
       data: tag
     });
   })
-
-  console.log(req.body);
 };
 
 module.exports.findTagbyid = function (req, res, next) {

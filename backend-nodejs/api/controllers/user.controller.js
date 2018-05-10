@@ -21,7 +21,6 @@ var RegExp = require('mongodb').RegExp;
 module.exports.changeUserStatus = function (req, res, next) {
   /* Add Validations */
   delete req.body.email;
-  console.log(req.body);
   User.findByIdAndUpdate(req.decodedToken.user._id, { $set: req.body }, { new: true }).exec(function (err, updatedUser) {
     if (err) {
       return next(err);
@@ -332,9 +331,7 @@ module.exports.updatePassword = function (req, res, next) {
           if (err) {
             return next(err);
           }
-          console.log(req.body.oldPassword);
 
-          console.log
           if (!matches) {
             return res.status(422).json({
               err: null,
