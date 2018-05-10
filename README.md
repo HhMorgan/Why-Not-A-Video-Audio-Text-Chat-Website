@@ -1,8 +1,12 @@
 # Why-Not
-#SE-2018-MET-T-16
+SE-2018-MET-T-16
 ## Awards
 
-###### Live Demo
+## Demo
+
+<img src="http://i.imgur.com/7Bka1Aj.jpg" alt="Demo"/>
+
+## Live Demo
 
 https://whatwhynot.net/
 
@@ -11,13 +15,13 @@ https://whatwhynot.net/
 ## Setup
 1. Clone this repo to your desktop `git clone https://github.com/SEGUC17/Why-Not.git`
 2. Run `npm install` to install all the dependencies.
-If there is a bug and you are one of the testing team please send an email to ahmed.ayman1[at]gmail.com or heshammse[at]gmail.com
+If there is a bug and you are one of the testing team please send an email to ahmed.ayman.v1[at]gmail.com or heshammse[at]gmail.com
 
 ---
 
 ## Usage
 
-Run `npm start --prod` to start in **production** mode, `nodemon *` to run using [nodemon](https://nodemon.io/) in debug mode.
+Run `ng serve --prod` to start in **production** mode in the frontend folder, and `nodemon *` to run using [nodemon](https://nodemon.io/) in the backend folder.
 
 ---
 

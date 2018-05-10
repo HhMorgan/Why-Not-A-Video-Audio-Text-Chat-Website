@@ -30,6 +30,7 @@ export class ScheduleComponent implements OnInit {
 
   public dayOffer;
   public slotOffer;
+  public sessionid;
   public popout = false;
   public popoutExpert = false;
   public popoutExpertConfirmation = false;
@@ -80,6 +81,7 @@ export class ScheduleComponent implements OnInit {
       this.schedule[slot.day][slot.time].offered = true;
       this.schedule[slot.day][slot.time].users = slot.users;
       this.schedule[slot.day][slot.time].status = slot.status;
+      this.schedule[slot.day][slot.time].session = slot.session;
     }
   }
 
@@ -114,11 +116,11 @@ export class ScheduleComponent implements OnInit {
       this.dayOffer = day;
       this.slotOffer = slot;
       this.usersRequestedSlot = [];
+      this.sessionid = slot.session;
       if (slot.users.length > 0) {
         for (let user of slot.users) {
           this.usersRequestedSlot.push({ id: user._id, username: user.username, day: day, slot: slot });
         }
-        console.log(this.usersRequestedSlot);
       } else {
         // console.log("not here");
       }
@@ -127,6 +129,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   popoutExpertOff() {
+    this.sessionid = null;
     this.popoutExpert = false;
   }
 
@@ -176,7 +179,7 @@ export class ScheduleComponent implements OnInit {
     }, (err) => {
       this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
-    this.popoutExpert = false;
+    this.popoutExpertOff();
   }
 
   operation(direction: String) {
@@ -276,17 +279,19 @@ export class ScheduleComponent implements OnInit {
     });
     this.popoutExpertConfirmation = false;
   }
+
   cancel() {
     this.apiService.expertCancelSlot(<SlotDateBody>{
       dayNo: JSON.stringify(this.dayOffer),
       slotNo: JSON.stringify(this.schedule[this.dayOffer].indexOf(this.slotOffer)),
       date: this.weekduration[this.selectedWeek].weekStart,
     }).subscribe((apiresponse: APIData) => {
-      this.popoutExpert = false;
+      this.popoutExpertOff();
       this.updateSchedule(apiresponse.data);
       this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
     }, (err) => {
       this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
   }
+
 }
