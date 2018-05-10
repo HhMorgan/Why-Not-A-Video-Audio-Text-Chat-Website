@@ -1,11 +1,10 @@
-import { Component, OnChanges, SimpleChange, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-
+import { Component, OnChanges, SimpleChange, OnInit, ViewChild, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 @Component({
   selector: 'rtc-media-recorder',
   templateUrl: './template/rtc-media-recorder.component.html',
   styleUrls: ['./template/rtc-media-recorder.component.css']
 })
-export class RtcMediaCaptureComponent implements OnInit, OnChanges {
+export class RtcMediaCaptureComponent implements OnInit, OnChanges , OnDestroy {
 
   @Input() isRemote;
   @Input() mediaSource;
@@ -23,7 +22,7 @@ export class RtcMediaCaptureComponent implements OnInit, OnChanges {
   public _navigator = <any>navigator;
   public video;
   public mediaRecorder;
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     if (this.recVideo) {
@@ -36,9 +35,13 @@ export class RtcMediaCaptureComponent implements OnInit, OnChanges {
       || this._navigator.msGetUserMedia);
   }
 
+  ngOnDestroy(): void {
+    this.startCapture = false;
+    this.stop();
+  }
+
   ngOnChanges(changes: { [propKey: string]: SimpleChange }): void {
     for (let propName in changes) {
-
       switch (propName) {
         case "mediaSource":
           if (this.isRemote && this.mediaSource != null) {
@@ -67,10 +70,12 @@ export class RtcMediaCaptureComponent implements OnInit, OnChanges {
   }
 
   private _stopStream() {
-    const tracks = this.mediaSource.getTracks();
-    tracks.forEach((track) => {
-      track.stop();
-    });
+    if(this.mediaSource){
+      const tracks = this.mediaSource.getTracks();
+      tracks.forEach((track) => {
+        track.stop();
+      });
+    }
   }
 
   public start() {

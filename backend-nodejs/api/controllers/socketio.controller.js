@@ -77,7 +77,6 @@ module.exports = function (io) {
                                 message: "Not A Valid SessionID"
                             }
                         );
-                        connection.disconnect();
                     }
                     break;
                 case "message":
@@ -134,6 +133,7 @@ module.exports = function (io) {
         })
 
         connection.on('disconnect', function () {
+            console.log(connection.request.decoded_token.user._id + " Disconnected")
             connection.emit('message',
                 JSON.stringify(
                     {
@@ -196,6 +196,14 @@ module.exports = function (io) {
             var socketconnection = io.of("/").connected[socketId];
             if (socketconnection != null && connection.request.decoded_token.user._id != userid && socketconnection.request.decoded_token.user._id == userid) {
                 sendTo(socketconnection, message);
+            }
+        }
+    }
+
+    function disconnect(connection){
+        for (var socketId in io.sockets.connected ) {
+            if(io.sockets.connected[socketId] == connection){
+                io.sockets.connected[socketId].disconnect();
             }
         }
     }

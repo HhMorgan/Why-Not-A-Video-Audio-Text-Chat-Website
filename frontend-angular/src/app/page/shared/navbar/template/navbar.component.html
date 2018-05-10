@@ -66,9 +66,9 @@
                     <div ngbDropdown class="d-inline-block dropdown positionProfileImage">
                         <a id="dropdownBasic1" ngbDropdownToggle>
                             <div class="notifier new" *ngIf="showNotification()">
-                                <div class="badge" (click)="openNotifications()">{{ norificationCount }} </div>
+                                <div class="badge">{{ norificationCount }} </div>
                             </div>
-                            <img style="background-size:100% 100%;" id="profileimgnavbar" class=" img-circle img-no-padding img-responsive" src="../assets/img/default-Profile-Pic.png"
+                            <img (click)="openNotifications()" style="background-size:100% 100%;" id="profileimgnavbar" class=" img-circle img-no-padding img-responsive" src="../assets/img/default-Profile-Pic.png"
                                 width="45px" height="45px">
                         </a>
                     </div>

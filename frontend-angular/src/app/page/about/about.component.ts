@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { APIData, User } from '../../@core/service/models/api.data.structure';
 import { APIService } from "../../@core/service/api.service";
 import { Router, NavigationEnd } from '@angular/router';
@@ -10,10 +10,16 @@ import * as $ from 'jquery';
   templateUrl: './template/about.component.html',
   styleUrls: ['./template/about.component.scss']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit, OnDestroy {
   private init;
   private setTracer;
-  constructor(private router: Router) {
+  constructor(private router: Router) { }
+
+  ngOnDestroy(): void {
+    $("body").css("overflow", "visible");
+    document.getElementById('canvas').remove();
+    window.removeEventListener('resize', this.init);
+    window.addEventListener('mousemove', this.setTracer);
   }
 
   ngOnInit() {
@@ -291,7 +297,7 @@ export class AboutComponent implements OnInit {
           window.addEventListener('mousemove', this.setTracer, false);
         }
 
-        
+
 
         // Initialize the animation
         this.init();

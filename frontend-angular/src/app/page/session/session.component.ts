@@ -1,6 +1,6 @@
 // The ts file that contains all the linking functions for the video/text chat
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
-import { Component, OnInit, Renderer2, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, Input, ViewChild, OnDestroy } from '@angular/core';
 import { trigger, state, style, animate, transition, query, stagger } from '@angular/animations';
 
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { APIData, User, Token } from '../../@core/service/models/api.data.struct
   templateUrl: './template/session.component.html',
   styleUrls: ['./template/session.component.css']
 })
-export class SessionComponent implements OnInit {
+export class SessionComponent implements OnInit , OnDestroy {
   public message;
   public senderImgSrc;
   public senderUsername;
@@ -30,7 +30,7 @@ export class SessionComponent implements OnInit {
   public startCapture = true;
   public mediaSource_local = null;
   public mediaSource_remote_list: any = [null];
-  public constrains = { video: true, audio: true };
+  public constrains = { video: false, audio: false };
   private peer_config = <RTCConfiguration>{
     iceServers: [{ urls: 'stun:stun.l.google.com:19302' }
       , { urls: 'stun:stun.services.mozilla.com' }]
@@ -43,6 +43,11 @@ export class SessionComponent implements OnInit {
 
   ngOnInit() {
     this.scrollToBottom();
+  }
+
+  ngOnDestroy(): void {
+    this.closeCall();
+    this.ioService.closeConnection();
   }
 
   //forces the scroll area to focus on the last element
@@ -67,7 +72,14 @@ export class SessionComponent implements OnInit {
   }
 
   //starts the socket between the two users
-  socketjoin() {
+  chatType( type : String ) {
+    switch(type){
+      case "Video" :
+        this.constrains = { video: true , audio: true };
+      break;
+      case "Voice" :
+        this.constrains = { video: false , audio: true };
+    }
     this.joinFlag = true;
   }
 
@@ -78,6 +90,7 @@ export class SessionComponent implements OnInit {
     this.recieverUsername = userToken.username;
     this.route.params.subscribe(
       params => {
+        this.showOptions = false;
         this.sessionid = params.sessionid;
         this.ioService.getMessages().subscribe((test: any) => {
           var js = JSON.parse(test);
@@ -204,6 +217,7 @@ export class SessionComponent implements OnInit {
               break;
             case "Failure":
               this.failureMessage = js.message;
+              ioService.closeConnection();
               break;
           }
         });

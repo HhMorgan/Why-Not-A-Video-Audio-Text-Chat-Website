@@ -10,12 +10,12 @@
                         <div *ngIf='showOptions' class="col-md-5">
                             <div class="middleBox">
                                 <div class="motto text-center">
-                                    <h2>Hi, User!</h2>
+                                    <h2>Hi, {{ recieverUsername }} </h2>
                                     <h3>Join Conference</h3>
                                     <br />
-                                    <button type="button" class="btn buttonDivider btn-outline-neutral btn-round" *ngIf='!joinFlag' (click)="socketjoin()">
+                                    <button type="button" class="btn buttonDivider btn-outline-neutral btn-round" *ngIf='!joinFlag' (click) = "chatType('Video')" >
                                         <i class="fa fa-camera"></i>Start Video Chat</button>
-                                    <button type="button" class="btn buttonDivider btn-outline-neutral btn-round">
+                                    <button type="button" class="btn buttonDivider btn-outline-neutral btn-round" *ngIf='!joinFlag' (click) = "chatType('Voice')">
                                         <i class="fa fa-phone"></i>Start Voice Chat</button>
                                     <!-- <button type="button" class="btn buttonDivider btn-outline-neutral btn-round"  *ngIf='!joinFlag' (click)="socketjoin()"><i class="fa fa-comments"></i>Start Text Chat</button> -->
                                 </div>
