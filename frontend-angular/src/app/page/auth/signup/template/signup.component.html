@@ -17,7 +17,7 @@
                                 <label>Password Confirmation</label>
                                 <input type="password" class="form-control" [(ngModel)]="passwordConfirmation" placeholder="password" [ngModelOptions]="{standalone: true}"/>
                                 
-                                <button (click)="signupClick()" class="btn btn-success btn-block">Signup</button>
+                                <button [disabled]="buttonDisabled" (click)="signupClick()" class="btn btn-success btn-block">Signup</button>
                               </form>
                             <div class="forgot">
                                 <a href="#" [routerLink]="['/page/login']" class="btn btn-link btn-info">Already Have Account?</a>

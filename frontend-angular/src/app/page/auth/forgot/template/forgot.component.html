@@ -10,7 +10,7 @@
                             <label>Email</label>
                             <input type="text" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}" autocomplete="email"
                             />
-                            <button (click)="forgotClick()" class="btn btn-success btn-block">Send Mail</button>
+                            <button [disabled]="buttonDisabled" (click)="forgotClick()" class="btn btn-success btn-block">Send Mail</button>
                         </form>
                         <div style="text-align:center">{{ message }}</div>
                     </div>

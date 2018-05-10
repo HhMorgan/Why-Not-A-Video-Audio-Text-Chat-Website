@@ -38,10 +38,6 @@ export class NavbarComponent implements OnInit {
         sharedService.updateNotification.subscribe(unreadNotificationCount =>{
             this.norificationCount = unreadNotificationCount;
         })
-
-        this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
-            this.norificationCount = apiresponse.data;
-        });
     }
 
     ngOnInit() {
@@ -139,14 +135,19 @@ export class NavbarComponent implements OnInit {
                  SharedFunctions.loadImageBy('profileimgnavbar', apires.data, false);
              });
              this.getNotificationCount();
+             this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
+                this.norificationCount = apiresponse.data;
+            });
         } 
     }
 
     getNotificationCount() {
-        Observable.interval( 2 * 60 * 1000 ).subscribe(z => {
-            this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
-                this.norificationCount = apiresponse.data;
-            });
+        Observable.interval( 2 * 60 * 1000 ).subscribe(() => {
+            if(this.apiServ.isAuthenticated()){
+                this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
+                    this.norificationCount = apiresponse.data;
+                });
+            }
         });
     }
 

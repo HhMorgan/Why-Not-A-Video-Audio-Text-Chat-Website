@@ -14,6 +14,7 @@ export class SignupComponent implements OnInit {
   public password;
   public passwordConfirmation;
   public signupMessage;
+  public buttonDisabled = false;
 
   constructor(private _apiService : APIService , private router: Router) { }
 
@@ -23,15 +24,18 @@ export class SignupComponent implements OnInit {
   signupClick(){
     const user = <User>{};
     user.email = this.email;
-    user.password = this.password;
+    this.buttonDisabled = true;
     user.username=this.username;
+    user.password = this.password;
     if(this.email != null && this.password != null&& this.passwordConfirmation!=null && this.username!=null){
       if(this.password==this.passwordConfirmation){
         this._apiService.signup(user).subscribe((apiresponse: APIData)=>{
           this.signupMessage = apiresponse.msg;
           this.router.navigate(['page/login']); 
+          this.buttonDisabled = false;
         },(error: APIData)=>{
           this.signupMessage = error.msg;
+          this.buttonDisabled = false;
         })
       }
       else{

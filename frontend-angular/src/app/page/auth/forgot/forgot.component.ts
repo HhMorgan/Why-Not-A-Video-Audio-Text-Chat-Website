@@ -13,6 +13,7 @@ import { SharedService } from '../../../@core/service/shared.service';
 export class ForgotComponent implements OnInit {
   public email;
   public message;
+  public buttonDisabled = false;
   constructor(private _apiService: APIService, private router: Router, private sharedService: SharedService) { }
 
   ngOnInit() {
@@ -22,9 +23,14 @@ export class ForgotComponent implements OnInit {
   forgotClick() {
     const user = <User>{};
     user.email = this.email;
+    this.buttonDisabled = true;
     if (this.email != null) {
       this._apiService.forgetPassword(this.email).subscribe((apiresponse: APIData)=> {
         this.message = apiresponse.msg;
+        this.buttonDisabled = false;
+      },(error)=>{
+        this.buttonDisabled = false;
+        this.message = error.msg;
       })
     } else
       this.message = 'Email Can not Be Empty ';

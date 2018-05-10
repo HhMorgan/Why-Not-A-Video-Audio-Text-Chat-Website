@@ -6,35 +6,39 @@ import { APIService } from './api.service';
 
 @Injectable()
 export class IOService {
-  private url = APIService.apiUrl.substring( 0 , APIService.apiUrl.length - 5 );
-  private socket ;
-  
-  sendMessage(message){
+  private url = APIService.apiUrl.substring(0, APIService.apiUrl.length - 5);
+  private socket;
+
+  sendMessage(message) {
     this.socket.emit('message', message);
   }
 
-  closeConnection(){
-    this.socket.disconnect();
-    this.socket = null;
+  closeConnection() {
+    if (this.socket) {
+      this.socket.disconnect();
+      this.socket = null;
+    }
   }
 
   getMessages() {
     let observable = new Observable(observer => {
-        this.socket = io.connect(this.url, {
-          path : '/api/socket.io',
-          query: 'token=' + APIService.getToken(),
-          reconnection: true,
-          reconnectionDelay: 1000,
-          reconnectionDelayMax : 5000,
-          reconnectionAttempts: Infinity
-        });
+      this.socket = io.connect(this.url, {
+        path: '/api/socket.io',
+        query: 'token=' + APIService.getToken(),
+        reconnection: true,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
+        reconnectionAttempts: Infinity
+      });
+      if (this.socket) {
         this.socket.on('message', (data) => {
-            observer.next(data);
+          observer.next(data);
         });
-        return () => {
-            this.socket.disconnect();
-        };
+      }
+      return () => {
+        this.socket.disconnect();
+      };
     })
     return observable;
-  }  
+  }
 }

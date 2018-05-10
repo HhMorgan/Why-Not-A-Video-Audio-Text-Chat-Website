@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   public email;
   public password;
   public loginMessage;
+  public buttonDisabled;
 
   constructor(private _apiService:APIService , private router: Router , private sharedService : SharedService ) { }
 
@@ -25,8 +26,10 @@ export class LoginComponent implements OnInit {
     const user = <User>{};
     user.email = this.email;
     user.password = this.password;
+    this.buttonDisabled = true;
     if(this.email != null && this.password != null){
       this._apiService.login(user).subscribe((apiresponse: APIData)=>{
+        this.buttonDisabled = false;
         this.loginMessage = apiresponse.msg;
         if( apiresponse.msg.includes('Welcome') ){
           localStorage.setItem('token', apiresponse.data);
@@ -37,11 +40,9 @@ export class LoginComponent implements OnInit {
         }
       } , (error: APIData) => {
         this.loginMessage = error.msg;
+        this.buttonDisabled = false;
       })
   } else
     this.loginMessage = 'Username or Password Can not Be Empty ';
   }
-  
-  
-
 }

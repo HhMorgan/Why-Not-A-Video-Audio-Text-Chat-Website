@@ -12,7 +12,7 @@
                                 <input type="text" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}" autocomplete="username"/>
                                 <label>Password</label>
                                 <input type="password" class="form-control" [(ngModel)]="password" placeholder="password" [ngModelOptions]="{standalone: true}" autocomplete = "current-password"/>
-                                <button (click)="loginClick()" class="btn btn-success btn-block">Login</button>
+                                <button [disabled]="buttonDisabled" (click)="loginClick()" class="btn btn-success btn-block">Login</button>
                               </form>
                             <div class="forgot">
                                 <a [routerLink]="['/page/forgot']" class="btn btn-link btn-info">Forgot password?</a>

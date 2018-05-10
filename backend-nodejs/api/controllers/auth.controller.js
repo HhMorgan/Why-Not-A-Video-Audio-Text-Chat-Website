@@ -153,7 +153,7 @@ module.exports.forgetPassword = function (req, res, next) {
   if (!valid) {
     return res.status(422).json({
       err: null,
-      msg: 'username (String) , email (String) , and password (String) are required fields.',
+      msg: 'Email is Not Valid',
       data: null
     });
   } else {
