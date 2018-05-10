@@ -159,8 +159,8 @@ module.exports = function (io) {
         if (session.createdById == connection.request.decoded_token.user._id) {
             return true;
         } else {
-            for (var user in session.users) {
-                if (user == connection.request.decoded_token.user._id) {
+            for ( var i = 0 ; i < session.users.length ; i++ ) {
+                if ( session.users[i] == connection.request.decoded_token.user._id ) {
                     return true;
                 }
             }

@@ -12,7 +12,7 @@ export class IOService {
   sendMessage(message){
     this.socket.emit('message', message);
   }
-  
+
   getMessages() {
     let observable = new Observable(observer => {
         this.socket = io.connect(this.url, {
@@ -27,6 +27,7 @@ export class IOService {
             observer.next(data);
         });
         return () => {
+            console.log('disconnect')
             this.socket.disconnect();
         };
     })
