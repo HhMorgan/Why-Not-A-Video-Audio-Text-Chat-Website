@@ -34,8 +34,9 @@ MongoClient.connect(url, function (err, db) {
   ];
 
   dropCollectionsMuitiple( dbo , collectionsObj , 0 , function(done) {
-    console.log('Done');
-    db.close();
+    dbo.dropDatabase(function(done){
+      db.close();
+    })
   })
 
   // for (var i = 0; i < collectionsObj.length; i++){
@@ -59,7 +60,7 @@ function dropCollectionsMuitiple(dbo, collections, i, done) {
     return done(true);
   } else {
     dbo.collection(collections[i].name).drop(function (err, delOK) {
-      if (err) throw err;
+      // if (err) throw err;
       if (delOK) console.log("Collection " + collections[i].name + " deleted");
       return dropCollectionsMuitiple(dbo, collections, i + 1, done);
     });
