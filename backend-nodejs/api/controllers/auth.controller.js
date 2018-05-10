@@ -235,6 +235,7 @@ module.exports.verify = function (req, res, next) {
         case "Account":
           User.findOneAndUpdate({ _id: decodedToken.user._id, verificationToken: decodedToken.user.token },
             { $set: { isVerified: true }, $unset: { verificationToken: 1 } }, { new: true }, function (err, user) {
+              console.log(user)
               if (user) {
                 return res.status(200).json({
                   err: null,
