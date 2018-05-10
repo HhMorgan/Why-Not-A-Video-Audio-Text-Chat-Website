@@ -74,6 +74,7 @@ var isAdmin = function (req, res, next) {
 router.post('/auth/login', isNotAuthenticated, authCtrl.login);
 router.post('/auth/signup', isNotAuthenticated, authCtrl.signup);
 router.get('/auth/verify/:token', isNotAuthenticated, authCtrl.verify);
+router.post('/auth/forgetPassword', isNotAuthenticated, authCtrl.forgetPassword);
 //----------------------------Admin Routes ----------------------------------
 router.get('/Tags/getTags', isAuthenticated, AdminController.getTags);
 router.patch('/Tag/editTags/:tagId', isAuthenticated, isAdmin, AdminController.editTag);

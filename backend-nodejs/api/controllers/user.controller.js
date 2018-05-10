@@ -94,8 +94,7 @@ module.exports.getUserProfile = function (req, res) {
 };
 
 module.exports.AddTag = function (req, res, next) {
-  var valid = req.body.name && Validations.isString(req.body.name) &&
-    req.body.blocked && Validations.isBoolean(req.body.blocked);
+  var valid = req.body.name && Validations.isString(req.body.name);
   // check if the tag name is given    
   if (!valid) {
     return res.status(422).json({
@@ -104,9 +103,18 @@ module.exports.AddTag = function (req, res, next) {
       data: null
     });
   }
+
   if(req.decodedToken.user.role == 'admin'){
     req.body.status = "Accepted"
+    if(!(req.body.blocked && Validations.isBoolean(req.body.blocked)) ){
+      return res.status(422).json({
+        err: null,
+        msg: 'blocked (Boolean) is a required fields.',
+        data: null
+      });
+    }
   } else {
+    req.body.blocked = false;
     req.body.status = "Pending"
   }
   // the method below creates the requred Tag in the backend and returns 201 if successful
@@ -118,7 +126,7 @@ module.exports.AddTag = function (req, res, next) {
         data: null
       })
     } else {
-      Tag.create({ name: req.body.name, status: "Pending", blocked: req.body.blocked }, function (err, Tags) {
+      Tag.create({ name: req.body.name , status: req.body.status , blocked: req.body.blocked }, function (err, Tags) {
         if (err) {
           return next(err);
         }

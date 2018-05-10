@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { APIData, User } from '../../../@core/service/models/api.data.structure';
 import { APIService } from '../../../@core/service/api.service';
 import { error } from 'protractor';
-import { Routes,Router } from '@angular/router';
+import { Routes, Router } from '@angular/router';
 import { SharedService } from '../../../@core/service/shared.service';
 
 @Component({
@@ -12,25 +12,22 @@ import { SharedService } from '../../../@core/service/shared.service';
 })
 export class ForgotComponent implements OnInit {
   public email;
-  public password;
-  public loginMessage;
-
-  constructor(private _apiService:APIService , private router: Router , private sharedService : SharedService ) { }
+  public message;
+  constructor(private _apiService: APIService, private router: Router, private sharedService: SharedService) { }
 
   ngOnInit() {
 
   }
 
-  forgotClick(){
+  forgotClick() {
     const user = <User>{};
     user.email = this.email;
-    user.password = this.password;
-    if(this.email != null){
-      
-  } else
-    this.loginMessage = 'Username or Password Can not Be Empty ';
+    if (this.email != null) {
+      this._apiService.forgetPassword(this.email).subscribe((apiresponse: APIData)=> {
+        this.message = apiresponse.msg;
+      })
+    } else
+      this.message = 'Email Can not Be Empty ';
   }
-  
-  
 
 }

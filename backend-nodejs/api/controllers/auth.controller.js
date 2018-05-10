@@ -147,6 +147,59 @@ module.exports.signup = function (req, res, next) {
   })
 };
 
+module.exports.forgetPassword = function (req, res, next) {
+  var valid = req.body.email && Validations.isString(req.body.email) && Validations.matchesRegex(req.body.email, EMAIL_REGEX);
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'username (String) , email (String) , and password (String) are required fields.',
+      data: null
+    });
+  } else {
+    User.findOne({ email : req.body.email.trim().toLowerCase() },function(err,user){
+      if(user){
+        var password = crypto.randomBytes(16).toString('hex');
+        var token = jwt.sign(
+          {
+            user: { _id : user._id , email: user.email , verify : "Password" , token : password }
+          },
+          req.app.get('secret'),
+          {
+            expiresIn: '2h'
+          }
+        );
+        let confirmationUrl = 'https://whatwhynot.net/#/page' + `/verify/${token}`;
+        nodemailerController.sendEmail(
+          req.body.email,
+          'Account Reset Password ' + `${password}`,
+          'Click the following link to reset Password of your account:</p>' + confirmationUrl,
+          function (done) {
+            if(done){
+              return res.status(200).json({
+                err: null,
+                msg: 'Account Reset Link Sent Successfully',
+                data: null
+              });
+            } else {
+              return res.status(200).json({
+                err: null,
+                msg: 'Account Reset Link Failed To Send',
+                data: null
+              });
+            }
+          }
+        )
+      } else {
+        return res.status(404).json({
+          err: null,
+          msg: 'Unable To Find An Account With This Email',
+          data: null
+        });
+      }
+    })
+  }
+}
+
 module.exports.verify = function (req, res, next) {
   // finds a user with verification token appended to the url url
   var valid = req.params.token && Validations.isString(req.params.token);
@@ -196,7 +249,28 @@ module.exports.verify = function (req, res, next) {
                 })
               }
             })
-          break;
+        break;
+        case "Password":
+          Encryption.hashPassword(password, function (err, hash) { 
+            if(hash){
+              User.findByIdAndUpdate(decodedToken.user._id , { $set :{ password : hash } } , function( err , user ){
+                if(user){
+                  return res.status(200).json({
+                    err: null,
+                    msg: 'User ' + user.username + ' Password Reseted Successfully',
+                    data: null
+                  })
+                } else {
+                  return res.status(404).json({
+                    err: null,
+                    msg: 'Unable To Find User',
+                    data: null
+                  })
+                }
+              });
+            }
+          });
+        break;
       }
     });
   } else {

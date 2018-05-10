@@ -11,9 +11,9 @@ import { APIData , Tag , Session , Request , CandicateSession , Profile , User ,
 
 @Injectable()
 export class APIService {
-  // public static apiUrl = 'https://whatwhynot.net/api/';
-  public static apiUrl = 'http://127.0.0.1:3000/api/';
-  public static apiUrl_Intercept_Ignore_list: Array<String> = ['auth/login', 'auth/signup' , 'auth/verify'];
+  public static apiUrl = 'https://whatwhynot.net/api/';
+  // public static apiUrl = 'http://127.0.0.1:3000/api/';
+  public static apiUrl_Intercept_Ignore_list: Array<String> = [ 'auth/login' , 'auth/signup' , 'auth/verify' , 'auth/forgetPassword' ];
   constructor( private jwtHelper: JwtHelper , private http: HttpClient) { }
 
   public static getToken(): string {
@@ -53,6 +53,10 @@ export class APIService {
 
   signup(user: User): Observable<APIData> {
     return this.http.post<APIData>(APIService.apiUrl + 'auth/signup', user).catch(this.errorHandler);
+  }
+
+  forgetPassword( email : String ){
+    return this.http.post<APIData>(APIService.apiUrl + 'auth/forgetPassword', { email : email.toString() } ).catch(this.errorHandler);
   }
 
   AddColor(Color: Color): Observable<APIData> {
