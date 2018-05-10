@@ -27,7 +27,7 @@ module.exports.login = function (req, res, next) {
   }
 
   // Find the user with this email from the database
-  User.findOne({ email: req.body.email.trim().toLowerCase(), }, { _id: 1, username: 1, email: 1, password: 1, blocked: 1, role: 1 }).exec(function (err, user) {
+  User.findOne({ email: req.body.email.trim().toLowerCase(), }, { _id: 1, username: 1, email: 1, password: 1, blocked: 1, isVerified: 1, role: 1 }).exec(function (err, user) {
     if (err) {
       return next(err);
     }
@@ -49,12 +49,15 @@ module.exports.login = function (req, res, next) {
           .status(401)
           .json({ err: null, msg: 'Password is incorrect.', data: null });
       }
-      if (user.blocked)
+      if (user.blocked) {
         return res.status(401).json({ err: null, msg: 'Blocked', data: null });
+      }
+      if (!user.isVerified) {
+        return res.status(401).json({ err: null, msg: ' Please Verify Your Account ', data: null });
+      }
       // Create a JWT and put in it the user object from the database
       var token = jwt.sign(
         {
-          // user.toObject transorms the document to a json object without the password as we can't leak sensitive info to the frontend
           user: { _id: user._id, username: user.username, email: user.email, role: user.role }
         },
         req.app.get('secret'),
@@ -91,17 +94,16 @@ module.exports.signup = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        if (!req.body.role) {
-          req.body.role = 'user';
-        }
-        User.create({ username: req.body.username, email: req.body.email.trim().toLowerCase(), role: req.body.role, password: hash, verificationToken: crypto.randomBytes(16).toString('hex') }, function (err, newUser) {
+        User.create({ username: req.body.username, email: req.body.email.trim().toLowerCase(), password: hash, verificationToken: crypto.randomBytes(16).toString('hex') }, function (err, newUser) {
           if (err) {
             return next(err);
           } else {
             var token = jwt.sign(
               {
-                user: { _id : newUser._id , email: newUser.email , verify : "Account" , 
-                token : newUser.verificationToken }
+                user: {
+                  _id: newUser._id, email: newUser.email, verify: "Account",
+                  token: newUser.verificationToken
+                }
               },
               req.app.get('secret'),
               {
@@ -119,7 +121,7 @@ module.exports.signup = function (req, res, next) {
                   return res.status(201).json({
                     err: null,
                     msg: 'Registration successful, you can now login to your account.',
-                    data: newUser
+                    data: null
                   });
                 } else {
                   User.remove({ _id: newUser._id }, function (err) {
@@ -155,12 +157,12 @@ module.exports.forgetPassword = function (req, res, next) {
       data: null
     });
   } else {
-    User.findOne({ email : req.body.email.trim().toLowerCase() },function(err,user){
-      if(user){
+    User.findOne({ email: req.body.email.trim().toLowerCase() }, function (err, user) {
+      if (user) {
         var password = crypto.randomBytes(16).toString('hex');
         var token = jwt.sign(
           {
-            user: { _id : user._id , email: user.email , verify : "Password" , token : password }
+            user: { _id: user._id, email: user.email, verify: "Password", token: password }
           },
           req.app.get('secret'),
           {
@@ -173,7 +175,7 @@ module.exports.forgetPassword = function (req, res, next) {
           'Account Reset Password ' + `${password}`,
           'Click the following link to reset Password of your account:</p>' + confirmationUrl,
           function (done) {
-            if(done){
+            if (done) {
               return res.status(200).json({
                 err: null,
                 msg: 'Account Reset Link Sent Successfully',
@@ -248,12 +250,12 @@ module.exports.verify = function (req, res, next) {
                 })
               }
             })
-        break;
+          break;
         case "Password":
-          Encryption.hashPassword( decodedToken.user.token , function (err, hash) { 
-            if(hash){
-              User.findByIdAndUpdate( decodedToken.user._id , { $set :{ password : hash } } , function( err , user ){
-                if(user){
+          Encryption.hashPassword(decodedToken.user.token, function (err, hash) {
+            if (hash) {
+              User.findByIdAndUpdate(decodedToken.user._id, { $set: { password: hash } }, function (err, user) {
+                if (user) {
                   return res.status(200).json({
                     err: null,
                     msg: 'User ' + user.username + ' Password Reseted Successfully',
@@ -269,7 +271,7 @@ module.exports.verify = function (req, res, next) {
               });
             }
           });
-        break;
+          break;
       }
     });
   } else {

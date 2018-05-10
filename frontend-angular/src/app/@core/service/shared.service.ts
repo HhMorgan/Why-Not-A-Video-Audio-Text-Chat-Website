@@ -9,9 +9,6 @@ export class SharedService {
   @Output() change: EventEmitter<boolean> = new EventEmitter();
   @Output() showNotification: EventEmitter<Object> = new EventEmitter();
   @Output() errorPageMessage: EventEmitter<string> = new EventEmitter();
-  @Output() searchevent: EventEmitter<string> = new EventEmitter();
-  @Output() searcheventBy: EventEmitter<string> = new EventEmitter();
-  @Output() refreshsearch: EventEmitter<boolean> = new EventEmitter();
   @Output() updateNotification: EventEmitter<number> = new EventEmitter();
   
   triggerNotifcation(color: string, text: string) {
@@ -24,18 +21,6 @@ export class SharedService {
 
   updateUnreadNotification( count : number ){
     this.updateNotification.emit(count);
-  }
-
-  search(searchtag: string) {
-    this.searchevent.emit(searchtag);
-  }
-
-  searchBy(searchtype: string) {
-    this.searcheventBy.emit(searchtype);
-  }
-
-  refreshsearchevent(refreshsearch: boolean) {
-    this.refreshsearch.emit(refreshsearch);
   }
 
   setUserLoggedin(isUserLoggedIn: boolean) {

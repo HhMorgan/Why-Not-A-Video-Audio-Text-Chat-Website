@@ -20,19 +20,7 @@ module.exports.getColors = function (req, res, next) {
   });
 };
 
-
 module.exports.AddColor = function (req, res, next) {
-  /*      if (!valid) {
-       return res.status(422).json({
-         err: null,
-         msg: 'name (String) should be in hexadecimal.',
-         data: null
-       });
-     }    */
-  // Security Check
-  //delete req.body.createdAt;
-  //delete req.body.updatedAt;
-  // the method below creates the requred Tag in the backend and returns 201 if successful
   Color.create(req.body, function (err, Color) {
     if (err) {
       return next(err);
@@ -46,7 +34,6 @@ module.exports.AddColor = function (req, res, next) {
 };
 
 module.exports.AddColorToTag = function (req, res, next) {
-
   Color.findOne({
     name: { $eq: req.body[0].name },
   }, function (err, Color) {
@@ -158,10 +145,7 @@ module.exports.deleteTags = function (req, res, next) {
     });
   }
   // this method finds the tag by the Id given as input and removes it from the database
-  Tags.findByIdAndRemove(req.params.tagId, function (
-    err,
-    deletedTags
-  ) {
+  Tags.findByIdAndRemove(req.params.tagId, function (err, deletedTags) {
     if (err) {
       return next(err);
     }
@@ -248,11 +232,11 @@ module.exports.ChangeRole = function (req, res, next) {
 }
 
 module.exports.getUsers = function (req, res, next) {
-  User.find({}, { _id: 1, username: 1, email: 1, role: 1, blocked: 1, isVerified: 1, rating: 1 }).exec(function (err, user) {
+  User.find({ _id: { $ne: req.decodedToken.user._id } }, { _id: 1, username: 1, email: 1, role: 1, blocked: 1, isVerified: 1, rating: 1 }).exec(function (err, user) {
     if (err) {
       return next(err);
     }
-    res.status(200).json({
+    return res.status(200).json({
       err: null,
       msg: 'Users retrieved successfully.',
       data: user
