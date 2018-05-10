@@ -5,19 +5,15 @@
                 <div class="row">
                     <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
                         <div class="card card-register">
-                            <h3 class="title">Welcome Back</h3>
+                            <h3 class="title">Please Write Your Email</h3>
                             
                             <form class="login-form">
                                 <label>Email</label>
                                 <input type="text" class="form-control" [(ngModel)]="email" placeholder="email" [ngModelOptions]="{standalone: true}" autocomplete="username"/>
-                                <label>Password</label>
-                                <input type="password" class="form-control" [(ngModel)]="password" placeholder="password" [ngModelOptions]="{standalone: true}" autocomplete = "current-password"/>
-                                <button (click)="loginClick()" class="btn btn-success btn-block">Login</button>
-                              </form>
-                            <div class="forgot">
-                                <a [routerLink]="['/page/forgot']" class="btn btn-link btn-info">Forgot password?</a>
                                 
-                            </div>
+                                <button (click)="forgotClick()" class="btn btn-success btn-block">Send Mail</button>
+                              </form>
+                            
                             <div style="text-align:center">{{loginMessage}}</div>
                             
                         </div>

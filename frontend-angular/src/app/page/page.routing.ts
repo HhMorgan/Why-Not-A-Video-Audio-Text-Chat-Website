@@ -20,11 +20,13 @@ import { RoleGuardService as AuthGuard } from '../@core/service/role-guard.servi
 import { ErrTestComponent } from './errTest/errTest.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { RequestsComponent } from './requests/requests.component';
+import { ForgotComponent } from './auth/forgot/forgot.component';
 
 const routes: Routes = [
   { path: 'home' , component : HomeComponent },
   { path: 'about', component : AboutComponent },
   { path: 'login' , component : LoginComponent },
+  {path: 'forgot', component: ForgotComponent},
   { path: 'signup' , component : SignupComponent },
   { path: 'verify/:token', component : VerifyComponent},
   { path: 'session/:sessionid', component: SessionComponent , canActivate : [AuthGuard]  , data : { checkRole : false } },

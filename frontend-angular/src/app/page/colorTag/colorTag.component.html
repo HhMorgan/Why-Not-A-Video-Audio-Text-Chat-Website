@@ -1,48 +1,68 @@
 <div id="TagsResults">
-                         
-        <br>
-     <div class="row following" id="follows">
-             <div class="col-md-6 ml-auto mr-auto">
-                 <ul class="list-unstyled follows">
-                    <p class="dropdown-item" >Add color by Hexa/rgb/name</p>
-                                       <div> <input id="colorcode" type="text" class="form-control" placeholder="'INDIANRED','#CD5C5C','RGB(205, 92, 92)'">
-                                        <button (click)="AddColor()" type="button" class="btn btn-info btn-just-icon"><i class="fa fa-plus"></i></button></div>
-                   <div *ngFor="let tag of tagswithColors | paginate: { itemsPerPage: 3, currentPage: ptags, id:'tagspages' } ">
-                     <li>
-                         <div class="row">
-                             <div class="col-md-2 col- ml-auto mr-auto">
-                                     <button style=" margin-right:75%"id="{{tag._id}}" type="button" [style.border-color]= "tag.color.name" [style.background-color]= "tag.color.name"  class="btn btn-sm btn-info btn-round">{{tag.name}}</button>
-                             </div>
-                             <div class="col-md-7 col-sm-4 ml-auto">
-                              
-                             </div>
-                             <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                <div ngbDropdown class="d-inline-block dropdown" [autoClose]="false" >
-                                    <a class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle><i class="fa fa-square" [ngStyle]="{'color': tag.color.name}"></i></a>
-                                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
-                                       <a class="dropdown-header">Choose a color</a>
-                                       <div *ngFor="let color of colors | paginate: { itemsPerPage: 3, currentPage: p, id: 'first' }">
-                                         <div (click)="AddColorToTag()"> <a class="dropdown-item" >   <i class="fa fa-square" [ngStyle]="{'color': color}"></i> <p>{{color}}</p> </a></div> 
-                                       </div>
-                                       <pagination-controls id="first" (pageChange)="p = $event"></pagination-controls>
-                                    </div>
+
+    <br>
+    <div class="row following" id="follows">
+        <div class="col-md-6 ml-auto mr-auto">
+            <ul class="list-unstyled follows">
+                <p class="dropdown-item">Add color by Hexa/rgb/name</p>
+                <div>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input id="colorcode" type="text" class="form-control" placeholder="'INDIANRED','#CD5C5C','RGB(205, 92, 92)'">
+                        </div>
+                        <div class="col-md-2">
+                            <button (click)="AddColor()" type="button" class="btn btn-info btn-just-icon">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="paddingColorSection">
+                    <div *ngFor="let tag of tagswithColors | paginate: { itemsPerPage: 3, currentPage: ptags, id:'tagspages' } ">
+                        <li>
+                            <div class="row">
+                                <div class="col-md-2 col- ml-auto mr-auto">
+                                    <button style=" margin-right:75%" id="{{tag._id}}" type="button" [style.border-color]="tag.color.name" [style.background-color]="tag.color.name"
+                                        class="btn btn-sm btn-info btn-round">{{tag.name}}</button>
                                 </div>
-                                     
-                             </div>
-                         </div>
-                     </li>
-                     <hr />
-                   </div>
-                 </ul>
-                
-             </div>
-         </div> 
-         <pagination-controls style="margin-left:80%;" id="tagspages" (pageChange)="ptags = $event"></pagination-controls>  
-     </div>
-    
-     <br>
-     <br>
-     <br>
+                                <div class="col-md-7 col-sm-4 ml-auto">
+
+                                </div>
+                                <div class="col-md-3 col-sm-2 ml-auto mr-auto">
+                                    <div ngbDropdown class="d-inline-block dropdown" [autoClose]="false">
+                                        <a class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                            <i class="fa fa-square" [ngStyle]="{'color': tag.color.name}"></i>
+                                        </a>
+                                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
+                                            <a class="dropdown-header">Choose a color</a>
+                                            <div *ngFor="let color of colors | paginate: { itemsPerPage: 3, currentPage: p, id: 'first' }">
+                                                <div (click)="AddColorToTag()">
+                                                    <a class="dropdown-item">
+                                                        <i class="fa fa-square" [ngStyle]="{'color': color}"></i>
+                                                        <p>{{color}}</p>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <pagination-controls id="first" (pageChange)="p = $event"></pagination-controls>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+                        <hr />
+                    </div>
+                </div>
+            </ul>
+
+        </div>
+    </div>
+    <pagination-controls style="margin-left:80%;" id="tagspages" (pageChange)="ptags = $event"></pagination-controls>
+</div>
+
+<br>
+<br>
+<br>
 
 
-<div  id="snackbar" >Some text some message..</div>
+<div id="snackbar">Some text some message..</div>
