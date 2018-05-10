@@ -659,10 +659,10 @@ module.exports.findUsersByID = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    if (!User) {
+    if (User.length == 0) {
       return res.status(404).json({
         err: null,
-        msg: 'This Tag is not found ',
+        msg: 'This User is not found ',
         data: null
       });
     }

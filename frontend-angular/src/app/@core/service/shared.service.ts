@@ -8,6 +8,7 @@ export class SharedService {
   isUserLoggedIn: boolean = false;
   @Output() change: EventEmitter<boolean> = new EventEmitter();
   @Output() showNotification: EventEmitter<Object> = new EventEmitter();
+  @Output() errorPageMessage: EventEmitter<string> = new EventEmitter();
   @Output() searchevent: EventEmitter<string> = new EventEmitter();
   @Output() searcheventBy: EventEmitter<string> = new EventEmitter();
   @Output() refreshsearch: EventEmitter<boolean> = new EventEmitter();
@@ -15,6 +16,10 @@ export class SharedService {
   
   triggerNotifcation(color: string, text: string) {
     this.showNotification.emit({ color, text });
+  }
+
+  triggerErrorPageMessage(text : string){
+    this.errorPageMessage.emit(text);
   }
 
   updateUnreadNotification( count : number ){

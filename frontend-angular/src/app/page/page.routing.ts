@@ -17,28 +17,29 @@ import { AboutComponent } from './about/about.component';
 import { SearchComponent } from '../page/search/search.component';
 import { NotificationListComponent } from '../page/notification-list/notification.list.component';
 import { RoleGuardService as AuthGuard } from '../@core/service/role-guard.service';
-import { ErrTestComponent } from './errTest/errTest.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { RequestsComponent } from './requests/requests.component';
 import { ForgotComponent } from './auth/forgot/forgot.component';
+import { ErrComponent } from './err/err.component';
 
 const routes: Routes = [
-  { path: 'home' , component : HomeComponent },
-  { path: 'about', component : AboutComponent },
-  { path: 'login' , component : LoginComponent },
-  {path: 'forgot', component: ForgotComponent},
-  { path: 'signup' , component : SignupComponent },
-  { path: 'verify/:token', component : VerifyComponent},
-  { path: 'session/:sessionid', component: SessionComponent , canActivate : [AuthGuard]  , data : { checkRole : false } },
-  { path: 'dashboard', component : DashboardComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'admin' } },
-  { path: 'profile' , component : ProfileComponent , canActivate : [AuthGuard]  , data : { checkRole : false } },
-  { path: 'profile/:username' , component : ProfileComponent , canActivate : [AuthGuard] , data : { checkRole : false } },
-  { path: 'search/:searchOptions/:search' , component:SearchComponent , canActivate : [AuthGuard] , data : { checkRole : false }  },
-  { path: 'rating', component : RatingComponent , canActivate : [AuthGuard]  , data : { checkRole : false }},
-  { path: 'notification', component : NotificationListComponent , canActivate : [AuthGuard] , data : { checkRole : false } },
-  { path: 'schedule', component : ScheduleComponent , canActivate : [AuthGuard]  , data : { checkRole : true , expectedRole : 'expert' }  },
-  { path: 'schedule/:expertid', component: ScheduleComponent , canActivate : [AuthGuard] , data : { checkRole : false } },
-  { path: '', pathMatch: 'full', redirectTo: 'home' },  
+  { path: 'home', component: HomeComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'forgot', component: ForgotComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: 'err' , component : ErrComponent },
+  { path: 'verify/:token', component: VerifyComponent },
+  { path: 'session/:sessionid', component: SessionComponent, canActivate: [AuthGuard], data: { checkRole: false } },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { checkRole: true, expectedRole: 'admin' } },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: { checkRole: false } },
+  { path: 'profile/:username', component: ProfileComponent, canActivate: [AuthGuard], data: { checkRole: false } },
+  { path: 'search/:searchOptions/:search', component: SearchComponent, canActivate: [AuthGuard], data: { checkRole: false } },
+  { path: 'rating', component: RatingComponent, canActivate: [AuthGuard], data: { checkRole: false } },
+  { path: 'notification', component: NotificationListComponent, canActivate: [AuthGuard], data: { checkRole: false } },
+  { path: 'schedule', component: ScheduleComponent, canActivate: [AuthGuard], data: { checkRole: true, expectedRole: 'expert' } },
+  { path: 'schedule/:expertid', component: ScheduleComponent, canActivate: [AuthGuard], data: { checkRole: false } },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
 ];
 
 @NgModule({
@@ -48,6 +49,6 @@ const routes: Routes = [
 export class PagesRoutingModule {
   constructor() {
     //console.log(Router);    
-  }  
-  
+  }
+
 }

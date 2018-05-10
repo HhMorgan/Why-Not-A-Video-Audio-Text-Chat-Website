@@ -3,10 +3,10 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { Component, OnInit, Renderer2, ElementRef, Input, ViewChild } from '@angular/core';
 import { trigger, state, style, animate, transition, query, stagger } from '@angular/animations';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IOService } from '../../@core/service/io.service';
 import { APIService } from '../../@core/service/api.service';
-import { SharedFunctions } from '../../@core/service/shared.service';
+import { SharedFunctions, SharedService } from '../../@core/service/shared.service';
 import { APIData, User, Token } from '../../@core/service/models/api.data.structure';
 
 
@@ -21,7 +21,9 @@ export class SessionComponent implements OnInit {
   public senderUsername;
   public recieverUsername;
   public messages = [];
+  public failureMessage;
   public joinFlag = false;
+  public showOptions = false;
   public joinButtonflag = false;
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
@@ -71,7 +73,7 @@ export class SessionComponent implements OnInit {
 
   //switch cases for all of the chating protocols that are followed to make a connection between users
   constructor(private apiService: APIService, private ioService: IOService, private route: ActivatedRoute,
-    private _sanitizer: DomSanitizer) {
+    private _sanitizer: DomSanitizer, private sharedService: SharedService, public router: Router) {
     let userToken = <Token>this.apiService.getToken(true);
     this.recieverUsername = userToken.username;
     this.route.params.subscribe(
@@ -111,6 +113,10 @@ export class SessionComponent implements OnInit {
                   room: this.sessionid
                 })
               )
+              break;
+
+            case "AcceptedInRoom":
+              this.showOptions = true;
               break;
 
             case "disconnected":
@@ -195,6 +201,9 @@ export class SessionComponent implements OnInit {
                   img: this.connectedUsersData[this.connectedUsers.indexOf(js.userid)].img
                 }
               );
+              break;
+            case "Failure":
+              this.failureMessage = js.message;
               break;
           }
         });

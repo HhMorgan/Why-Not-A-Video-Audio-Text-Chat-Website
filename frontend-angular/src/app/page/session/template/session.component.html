@@ -1,12 +1,13 @@
 <div *ngIf="screenSize()">
     <div class="page-header fullpage" data-parallax="true" style="background-image: url('../assets/img/daniel-olahh.jpg');">
+        <h1 *ngIf='!showOptions' [style.color]="'white'" [innerHTML]="failureMessage"></h1>
         <div class="filter"></div>
         <div class="mainBox">
             <div class="container">
                 <div class="container">
                     <div class="row">
                         <div *ngIf='!joinFlag' class="col-md-3 "> </div>
-                        <div *ngIf='!joinFlag' class="col-md-5">
+                        <div *ngIf='showOptions' class="col-md-5">
                             <div class="middleBox">
                                 <div class="motto text-center">
                                     <h2>Hi, User!</h2>

@@ -7,7 +7,7 @@ import { APIService } from './api.service';
 @Injectable()
 export class IOService {
   private url = APIService.apiUrl.substring( 0 , APIService.apiUrl.length - 5 );
-  private socket;
+  private socket ;
   
   sendMessage(message){
     this.socket.emit('message', message);

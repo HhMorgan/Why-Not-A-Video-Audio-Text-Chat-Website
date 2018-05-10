@@ -46,7 +46,6 @@ import { SearchComponent } from '../page/search/search.component';
 import { NotificationListComponent } from '../page/notification-list/notification.list.component';
 import { ColorTagComponent } from './colorTag/colorTag.component';
 import { ErrComponent } from './err/err.component';
-import { ErrTestComponent } from './errTest/errTest.component';
 import { VerifyComponent } from './auth/verify/verify.component';
 import { RequestsComponent } from './requests/requests.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
@@ -96,7 +95,6 @@ import { ForgotComponent } from './auth/forgot/forgot.component';
     NotificationListComponent,
     ColorTagComponent,
     ErrComponent,
-    ErrTestComponent,
     VerifyComponent,
     RequestsComponent,
     ForgotComponent,
