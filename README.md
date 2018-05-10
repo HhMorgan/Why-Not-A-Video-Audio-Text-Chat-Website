@@ -1,8 +1,8 @@
 # Why-Not
-#SE-2018-MET-T-16
+SE-2018-MET-T-16
 ## Awards
 
-###### Live Demo
+## Live Demo
 
 https://whatwhynot.net/
 
@@ -17,7 +17,7 @@ If there is a bug and you are one of the testing team please send an email to ah
 
 ## Usage
 
-Run `npm start --prod` to start in **production** mode, `nodemon *` to run using [nodemon](https://nodemon.io/) in debug mode.
+Run `ng serve --prod` to start in **production** mode in the frontend folder, and `nodemon *` to run using [nodemon](https://nodemon.io/) in the backend folder.
 
 ---
 
