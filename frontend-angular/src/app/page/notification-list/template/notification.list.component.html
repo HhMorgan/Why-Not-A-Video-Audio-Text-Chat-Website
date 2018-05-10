@@ -10,7 +10,7 @@
                     <div *ngFor="let notification of notificationsArray">
                         <div class="container darker">
                             <img [src]="notification.senderImg" alt="Avatar" style="width:100%;">
-                            
+
                             <div *ngIf="notification.messagetype == 'Message' " class="messagePosition">
                                 <p>「{{notification.sender}}」 {{notification.message}} 「{{notification.recipient}}」</p>
                             </div>
