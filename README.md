@@ -1,18 +1,33 @@
 # Why-Not
+#SE-2018-MET-T-16
+## Awards
 
-SE-2018-MET-T-16
+###### Live Demo
 
-## Please Create A Branch on the Part you Are Assigned To
+https://whatwhynot.net/
 
-Please NPM Install Again For New Changes
+---
 
-## The Existing Front End Pages
+## Setup
+1. Clone this repo to your desktop `git clone https://github.com/SEGUC17/Why-Not.git`
+2. Run `npm install` to install all the dependencies.
+If there is a bug and you are one of the testing team please send an email to ahmed.ayman1[at]gmail.com or heshammse[at]gmail.com
 
-home : The main page of the site<br>
-login : The login page<br>
-signup : The signup page<br>
-session : The video/audio call and chat page<br>
-profile : The user profile page<br>
-dashboard : The admin dashboard<br>
-video : The Video Chat page, it shouldn't be accessed through any means other than the session page<br>
-template : The front end seed elements that are available for use<br>
+---
+
+## Usage
+
+Run `npm start --prod` to start in **production** mode, `nodemon *` to run using [nodemon](https://nodemon.io/) in debug mode.
+
+---
+
+## Bugs
+
+If you found a bug, please report it through the issues tab.
+
+---
+
+## Docs
+
+##### Project Backlog
+https://docs.google.com/spreadsheets/d/1UzPDxfkLGT6AnAgs4syrGWweRTejMK9Ck91YF3Dxoqs/edit?usp=sharing
