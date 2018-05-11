@@ -20,7 +20,6 @@ export class upgradeToExpertComponent implements OnInit {
 
   upgradeToExpertClick(){
     this.apiService.upgradeToExpert({ sender: '', recipient: 'admin', type: 'upgradeToExpert', status: '', createdAt: '', viewed: false }).subscribe((apiresponse: APIData)=>{
-      console.log(apiresponse.msg);
       this.requestStatus = apiresponse.msg;
     });
   } 

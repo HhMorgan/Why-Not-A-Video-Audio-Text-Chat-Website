@@ -31,7 +31,6 @@ export class NotificationListComponent implements OnInit {
   //The function that loads all the notifications from the backend
   refresh(): void {
     this._apiService.getNotifications().subscribe((apiresponse: APIData)=>{
-      console.log(apiresponse.data);
       for(var i = 0 ; i < apiresponse.data.length ; i++){
         let notification = apiresponse.data[i];
         if(!notification.read){

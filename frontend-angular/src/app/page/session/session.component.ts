@@ -206,7 +206,6 @@ export class SessionComponent implements OnInit , OnDestroy {
 
             case "message":
               this.senderUsername = this.connectedUsersData[this.connectedUsers.indexOf(js.userid)].username;
-              console.log(this.connectedUsersData[this.connectedUsers.indexOf(js.userid)].username);
               this.messages.push(
                 {
                   type: "recieved",

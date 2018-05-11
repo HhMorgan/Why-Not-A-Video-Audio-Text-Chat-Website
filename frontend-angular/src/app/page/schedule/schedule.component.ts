@@ -137,7 +137,6 @@ export class ScheduleComponent implements OnInit {
       this.popoutExpert = true;
       this.dayOffer = day;
       this.slotOffer = slot;
-      console.log(this.slotOffer.status);
       this.usersRequestedSlot = [];
       this.sessionid = slot.session;
       if (slot.users.length > 0) {
@@ -145,7 +144,6 @@ export class ScheduleComponent implements OnInit {
           this.usersRequestedSlot.push({ id: user._id, username: user.username, day: day, slot: slot });
         }
       }
-
     }
   }
 
@@ -195,8 +193,8 @@ export class ScheduleComponent implements OnInit {
       userid: userid,
       dayNo: JSON.stringify(day), slotNo: JSON.stringify(this.schedule[day].indexOf(slot))
     }).subscribe((apiresponse: APIData) => {
-      console.log(apiresponse.msg)
       this.updateSchedule(apiresponse.data);
+      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
     }, (err) => {
       this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
@@ -235,8 +233,8 @@ export class ScheduleComponent implements OnInit {
 
   getWeeklySlots(date) {
     this.apiService.getScheduleWeeklySlots(date).subscribe((apiresponse: APIData) => {
-      console.log(apiresponse);
       this.updateSchedule(apiresponse.data);
+      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
     }, (err) => {
       this.scheduleReset()
       this.sharedService.triggerNotifcation("#EA4335", err.msg);
@@ -259,7 +257,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   Reserve(day, slot) {
-    console.log("slot : " + this.schedule[day].indexOf(slot));
     this.apiService.userReserveSlot(<ReserveSlotBody>{
       expertID: this.expertUser._id,
       dayNo: JSON.stringify(day),

@@ -12,7 +12,6 @@ export class ErrComponent {
   public message;
   constructor(private apiService: APIService , private sharedService : SharedService ) {
     sharedService.errorPageMessage.subscribe((message) => {
-      console.log(message);
       this.message = message;
     })
   }

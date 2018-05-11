@@ -46,8 +46,6 @@ export class AdminRatingComponent implements OnInit {
   constructor(private _apiService: APIService, public dialog: MatDialog) {
     this._apiService.getUsers().subscribe((apiresponse: APIData)=>{
       this.source.load( apiresponse.data);
-      console.log(apiresponse.data);
-
     });
 }
 
@@ -56,7 +54,6 @@ export class AdminRatingComponent implements OnInit {
     // recived data and add it to the ng2smarttable
       this._apiService.getUsers().subscribe((apiresponse: APIData)=>{
         for (var i = 0 ; i < apiresponse.data.length ; i++ )
-          console.log(apiresponse.data);
         this.source.load(apiresponse.data);
       });
     }
@@ -82,7 +79,6 @@ openDialog() { // Method gets called on-click
   });
 
   dialogRef.afterClosed().subscribe(result => {
-    console.log(`Dialog result: ${result}`);
   });
 
   // Display result (if any).

@@ -315,7 +315,6 @@ export class ProfileComponent implements OnInit {
       SharedFunctions.loadImageBy('profileimg', apires.data, false);
       SharedFunctions.loadImageBy('profileimgnavbar', apires.data, false);
     }, (err) => {
-      console.log(err);
     });
   }
 

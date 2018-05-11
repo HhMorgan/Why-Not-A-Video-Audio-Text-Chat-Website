@@ -54,7 +54,6 @@ export class SettingComponent implements OnInit {
       var x = document.getElementById("warning");
       this.apiServ.update_Email(this.profile).subscribe((apires: APIData) => {
         x.innerHTML = "either the format is wrong or the email is taken";
-        console.log(apires.msg);
         if (apires.msg) {
           x.innerHTML = "" + apires.msg;
           groupofdanger.classList.remove("has-danger");
@@ -84,9 +83,7 @@ export class SettingComponent implements OnInit {
     this.profile.password = ((document.getElementById("newpass") as HTMLInputElement).value)
     this.profile.confirmPassword = ((document.getElementById("confirmpass") as HTMLInputElement).value)
     if (true) {
-      console.log(this.profile.oldPassword);
       this.apiServ.update_Password(this.profile).subscribe((apires: APIData) => {
-        console.log(apires);
         if (apires.msg) {
           this.getData();
           EditPasswordDiv.classList.remove("has-danger");
@@ -112,7 +109,6 @@ export class SettingComponent implements OnInit {
     if (this.profile.description != '') {
 
       this.apiServ.update_Desc(this.profile).subscribe((apires: APIData) => {
-        console.log(apires.msg);
         if (apires.msg) {
           this.getData();
           success.innerHTML = "" + apires.msg;

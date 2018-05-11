@@ -134,8 +134,6 @@ export class AdminComponent implements OnInit {
         this.tagswithColors.push(apiresponse.data[i]);
         // this.colors.push(apiresponse.data[i].color);
       }
-
-      console.log(apiresponse.data);
       this.source.load(apiresponse.data);
     });
 
@@ -144,8 +142,6 @@ export class AdminComponent implements OnInit {
         console.log(apiresponse.data[i]);
         this.colors.push(apiresponse.data[i].name);
       }
-
-      console.log(apiresponse.data);
     });
   }
 
