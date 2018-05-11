@@ -99,10 +99,6 @@ export class AdminPageUserComponent implements OnInit {
   }
   refresh(): void {
     this._apiService.getUsers().subscribe((apiresponse: APIData) => {
-
-      for (var i = 0; i < apiresponse.data.length; i++)
-
-        console.log(apiresponse.data);
       this.source.load(apiresponse.data);
     });
   }

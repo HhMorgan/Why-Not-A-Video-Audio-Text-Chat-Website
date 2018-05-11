@@ -83,7 +83,7 @@ export class RtcMediaCaptureComponent implements OnInit, OnChanges , OnDestroy {
       if (this.mediaSource != null) {
         this.video.srcObject = this.mediaSource;
       } else {
-        console.log('failed to create media')
+        console.error('failed to create media')
       }
     } else {
       this._initStream(this.constrains, this._navigator).then((stream) => {

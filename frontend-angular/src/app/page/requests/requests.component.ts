@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../../@core/service/api.service';
-import { APIData , User } from '../../@core/service/models/api.data.structure';
+import { APIData, User } from '../../@core/service/models/api.data.structure';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
 
- @Component({
+@Component({
   selector: 'app-requests',
   templateUrl: './requests.component.html',
   styleUrls: ['./requests.component.scss']
@@ -16,8 +16,8 @@ export class RequestsComponent implements OnInit {
   public Email;
   public Role;
   public Blocked;
-  
-   
+
+
   ngOnInit() {
     this.refresh();
   }
@@ -35,12 +35,12 @@ export class RequestsComponent implements OnInit {
       createButtonContent: '',
       cancelButtonContent: '',
     },
-    pager:{
-      display: true ,
+    pager: {
+      display: true,
       perPage: 5
-    },      
+    },
     columns: {
-        sender: {
+      sender: {
         title: 'Sender',
         type: 'string',
         editable: false,
@@ -49,25 +49,25 @@ export class RequestsComponent implements OnInit {
       },
       recipient: {
         title: 'Recipient',
-        type:'string',
+        type: 'string',
         editable: false,
         addable: false,
       },
-      
+
       status: {
         title: 'Status',
         type: 'string',
         editable: false,
         addable: false,
       },
-      type: {                                
+      type: {
         title: 'type',
         type: 'string',
         editable: false,
         addable: false,
-   
+
       }
-    
+
     }
 
   };
@@ -78,20 +78,18 @@ export class RequestsComponent implements OnInit {
   constructor(private _apiService: APIService) {
 
   }
-refresh(): void {
+  refresh(): void {
     this.getRequestFromUsersToBeExpert();
-}
+  }
 
 
-    getRequestFromUsersToBeExpert(): void {
-      this._apiService.getRequestsFromUsersToBeExpert().subscribe((apiresponse: APIData)=>{
-    
-        for (var i = 0 ; i < apiresponse.data.length ; i++ )
-    
-          console.log(apiresponse.data);
+  getRequestFromUsersToBeExpert(): void {
+    this._apiService.getRequestsFromUsersToBeExpert().subscribe((apiresponse: APIData) => {
+
+      for (var i = 0; i < apiresponse.data.length; i++)
         this.source.load(apiresponse.data);
-      });
-    }
+    });
+  }
 }
 
 

@@ -82,13 +82,11 @@ export class APIService {
   }
 
   getTagbyId(Tags_ids: String[]): Observable<APIData> {
-    console.log(Tags_ids);
     return this.http.post<APIData>(APIService.apiUrl + 'expert/getTagById', Tags_ids)
       .catch(this.errorHandler);
   }
 
   getTagbyName(tag: Tag): Observable<APIData> {
-    //   console.log(tname);
     return this.http.get<APIData>(APIService.apiUrl + 'expert/getTagByName/' + tag.name)
       .catch(this.errorHandler);
   }
@@ -98,32 +96,12 @@ export class APIService {
       .catch(this.errorHandler);
   }
 
-  getSlotRequests(): Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'expert/viewSLotRequest').catch(this.errorHandler);
-  }
-
-  editSlotRequest(request: Request): Observable<APIData> {
-    return this.http.patch<APIData>(APIService.apiUrl + 'expert/editSlotRequest/' + request._id, request).catch(this.errorHandler);
-  }
-
-  getExpert(): Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'session/getExpert').catch(this.errorHandler);
-  }
-
   getUserData(): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'user/getUserData').catch(this.errorHandler);
   }
 
   getUserProfile(user: User): Observable<APIData> {
     return this.http.get<APIData>(APIService.apiUrl + 'user/getUserProfile/' + user.username).catch(this.errorHandler);
-  }
-
-  getMatchingUsers(searchtag: String): Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'user/getMatchingUsers/' + searchtag).catch(this.errorHandler);
-  }
-
-  searchUserbyTags(searchtag: String): Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'user/searchUserbyTags/' + searchtag).catch(this.errorHandler);
   }
 
   searchbyTags(searchtag: String): Observable<APIData> {
@@ -141,9 +119,11 @@ export class APIService {
   update_Email(profile: Profile): Observable<APIData> {
     return this.http.post<APIData>(APIService.apiUrl + 'auth/updateEmail', profile).catch(this.errorHandler);
   }
+
   update_Password(profile: Profile): Observable<APIData> {
     return this.http.post<APIData>(APIService.apiUrl + 'auth/updatePassword', profile).catch(this.errorHandler);
   }
+
   update_Desc(profile: Profile): Observable<APIData> {
     return this.http.post<APIData>(APIService.apiUrl + 'auth/updateDescription', profile).catch(this.errorHandler);
   }
@@ -168,11 +148,6 @@ export class APIService {
     return this.http.get<APIData>(APIService.apiUrl + 'getphoto').catch(this.errorHandler);
   }
 
-  getUsernameOfUser(id: String): Observable<APIData> {
-    console.log(id);
-    return this.http.get<APIData>(APIService.apiUrl + 'getUsernameOfUser/' + id).catch(this.errorHandler);
-  }
-
   getNotifications(): Observable<APIData>{
     return this.http.get<APIData>(APIService.apiUrl + 'Notification/getNotifications').catch(this.errorHandler);
   }
@@ -187,10 +162,6 @@ export class APIService {
 
   deleteNotification( notificationID : String ): Observable<APIData>{
     return this.http.get<APIData>(APIService.apiUrl + 'Notification/delete/' + notificationID ).catch(this.errorHandler);
-  }
-
-  getMatchingSearch(searchtag: String): Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'user/Search/' + searchtag).catch(this.errorHandler);
   }
 
   loadStatus(): Observable<APIData> {

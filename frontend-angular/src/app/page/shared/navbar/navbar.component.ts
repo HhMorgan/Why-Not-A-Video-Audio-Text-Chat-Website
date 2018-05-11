@@ -34,10 +34,6 @@ export class NavbarComponent implements OnInit {
         sharedService.change.subscribe(isUserLoggedIn => {
             this.isloggedin();
         });
-        
-        this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
-            this.norificationCount = apiresponse.data;
-        });
 
         sharedService.updateNotification.subscribe(unreadNotificationCount =>{
             this.norificationCount = unreadNotificationCount;
@@ -138,13 +134,15 @@ export class NavbarComponent implements OnInit {
              this.apiServ.getimage().subscribe((apires: APIData) => {
                  SharedFunctions.loadImageBy('profileimgnavbar', apires.data, false);
              });
+             this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
+                this.norificationCount = apiresponse.data;
+            });
              this.getNotificationCount();
         } 
     }
 
     getNotificationCount() {
         Observable.interval( 2 * 60 * 1000 ).subscribe(() => {
-            console.log(Date.now())
             if(this.apiServ.isAuthenticated()){
                 this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
                     this.norificationCount = apiresponse.data;

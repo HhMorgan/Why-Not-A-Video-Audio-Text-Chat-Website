@@ -102,10 +102,9 @@ module.exports.AddTag = function (req, res, next) {
       data: null
     });
   }
-
   if(req.decodedToken.user.role == 'admin'){
     req.body.status = "Accepted"
-    if(!(req.body.blocked && Validations.isBoolean(req.body.blocked)) ){
+    if(!(Validations.isBoolean(req.body.blocked))){
       return res.status(422).json({
         err: null,
         msg: 'blocked (Boolean) is a required fields.',

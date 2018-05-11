@@ -99,7 +99,6 @@ export class AdminComponent implements OnInit {
       //Then we send APIData to the method named AddTag through the api.service then we 
       //refresh after the database has been updated to get the new tag
       this._apiService.AddTag(tag).subscribe((apiresponse: APIData) => {
-        console.log(apiresponse.msg);
         this.refresh();
       });
       this.refresh();
@@ -139,7 +138,6 @@ export class AdminComponent implements OnInit {
 
     this._apiService.getColors().subscribe((apiresponse: APIData) => {
       for (var i = 0; i < apiresponse.data.length; i++) {
-        console.log(apiresponse.data[i]);
         this.colors.push(apiresponse.data[i].name);
       }
     });
@@ -160,7 +158,6 @@ export class AdminComponent implements OnInit {
 
     this._apiService.getColors().subscribe((apiresponse: APIData) => {
       for (var i = 0; i < apiresponse.data.length; i++) {
-        console.log(apiresponse.data[i]);
         this.colors.push(apiresponse.data[i].name);
       }
 
@@ -196,7 +193,7 @@ export class AdminComponent implements OnInit {
         this.refresh();
       });
     } else {
-      console.log("This Tag is Already Blocked")
+      console.error("This Tag is Already Blocked")
     }
   }
   OnUnblock(event): void {
@@ -211,7 +208,7 @@ export class AdminComponent implements OnInit {
         this.refresh();
       });
     } else {
-      console.log("This Tag is Already UnBlocked")
+      console.error("This Tag is Already UnBlocked")
     }
   }
   //this method is invoked when the user presses the custom made button Accept
@@ -227,7 +224,7 @@ export class AdminComponent implements OnInit {
         this.refresh();
       });
     } else {
-      console.log("This Tag is Already Accepted")
+      console.error("This Tag is Already Accepted")
     }
   }
   //this method is invoked when the user presses the custom made button Reject
@@ -243,32 +240,28 @@ export class AdminComponent implements OnInit {
         this.refresh();
       });
     } else {
-      console.log("This Tag is Already Rejected")
+      console.error("This Tag is Already Rejected")
     }
   }
 
   AddColor() {
     var Color = <Color>{};
-    console.log(((document.getElementById("colorcode") as HTMLInputElement).value));
     Color.name = ((document.getElementById("colorcode") as HTMLInputElement).value);
     // we check if the tag is not accepted if it is not we change it's status through edit tags
     //to accepted otherwise we say the tag is already accepted and we don't change the data   
     this.refreshColorTags();
     this._apiService.AddColor(Color).subscribe((apiresponse: APIData) => {
       this.triggernotifications("#34A853", apiresponse.msg);
-      console.log(apiresponse);
       this.refresh();
     });
   }
 
 
   AddColorToTag() {
-
     var Color = <Color>{};
     var Tags = <Tag>{};
     var select = event.target as HTMLElement
     var Colorname = select.lastElementChild as HTMLElement;
-    console.log(event.target);
     var dropdown_item = event.target as HTMLElement
     var parentDiv = dropdown_item.parentElement as HTMLElement
     var parentngDropDown = parentDiv.parentElement as HTMLElement
@@ -280,14 +273,9 @@ export class AdminComponent implements OnInit {
     var TagBtn2 = ChildRowClass.firstElementChild as HTMLElement
     Tags.name = TagBtn2.textContent;
     Color.name = Colorname.textContent;
-    console.log(Colorname.textContent);
-    // console.log( TagBtn);
-    console.log(parentDiv);
-    console.log(TagBtn2);
 
 
     this._apiService.addColorToTag(Color, Tags).subscribe((apiresponse: APIData) => {
-      console.log(apiresponse);
       this.refreshColorTags();
       this.triggernotifications("#34A853", apiresponse.msg);
     });

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   Validations = require('../utils/validations'),
-  Tags = mongoose.model('Tag'),
+  Tag = mongoose.model('Tag'),
   User = mongoose.model('User'),
   Color = mongoose.model('Color'),
   Requests = mongoose.model('Request');
@@ -98,7 +98,7 @@ module.exports.editTag = function (req, res, next) {
   //req.body.updatedAt = moment().toDate();
   // this method finds the Tag in the backend using the given Id and updates it's data
   // to match that of the input's and returns 200 is sucessfull
-  Tags.findByIdAndUpdate(
+  Tag.findByIdAndUpdate(
     req.params.tagId,
     {
       $set: req.body
@@ -124,7 +124,7 @@ module.exports.editTag = function (req, res, next) {
 //this method retreives all the tags from the backend and returns them in an array
 // of tags
 module.exports.getTags = function (req, res, next) {
-  Tags.find({}).exec(function (err, tag) {
+  Tag.find({}).exec(function (err, tag) {
     if (err) {
       return next(err);
     }
@@ -145,7 +145,7 @@ module.exports.deleteTags = function (req, res, next) {
     });
   }
   // this method finds the tag by the Id given as input and removes it from the database
-  Tags.findByIdAndRemove(req.params.tagId, function (err, deletedTags) {
+  Tag.findByIdAndRemove(req.params.tagId, function (err, deletedTags) {
     if (err) {
       return next(err);
     }
