@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { APIService } from '../../@core/service/api.service';
-import { SharedService , SharedFunctions } from '../../@core/service/shared.service';
+import { SharedService, SharedFunctions } from '../../@core/service/shared.service';
 import { APIData, User, Tag } from '../../@core/service/models/api.data.structure';
 import { IAlert } from '../../@core/service/models/frontend.data.structure';
 import { Routes, Router } from '@angular/router';
@@ -14,13 +14,13 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, SimpleCh
   templateUrl: './template/search.component.html',
   styleUrls: ['./template/search.component.css'],
 })
-export class SearchComponent implements OnInit,OnChanges {
+export class SearchComponent implements OnInit, OnChanges {
 
   @Input() showUsers: boolean;
   @Input() showCover: boolean;
   @Input() searchtag: string;
   @Input() showTags: boolean;
-  @Input() searchParms : String;
+  @Input() searchParms: String;
 
   public users: User[];
   public tags: Tag[];
@@ -31,7 +31,7 @@ export class SearchComponent implements OnInit,OnChanges {
   public p: number = 1;
   public p2: number = 1;
 
-  constructor(private apiServ: APIService, private route: ActivatedRoute, private router: Router, 
+  constructor(private apiServ: APIService, private route: ActivatedRoute, private router: Router,
     private modalService: NgbModal, private sharedService: SharedService) {
   }
 
@@ -50,27 +50,27 @@ export class SearchComponent implements OnInit,OnChanges {
       //using the service i can communicate with the comp. (navbar)     
       this.tags = new Array();
       this.users = new Array();
-      switch(params['searchOptions']){
+      switch (params['searchOptions']) {
         case "Users":
-        if(params['search'] != null){
-          this.apiServ.searchbyUser(params['search']).subscribe((apires: APIData) => {
-            for (var i = 0; i < apires.data.length; i++) {
-              this.users.push((apires.data)[i]);
-              SharedFunctions.loadImageBy(apires.data[i].username , (apires.data)[i].img , false)
-            }
-          }, (err) => {
-            this.sharedService.triggerNotifcation("#EA4335", err.msg);
-          })
-        }
-        break;
+          if (params['search'] != null) {
+            this.apiServ.searchbyUser(params['search']).subscribe((apires: APIData) => {
+              for (var i = 0; i < apires.data.length; i++) {
+                this.users.push((apires.data)[i]);
+                SharedFunctions.loadImageBy(apires.data[i].username, (apires.data)[i].img, false)
+              }
+            }, (err) => {
+              this.sharedService.triggerNotifcation("#EA4335", err.msg);
+            })
+          }
+          break;
         case "TaggedUsers":
-          if(params['search'] != null){
-            this.apiServ.viewSuggestedExperts(<Tag>{ name : params['search'] }).subscribe((apires: APIData) =>{
+          if (params['search'] != null) {
+            this.apiServ.viewSuggestedExperts(<Tag>{ name: params['search'] }).subscribe((apires: APIData) => {
               for (var i = 0; i < apires.data.length; i++) {
                 this.users.push(apires.data[i]);
-                SharedFunctions.loadImageBy(apires.data[i].username , (apires.data)[i].img , false)
+                SharedFunctions.loadImageBy(apires.data[i].username, (apires.data)[i].img, false)
               }
-            },(err) =>{
+            }, (err) => {
               this.sharedService.triggerNotifcation("#EA4335", err.msg);
             });
           }
@@ -84,18 +84,18 @@ export class SearchComponent implements OnInit,OnChanges {
     for (let propName in changes) {
       switch (propName) {
         case "searchParms":
-          if(this.searchParms && this.searchParms.length != 0){
+          if (this.searchParms && this.searchParms.length != 0) {
             this.apiServ.searchbyTags(this.searchParms).subscribe((apires: APIData) => {
               this.tags = new Array();
               for (var j = 0; j < apires.data.length; j++) {
                 this.tags.push((apires.data)[j]);
                 var Tag = document.getElementById(((apires.data)[j])._id) as HTMLImageElement;
               }
-            },(err) =>{
+            }, (err) => {
               this.sharedService.triggerNotifcation("#EA4335", err.msg);
             })
           }
-        break;
+          break;
       }
     }
   }
@@ -104,22 +104,12 @@ export class SearchComponent implements OnInit,OnChanges {
   // firstly i get the event target which is the button that it's clicked
   // then gets the username by moving back and forth between children and parents to get the element
   // lastly cnnect to database and show a pop up
-  addtobookmark() {
-    var button = event.target as HTMLElement
-    var parentDiv = button.parentElement as HTMLElement
-    var parentDirowClass = parentDiv.parentElement as HTMLElement
-    var childdiv = parentDirowClass.childNodes[3] as HTMLElement
-    var firstChildDiv = childdiv.firstElementChild as HTMLElement
-    var name = firstChildDiv.firstElementChild as HTMLElement
-    var user = <User>{};
-    user.username = name.innerText.toLowerCase();
-    this.apiServ.getUserProfile(user).subscribe((apires: APIData) => {
-      this.apiServ.addtoToBookmark(apires.data).subscribe((apires: APIData) => {
-        this.sharedService.triggerNotifcation("#34A853", apires.msg.toString());
-      }, (err) => {
-        this.sharedService.triggerNotifcation("#EA4335", err.msg);
-      })
-    });
+  addtobookmark(user: any) {
+    this.apiServ.addtoToBookmark(<User>{ _id: user._id }).subscribe((apires: APIData) => {
+      this.sharedService.triggerNotifcation("#34A853", apires.msg.toString());
+    }, (err) => {
+      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+    })
   }
 
   //this method is used to open the mobal (from it's service)
@@ -130,9 +120,9 @@ export class SearchComponent implements OnInit,OnChanges {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-  
+
   //this method is used to open the getDismissReason (from it's service)
-  
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -147,29 +137,14 @@ export class SearchComponent implements OnInit,OnChanges {
   // firstly i get the event target which is the button that it's clicked
   // then gets the tag's name by moving back and forth between children and parents to get the element
   // lastly cnnect to database and show a pop up
-  AddTag() {
-    var tag = <Tag>{};
-    var icon = event.target as HTMLElement
-    var parentDiv = icon.parentElement as HTMLElement
-    var parentDirowClass = parentDiv.parentElement as HTMLElement
-    var parentDirowClass2 = parentDirowClass.parentElement as HTMLElement
-    var firstDivOfRows = parentDirowClass.firstElementChild as HTMLElement
-    var TagBtn = firstDivOfRows.firstElementChild as HTMLElement
-    for (let currentTag of this.tags) {
-      if (TagBtn.textContent == currentTag.name) {
-        tag._id = currentTag._id;
-        break;
-      }
-    }
-    tag.name = TagBtn.textContent;
-    //sends the tag name through addSpeciality which is later used to search for the tag and add it
-    this.apiServ.addSpeciality(tag).subscribe((apiresponse: APIData) => {
+  AddTag(tag: any) {
+    this.apiServ.addSpeciality(<Tag>{ _id: tag._id }).subscribe((apiresponse: APIData) => {
       this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
     }, (err) => {
       this.sharedService.triggerNotifcation("#EA4335", err.msg);
     });
   }
-  
+
   RequestTag() {
     var tag_Request = <Tag>{};
     tag_Request.name = (document.getElementById("RequestingTag") as HTMLInputElement).value;

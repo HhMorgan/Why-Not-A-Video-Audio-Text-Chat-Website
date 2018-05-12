@@ -30,35 +30,41 @@ export class AdminPageUserComponent implements OnInit {
       createButtonContent: '<i class="fa fa-check"></i>',
       cancelButtonContent: '<i class="fa fa-close"></i>',
     },
+    edit: {
+      editButtonContent: '<i  class="fa fa-edit"></i>',
+      saveButtonContent: '<i class="fa fa-check"></i>',
+      cancelButtonContent: '<i class="fa fa-ban"></i>',
+    },
     pager: {
       display: true,
       perPage: 5
     },
     actions: {
-      edit: false,
+      edit: true,
       add: false,
-      custom: [{
-        name: 'block',
-        title: `<i class="fa fa-lock"></i>`,
-
-      },
-      {
-        name: 'upgradeToAdmin',
-        title: `<i class="fa fa-arrow-circle-up"></i>`,
-
-      },
-      {
-        name: 'downgrade',
-        title: `<i class="fa fa-arrows-v"></i>`
-      }]
-
+      custom: [
+        {
+          name: 'block',
+          title: `<i class="fa fa-lock"></i>`,
+        },
+        {
+          name: 'upgradeToAdmin',
+          title: `<i class="fa fa-arrow-circle-up"></i>`,
+        }, {
+          name: 'downgrade',
+          title: `<i class="fa fa-arrows-v"></i>`
+        }, {
+          name: 'Verify',
+          title: `<i class="fa fa-check"></i>`
+        }
+      ]
     },
 
     columns: {
       username: {
         title: 'Username',
         type: 'string',
-        editable: false,
+        editable: true,
         addable: false,
       },
       email: {
@@ -81,7 +87,7 @@ export class AdminPageUserComponent implements OnInit {
         addable: false,
         default: 'False',
       },
-      isVerified:{
+      isVerified: {
         title: 'Verified',
         type: 'Boolean',
         editable: false,
@@ -95,7 +101,9 @@ export class AdminPageUserComponent implements OnInit {
   config: ToasterConfig;
 
   constructor(private _apiService: APIService) {
-
+    this.source.onUpdated().subscribe((event) => {
+      this.adminChangeAccountUsername(event);
+    })
   }
   refresh(): void {
     this._apiService.getUsers().subscribe((apiresponse: APIData) => {
@@ -105,14 +113,22 @@ export class AdminPageUserComponent implements OnInit {
 
   public onCustom(event): void {
 
-    if (event.action == 'block') {
-      this.OnBlockAndUnblock(event)
-    } else if (event.action == 'upgradeToAdmin') {
-      this.upgradeToAdmin(event)
-    }
-    else {
+    switch (event.action) {
+      case "block":
+        this.OnBlockAndUnblock(event);
+        break;
 
-      this.OnChangeRole(event);
+      case "downgrade":
+        this.OnChangeRole(event);
+        break;
+
+      case "upgradeToAdmin":
+        this.upgradeToAdmin(event);
+        break;
+
+      case "Verify":
+        this.verifyAccount(event);
+        break;
     }
   }
 
@@ -126,11 +142,15 @@ export class AdminPageUserComponent implements OnInit {
       this._apiService.BlockAndUnblock(Users).subscribe((apiresponse: APIData) => {
         // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
         this.refresh();
+      }, (err) => {
+        this.refresh();
       });
     } else {
       Users.blocked = false;
       this._apiService.BlockAndUnblock(Users).subscribe((apiresponse: APIData) => {
         // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
+        this.refresh();
+      }, (err) => {
         this.refresh();
       });
     }
@@ -144,26 +164,47 @@ export class AdminPageUserComponent implements OnInit {
       this._apiService.ChangeRole(Users).subscribe((apiresponse: APIData) => {
         // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
         this.refresh();
+      }, (err) => {
+        this.refresh();
       });
     } else {
       Users.role = 'expert';
       this._apiService.ChangeRole(Users).subscribe((apiresponse: APIData) => {
         // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
         this.refresh();
+      }, (err) => {
+        this.refresh();
       });
     }
   }
+
   upgradeToAdmin(event): void {
     var Users = <User>{};
     Users = event.data;
 
     Users.role = 'admin';
     this._apiService.ChangeRole(Users).subscribe((apiresponse: APIData) => {
-      // this.showToast( 'default' , 'Message', apiresponse.msg.toString());
+      this.refresh();
+    }, (err) => {
       this.refresh();
     });
   }
 
+  verifyAccount(event): void {
+    this._apiService.adminVerifyAccount(<User>(event.data)).subscribe((apiresponse: APIData) => {
+      this.refresh();
+    }, (err) => {
+      this.refresh();
+    });
+  }
+
+  adminChangeAccountUsername(event): void {
+    this._apiService.adminChangeUsername(<User>{ _id: event._id, username: event.username }).subscribe((apiresponse: APIData) => {
+      this.refresh();
+    }, (err) => {
+      this.refresh();
+    });
+  }
 }
 
 

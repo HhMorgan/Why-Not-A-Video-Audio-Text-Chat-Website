@@ -48,7 +48,7 @@
                         <div class="row">
                             <div class="col-md-4"></div>
                             <div class="col-md-4">
-                                <button *ngIf="!isloggeduser()" (click)="addtobookmark()" type="button" class="btn btn-info btn-sm">
+                                <button *ngIf="!isloggeduser() && isUserExpert()" (click)="addtobookmark()" type="button" class="btn btn-info btn-sm">
                                     <i class="fa fa-heart"></i>bookmark</button>
                                 <button *ngIf="!isloggeduser() && isUserExpert()" (click)="goToSchedule()" type="button" class="btn btn-success btn-sm">
                                     <i class="fa fa-calendar-plus-o"></i>Schedule</button>
@@ -104,7 +104,7 @@
                                                         </div>
 
                                                         <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                                            <button *ngIf="isloggeduser()" (click)="removeBookmarked()" type="button" class="btn  btn-danger btn-round">remove</button>
+                                                            <button *ngIf="isloggeduser()" (click)="removeBookmarked(user)" type="button" class="btn  btn-danger btn-round">remove</button>
                                                         </div>
                                                     </div>
                                                 </li>

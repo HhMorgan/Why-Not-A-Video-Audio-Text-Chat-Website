@@ -38,7 +38,7 @@ module.exports.loadStatus = function (req, res) {
     if (err) {
       return next(err);
     }
-    res.status(201).json({
+    return res.status(201).json({
       err: null,
       msg: 'user status loaded successfully.',
       data: User.onlineStatus
@@ -577,7 +577,7 @@ module.exports.addToBookmarks = function (req, res, next) {
             return next(err);
           }
           if (!user) {
-            return res.status(404).json({
+            return res.status(304).json({
               err: null,
               msg: 'The expert could not be added to your bookmarks because '
                 + ' he/she is already added to your bookmarks.',

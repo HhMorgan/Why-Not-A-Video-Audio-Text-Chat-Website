@@ -36,7 +36,7 @@
                                         <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
                                             <a class="dropdown-header">Choose a color</a>
                                             <div *ngFor="let color of colors | paginate: { itemsPerPage: 3, currentPage: p, id: 'first' }">
-                                                <div (click)="AddColorToTag()">
+                                                <div (click)="AddColorToTag(tag , color)">
                                                     <a class="dropdown-item">
                                                         <i class="fa fa-square" [ngStyle]="{'color': color}"></i>
                                                         <p>{{color}}</p>

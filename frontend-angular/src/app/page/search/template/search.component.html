@@ -12,7 +12,7 @@
                             <div class="row following" id="follows">
                                 <div class="col-md-6 ml-auto mr-auto">
                                     <ul class="list-unstyled follows">
-
+                                        <app-snackbar></app-snackbar>
                                         <div *ngFor="let user of users  | paginate: { itemsPerPage: 5, currentPage: p2, id:'p2'}">
 
                                             <li>
@@ -28,7 +28,7 @@
                                                         </h6>
                                                     </div>
                                                     <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                                        <button (click)="addtobookmark()" type="button" class="btn btn-info btn-round">
+                                                        <button (click)="addtobookmark(user)" type="button" class="btn btn-info btn-round">
                                                             <i class="fa fa-heart"></i>bookmark</button>
                                                     </div>
                                                 </div>
@@ -83,7 +83,7 @@
 
                                                         </div>
                                                         <div class="col-md-3 col-sm-2 ml-auto mr-auto">
-                                                            <button (click)="AddTag()" type="button" class="btn btn-success"> ADD</button>
+                                                            <button (click)="AddTag(tag)" type="button" class="btn btn-success"> ADD</button>
 
                                                         </div>
                                                     </div>

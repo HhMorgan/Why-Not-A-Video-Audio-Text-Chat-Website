@@ -205,6 +205,14 @@ export class APIService {
       .catch(this.errorHandler);
   }
 
+  adminVerifyAccount(user: User){
+    return this.http.get<APIData>(APIService.apiUrl + 'Admin/verifyUser/' + user._id).catch(this.errorHandler);
+  }
+
+  adminChangeUsername(user : User){
+    return this.http.patch<APIData>(APIService.apiUrl + 'Admin/User/ChangeUsername/' + user._id , user).catch(this.errorHandler);
+  }
+
   ChangeRole(Users: User): Observable<APIData> {
     return this.http.patch<APIData>(APIService.apiUrl + 'User/ChangeRole/' + Users._id, Users)
       .catch(this.errorHandler);

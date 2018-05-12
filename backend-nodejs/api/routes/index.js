@@ -77,6 +77,8 @@ router.get('/auth/verify/:token', isNotAuthenticated, authCtrl.verify);
 router.post('/auth/forgetPassword', isNotAuthenticated, authCtrl.forgetPassword);
 //----------------------------Admin Routes ----------------------------------
 router.get('/Tags/getTags', isAuthenticated, AdminController.getTags);
+router.get('/Admin/verifyUser/:userId',isAuthenticated,isAdmin,AdminController.verifyUser);
+router.patch('/Admin/User/ChangeUsername/:userId',isAuthenticated,isAdmin,AdminController.changeUsername);
 router.patch('/Tag/editTags/:tagId', isAuthenticated, isAdmin, AdminController.editTag);
 router.delete('/Tags/deleteTags/:tagId', isAuthenticated, isAdmin, AdminController.deleteTags);
 router.patch('/User/BlockAndUnblock/:userId', isAuthenticated, isAdmin, AdminController.BlockAndUnblock);

@@ -16,7 +16,7 @@ import * as decode from 'jwt-decode';
 export class NavbarComponent implements OnInit {
 
     public username: String;
-    public norificationCount = 0;
+    public notificationCount = 0;
 
     public toggleButton: any;
     public sidebarVisible: boolean;
@@ -36,7 +36,7 @@ export class NavbarComponent implements OnInit {
         });
 
         sharedService.updateNotification.subscribe(unreadNotificationCount =>{
-            this.norificationCount = unreadNotificationCount;
+            this.notificationCount = unreadNotificationCount;
         })
     }
 
@@ -98,7 +98,7 @@ export class NavbarComponent implements OnInit {
     }
 
     showNotification() {
-        if (this.norificationCount == 0) {
+        if (this.notificationCount == 0) {
             return false;
         }
         return true;
@@ -135,7 +135,7 @@ export class NavbarComponent implements OnInit {
                  SharedFunctions.loadImageBy('profileimgnavbar', apires.data, false);
              });
              this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
-                this.norificationCount = apiresponse.data;
+                this.notificationCount = apiresponse.data;
             });
              this.getNotificationCount();
         } 
@@ -145,7 +145,7 @@ export class NavbarComponent implements OnInit {
         Observable.interval( 2 * 60 * 1000 ).subscribe(() => {
             if(this.apiServ.isAuthenticated()){
                 this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
-                    this.norificationCount = apiresponse.data;
+                    this.notificationCount = apiresponse.data;
                 });
             }
         });
@@ -160,6 +160,7 @@ export class NavbarComponent implements OnInit {
     }
 
     logout() {
+        this.notificationCount = 0;
         localStorage.clear();
         this.isloggedin();
     }

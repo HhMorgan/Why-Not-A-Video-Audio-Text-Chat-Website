@@ -135,6 +135,7 @@ module.exports.getTags = function (req, res, next) {
     });
   });
 };
+
 module.exports.deleteTags = function (req, res, next) {
   //checks if the tag Id exists
   if (!Validations.isObjectId(req.params.tagId)) {
@@ -243,6 +244,81 @@ module.exports.getUsers = function (req, res, next) {
     });
   });
 };
+
+module.exports.verifyUser = function (req, res, next) {
+  if (!Validations.isObjectId(req.params.userId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'userId parameter must be a valid ObjectId.',
+      data: null
+    });
+  } else {
+    User.findOneAndUpdate({ _id: req.params.userId, isVerified: false }, {
+      $set:
+        { isVerified: true }, $unset: { verificationToken: 1 }
+    }, { new: true }, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+      if (user) {
+        return res.status(202).json({
+          err: null,
+          msg: 'User Verfied successfully.',
+          data: user
+        });
+      } else {
+        return res.status(304).json({
+          err: null,
+          msg: 'unable to verify User',
+          data: null
+        });
+      }
+    })
+  }
+}
+
+module.exports.changeUsername = function (req, res, next) {
+  var valid = req.params.userId && Validations.isObjectId(req.params.userId) &&
+    req.body.username && Validations.isString(req.body.username);
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'userId | username  is not valid',
+      data: null
+    });
+  } else {
+    User.findById(req.params.userId, function (err, user) {
+      if (user) {
+        User.findOne({ username: req.body.username }, function (err, confictUser) {
+          if (confictUser) {
+            return res.status(304).json({
+              err: null,
+              msg: 'Username Already Exists.',
+              data: null
+            });
+          } else {
+            user.username = req.body.username;
+            user.save(function (err) {
+              if (!err) {
+                return res.status(202).json({
+                  err: null,
+                  msg: 'User Updated successfully.',
+                  data: null
+                });
+              }
+            })
+          }
+        })
+      } else {
+        return res.status(404).json({
+          err: null,
+          msg: 'Unable to find User',
+          data: null
+        });
+      }
+    });
+  }
+}
 
 // --------------------------/getting requests from user to be Expert and admin shows it/--------------------------------------------
 

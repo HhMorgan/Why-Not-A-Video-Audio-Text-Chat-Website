@@ -91,7 +91,6 @@ export class ProfileComponent implements OnInit {
   //this method gets called everytime the page is reloaded
 
   ngOnInit() {
-
     this.getcurrusername();
     this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
       this.user.username = params['username'];
@@ -200,23 +199,13 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  removeBookmarked() {
-    var icon = event.target as HTMLElement
-    var parentDiv = icon.parentElement as HTMLElement
-    var parentDirowClass = parentDiv.parentElement as HTMLElement
-    var childdiv = parentDirowClass.childNodes[3] as HTMLElement
-    var firstChildDiv = childdiv.firstElementChild as HTMLElement
-    var name = firstChildDiv.firstElementChild as HTMLElement
-    var user = <User>{};
-    user.username = name.innerText.toLowerCase();
-    this.apiServ.getUserProfile(user).subscribe((apires: APIData) => {
-      this.apiServ.removeFromBookmark(apires.data).subscribe((apires: APIData) => {
-        this.sharedService.triggerNotifcation("#34A853", apires.msg.toString());
-        childdiv.parentElement.remove();
-      }, (err) => {
-        this.sharedService.triggerNotifcation("#EA4335", err.msg);
-      })
-    });
+  removeBookmarked(user: any) {
+    this.apiServ.removeFromBookmark(<User>{ _id: user._id }).subscribe((apires: APIData) => {
+      this.sharedService.triggerNotifcation("#34A853", apires.msg.toString());
+      this.BookmarkedUsers.splice(this.BookmarkedUsers.indexOf(user), 1);
+    }, (err) => {
+      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+    })
   }
 
 
@@ -231,7 +220,6 @@ export class ProfileComponent implements OnInit {
           button.remove();
           this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
         }
-
       }, (err) => {
         this.sharedService.triggerNotifcation("#EA4335", err.msg);
       });
@@ -327,7 +315,7 @@ export class ProfileComponent implements OnInit {
   settingsComponentClose($event) {
     this.profileInfo = true;
     this.profilesettings = false;
-    // this.ngOnInit();
+    this.ngOnInit();
   }
   goToSchedule() {
     this.router.navigate(['page/schedule', this.user._id]);
