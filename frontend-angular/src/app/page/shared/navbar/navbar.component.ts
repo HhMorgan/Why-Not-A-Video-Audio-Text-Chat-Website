@@ -151,10 +151,6 @@ export class NavbarComponent implements OnInit {
         });
     }
 
-    openNotifications() {
-        this.router.navigate(['page/notification']);
-    }
-
     isSamePath(page: string): boolean {
         return this.location.prepareExternalUrl(this.location.path()).includes(page);
     }

@@ -63,19 +63,20 @@
                 </li>
 
                 <li *ngIf="isLogged()" class="nav-item">
-                    <div ngbDropdown class="d-inline-block dropdown positionProfileImage">
+                    <div ngbDropdown class="d-inline-block dropdown">
                         <a id="dropdownBasic1" ngbDropdownToggle>
                             <div class="notifier new" *ngIf="showNotification()">
-                                <div (click)="openNotifications()" class="badge">{{ notificationCount }} </div>
+                                <div [routerLink]="['/page/notification']" (click)="!isSamePath('notification') && navbarCollapsed = !navbarCollapsed" class="badge">{{ notificationCount }} </div>
                             </div>
-                            <img (click)="openNotifications()" style="background-size:100% 100%;" id="profileimgnavbar" class=" img-circle img-no-padding img-responsive" src="../assets/img/default-Profile-Pic.png"
+                            <img [routerLink]="['/page/notification']" (click)="!isSamePath('notification') && navbarCollapsed = !navbarCollapsed" style="background-size:100% 100%;"
+                                id="profileimgnavbar" class=" img-circle img-no-padding img-responsive" src="../assets/img/default-Profile-Pic.png"
                                 width="45px" height="45px">
                         </a>
                     </div>
                 </li>
 
                 <li *ngIf="isLogged()" class="nav-item" id="profile">
-                    <div class="nav-link positionUsername">
+                    <div class="nav-link">
                         <div (click)="!isSamePath('profile') && navbarCollapsed = !navbarCollapsed" [routerLink]="['/page/profile' , username]">
                             {{ username }}</div>
                     </div>
