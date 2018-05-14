@@ -4,18 +4,18 @@ var mongoose = require('mongoose'),
   Notification = mongoose.model('Notification');
 
 module.exports.getNotifications = function (req, res, next) {
-  Notification.find( { recipient : { $eq : req.decodedToken.user._id  } } ).populate('recipient','username').populate('sender','username img').exec(function (err, notifications) {
+  Notification.find({ recipient: { $eq: req.decodedToken.user._id } }).sort( { createdAt: -1 }).populate('recipient', 'username').populate('sender', 'username img').exec(function (err, notifications) {
     if (err) {
       return next(err);
     }
-    if(notifications.length != 0 ){
+    if (notifications.length != 0) {
       return res.status(200).json({
         err: null,
         msg: 'Notifications retrieved successfully.',
         data: notifications
       });
     } else {
-      return res.status(404).json({
+      return res.status(200).json({
         err: null,
         msg: 'No Notifications Found For You',
         data: notifications
@@ -25,80 +25,84 @@ module.exports.getNotifications = function (req, res, next) {
 };
 
 module.exports.getUnreadNotifications = function (req, res, next) {
-  Notification.find( { recipient : { $eq : req.decodedToken.user._id } , read : false }).exec(function (err, notifications) {
+  Notification.find({ recipient: { $eq: req.decodedToken.user._id }, read: false }).exec(function (err, notifications) {
     if (err) {
       return next(err);
     }
-    if(notifications.length != 0){
+    if (notifications.length != 0) {
       return res.status(200).json({
         err: null,
-        msg: 'Notifications retrieved successfully.',
+        msg: ' Notifications retrieved successfully. ',
         data: notifications.length
       });
     } else {
-      return res.status(404).json({
+      return res.status(200).json({
         err: null,
-        msg: 'No UNotifications Found For You',
+        msg: ' No Unread Notifications Found For You ',
         data: 0
       });
     }
   });
 };
 
-module.exports.markNotificationAsRead = function(req , res , next){
+module.exports.markNotificationAsRead = function (req, res, next) {
   var valid = req.params.notificationID && Validations.isObjectId(req.params.notificationID)
-  if(!valid){
+  if (!valid) {
     return res.status(422).json({
       err: null,
       msg: 'notificationID is Not Valid',
       data: null
     });
   } else {
-    Notification.findOneAndRemove( { _id : req.params.notificationID , 
-      recipient : req.decodedToken.user._id , read : false } , 
-      { $set : { read : true  } }  ).populate('sender recipient','username').exec(function(err , notification){
-      if(err){
-        return next(err);
-      } else {
-        if(notification){
-          return res.status(200).json({
-            err: null,
-            msg: 'Notification Marked As Read.',
-            data: notification
-          })
+    Notification.findOneAndUpdate({
+      _id: req.params.notificationID,
+      recipient: req.decodedToken.user._id, read: false
+    },
+      { $set: { read: true } }).populate('sender recipient', 'username').exec(function (err, notification) {
+        if (err) {
+          return next(err);
         } else {
-          return res.status(404).json({
-            err: null,
-            msg: 'Notification Not Found | Marked As Read.',
-            data: notification
-          })
+          if (notification) {
+            return res.status(200).json({
+              err: null,
+              msg: ' Notification Marked As Read. ',
+              data: notification
+            })
+          } else {
+            return res.status(404).json({
+              err: null,
+              msg: ' Notification Not Found | Marked As Read. ',
+              data: notification
+            })
+          }
         }
-      }
-    })
+      })
   }
 }
 
-module.exports.deleteNotification = function(req , res , next){
+module.exports.deleteNotification = function (req, res, next) {
   var valid = req.params.notificationID && Validations.isObjectId(req.params.notificationID)
-  if(!valid){
+  if (!valid) {
     return res.status(422).json({
       err: null,
       msg: 'notificationID is Not Valid',
       data: null
     });
   } else {
-    Notification.findOneAndRemove({ _id : req.params.notificationID , 
-      recipient : req.decodedToken.user._id },function( err , notification ){
-      if(notification){
+    Notification.findOneAndRemove({
+      _id: req.params.notificationID,
+      recipient: req.decodedToken.user._id
+    }, function (err, notification) {
+      if (notification) {
         return res.status(200).json({
           err: null,
-          msg: 'Notification Deleted',
+          msg: ' Notification Deleted ',
           data: notification
         })
       } else {
         return res.status(404).json({
           err: null,
-          msg: 'Notification Not Found',
+          msg: ' Notification Not Found ',
           data: null
         })
       }
@@ -133,22 +137,26 @@ module.exports.AddNotification = function (req, res, next) {
   });
 };
 
-module.exports.createNotificationMuitiple = function( sender , recipients , message , type , i , done ) {
-  if(i == recipients.length){
+module.exports.createNotificationMuitiple = function (sender, recipients, message , i , done ) {
+  if (i == recipients.length) {
     return done(true);
   } else {
-    Notification.create( { sender : sender , recipient : recipients[i]._id , 
-      message : message , type :type } , function ( err , notification ) {
-        return module.exports.createNotificationMuitiple( sender , recipients , message , type , i + 1 , done )
+    module.exports.createNotification(sender, recipients[i]._id, message , function (callback) {
+      if (callback) {
+        return module.exports.createNotificationMuitiple(sender, recipients, message , i + 1 , done)
+      } else {
+        return module.exports.createNotificationMuitiple(sender, recipients, message , i + 1 , done)
+      }
     })
   }
 }
 
-module.exports.createNotification = function ( sender , recipient , message , type , done ) {
-  Notification.create( { sender : sender , recipient : recipient , message : message , type :type } , function ( err , notification ) {
-    if(notification)
+module.exports.createNotification = function (sender , recipient , message , done) {
+  Notification.create({ sender: sender , recipient: recipient , message: message }, function (err, notification) {
+    if (notification) {
       return done(true);
-    else
+    } else {
       return done(false);
+    }
   })
 }

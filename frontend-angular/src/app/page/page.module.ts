@@ -50,20 +50,18 @@ import { VerifyComponent } from './auth/verify/verify.component';
 import { RequestsComponent } from './requests/requests.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { ForgotComponent } from './auth/forgot/forgot.component';
-
 @NgModule({
   imports: [
     NgbModule,
     FormsModule,
     CommonModule,
-    Ng2SmartTableModule ,
-    PagesRoutingModule,
     NouisliderModule,
     PagesRoutingModule,
+    Ng2SmartTableModule,
+    NgxPaginationModule,
     RtcMediaCaptureModule,
-    AngularFontAwesomeModule,
     JWBootstrapSwitchModule,
-    NgxPaginationModule 
+    AngularFontAwesomeModule,
   ],
   declarations: [
     AdminComponent,

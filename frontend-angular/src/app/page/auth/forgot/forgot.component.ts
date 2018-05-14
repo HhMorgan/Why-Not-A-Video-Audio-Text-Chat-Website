@@ -25,15 +25,16 @@ export class ForgotComponent implements OnInit {
     user.email = this.email;
     this.buttonDisabled = true;
     if (this.email != null) {
-      this._apiService.forgetPassword(this.email).subscribe((apiresponse: APIData)=> {
+      this._apiService.forgetPassword(this.email).subscribe((apiresponse: APIData) => {
         this.message = apiresponse.msg;
         this.buttonDisabled = false;
-      },(error)=>{
+      }, (error) => {
         this.buttonDisabled = false;
         this.message = error.msg;
       })
-    } else
+    } else {
+      this.buttonDisabled = false;
       this.message = 'Email Can not Be Empty ';
+    }
   }
-
 }

@@ -19,10 +19,16 @@
   width:75%;
 }
 .check{
+  padding: 0;
+  border: none;
   color:green;
+  background: none;
 }
 .trash{
+  padding: 0;
+  border: none;
   color:red;
+  background: none;
 }
 .container::after {
   content: "";

@@ -1,17 +1,20 @@
-import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
-import { APIData, User, Token, ReserveSlotBody, SlotBody, SlotDateBody, ExpertAcceptSlotBody } from '../../@core/service/models/api.data.structure';
-import { APIService } from "../../@core/service/api.service";
-import * as moment from 'moment';
+
 import { error } from "util";
+import * as moment from 'moment';
+import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute } from "@angular/router";
-import { SharedFunctions, SharedService } from "../../@core/service/shared.service";
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { APIService } from "../../@core/service/api.service";
+import { SharedFunctions , SharedService } from "../../@core/service/shared.service";
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from "@angular/core";
+import { APIData, User, Token, ReserveSlotBody, SlotBody, SlotDateBody, ExpertAcceptSlotBody } from '../../@core/service/models/api.data.structure';
 
 @Component({
   selector: 'app-schedule',
   templateUrl: './template/schedule.component.html',
   styleUrls: ['./template/schedule.component.scss']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit , OnDestroy {
   public mySchedule: boolean;
   public yourDate: Date = new Date();
 
@@ -39,6 +42,7 @@ export class ScheduleComponent implements OnInit {
   public popoutUserCancel = false;
 
   private expertUser = <User>{};
+  private destroyed: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private apiService: APIService, private sharedService: SharedService, private route: ActivatedRoute) {
     var userToken = <Token>this.apiService.getToken(true);
@@ -60,12 +64,16 @@ export class ScheduleComponent implements OnInit {
           WeekEnd: SharedFunctions.weekdayWithStartWeekday(new Date(), 6, 6).format('D-MMMM-YYYY')
         }
       )
-      this.apiService.getSchedule(this.expertUser).subscribe((apiresponse: APIData) => {
-        this.updateSchedule(apiresponse.data);
-      }, (err) => {
-        this.sharedService.triggerNotifcation("#EA4335", err.msg);
-      })
+      this.getSchedule(this.expertUser);
     });
+  }
+
+  getSchedule(expertUser : User){
+    this.apiService.getSchedule(expertUser).subscribe((apiresponse: APIData) => {
+      this.updateSchedule(apiresponse.data);
+    }, (err) => {
+      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : "Not Offering Slots This Week" });
+    })
   }
 
   mobile() {
@@ -93,7 +101,15 @@ export class ScheduleComponent implements OnInit {
       this.scheduleFlag = true;
       this.monthFlag = false;
     }
+    Observable.interval(2 * 60 * 1000).takeUntil(this.destroyed).subscribe(() => {
+      this.getSchedule(this.expertUser);
+    });
     this.scheduleReset();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed.next(true);
+    this.destroyed.complete();
   }
 
   reserveSameUser(users: any[]) {
@@ -194,9 +210,9 @@ export class ScheduleComponent implements OnInit {
       dayNo: JSON.stringify(day), slotNo: JSON.stringify(this.schedule[day].indexOf(slot))
     }).subscribe((apiresponse: APIData) => {
       this.updateSchedule(apiresponse.data);
-      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
+      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apiresponse.msg.toString()});
     }, (err) => {
-      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
     });
     this.popoutExpertOff();
   }
@@ -234,10 +250,10 @@ export class ScheduleComponent implements OnInit {
   getWeeklySlots(date) {
     this.apiService.getScheduleWeeklySlots(date).subscribe((apiresponse: APIData) => {
       this.updateSchedule(apiresponse.data);
-      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
+      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apiresponse.msg.toString()});
     }, (err) => {
       this.scheduleReset()
-      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
     });
   }
 
@@ -263,9 +279,9 @@ export class ScheduleComponent implements OnInit {
       slotNo: JSON.stringify(this.schedule[day].indexOf(slot))
     }).subscribe((apiresponse: APIData) => {
       this.updateSchedule(apiresponse.data);
-      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
+      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apiresponse.msg.toString()});
     }, (err) => {
-      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
     });
     this.popoutUserConfirmation = false;
   }
@@ -278,9 +294,9 @@ export class ScheduleComponent implements OnInit {
     }).subscribe((apiresponse: APIData) => {
       this.popoutUserCancel = false;
       this.updateSchedule(apiresponse.data);
-      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
+      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apiresponse.msg.toString()});
     }, (err) => {
-      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
     });
   }
   //users
@@ -291,9 +307,9 @@ export class ScheduleComponent implements OnInit {
       date: this.weekduration[this.selectedWeek].weekStart,
     }).subscribe((apiresponse: APIData) => {
       this.updateSchedule(apiresponse.data);
-      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
+      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apiresponse.msg.toString()});
     }, (err) => {
-      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
     });
     this.popoutExpertConfirmation = false;
   }
@@ -306,9 +322,9 @@ export class ScheduleComponent implements OnInit {
     }).subscribe((apiresponse: APIData) => {
       this.popoutExpertOff();
       this.updateSchedule(apiresponse.data);
-      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
+      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apiresponse.msg.toString()});
     }, (err) => {
-      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
     });
   }
 

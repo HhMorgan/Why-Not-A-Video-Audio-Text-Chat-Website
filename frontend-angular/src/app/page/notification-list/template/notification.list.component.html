@@ -22,12 +22,12 @@
                                 </p>
                             </div>
                             <div class="option-right" id="notificationOptions">
-                                <a *ngIf="!notification.read" class="check" (click)="markAsRead( notification )">
+                                <button *ngIf="!notification.read" class="check" [disabled]="notification.operationActive" (click)="markAsRead( notification )">
                                     <i class="fa fa-check"></i>
-                                </a>
-                                <a class="trash" (click)="delete( notification )">
+                                </button>
+                                <button class="trash" (click)="delete( notification )" [disabled]="notification.operationActive">
                                     <i class="fa fa-trash"></i>
-                                </a>
+                                </button>
                             </div>
                             <span class="time-right">{{notification.createdAt}}</span>
                         </div>

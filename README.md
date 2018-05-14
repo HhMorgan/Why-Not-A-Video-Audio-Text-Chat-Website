@@ -1,5 +1,7 @@
 # Why-Not
+
 SE-2018-MET-T-16
+
 ## Awards
 
 ## Demo
@@ -13,8 +15,11 @@ https://whatwhynot.net/
 ---
 
 ## Setup
+
 1. Clone this repo to your desktop `git clone https://github.com/SEGUC17/Why-Not.git`
+
 2. Run `npm install` to install all the dependencies.
+
 If there is a bug and you are one of the testing team please send an email to ahmed.ayman.v1[at]gmail.com or heshammse[at]gmail.com
 
 ---
@@ -33,5 +38,6 @@ If you found a bug, please report it through the issues tab.
 
 ## Docs
 
-##### Project Backlog
+### Project Backlog
+
 https://docs.google.com/spreadsheets/d/1UzPDxfkLGT6AnAgs4syrGWweRTejMK9Ck91YF3Dxoqs/edit?usp=sharing

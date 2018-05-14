@@ -59,7 +59,7 @@ export class SearchComponent implements OnInit, OnChanges {
                 SharedFunctions.loadImageBy(apires.data[i].username, (apires.data)[i].img, false)
               }
             }, (err) => {
-              this.sharedService.triggerNotifcation("#EA4335", err.msg);
+              this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
             })
           }
           break;
@@ -71,7 +71,7 @@ export class SearchComponent implements OnInit, OnChanges {
                 SharedFunctions.loadImageBy(apires.data[i].username, (apires.data)[i].img, false)
               }
             }, (err) => {
-              this.sharedService.triggerNotifcation("#EA4335", err.msg);
+              this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
             });
           }
           break;
@@ -92,7 +92,7 @@ export class SearchComponent implements OnInit, OnChanges {
                 var Tag = document.getElementById(((apires.data)[j])._id) as HTMLImageElement;
               }
             }, (err) => {
-              this.sharedService.triggerNotifcation("#EA4335", err.msg);
+              this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
             })
           }
           break;
@@ -106,9 +106,9 @@ export class SearchComponent implements OnInit, OnChanges {
   // lastly cnnect to database and show a pop up
   addtobookmark(user: any) {
     this.apiServ.addtoToBookmark(<User>{ _id: user._id }).subscribe((apires: APIData) => {
-      this.sharedService.triggerNotifcation("#34A853", apires.msg.toString());
+      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apires.msg.toString()});
     }, (err) => {
-      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
     })
   }
 
@@ -139,9 +139,9 @@ export class SearchComponent implements OnInit, OnChanges {
   // lastly cnnect to database and show a pop up
   AddTag(tag: any) {
     this.apiServ.addSpeciality(<Tag>{ _id: tag._id }).subscribe((apiresponse: APIData) => {
-      this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
+      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apiresponse.msg.toString()});
     }, (err) => {
-      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
     });
   }
 
@@ -151,7 +151,7 @@ export class SearchComponent implements OnInit, OnChanges {
     tag_Request.status = 'Pending';
     tag_Request.blocked = false;
     this.apiServ.AddTag(tag_Request).subscribe((apiresponse: APIData) => {
-      this.sharedService.triggerNotifcation("#34A853", "Your request was sent sucessfully");
+      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apiresponse.msg.toString()});
     });
   }
 }

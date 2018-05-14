@@ -35,7 +35,7 @@
                                                     <rtc-media-recorder [constrains]="constrains" (handleMediaStream)="handle_Media_Stream($event)" [startCapture]="false" [mediaSource]="mediaSource_remote_list[0]"
                                                         [isRemote]="true"></rtc-media-recorder>
                                                 </div>
-                                                <div class="buttons">
+                                                <div *ngIf="connectedUsers.length != 0" class="buttons">
                                                     <button *ngIf="!joinButtonflag" class="btn btn-success positionJoinButton" (click)="joinClick()">Join</button>
                                                     <button *ngIf="joinButtonflag" class="btn btn-danger positionJoinButton" (click)="closeCall()">End</button>
 
@@ -135,9 +135,9 @@
                                                     [isRemote]="true"></rtc-media-recorder>
                                             </div>
                                         </div>
-                                        <div class="buttons">
-                                            <button class="btn btn-success" (click)="joinClick()">Join</button>
-                                            <button class="btn btn-danger" (click)="closeCall()">closeCall</button>
+                                        <div *ngIf="connectedUsers.length != 0" class="buttons">
+                                            <button *ngIf="!joinButtonflag" class="btn btn-success" (click)="joinClick()">Join</button>
+                                            <button *ngIf="joinButtonflag" class="btn btn-danger" (click)="closeCall()">closeCall</button>
                                         </div>
                                     </div>
                                 </div>

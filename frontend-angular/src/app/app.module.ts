@@ -20,6 +20,7 @@ import { SnackbarComponent } from './page/components/snackbar/snackbar.component
 import { SharedService } from './@core/service/shared.service';
 import { RoleGuardService } from './@core/service/role-guard.service';
 import { JwtHelper } from 'angular2-jwt';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -29,16 +30,16 @@ import { JwtHelper } from 'angular2-jwt';
     PopOutComponent,
   ],
   imports: [
-    NgbModule.forRoot(),
-    HttpClientModule,
-    BrowserModule,
-    AppRoutingModule,
     FormsModule,
+    BrowserModule,
+    MatDialogModule,
+    NgxSpinnerModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    HttpClientModule,
     Ng2SmartTableModule,
-    MatDialogModule,
+    NgbModule.forRoot(),
+    BrowserAnimationsModule
   ],
 
   entryComponents: [

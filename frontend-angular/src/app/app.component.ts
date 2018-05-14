@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app.routing';
     template: `
     <app-navbar></app-navbar>
     <router-outlet></router-outlet>
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="large" color="#fff" type="ball-atom"></ngx-spinner>
     <app-footer *ngIf="removeFooter()"></app-footer>
     `,
 })

@@ -1,7 +1,9 @@
 import { Buffer } from 'buffer';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
+
+import { NgxSpinnerService } from 'ngx-spinner';
 import { APIService } from '../../@core/service/api.service';
 import { SharedService, SharedFunctions } from '../../@core/service/shared.service';
 import { APIData, User, FileData, Tag } from '../../@core/service/models/api.data.structure'
@@ -12,7 +14,7 @@ import { APIData, User, FileData, Tag } from '../../@core/service/models/api.dat
   styleUrls: ['./template/profile.component.scss']
 })
 
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit , OnDestroy {
   private user = <User>{};
   private BookmarkedUsers: User[];
   private Tag = <Tag>{};
@@ -30,8 +32,8 @@ export class ProfileComponent implements OnInit {
   public editable: boolean = true; // intially just for testing
 
 
-  constructor(private apiServ: APIService, private route: ActivatedRoute, private sharedService: SharedService, private router: Router) { };
-  //this method changes the user's current status if it's online to offlne and vice versa
+  constructor(private apiServ: APIService, private route: ActivatedRoute,
+    private sharedService: SharedService, private spinner: NgxSpinnerService, private router: Router) { };
 
   changeUserStatus() {
 
@@ -43,8 +45,7 @@ export class ProfileComponent implements OnInit {
       // elem.classList.add('active');
       this.user.onlineStatus = true; //change the status to online
       onlineStatusElem.style.color = "#2ecc71"; //change the color of the status circle to green
-    }
-    else {
+    } else {
       //elem.classList.remove('active');
       this.user.onlineStatus = false;  //change the status to offline
       onlineStatusElem.style.color = "#e74c3c"; //change the color of the status circle to red
@@ -57,42 +58,30 @@ export class ProfileComponent implements OnInit {
   }
 
   addtobookmark() {
-    var user = <User>{};
-    user.username = this.usernameOfProfile;
-    this.apiServ.getUserProfile(user).subscribe((apires: APIData) => {
-      this.apiServ.addtoToBookmark(apires.data).subscribe((apires: APIData) => {
-        this.sharedService.triggerNotifcation("#34A853", apires.msg.toString());
-      }, (err) => {
-        this.sharedService.triggerNotifcation("#EA4335", err.msg);
-      })
-    });
+    this.apiServ.addtoToBookmark(this.user).subscribe((apires: APIData) => {
+      this.sharedService.triggerNotifcation.emit({ color: "#34A853", msg: apires.msg.toString() });
+    }, (err) => {
+      this.sharedService.triggerNotifcation.emit({ color: "#EA4335", msg: err.msg })
+    })
   }
 
   //this method loads the user's current status
   //connects to th backend using loadStatus() method wchich is implemented in the service file
   loadStatus(datain) {
     var onlineStatusElem = document.getElementById("onlinestat");
-    // var elem = document.querySelector('.toggle-btn');
-    this.apiServ.loadStatus().subscribe((apiresponse: APIData) => {
-      if (datain) {
-        onlineStatusElem.style.color = "#2ecc71"; //change the color of the status circle to green if online
-        // elem.classList.add('active');
-      }
-      else {
-        onlineStatusElem.style.color = "#e74c3c"; //change the color of the status circle to red if offline
-
-        // elem.classList.remove('active');
-      }
-    })
-
+    if (datain) {
+      onlineStatusElem.style.color = "#2ecc71"; //change the color of the status circle to green if online
+    } else {
+      onlineStatusElem.style.color = "#e74c3c"; //change the color of the status circle to red if offline
+    }
   }
-
 
   //this method gets called everytime the page is reloaded
 
   ngOnInit() {
     this.getcurrusername();
     this.route.params.subscribe(params => {  //this method passes the username paramter in URL to the page
+      this.spinner.show();
       this.user.username = params['username'];
       this.apiServ.getUserProfile(this.user).subscribe((apires: APIData) => { //this method gets all the info of current profile 
         var specialities = <Tag[]>apires.data.speciality; //getting the speciality array of the user
@@ -116,6 +105,7 @@ export class ProfileComponent implements OnInit {
             DeleteTag.classList.add('fa-close');
             DeleteTag.style.display = "none";
 
+            let tag: Tag = specialities[l];
             if (this.isloggeduser()) {
               Tag.appendChild(DeleteTag);
               DeleteTag.addEventListener("mouseover", function () {
@@ -138,9 +128,7 @@ export class ProfileComponent implements OnInit {
               DeleteTag.addEventListener("click", () => {
                 var iElementX = event.target as HTMLElement;
                 var parentBtn = iElementX.parentNode as HTMLElement
-                var Tag = <Tag>{};
-                Tag.name = parentBtn.textContent;
-                this.editSpecs(Tag, parentBtn)
+                this.editSpecs(tag, parentBtn)
               });
 
               var ParentTag = event.target as HTMLElement;
@@ -195,34 +183,37 @@ export class ProfileComponent implements OnInit {
         }
         this.editstatus();
         this.loadStatus(apires.data.onlineStatus); //this method gets/views the status of the user
+        this.spinner.hide();
+      }, (err) => {
+        this.router.navigate(['/page/err']);
+        this.sharedService.triggerErrMessage.next(err.msg);
+        this.spinner.hide();
       })
     });
   }
 
+  ngOnDestroy(): void {
+    this.spinner.hide();
+  }
+
   removeBookmarked(user: any) {
     this.apiServ.removeFromBookmark(<User>{ _id: user._id }).subscribe((apires: APIData) => {
-      this.sharedService.triggerNotifcation("#34A853", apires.msg.toString());
+      this.sharedService.triggerNotifcation.emit({ color: "#34A853", msg: apires.msg.toString() });
       this.BookmarkedUsers.splice(this.BookmarkedUsers.indexOf(user), 1);
     }, (err) => {
-      this.sharedService.triggerNotifcation("#EA4335", err.msg);
+      this.sharedService.triggerNotifcation.emit({ color: "#EA4335", msg: err.msg })
     })
   }
 
 
   editSpecs(tag, button) {
-
-    this.apiServ.getTagbyName(tag).subscribe((apiresponse: APIData) => {
-
-      var Tag = <Tag>{};
-      Tag = apiresponse.data;
-      this.apiServ.editSpeciality(Tag).subscribe((apiresponse: APIData) => {
-        if (apiresponse.msg == "Speciality removed") {
-          button.remove();
-          this.sharedService.triggerNotifcation("#34A853", apiresponse.msg.toString());
-        }
-      }, (err) => {
-        this.sharedService.triggerNotifcation("#EA4335", err.msg);
-      });
+    this.apiServ.editSpeciality(tag).subscribe((apiresponse: APIData) => {
+      if (apiresponse.msg == "Speciality removed") {
+        button.remove();
+        this.sharedService.triggerNotifcation.emit({ color: "#34A853", msg: apiresponse.msg.toString() });
+      }
+    }, (err) => {
+      this.sharedService.triggerNotifcation.emit({ color: "#EA4335", msg: err.msg })
     });
   }
 

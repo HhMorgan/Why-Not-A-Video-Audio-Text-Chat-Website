@@ -577,7 +577,7 @@ module.exports.addToBookmarks = function (req, res, next) {
             return next(err);
           }
           if (!user) {
-            return res.status(304).json({
+            return res.status(406).json({
               err: null,
               msg: 'The expert could not be added to your bookmarks because '
                 + ' he/she is already added to your bookmarks.',

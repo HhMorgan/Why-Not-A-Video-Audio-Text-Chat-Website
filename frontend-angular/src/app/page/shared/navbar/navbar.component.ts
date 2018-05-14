@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit {
             this.isloggedin();
         });
 
-        sharedService.updateNotification.subscribe(unreadNotificationCount =>{
+        sharedService.updateUnreadNotification.subscribe(unreadNotificationCount =>{
             this.notificationCount = unreadNotificationCount;
         })
     }

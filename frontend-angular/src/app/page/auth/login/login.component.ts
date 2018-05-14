@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { APIData, User } from '../../../@core/service/models/api.data.structure';
 import { APIService } from '../../../@core/service/api.service';
 import { error } from 'protractor';
-import { Routes,Router } from '@angular/router';
+import { Routes, Router } from '@angular/router';
 import { SharedService } from '../../../@core/service/shared.service';
 
 @Component({
@@ -16,33 +16,36 @@ export class LoginComponent implements OnInit {
   public loginMessage;
   public buttonDisabled;
 
-  constructor(private _apiService:APIService , private router: Router , private sharedService : SharedService ) { }
+  constructor(private _apiService: APIService, private router: Router, private sharedService: SharedService) { }
 
   ngOnInit() {
 
   }
 
-  loginClick(){
+  loginClick() {
     const user = <User>{};
     user.email = this.email;
     user.password = this.password;
     this.buttonDisabled = true;
-    if(this.email != null && this.password != null){
-      this._apiService.login(user).subscribe((apiresponse: APIData)=>{
+    if (this.email != null && this.password != null) {
+      this._apiService.login(user).subscribe((apiresponse: APIData) => {
         this.buttonDisabled = false;
         this.loginMessage = apiresponse.msg;
-        if( apiresponse.msg.includes('Welcome') ){
+        if (apiresponse.msg.includes('Welcome')) {
           localStorage.setItem('token', apiresponse.data);
           this.sharedService.setUserLoggedin(true);
-          this.router.navigate(['home']); 
+          this.router.navigate(['home']);
         } else {
+          this.buttonDisabled = false;
           this.loginMessage = apiresponse.msg;
         }
-      } , (error: APIData) => {
+      }, (error: APIData) => {
         this.loginMessage = error.msg;
         this.buttonDisabled = false;
       })
-  } else
-    this.loginMessage = 'Username or Password Can not Be Empty ';
+    } else {
+      this.buttonDisabled = false;
+      this.loginMessage = 'Username or Password Can not Be Empty ';
+    }
   }
 }

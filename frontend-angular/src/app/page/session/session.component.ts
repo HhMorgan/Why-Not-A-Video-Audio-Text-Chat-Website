@@ -15,7 +15,7 @@ import { APIData, User, Token } from '../../@core/service/models/api.data.struct
   templateUrl: './template/session.component.html',
   styleUrls: ['./template/session.component.css']
 })
-export class SessionComponent implements OnInit , OnDestroy {
+export class SessionComponent implements OnInit, OnDestroy {
   public message;
   public senderImgSrc;
   public senderUsername;
@@ -36,7 +36,7 @@ export class SessionComponent implements OnInit , OnDestroy {
       , { urls: 'stun:stun.services.mozilla.com' }]
   };
   private sessionid: String;
-  private connectedUsers: String[] = [];
+  public connectedUsers: String[] = [];
   private connectedUsersData: any[] = [];
   private peerConnections: RTCPeerConnection[] = [];
 
@@ -46,7 +46,7 @@ export class SessionComponent implements OnInit , OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.closeCall();
+    // this.closeCall();
     this.ioService.closeConnection();
   }
 
@@ -72,13 +72,13 @@ export class SessionComponent implements OnInit , OnDestroy {
   }
 
   //starts the socket between the two users
-  chatType( type : String ) {
-    switch(type){
-      case "Video" :
-        this.constrains = { video: true , audio: true };
-      break;
-      case "Voice" :
-        this.constrains = { video: false , audio: true };
+  chatType(type: String) {
+    switch (type) {
+      case "Video":
+        this.constrains = { video: true, audio: true };
+        break;
+      case "Voice":
+        this.constrains = { video: false, audio: true };
     }
     this.joinFlag = true;
   }
@@ -101,24 +101,36 @@ export class SessionComponent implements OnInit , OnDestroy {
                 this.connectedUsers.push(js.userid);
                 this.peerConnections.push(new RTCPeerConnection(this.peer_config))
                 this.apiService.getUsersbyIds([js.userid]).subscribe((apiresponse: APIData) => {
-                  SharedFunctions.getImageUrl(apiresponse.data[0].img).then((result) => {
-                    this.connectedUsersData.push(
-                      {
-                        _id: apiresponse.data[0]._id,
-                        username: apiresponse.data[0].username,
-                        role: apiresponse.data[0].role,
-                        img: this._sanitizer.bypassSecurityTrustResourceUrl(result.toString())
-                      }
-                    )
-                  });
+                  for (let user of apiresponse.data) {
+                    SharedFunctions.getImageUrl(user.img).then((result) => {
+                      this.connectedUsersData.push(
+                        {
+                          _id: user._id,
+                          username: user.username,
+                          role: user.role,
+                          img: this._sanitizer.bypassSecurityTrustResourceUrl(result.toString())
+                        }
+                      )
+                      this.senderUsername = user.username;
+                      this.messages.push(
+                        {
+                          type: "recieved",
+                          message: "Joined Session",
+                          img: this._sanitizer.bypassSecurityTrustResourceUrl(result.toString())
+                        }
+                      );
+                    });
+                  }
                 })
               }
               break;
             case "connected":
               this.apiService.getUsersbyIds([this.apiService.getToken(true)._id]).subscribe((apiresponse: APIData) => {
-                SharedFunctions.getImageUrl(apiresponse.data[0].img).then((result) => {
-                  this.senderImgSrc = this._sanitizer.bypassSecurityTrustResourceUrl(result.toString());
-                });
+                for (let user of apiresponse.data) {
+                  SharedFunctions.getImageUrl(user.img).then((result) => {
+                    this.senderImgSrc = this._sanitizer.bypassSecurityTrustResourceUrl(result.toString());
+                  });
+                }
               });
               this.ioService.sendMessage(
                 JSON.stringify({
@@ -130,13 +142,6 @@ export class SessionComponent implements OnInit , OnDestroy {
 
             case "AcceptedInRoom":
               this.showOptions = true;
-              break;
-
-            case "disconnected":
-              if (this.checkIsUserConnected(js.userid)) {
-                this.connectedUsersData.splice(this.connectedUsers.indexOf(js.userid), 1);
-                this.connectedUsers.splice(this.connectedUsers.indexOf(js.userid), 1)
-              }
               break;
 
             case "connectedUsers":
@@ -152,6 +157,14 @@ export class SessionComponent implements OnInit , OnDestroy {
                         img: this._sanitizer.bypassSecurityTrustResourceUrl(result.toString())
                       }
                     )
+                    this.senderUsername = user.username;
+                    this.messages.push(
+                      {
+                        type: "recieved",
+                        message: "Joined Session",
+                        img: this._sanitizer.bypassSecurityTrustResourceUrl(result.toString())
+                      }
+                    );
                     this.peerConnections.push(new RTCPeerConnection(this.peer_config))
                   })
                 }
@@ -173,8 +186,8 @@ export class SessionComponent implements OnInit , OnDestroy {
                               type: "answer",
                               answer: desc,
                               to: js.from
-                            }
-                          ));
+                            })
+                          );
                           this.joinButtonflag = true;
                         }
                       );
@@ -199,8 +212,35 @@ export class SessionComponent implements OnInit , OnDestroy {
 
             case "close":
               if (this.checkIsUserConnected(js.from)) {
+                let user = this.connectedUsersData[this.connectedUsers.indexOf(js.from)];
+                this.senderUsername = user.username;
+                this.messages.push(
+                  {
+                    type: "recieved",
+                    message: "Left Session",
+                    img: user.img
+                  }
+                );
                 this.peerConnections[this.connectedUsers.indexOf(js.from)].close()
-                this.peerConnections.splice(this.peerConnections.indexOf(js.userid), 1)
+                this.peerConnections.splice(this.peerConnections.indexOf(js.from), 1)
+                this.connectedUsersData.splice(this.connectedUsers.indexOf(js.from), 1);
+                this.connectedUsers.splice(this.connectedUsers.indexOf(js.from), 1)
+              }
+              break;
+
+            case "disconnected":
+              if (this.checkIsUserConnected(js.userid)) {
+                let user = this.connectedUsersData[this.connectedUsers.indexOf(js.userid)];
+                this.senderUsername = user.username;
+                this.messages.push(
+                  {
+                    type: "recieved",
+                    message: "Left Session",
+                    img: user.img
+                  }
+                );
+                this.connectedUsersData.splice(this.connectedUsers.indexOf(js.userid), 1);
+                this.connectedUsers.splice(this.connectedUsers.indexOf(js.userid), 1)
               }
               break;
 

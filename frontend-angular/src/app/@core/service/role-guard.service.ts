@@ -18,8 +18,8 @@ export class RoleGuardService implements CanActivate {
     if(this.apiService.isAuthenticated()){
       let tokenPayload = <any> decode(APIService.getToken());
       if ( checkRole && tokenPayload.user.role != expectedRole ) {
-        this.sharedService.triggerErrorPageMessage('Only An ' + expectedRole +' Can Access this Page')
         this.router.navigate(['/page/err']);
+        this.sharedService.triggerErrMessage.next('Only An ' + expectedRole +' Can Access this Page')
         return false;
       }
       return true;

@@ -16,33 +16,34 @@ export class SignupComponent implements OnInit {
   public signupMessage;
   public buttonDisabled = false;
 
-  constructor(private _apiService : APIService , private router: Router) { }
+  constructor(private _apiService: APIService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  signupClick(){
+  signupClick() {
     const user = <User>{};
     user.email = this.email;
     this.buttonDisabled = true;
-    user.username=this.username;
+    user.username = this.username;
     user.password = this.password;
-    if(this.email != null && this.password != null&& this.passwordConfirmation!=null && this.username!=null){
-      if(this.password==this.passwordConfirmation){
-        this._apiService.signup(user).subscribe((apiresponse: APIData)=>{
+    if (this.email != null && this.password != null && this.passwordConfirmation != null && this.username != null) {
+      if (this.password == this.passwordConfirmation) {
+        this._apiService.signup(user).subscribe((apiresponse: APIData) => {
           this.signupMessage = apiresponse.msg;
-          this.router.navigate(['page/login']); 
+          this.router.navigate(['page/login']);
           this.buttonDisabled = false;
-        },(error: APIData)=>{
+        }, (error: APIData) => {
           this.signupMessage = error.msg;
           this.buttonDisabled = false;
         })
+      } else {
+        this.buttonDisabled = false;
+        this.signupMessage = "Password doesn't match";
       }
-      else{
-        this.signupMessage="Password doesn't match";
-      }
-  } else
-    this.signupMessage = 'Username or Password Can not Be Empty ';
+    } else {
+      this.buttonDisabled = false;
+      this.signupMessage = 'Username or Password Can not Be Empty ';
+    }
   }
-
 }

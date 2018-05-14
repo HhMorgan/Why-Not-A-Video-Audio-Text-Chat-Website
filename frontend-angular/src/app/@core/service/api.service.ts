@@ -86,11 +86,6 @@ export class APIService {
       .catch(this.errorHandler);
   }
 
-  getTagbyName(tag: Tag): Observable<APIData> {
-    return this.http.get<APIData>(APIService.apiUrl + 'expert/getTagByName/' + tag.name)
-      .catch(this.errorHandler);
-  }
-
   deleteTags(tag: Tag): Observable<APIData> {
     return this.http.delete<APIData>(APIService.apiUrl + 'Tags/deleteTags/' + tag._id)
       .catch(this.errorHandler);

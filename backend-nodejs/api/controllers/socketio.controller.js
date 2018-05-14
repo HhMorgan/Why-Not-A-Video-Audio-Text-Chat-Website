@@ -133,15 +133,21 @@ module.exports = function (io) {
         })
 
         connection.on('disconnect', function () {
-            console.log(connection.request.decoded_token.user._id + " Disconnected")
-            connection.emit('message',
-                JSON.stringify(
-                    {
-                        type: "disconnected",
-                        userid: connection.request.decoded_token.user._id
+            var rooms = io.sockets.adapter.rooms;
+            if (rooms) {
+                for (var room in rooms) {
+                    if (!rooms[room].hasOwnProperty(room) && Validations.isObjectId(room) ) {
+                        connection.broadcast.to(room).emit('message',
+                            JSON.stringify(
+                                {
+                                    type: "disconnected",
+                                    userid: connection.request.decoded_token.user._id
+                                }
+                            )
+                        );
                     }
-                )
-            );
+                }
+            }
         });
         //connects the call between the two users
         connection.send(JSON.stringify(
@@ -159,8 +165,8 @@ module.exports = function (io) {
         if (session.createdById == connection.request.decoded_token.user._id) {
             return true;
         } else {
-            for ( var i = 0 ; i < session.users.length ; i++ ) {
-                if ( session.users[i] == connection.request.decoded_token.user._id ) {
+            for (var i = 0; i < session.users.length; i++) {
+                if (session.users[i] == connection.request.decoded_token.user._id) {
                     return true;
                 }
             }
@@ -200,9 +206,9 @@ module.exports = function (io) {
         }
     }
 
-    function disconnect(connection){
-        for (var socketId in io.sockets.connected ) {
-            if(io.sockets.connected[socketId] == connection){
+    function disconnect(connection) {
+        for (var socketId in io.sockets.connected) {
+            if (io.sockets.connected[socketId] == connection) {
                 io.sockets.connected[socketId].disconnect();
             }
         }

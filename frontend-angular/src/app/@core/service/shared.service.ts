@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import * as moment from 'moment';
 
@@ -7,21 +8,10 @@ import * as moment from 'moment';
 export class SharedService {
   isUserLoggedIn: boolean = false;
   @Output() change: EventEmitter<boolean> = new EventEmitter();
-  @Output() showNotification: EventEmitter<Object> = new EventEmitter();
-  @Output() errorPageMessage: EventEmitter<string> = new EventEmitter();
-  @Output() updateNotification: EventEmitter<number> = new EventEmitter();
   
-  triggerNotifcation(color: string, text: string) {
-    this.showNotification.emit({ color, text });
-  }
-
-  triggerErrorPageMessage(text : string){
-    this.errorPageMessage.emit(text);
-  }
-
-  updateUnreadNotification( count : number ){
-    this.updateNotification.emit(count);
-  }
+  triggerNotifcation : EventEmitter<Object> = new EventEmitter<Object>() ;
+  updateUnreadNotification : EventEmitter<number> = new EventEmitter<number>();
+  triggerErrMessage : BehaviorSubject<string> = new BehaviorSubject<string>("Error");
 
   setUserLoggedin(isUserLoggedIn: boolean) {
     this.isUserLoggedIn = isUserLoggedIn;
