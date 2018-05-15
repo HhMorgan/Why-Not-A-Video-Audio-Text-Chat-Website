@@ -6,8 +6,10 @@ import { IAlert } from '../../@core/service/models/frontend.data.structure';
 import { Routes, Router } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { NotificationComponent } from '../components/notification/notification.component';
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, SimpleChange, OnChanges } from '@angular/core';
+
 
 @Component({
   selector: 'app-search',
@@ -32,7 +34,7 @@ export class SearchComponent implements OnInit, OnChanges {
   public p2: number = 1;
 
   constructor(private apiServ: APIService, private route: ActivatedRoute, private router: Router,
-    private modalService: NgbModal, private sharedService: SharedService) {
+    private modalService: NgbModal, private sharedService: SharedService, private _sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
@@ -55,11 +57,14 @@ export class SearchComponent implements OnInit, OnChanges {
           if (params['search'] != null) {
             this.apiServ.searchbyUser(params['search']).subscribe((apires: APIData) => {
               for (var i = 0; i < apires.data.length; i++) {
-                this.users.push((apires.data)[i]);
-                SharedFunctions.loadImageBy(apires.data[i].username, (apires.data)[i].img, false)
+                let user = apires.data[i];
+                SharedFunctions.getImageUrl(user.img).then((result) => {
+                  user.img = this._sanitizer.bypassSecurityTrustResourceUrl(result.toString())
+                  this.users.push(user);
+                })
               }
             }, (err) => {
-              this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
+              this.sharedService.triggerNotifcation.emit({ color: "#EA4335", msg: err.msg });
             })
           }
           break;
@@ -67,11 +72,14 @@ export class SearchComponent implements OnInit, OnChanges {
           if (params['search'] != null) {
             this.apiServ.viewSuggestedExperts(<Tag>{ name: params['search'] }).subscribe((apires: APIData) => {
               for (var i = 0; i < apires.data.length; i++) {
-                this.users.push(apires.data[i]);
-                SharedFunctions.loadImageBy(apires.data[i].username, (apires.data)[i].img, false)
+                let user = apires.data[i];
+                SharedFunctions.getImageUrl(user.img).then((result) => {
+                  user.img = this._sanitizer.bypassSecurityTrustResourceUrl(result.toString())
+                  this.users.push(user);
+                })
               }
             }, (err) => {
-              this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
+              this.sharedService.triggerNotifcation.emit({ color: "#EA4335", msg: err.msg });
             });
           }
           break;
@@ -92,7 +100,7 @@ export class SearchComponent implements OnInit, OnChanges {
                 var Tag = document.getElementById(((apires.data)[j])._id) as HTMLImageElement;
               }
             }, (err) => {
-              this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
+              this.sharedService.triggerNotifcation.emit({ color: "#EA4335", msg: err.msg });
             })
           }
           break;
@@ -106,9 +114,9 @@ export class SearchComponent implements OnInit, OnChanges {
   // lastly cnnect to database and show a pop up
   addtobookmark(user: any) {
     this.apiServ.addtoToBookmark(<User>{ _id: user._id }).subscribe((apires: APIData) => {
-      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apires.msg.toString()});
+      this.sharedService.triggerNotifcation.emit({ color: "#34A853", msg: apires.msg.toString() });
     }, (err) => {
-      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
+      this.sharedService.triggerNotifcation.emit({ color: "#EA4335", msg: err.msg });
     })
   }
 
@@ -139,9 +147,9 @@ export class SearchComponent implements OnInit, OnChanges {
   // lastly cnnect to database and show a pop up
   AddTag(tag: any) {
     this.apiServ.addSpeciality(<Tag>{ _id: tag._id }).subscribe((apiresponse: APIData) => {
-      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apiresponse.msg.toString()});
+      this.sharedService.triggerNotifcation.emit({ color: "#34A853", msg: apiresponse.msg.toString() });
     }, (err) => {
-      this.sharedService.triggerNotifcation.emit({ color : "#EA4335", msg : err.msg });
+      this.sharedService.triggerNotifcation.emit({ color: "#EA4335", msg: err.msg });
     });
   }
 
@@ -151,7 +159,7 @@ export class SearchComponent implements OnInit, OnChanges {
     tag_Request.status = 'Pending';
     tag_Request.blocked = false;
     this.apiServ.AddTag(tag_Request).subscribe((apiresponse: APIData) => {
-      this.sharedService.triggerNotifcation.emit({ color : "#34A853", msg : apiresponse.msg.toString()});
+      this.sharedService.triggerNotifcation.emit({ color: "#34A853", msg: apiresponse.msg.toString() });
     });
   }
 }

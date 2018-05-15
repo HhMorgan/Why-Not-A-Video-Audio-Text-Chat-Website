@@ -52,7 +52,7 @@ module.exports.getimage = function (req, res) {
     if (err) {
       return next(err);
     }
-    if(user){
+    if (user) {
       return res.status(200).json({
         err: null,
         msg: null,
@@ -66,7 +66,7 @@ module.exports.getimage = function (req, res) {
         data: null
       })
     }
-    
+
   });
 };
 
@@ -102,9 +102,9 @@ module.exports.AddTag = function (req, res, next) {
       data: null
     });
   }
-  if(req.decodedToken.user.role == 'admin'){
+  if (req.decodedToken.user.role == 'admin') {
     req.body.status = "Accepted"
-    if(!(Validations.isBoolean(req.body.blocked))){
+    if (!(Validations.isBoolean(req.body.blocked))) {
       return res.status(422).json({
         err: null,
         msg: 'blocked (Boolean) is a required fields.',
@@ -124,7 +124,7 @@ module.exports.AddTag = function (req, res, next) {
         data: null
       })
     } else {
-      Tag.create({ name: req.body.name , status: req.body.status , blocked: req.body.blocked }, function (err, Tags) {
+      Tag.create({ name: req.body.name, status: req.body.status, blocked: req.body.blocked }, function (err, Tags) {
         if (err) {
           return next(err);
         }
@@ -234,8 +234,10 @@ module.exports.updateEmail = function (req, res, next) {
 
         var token = jwt.sign(
           {
-            user: { _id : user._id , email: req.body.email.trim().toLowerCase() , verify : "Email" , 
-            token : verificationEmailToken }
+            user: {
+              _id: user._id, email: req.body.email.trim().toLowerCase(), verify: "Email",
+              token: verificationEmailToken
+            }
           },
           req.app.get('secret'),
           {
@@ -247,24 +249,24 @@ module.exports.updateEmail = function (req, res, next) {
           req.body.email,
           'Email Update',
           'Click the following link to confirm your new Email :</p>' + confirmationUrl,
-          function(done){
-            if(done){
+          function (done) {
+            if (done) {
               user.verificationEmailToken = verificationEmailToken;
-              user.save(function(err){
-                if(err){
+              user.save(function (err) {
+                if (err) {
                   next(err);
                 } else {
                   return res.status(201).json({
-                    err: null ,
-                    msg: 'Email update Request Sent To '+ req.body.email ,
+                    err: null,
+                    msg: 'Email update Request Sent To ' + req.body.email,
                     data: null
                   });
                 }
               })
             } else {
               return res.status(503).json({
-                err: null ,
-                msg: 'Email Failed to send Update Request To '+ req.body.email ,
+                err: null,
+                msg: 'Email Failed to send Update Request To ' + req.body.email,
                 data: null
               });
             }
@@ -450,8 +452,15 @@ module.exports.upgradeToExpert = function (req, res, next) {
 
 //this function searches for tags which are the similar to the searchtag parameter
 module.exports.searchbyTags = function (req, res, next) {
-
-  Tag.find({ name: { $regex: req.params.searchtag, $options: "$i" }, blocked: { $eq: "false" }, status: { $eq: "Accepted" } }).exec(function (err, tag) {
+  var valid = req.params.searchTag && Validations.isString(req.params.searchTag);
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'Tag Must be A String are required string fields.',
+      data: null
+    });
+  }
+  Tag.find({ name: { $regex: req.params.searchTag, $options: "$i" }, blocked: { $eq: "false" }, status: { $eq: "Accepted" } }).exec(function (err, tag) {
     if (err) {
       return next(err);
     }
@@ -474,8 +483,16 @@ module.exports.searchbyTags = function (req, res, next) {
 };
 
 module.exports.searchbyUser = function (req, res, next) {
-
-  User.find({ _id: { $ne: req.decodedToken.user._id} , username: { $regex: req.params.searchtag, $options: "$i" } , $or:[ { role: "expert" } , { role: "user"  } ], blocked: { $eq: "false" } }).exec(function (err, user) {
+  var valid = req.params.searchUser && Validations.isString(req.params.searchUser);
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'User Must be A String are required string fields.',
+      data: null
+    });
+  }
+  User.find({ _id: { $ne: req.decodedToken.user._id }, username: { $regex: req.params.searchUser, $options: "$i" }, 
+  $or: [{ role: "expert" }, { role: "user" }] , blocked: { $eq: "false" } } , { _id: 1, username: 1, role: 1, speciality: 1, rating: 1, img: 1 }).exec(function (err, user) {
     if (err) {
       return next(err);
     }
@@ -502,7 +519,7 @@ module.exports.searchbyUser = function (req, res, next) {
 */
 module.exports.viewSuggestedExperts = function (req, res, next) {
   var valid = req.params.tagName && Validations.isString(req.params.tagName);
-  if(!valid){
+  if (!valid) {
     return res.status(422).json({
       err: null,
       msg: 'Not A String',
@@ -637,15 +654,15 @@ module.exports.removeFromBookmarks = function (req, res, next) {
 
 module.exports.findUsersByID = function (req, res, next) {
   var valid = req.body.ids && Validations.isArray(req.body.ids);
-  if(!valid){
+  if (!valid) {
     return res.status(422).json({
       err: null,
       msg: 'Not An Array',
       data: null
     });
   } else {
-    for( id of req.body.ids){
-      if(!Validations.isObjectId(id)){
+    for (id of req.body.ids) {
+      if (!Validations.isObjectId(id)) {
         return res.status(422).json({
           err: null,
           msg: 'Not An ObjectId',
@@ -654,7 +671,7 @@ module.exports.findUsersByID = function (req, res, next) {
       }
     }
   }
-  User.find({ _id: { $in : req.body.ids } },{ _id: 1 , username: 1 , role: 1 , img: 1 }).exec(function (err, User) {
+  User.find({ _id: { $in: req.body.ids } }, { _id: 1, username: 1, role: 1, img: 1 }).exec(function (err, User) {
     if (err) {
       return next(err);
     }

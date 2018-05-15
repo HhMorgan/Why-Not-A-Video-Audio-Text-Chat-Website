@@ -112,8 +112,8 @@ router.get('/user/getUserProfile/:username', isAuthenticated, userCtrl.getUserPr
 Search
 */
 //----------------------------------------------------------------------------------------------------
-router.get('/user/searchbyTags/:searchtag', isAuthenticated, userCtrl.searchbyTags);
-router.get('/user/searchbyUser/:searchtag', isAuthenticated, userCtrl.searchbyUser);
+router.get('/user/searchbyTags/:searchTag', isAuthenticated, userCtrl.searchbyTags);
+router.get('/user/searchbyUser/:searchUser', isAuthenticated, userCtrl.searchbyUser);
 router.get('/user/viewSuggestedExperts/:tagName', isAuthenticated, userCtrl.viewSuggestedExperts);
 //-----------------------------------------------------------------------------------------------------
 

@@ -24,10 +24,6 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     setTimeout(() => {
-      $("body").css("overflow", "visible");
-      document.getElementById('canvas').remove();
-      window.removeEventListener('resize', this.init);
-      window.addEventListener('mousemove', this.setTracer);
       this.router.navigate(['/home']);
     }, 70000);
     $("body").css("overflow", "hidden");
