@@ -30,12 +30,12 @@ export class NavbarComponent implements OnInit {
     constructor(public location: Location, private element: ElementRef, private apiServ: APIService, private router: Router,
         private sharedService: SharedService) {
         this.sidebarVisible = false;
-        
+
         sharedService.change.subscribe(isUserLoggedIn => {
             this.isloggedin();
         });
 
-        sharedService.updateUnreadNotification.subscribe(unreadNotificationCount =>{
+        sharedService.updateUnreadNotification.subscribe(unreadNotificationCount => {
             this.notificationCount = unreadNotificationCount;
         })
     }
@@ -104,23 +104,23 @@ export class NavbarComponent implements OnInit {
         return true;
     }
 
-    isExpert(){
+    isExpert() {
         let userToken = <Token>this.apiServ.getToken(true);
-        if(userToken.role=='expert'){
+        if (userToken.role == 'expert') {
             return true;
         }
         return false;
     }
 
-    isAdmin(){
+    isAdmin() {
         let userToken = <Token>this.apiServ.getToken(true);
-        if(userToken.role=='admin'){
+        if (userToken.role == 'admin') {
             return true;
         }
         return false;
     }
 
-    isLogged(){
+    isLogged() {
         if (this.apiServ.isAuthenticated()) {
             return true;
         }
@@ -129,21 +129,21 @@ export class NavbarComponent implements OnInit {
 
     private isloggedin() {
         if (this.apiServ.isAuthenticated()) {
-             let userToken = <Token>this.apiServ.getToken(true);
-             this.username = userToken.username;
-             this.apiServ.getimage().subscribe((apires: APIData) => {
-                 SharedFunctions.loadImageBy('profileimgnavbar', apires.data, false);
-             });
-             this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
+            let userToken = <Token>this.apiServ.getToken(true);
+            this.username = userToken.username;
+            this.apiServ.getimage().subscribe((apires: APIData) => {
+                SharedFunctions.loadImageBy('profileimgnavbar', apires.data, false);
+            });
+            this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
                 this.notificationCount = apiresponse.data;
             });
-             this.getNotificationCount();
-        } 
+            this.getNotificationCount();
+        }
     }
 
     getNotificationCount() {
-        Observable.interval( 2 * 60 * 1000 ).subscribe(() => {
-            if(this.apiServ.isAuthenticated()){
+        Observable.interval(2 * 60 * 1000).subscribe(() => {
+            if (this.apiServ.isAuthenticated()) {
                 this.apiServ.getUnreadNotifications().subscribe((apiresponse: APIData) => {
                     this.notificationCount = apiresponse.data;
                 });

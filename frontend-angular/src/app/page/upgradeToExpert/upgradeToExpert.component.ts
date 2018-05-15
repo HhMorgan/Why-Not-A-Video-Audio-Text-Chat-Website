@@ -8,7 +8,6 @@ import { Observable } from 'rxjs/Observable';
   selector: 'app-requestExpert',
   templateUrl: './template/upgradeToExpert.component.html',
   styleUrls: ['./template/upgradeToExpert.component.css'],
- // providers:[APIService]
 })
 export class upgradeToExpertComponent implements OnInit {
 

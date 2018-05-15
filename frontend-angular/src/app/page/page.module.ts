@@ -17,7 +17,7 @@ import { BasicelementsComponent } from './components/basicelements/basicelements
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
-import { NgModule, Component, OnInit, Inject, Renderer, ElementRef, ViewChild} from '@angular/core';
+import { NgModule, Component, OnInit, Inject, Renderer, ElementRef, ViewChild } from '@angular/core';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { NgxPaginationModule } from 'ngx-pagination';
 /* Our Components
@@ -99,6 +99,6 @@ import { ForgotComponent } from './auth/forgot/forgot.component';
   ],
   entryComponents: [NgbdModalContent]
 })
-export class PageModule { 
+export class PageModule {
 
 }
