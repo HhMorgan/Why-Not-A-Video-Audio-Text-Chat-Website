@@ -1,7 +1,8 @@
 import { Buffer } from 'buffer';
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 import { NgxSpinnerService } from 'ngx-spinner';
 import { APIService } from '../../@core/service/api.service';
@@ -14,7 +15,7 @@ import { APIData, User, FileData, Tag } from '../../@core/service/models/api.dat
   styleUrls: ['./template/profile.component.scss']
 })
 
-export class ProfileComponent implements OnInit , OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy {
   private user = <User>{};
   private BookmarkedUsers: User[];
   private Tag = <Tag>{};
@@ -33,7 +34,8 @@ export class ProfileComponent implements OnInit , OnDestroy {
 
 
   constructor(private apiServ: APIService, private route: ActivatedRoute,
-    private sharedService: SharedService, private spinner: NgxSpinnerService, private router: Router) { };
+    private sharedService: SharedService, private spinner: NgxSpinnerService, private router: Router,
+    private _sanitizer: DomSanitizer) { };
 
   changeUserStatus() {
 
@@ -172,8 +174,10 @@ export class ProfileComponent implements OnInit , OnDestroy {
         SharedFunctions.loadImageBy('coverImg', apires.data.CoverImg, true);
         this.BookmarkedUsers = new Array();
         for (let bookmark of apires.data.bookmarks) {
-          this.BookmarkedUsers.push(bookmark);
-          SharedFunctions.loadImageBy(bookmark.username, bookmark.img, false)
+          SharedFunctions.getImageUrl(bookmark.img).then((result) => {
+            bookmark.img = this._sanitizer.bypassSecurityTrustResourceUrl(result.toString())
+            this.BookmarkedUsers.push(bookmark);
+          })
         }
         this.showrating(apires.data.rating);
         this.CoverImgOfUser = apires.data.CoverImg;
