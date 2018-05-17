@@ -1,11 +1,12 @@
-import { Component, OnInit, Inject, Renderer, ElementRef, ViewChild, HostListener } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
-import { DOCUMENT } from '@angular/platform-browser';
-import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
-import { NavbarComponent } from './page/shared/navbar/navbar.component';
 import { AppRoutingModule } from './app.routing';
+import { Subscription } from 'rxjs/Subscription';
+import { DOCUMENT } from '@angular/platform-browser';
+import { Router, NavigationEnd } from '@angular/router';
+import { NavbarComponent } from './page/shared/navbar/navbar.component';
+import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
+import { Component, OnInit, Inject, Renderer, ElementRef, ViewChild, HostListener } from '@angular/core';
+
 
 @Component({
     selector: 'app-root',
@@ -24,7 +25,8 @@ export class AppComponent {
     private _router: Subscription;
     @ViewChild(NavbarComponent) navbar: NavbarComponent;
 
-    constructor(private renderer: Renderer, private router: Router, @Inject(DOCUMENT, ) private document: any, private element: ElementRef, public location: Location) { }
+    constructor(private renderer: Renderer, private router: Router, @Inject(DOCUMENT) 
+    private document: any, private element: ElementRef, public location: Location) { }
 
     ngOnInit() {
         var navbar: HTMLElement = this.element.nativeElement.children[0].children[0];
@@ -69,19 +71,17 @@ export class AppComponent {
         titlee = titlee.slice(7);
         if (titlee === 'videotest') {
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
     removeFooter() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
         titlee = titlee.slice(7).split("/", 1)[0];
-        if (titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'video' || this.title === 'videotest'
-            || titlee === 'chat' || titlee === 'login' || titlee === 'about' || titlee === 'search' || titlee == 'profile') {
+        if (titlee === 'signup' || titlee === 'nucleoicons' || titlee === 'dashboard' || titlee === 'login' || 
+        titlee === 'about' || titlee === 'search' || titlee == 'profile') {
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
