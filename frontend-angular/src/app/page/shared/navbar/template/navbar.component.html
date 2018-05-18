@@ -76,10 +76,8 @@
                 </li>
 
                 <li *ngIf="isLogged()" class="nav-item" id="profile">
-                    <div class="nav-link">
-                        <div (click)="!isSamePath('profile') && navbarCollapsed = !navbarCollapsed" [routerLink]="['/page/profile' , username]">
-                            {{ username }}</div>
-                    </div>
+                    <a (click)="!isSamePath('profile') && navbarCollapsed = !navbarCollapsed" [routerLink]="['/page/profile' , username]" class="nav-link">
+                        {{ username }}</a>
                 </li>
 
             </ul>
