@@ -85,3 +85,8 @@
     background-color: rgba(0, 0, 0,0.5);
     border: 1px solid rgba(85, 85, 85,0.5);
 }
+@media(max-height:650px){
+  .mobileView{
+    margin-top: 45%;
+  }
+}

@@ -230,19 +230,131 @@ html, body { height: 100%; margin: 0px; }
   width: 100%;
   z-index: 0;
 }
+@media (min-width: 1024px){
+  .windowPop{
+    position: absolute;
+    z-index: 1;
+    margin: auto;
+    top: 0;
+    bottom:0;
+    right: 0;
+    left: 0;
+    width:50%;
+    height:49%;
+    border-radius: 2%;
+    background-color: rgba(24, 24, 24, 0.8);
+  }
+}
+@media (max-width: 1024px){
+  @media(min-height: 1024px){
+  .windowPop{
+    position: absolute;
+    z-index: 1;
+    margin: auto;
+    top: 0;
+    bottom: 34%;
+    right: 0;
+    left: 0;
+    width: 50%;
+    height: 30%;
+    border-radius: 2%;
+    background-color: rgba(24, 24, 24, 0.8);
+  }
+}
+@media(max-height: 1024px){
+  .windowPop{
+    position: absolute;
+    z-index: 1;
+    margin: auto;
+    top: 0;
+    bottom: 34%;
+    right: 0;
+    left: 0;
+    width: 50%;
+    height: 39%;
+    border-radius: 2%;
+    background-color: rgba(24, 24, 24, 0.8);
+  }
+  @media(max-height: 768px){
+    .windowPop{
+      position: absolute;
+      z-index: 1;
+      margin: auto;
+      top: 0;
+      bottom: 34%;
+      right: 0;
+      left: 0;
+      width: 50%;
+      height: 50%;
+      border-radius: 2%;
+      background-color: rgba(24, 24, 24, 0.8);
+    }
+  }
+}
+}//823
 
-.windowPop{
-  position: absolute;
-  z-index: 1;
-  margin: auto;
-  top: 0;
-  bottom:0;
-  right: 0;
-  left: 0;
-  width:50%;
-  height:50%;
-  border-radius: 2%;
-  background-color: rgba(24, 24, 24, 0.8);
+
+@media (max-width: 600px){
+  @media (min-height: 750px){
+    .windowPop{
+      position: absolute;
+      z-index: 1;
+      margin: auto;
+      top: 0;
+      bottom:0;
+      right: 0;
+      left: 0;
+      width:50%;
+      height:57%;
+      border-radius: 2%;
+      background-color: rgba(24, 24, 24, 0.8);
+    }
+  }
+  @media(max-height:799px){
+  .windowPop{
+    position: absolute;
+    z-index: 1;
+    margin: auto;
+    top: 0;
+    bottom:0;
+    right: 0;
+    left: 0;
+    width:50%;
+    height:65%;
+    border-radius: 2%;
+    background-color: rgba(24, 24, 24, 0.8);
+  }
+}
+@media(max-height:699px){
+  .windowPop{
+    position: absolute;
+    z-index: 1;
+    margin: auto;
+    top: 0;
+    bottom:0;
+    right: 0;
+    left: 0;
+    width:50%;
+    height:75%;
+    border-radius: 2%;
+    background-color: rgba(24, 24, 24, 0.8);
+  }
+}
+  @media(max-height:599px){
+    .windowPop{
+      position: absolute;
+      z-index: 1;
+      margin: auto;
+      top: 0;
+      bottom:0;
+      right: 0;
+      left: 0;
+      width:50%;
+      height:85%;
+      border-radius: 2%;
+      background-color: rgba(24, 24, 24, 0.8);
+    }
+}
 }
 // .sessionLink{
 //    margin-top: 5%;
@@ -422,4 +534,7 @@ html, body { height: 100%; margin: 0px; }
   margin: auto;
   bottom: 82%;
   z-index: 3;
+}
+.paddingArea{
+  padding : 5px;
 }

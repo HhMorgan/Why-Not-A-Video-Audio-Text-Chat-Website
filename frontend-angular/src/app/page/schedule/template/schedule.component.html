@@ -115,10 +115,14 @@
                                 <div *ngIf="sessionid" class="sessionLink">
                                     <a [routerLink]="['/page/session' , sessionid ]">Session Link</a>
                                 </div>
-                                <div class="btnPosition">
-                                    <button class="btn btn-warning" (click)="cancel()">cancel slot</button>
-                                    <button class="btn btn-danger" (click)="popoutExpertOff()">close</button>
-                                </div>
+                                <div class="">
+                                        <div class="row">
+                                                <div class="col-md-3"></div>
+                                            <div class="col-md-3 paddingArea">
+                                        <button class="btn btn-warning" (click)="cancel()">cancel slot</button></div>
+                                        <div class="col-md-3 paddingArea">
+                                        <button class="btn btn-danger" (click)="popoutExpertOff()">close</button></div></div>
+                                    </div>
                             </div>
                         </div>
 

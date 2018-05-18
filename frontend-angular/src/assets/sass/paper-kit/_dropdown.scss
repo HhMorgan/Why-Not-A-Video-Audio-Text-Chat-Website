@@ -365,6 +365,15 @@
     .dropdown-toggle:after{
         margin-left: 5px;
     }
+    .dropdown-toggle::after{
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: .255em;
+        vertical-align: .255em;
+        content: "";
+        color: rgba(1,1,1,0)!important;
+    }
 }
 
 .dropdown-notification{
