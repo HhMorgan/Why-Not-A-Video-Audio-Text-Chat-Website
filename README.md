@@ -12,6 +12,10 @@ SE-2018-MET-T-16
 
 https://whatwhynot.net/
 
+## Video Demo
+
+https://www.youtube.com/watch?v=_C8rj77Nxm0&feature=youtu.be
+
 ---
 
 ## Setup
