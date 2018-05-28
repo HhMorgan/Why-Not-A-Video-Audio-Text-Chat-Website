@@ -88,10 +88,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   updateSchedule(scheduleSlots: any) {
     this.scheduleReset();
     for (let slot of scheduleSlots) {
-      this.schedule[slot.day][slot.time].offered = true;
-      this.schedule[slot.day][slot.time].users = slot.users;
-      this.schedule[slot.day][slot.time].status = slot.status;
-      this.schedule[slot.day][slot.time].session = slot.session;
+      if(this.schedule[slot.day][slot.time]){
+        this.schedule[slot.day][slot.time].offered = true;
+        this.schedule[slot.day][slot.time].users = slot.users;
+        this.schedule[slot.day][slot.time].status = slot.status;
+        this.schedule[slot.day][slot.time].session = slot.session;
+      }
     }
   }
 
