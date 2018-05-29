@@ -4,6 +4,8 @@ SE-2018-MET-T-16
 
 ## Awards
 
+GUC SE Course 2018 #1 Team in The Riseup Theme
+
 ## Demo
 
 <img src="http://i.imgur.com/7Bka1Aj.jpg" alt="Demo"/>
